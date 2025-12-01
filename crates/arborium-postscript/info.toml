@@ -8,3 +8,8 @@ description = "Page description and programming language from Adobe; reference i
 wikipedia = "https://en.wikipedia.org/wiki/PostScript"
 trivia = "Adobe released PostScript in 1984; the LaserWriter (1985) used it to ignite desktop publishing. The 'Red Book' PLRM is the definitive spec."
 
+[[samples]]
+path = "samples/tiger.ps"
+description = "Ghostscript tiger example showcasing PostScript drawing, paths, fills, and strokes."
+link = "https://github.com/ghostscript/ghostpdl/blob/master/examples/tiger.ps"
+license = "AGPL-3.0-only"
