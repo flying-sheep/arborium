@@ -1,0 +1,10 @@
+name = "verilog"
+repo = "https://github.com/tree-sitter/tree-sitter-verilog"
+commit = "227d277b6a1a5e2bf818d6206935722a7503de08"
+license = "MIT"
+inventor = "Phil Moorby and Prabhu Goel"
+year = 1984
+description = "Hardware description language standardized as [IEEE 1364](https://standards.ieee.org/ieee/1364/2985/)."
+wikipedia = "https://en.wikipedia.org/wiki/Verilog"
+trivia = "Created at Gateway Design Automation (later Cadence) in 1984; became an open IEEE standard in 1995 (IEEE 1364-1995)."
+

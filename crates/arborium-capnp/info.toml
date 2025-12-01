@@ -1,0 +1,10 @@
+name = "capnp"
+repo = "https://github.com/tree-sitter-grammars/tree-sitter-capnp"
+commit = "7b0883c03e5edd34ef7bcf703194204299d7099f"
+license = "MIT"
+inventor = "Kenton Varda"
+year = 2013
+description = "Cap’n Proto serialization and RPC system; design and spec at [capnproto.org](https://capnproto.org/)."
+wikipedia = "https://en.wikipedia.org/wiki/Cap'n_Proto"
+trivia = "Varda released Cap’n Proto on April 1, 2013, as a faster, zero-copy successor to Protocol Buffers; the [design doc](https://capnproto.org/faq.html) explains the zero-copy format."
+

@@ -1,0 +1,10 @@
+name = "wasm"
+repo = "https://github.com/wasm-lsp/tree-sitter-wasm"
+commit = "2ca28a9f9d709847bf7a3de0942a84e912f59088"
+license = "Apache-2.0"
+inventor = "W3C WebAssembly Community Group"
+year = 2015
+description = "WebAssembly binary instruction format; official spec at [webassembly.github.io/spec](https://webassembly.github.io/spec/core/)."
+wikipedia = "https://en.wikipedia.org/wiki/WebAssembly"
+trivia = "Announced in 2015 by engineers from Mozilla, Google, Microsoft, and Apple; MVP shipped 2017 and reached W3C Recommendation in Dec 2019—see [W3C WebAssembly](https://www.w3.org/TR/wasm-core-1/)."
+

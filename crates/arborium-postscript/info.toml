@@ -1,0 +1,10 @@
+name = "postscript"
+repo = "https://github.com/smoeding/tree-sitter-postscript"
+commit = "33718235e7ce32e355a8dc591b435637a329bc5b"
+license = "MIT"
+inventor = "John Warnock and Charles Geschke"
+year = 1984
+description = "Page description and programming language from Adobe; reference in the [PostScript Language Reference Manual](https://www.adobe.com/content/dam/acom/en/devnet/actionscript/articles/PLRM.pdf)."
+wikipedia = "https://en.wikipedia.org/wiki/PostScript"
+trivia = "Adobe released PostScript in 1984; the LaserWriter (1985) used it to ignite desktop publishing. The 'Red Book' PLRM is the definitive spec."
+

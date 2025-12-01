@@ -1,0 +1,10 @@
+name = "scss"
+repo = "https://github.com/serenadeai/tree-sitter-scss"
+commit = "c478c6868648eff49eb04a4df90d703dc45b312a"
+license = "MIT"
+inventor = "Hampton Catlin, Natalie Weizenbaum, Chris Eppstein"
+year = 2006
+description = "Sass/SCSS is a CSS superset adding variables, nesting, and mixins; see the official [Sass docs](https://sass-lang.com/documentation/)."
+wikipedia = "https://en.wikipedia.org/wiki/Sass_(style_sheet_language)"
+trivia = "SCSS syntax arrived with Sass 3 (2010) to mirror CSS; history and design notes are in the [Sass blog archives](https://sass-lang.com/blog/) and [language reference](https://sass-lang.com/documentation/syntax)."
+

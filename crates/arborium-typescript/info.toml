@@ -1,0 +1,10 @@
+name = "typescript"
+repo = "https://github.com/tree-sitter/tree-sitter-typescript"
+commit = "75b3874edb2dc714fb1fd77a32013d0f8699989f"
+license = "MIT"
+inventor = "Anders Hejlsberg"
+year = 2012
+description = "Statically typed superset of JavaScript; official handbook at [TypeScript docs](https://www.typescriptlang.org/docs/)."
+wikipedia = "https://en.wikipedia.org/wiki/TypeScript"
+trivia = "Announced by Microsoft in Oct 2012 to add optional types to JS; design is documented in the [TypeScript spec](https://github.com/microsoft/TypeScript/blob/main/doc/spec.md) and Handbook."
+

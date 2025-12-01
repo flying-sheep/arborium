@@ -1,0 +1,10 @@
+name = "nginx"
+repo = "https://gitlab.com/joncoole/tree-sitter-nginx"
+commit = "f6d13cf6281b25f2ce342a49a41a10a0381e00f0"
+license = "GPL-3.0"
+inventor = "Igor Sysoev"
+year = 2004
+description = "Configuration language for the nginx web server; official reference at [nginx.org/r/directives](https://nginx.org/en/docs/dirindex.html)."
+wikipedia = "https://en.wikipedia.org/wiki/Nginx"
+trivia = "Sysoev began nginx in 2002; first public release in 2004. The configuration syntax is documented in the [nginx docs](https://nginx.org/en/docs/)."
+
