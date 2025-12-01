@@ -16,7 +16,7 @@ license = "MIT"
 
 # amos-picked sample
 [[samples]]
-path = "samples/geo.jq"
-description = "Geo helper functions from zulip-bots (ADSB), using modules, defs, math, and filtering."
-link = "https://github.com/tianon/zulip-bots/blob/f031597401d1014bc9ba1f9c120f5fcd0f5e374c/adsb/geo.jq"
+path = "samples/jqjq.jq"
+description = "jqjq tool for running jq with bundled jq programs; shows modules, functions, CLI handling."
+link = "https://github.com/wader/jqjq/blob/master/jqjq.jq"
 license = "MIT"
