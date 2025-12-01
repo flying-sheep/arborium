@@ -10,6 +10,7 @@ pub struct Person {
     role: Role,
 }
 
+#[derive(Debug, Clone)]
 pub enum Role {
     Admin,
     User { permissions: Vec<String> },
