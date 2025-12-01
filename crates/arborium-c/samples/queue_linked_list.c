@@ -1,16 +1,3 @@
-/*******************************************************************************
-*
-* Program: Queue Data Structure & Operations (Linked List Based)
-*
-* Description: An implementation of the queue data structure in C using a 
-* linked list as the underlying data structure.  To learn more about queues see:
-* https://en.wikipedia.org/wiki/Queue_(abstract_data_type).
-*
-* YouTube Lesson: https://www.youtube.com/watch?v=YjxKYxpf51E 
-*
-* Author: Kevin Browne @ https://portfoliocourses.com
-*
-*******************************************************************************/
 
 // We use a linked list as the underlying data structure to implement the queue,
 // where the queue will maintain a pointer to the head of the linked list and
