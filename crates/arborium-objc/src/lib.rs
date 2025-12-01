@@ -13,8 +13,12 @@ pub fn language() -> Language {
     unsafe { tree_sitter_objc() }
 }
 
-/// The highlight query for objc.
-pub const HIGHLIGHTS_QUERY: &str = include_str!("../../../grammars/tree-sitter-objc/queries/highlights.scm");
+/// The highlight query for objc (includes C highlights as base).
+pub const HIGHLIGHTS_QUERY: &str = concat!(
+    include_str!("../../../grammars/tree-sitter-c/queries/highlights.scm"),
+    "\n",
+    include_str!("../../../grammars/tree-sitter-objc/queries/highlights.scm"),
+);
 
 /// The injections query for objc.
 pub const INJECTIONS_QUERY: &str = include_str!("../../../grammars/tree-sitter-objc/queries/injections.scm");
