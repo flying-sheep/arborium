@@ -8,3 +8,8 @@ description = "Fast, user-friendly build system using Ninja backend; official do
 wikipedia = "https://en.wikipedia.org/wiki/Meson_(software)"
 trivia = "Pakkanen published Meson in Feb 2013; see the [initial blog post](https://nibblestew.blogspot.com/2013/02/introducing-meson-build-system.html) and the manual highlighting sub-1s configure times."
 
+[[samples]]
+path = "samples/meson.build"
+description = "Minimal Meson build definition with project declaration and executable target."
+link = "https://github.com/mesonbuild/meson/blob/master/test%20cases/common/1%20trivial/meson.build"
+license = "Apache-2.0"

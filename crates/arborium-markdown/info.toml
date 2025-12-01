@@ -8,3 +8,8 @@ description = "Lightweight markup language for plain-text formatting; original s
 wikipedia = "https://en.wikipedia.org/wiki/Markdown"
 trivia = "Gruber published Markdown 1.0 with Swartz as beta tester in 2004; the canonical description and reference implementation are on [Daring Fireball](https://daringfireball.net/projects/markdown/)."
 
+[[samples]]
+path = "samples/rust-readme.md"
+description = "Rust language README with headings, lists, links, images, and code fences."
+link = "https://github.com/rust-lang/rust/blob/master/README.md"
+license = "Apache-2.0"

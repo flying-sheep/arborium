@@ -8,3 +8,8 @@ description = "Extended Unix shell with rich scripting; reference manual at [zsh
 wikipedia = "https://en.wikipedia.org/wiki/Z_shell"
 trivia = "Created by Falstad while at Princeton; named after TA Zhong Shao. The [zsh FAQ](https://zsh.sourceforge.io/FAQ/) documents its history and feature set."
 
+[[samples]]
+path = "samples/git.plugin.zsh"
+description = "oh-my-zsh git plugin with aliases, functions, and completions."
+link = "https://github.com/ohmyzsh/ohmyzsh/blob/master/plugins/git/git.plugin.zsh"
+license = "MIT"

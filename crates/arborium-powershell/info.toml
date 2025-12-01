@@ -8,3 +8,8 @@ description = "Task automation shell and scripting language; official docs at [l
 wikipedia = "https://en.wikipedia.org/wiki/PowerShell"
 trivia = "Born from Snover's 2002 'Monad Manifesto'; first released 2006. Open-sourced and cross-platform in 2016 as PowerShell Core—see the [PowerShell repo](https://github.com/PowerShell/PowerShell)."
 
+[[samples]]
+path = "samples/Get-ChildItem.Tests.ps1"
+description = "PowerShell test script exercising cmdlets, parameter sets, error handling, and assertions."
+link = "https://github.com/PowerShell/PowerShell/blob/master/test/powershell/Modules/Microsoft.PowerShell.Management/Get-ChildItem.Tests.ps1"
+license = "MIT"

@@ -8,3 +8,8 @@ description = "High-level, dynamic language for the web and beyond; the current 
 wikipedia = "https://en.wikipedia.org/wiki/JavaScript"
 trivia = "Eich created JavaScript in 10 days at Netscape in May 1995; it shipped in Netscape Navigator 2.0. TC39 now standardizes it via [ECMA-262](https://tc39.es/ecma262/), and the official name of the language is ECMAScript."
 
+[[samples]]
+path = "samples/todos.js"
+description = "Redux todos reducer with actions, switch statements, and immutable updates."
+link = "https://github.com/reduxjs/redux/blob/master/examples/todos/src/reducers/todos.js"
+license = "MIT"

@@ -8,3 +8,8 @@ description = "Lightweight data interchange format; see the ECMA-404 standard ([
 wikipedia = "https://en.wikipedia.org/wiki/JSON"
 trivia = "Crockford documented JSON in 2001 while at State Software; it was standardized as [RFC 8259](https://www.rfc-editor.org/rfc/rfc8259) and [ECMA-404](https://www.ecma-international.org/publications-and-standards/standards/ecma-404/)."
 
+[[samples]]
+path = "samples/tsconfig.json"
+description = "TypeScript compiler configuration with compiler options, include/exclude arrays, and comments."
+link = "https://github.com/microsoft/TypeScript/blob/main/src/tsconfig.json"
+license = "Apache-2.0"

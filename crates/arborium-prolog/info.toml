@@ -8,3 +8,8 @@ description = "Logic programming language for AI and computational linguistics; 
 wikipedia = "https://en.wikipedia.org/wiki/Prolog"
 trivia = "Prolog (PROgrammation en LOGique) emerged in 1972; used in Japan’s Fifth Generation Project (1982). The ISO standard is [ISO/IEC 13211-1](https://www.iso.org/standard/21413.html)."
 
+[[samples]]
+path = "samples/http_server.pl"
+description = "SWI-Prolog HTTP server example with predicates, handlers, and threading."
+link = "https://github.com/SWI-Prolog/packages-http/blob/master/http_server.pl"
+license = "BSD-2-Clause"

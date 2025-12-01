@@ -9,3 +9,8 @@ description = "Server-side scripting language; the official manual is at [php.ne
 wikipedia = "https://en.wikipedia.org/wiki/PHP"
 trivia = "Started as 'Personal Home Page Tools' in 1994/95; renamed 'PHP: Hypertext Preprocessor' in 1997. History is documented in the [PHP changelog](https://www.php.net/ChangeLog-8.php) and manual preface."
 
+[[samples]]
+path = "samples/web.php"
+description = "Laravel routes file defining closures, controllers, and middleware."
+link = "https://github.com/laravel/laravel/blob/10.x/routes/web.php"
+license = "MIT"

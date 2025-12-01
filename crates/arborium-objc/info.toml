@@ -8,3 +8,8 @@ description = "Object-oriented superset of C used for macOS/iOS; Apple’s moder
 wikipedia = "https://en.wikipedia.org/wiki/Objective-C"
 trivia = "Derived from Smalltalk messaging added to C; NeXT licensed it in 1988, leading to its adoption by Apple after 1996—documented in Apple’s developer library."
 
+[[samples]]
+path = "samples/RCTLog.mm"
+description = "React Native logging utility showing categories, macros, Objective-C classes, and C functions."
+link = "https://github.com/facebook/react-native/blob/main/packages/react-native/React/Base/RCTLog.mm"
+license = "MIT"
