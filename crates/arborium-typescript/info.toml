@@ -8,3 +8,8 @@ description = "Statically typed superset of JavaScript; official handbook at [Ty
 wikipedia = "https://en.wikipedia.org/wiki/TypeScript"
 trivia = "Announced by Microsoft in Oct 2012 to add optional types to JS; design is documented in the [TypeScript spec](https://github.com/microsoft/TypeScript/blob/main/doc/spec.md) and Handbook."
 
+[[samples]]
+path = "samples/discriminatedUnionTypes4.ts"
+description = "Conformance test covering discriminated unions, control-flow narrowing, and exhaustiveness."
+link = "https://github.com/microsoft/TypeScript/blob/main/tests/cases/conformance/types/union/discriminatedUnionTypes4.ts"
+license = "Apache-2.0"

@@ -8,3 +8,8 @@ description = "Human-friendly data serialization language; official 1.2 spec at 
 wikipedia = "https://en.wikipedia.org/wiki/YAML"
 trivia = "Originally ‘Yet Another Markup Language’, later ‘YAML Ain’t Markup Language’; first proposed in 2001—see the [YAML history](https://yaml.org/spec/history/2001-01.html)."
 
+[[samples]]
+path = "samples/deployment.yaml"
+description = "Kubernetes Deployment manifest with nested maps, lists, anchors, and strings."
+link = "https://github.com/kubernetes/website/blob/main/content/en/examples/application/deployment.yaml"
+license = "Apache-2.0"

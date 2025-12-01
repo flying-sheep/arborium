@@ -8,3 +8,8 @@ description = "Statically typed compiled language from Google; the canonical spe
 wikipedia = "https://en.wikipedia.org/wiki/Go_(programming_language)"
 trivia = "Announced publicly in Nov 2009; its mascot the Gopher was created by Renée French and documented on the [Go blog](https://go.dev/blog/gopher)."
 
+[[samples]]
+path = "samples/implements.go"
+description = "Example using go/types to check interface implementation, with imports, interfaces, structs, and error handling."
+link = "https://github.com/golang/example/blob/master/gotypes/implements/main.go"
+license = "BSD-3-Clause"
