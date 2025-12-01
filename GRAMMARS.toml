@@ -427,6 +427,15 @@ description = "Human-readable data serialization language commonly used for conf
 wikipedia = "https://en.wikipedia.org/wiki/YAML"
 trivia = "YAML's name is a recursive acronym standing for 'YAML Ain't Markup Language', emphasizing that it is data-oriented rather than document markup. It was first proposed in 2001 and designed to be more human-friendly than XML while maintaining similar capabilities. YAML's significant whitespace approach was inspired by Python."
 
+[yuri]
+repo = "https://git.gay/yuri/tree-sitter-yuri"
+commit = "main"
+license = "Apache-2.0"
+inventor = "The Yuri Language Developers"
+year = 2025
+description = "GPU shader language for Vulkan/SPIR-V with Rust-like syntax"
+trivia = "Yuri is an early-stage GPU shader language that takes inspiration from GLSL while incorporating Rust-like syntax and a module system. The language is designed for Vulkan and SPIR-V compilation."
+
 [zig]
 repo = "https://github.com/tree-sitter-grammars/tree-sitter-zig"
 commit = "6479aa13f32f701c383083d8b28360ebd682fb7d"

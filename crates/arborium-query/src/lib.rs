@@ -13,11 +13,11 @@ pub fn language() -> Language {
     unsafe { tree_sitter_query() }
 }
 
-/// The highlight query for query.
-pub const HIGHLIGHTS_QUERY: &str = include_str!("../../../grammars/tree-sitter-query/queries/query/highlights.scm");
+/// The highlight query for query (empty - no highlights available).
+pub const HIGHLIGHTS_QUERY: &str = "";
 
-/// The injections query for query.
-pub const INJECTIONS_QUERY: &str = include_str!("../../../grammars/tree-sitter-query/queries/query/injections.scm");
+/// The injections query for query (empty - no injections available).
+pub const INJECTIONS_QUERY: &str = "";
 
 /// The locals query for query (empty - no locals available).
 pub const LOCALS_QUERY: &str = "";
@@ -27,8 +27,14 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_language() {
-        let lang = language();
-        assert!(lang.version() > 0);
+    fn test_grammar() {
+        arborium_test_harness::test_grammar(
+            language(),
+            "query",
+            HIGHLIGHTS_QUERY,
+            INJECTIONS_QUERY,
+            LOCALS_QUERY,
+            env!("CARGO_MANIFEST_DIR"),
+        );
     }
 }

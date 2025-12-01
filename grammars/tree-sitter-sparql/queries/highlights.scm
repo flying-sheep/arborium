@@ -120,7 +120,6 @@
   "REDUCED"
   "INSERT"
   "DELETE"
-  "DATA"
   "LOAD"
   "CLEAR"
   "DROP"

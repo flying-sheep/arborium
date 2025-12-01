@@ -27,8 +27,14 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_language() {
-        let lang = language();
-        assert!(lang.version() > 0);
+    fn test_grammar() {
+        arborium_test_harness::test_grammar(
+            language(),
+            "meson",
+            HIGHLIGHTS_QUERY,
+            INJECTIONS_QUERY,
+            LOCALS_QUERY,
+            env!("CARGO_MANIFEST_DIR"),
+        );
     }
 }

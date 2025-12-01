@@ -9,18 +9,14 @@
 </head>
 <body>
     <div class="container">
-        <h1>
-            <span class="arborium-icon"><svg  width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M11 21v-4.26c-.47.17-.97.26-1.5.26C7 17 5 15 5 12.5c0-1.27.5-2.41 1.36-3.23C6.13 8.73 6 8.13 6 7.5C6 5 8 3 10.5 3c1.56 0 2.94.8 3.75 2h.25a5.5 5.5 0 0 1 5.5 5.5a5.5 5.5 0 0 1-5.5 5.5q-.75 0-1.5-.21V21z"/></svg></span>
-            arborium
-            <span class="lang-count" id="lang-count">0 languages</span>
-            <span class="lang-count" id="bundle-size"></span>
-        </h1>
-        <p class="subtitle">
-            Batteries-included <a href="https://tree-sitter.github.io/tree-sitter/">tree-sitter</a>
-            grammar collection running in your browser via WebAssembly.
-        </p>
+        <!-- Hidden icons for JS use -->
+        <div style="display:none"><svg  width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M19 19H5V8h14m-3-7v2H8V1H6v2H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V1m-1 11h-5v5h5z"/></svg><svg  width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M12 4a4 4 0 0 1 4 4a4 4 0 0 1-4 4a4 4 0 0 1-4-4a4 4 0 0 1 4-4m0 10c4.42 0 8 1.79 8 4v2H4v-2c0-2.21 3.58-4 8-4"/></svg><svg  width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="m14.97 18.95l-2.56-6.03c-1.02 1.99-2.14 4.08-3.1 6.03c-.01.01-.47 0-.47 0C7.37 15.5 5.85 12.1 4.37 8.68C4.03 7.84 2.83 6.5 2 6.5v-.45h5.06v.45c-.6 0-1.62.4-1.36 1.05c.72 1.54 3.24 7.51 3.93 9.03c.47-.94 1.8-3.42 2.37-4.47c-.45-.88-1.87-4.18-2.29-5c-.32-.54-1.13-.61-1.75-.61c0-.15.01-.25 0-.44l4.46.01v.4c-.61.03-1.18.24-.92.82c.6 1.24.95 2.13 1.5 3.28c.17-.34 1.07-2.19 1.5-3.16c.26-.65-.13-.91-1.21-.91c.01-.12.01-.33.01-.43c1.39-.01 3.48-.01 3.85-.02v.42c-.71.03-1.44.41-1.82.99L13.5 11.3c.18.51 1.96 4.46 2.15 4.9l3.85-8.83c-.3-.72-1.16-.87-1.5-.87v-.45l4 .03v.42c-.88 0-1.43.5-1.75 1.25c-.8 1.79-3.25 7.49-4.85 11.2z"/></svg></div>
 
         <div class="controls">
+            <h1>
+                <span class="arborium-icon"><svg  width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M11 21v-4.26c-.47.17-.97.26-1.5.26C7 17 5 15 5 12.5c0-1.27.5-2.41 1.36-3.23C6.13 8.73 6 8.13 6 7.5C6 5 8 3 10.5 3c1.56 0 2.94.8 3.75 2h.25a5.5 5.5 0 0 1 5.5 5.5a5.5 5.5 0 0 1-5.5 5.5q-.75 0-1.5-.21V21z"/></svg></span>
+                arborium
+            </h1>
             <div class="theme-picker" id="theme-picker">
                 <div class="theme-picker-label" id="theme-label">
                     <span class="theme-name">Select a theme...</span>
@@ -43,32 +39,93 @@
                 <input type="text" class="lang-picker-input" id="lang-input" placeholder="Type to search..." autocomplete="off">
                 <div class="lang-dropdown" id="lang-dropdown"></div>
             </div>
+            <a href="#about" class="whats-this">What's this?</a>
         </div>
 
-        <div class="editor-container">
-            <div class="panel">
-                <div class="panel-header">Code Editor</div>
-                <div class="editor-wrapper">
-                    <div id="output" class="output">
-                        <span class="loading">Loading WASM module...</span>
+        <div class="main-layout">
+            <div class="editor-container">
+                <div class="panel">
+                    <div class="editor-scroll">
+                        <div class="editor-layers">
+                            <div id="output" class="output">
+                                <span class="loading">Loading WASM module...</span>
+                            </div>
+                            <textarea id="source" spellcheck="false"></textarea>
+                        </div>
                     </div>
-                    <textarea id="source" spellcheck="false"></textarea>
+                    <div id="sample-bar" class="sample-bar"></div>
                 </div>
             </div>
-        </div>
 
-        <div id="lang-info-panel" class="lang-info-panel"></div>
+            <div id="lang-info-panel" class="lang-info-panel"></div>
+        </div>
 
         <div id="status" class="status"></div>
 
-        <footer>
-            <p>
-                put together by <a href="https://fasterthanli.me/">fasterthanlime</a> |
-                <a href="https://github.com/bearcove/arborium">GitHub</a> |
-                <a href="https://crates.io/crates/arborium">crates.io</a> |
+        <section id="about" class="about">
+            <div class="about-hero">
+                <p class="slogan">What do we want? <em>Syntax highlighting.</em></p>
+                <p class="slogan">When do we want it? <em>Now.</em> But also <em>good.</em></p>
+            </div>
+
+            <p class="about-intro">
+                Arborium is a curated collection of <a href="https://tree-sitter.github.io/tree-sitter/">tree-sitter</a> grammars
+                for Rust — server-side or client-side via WebAssembly.
+            </p>
+            <p class="bundle-stats" id="bundle-stats"></p>
+
+            <div class="about-card problem">
+                <h3>The problem</h3>
+                <p>For <em>every language</em> you want to highlight, you have to figure out:</p>
+                <ul>
+                    <li>Which grammar is currently maintained?</li>
+                    <li>Is it up to date with tree-sitter?</li>
+                    <li>Does the generated C code actually compile?</li>
+                    <li>Does it compile to <strong>WASM</strong> without timing out?</li>
+                    <li>Do you need to provide C library functions yourself?</li>
+                    <li>What's the license?</li>
+                    <li>Does it have highlight queries? Do they <em>work</em>?</li>
+                </ul>
+                <p class="punchline">Multiply by 80 languages. Have fun.</p>
+            </div>
+
+            <div class="about-card solution">
+                <h3>The solution</h3>
+                <p>
+                    Arborium handles all of this. Every grammar is tested, patched, and ships with
+                    working highlight queries. If it's in the collection, <strong>it works</strong> —
+                    native and WASM.
+                </p>
+            </div>
+
+            <div class="about-card comparison">
+                <h3>A modern approach</h3>
+                <p>Forget class soup. Use semantic custom elements.</p>
+                <div class="compare-boxes">
+                    <div class="compare-box old">
+                        <span class="compare-label">Old way</span>
+                        <code>&lt;span class="keyword"&gt;fn&lt;/span&gt;</code>
+                    </div>
+                    <div class="compare-box new">
+                        <span class="compare-label">Arborium</span>
+                        <code>&lt;a-k&gt;fn&lt;/a-k&gt;</code>
+                    </div>
+                </div>
+                <p>No JavaScript registration. Just CSS. Theme switching becomes trivial.</p>
+            </div>
+
+            <p class="links">
+                <a href="https://github.com/bearcove/arborium">GitHub</a>
+                <a href="https://crates.io/crates/arborium">crates.io</a>
                 <a href="https://docs.rs/arborium">Documentation</a>
             </p>
-            <p>Licensed under MIT or Apache-2.0 (some grammars may have less permissive licenses, see feature flags)</p>
+        </section>
+
+        <footer>
+            <p>
+                put together by <a href="https://fasterthanli.me/">fasterthanlime</a> ·
+                Licensed under MIT or Apache-2.0
+            </p>
         </footer>
     </div>
 

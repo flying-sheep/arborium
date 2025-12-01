@@ -1,28 +1,5 @@
-//! A chat server that broadcasts a message to all connections.
-//!
-//! This example is explicitly more verbose than it has to be. This is to
-//! illustrate more concepts.
-//!
-//! A chat server for telnet clients. After a telnet client connects, the first
-//! line should contain the client's name. After that, all lines sent by a
-//! client are broadcasted to all other connected clients.
-//!
-//! Because the client is telnet, lines are delimited by "\r\n".
-//!
-//! You can test this out by running:
-//!
-//!     cargo run --example chat
-//!
-//! And then in another terminal run:
-//!
-//!     telnet localhost 6142
-//!
-//! You can run the `telnet` command in any number of additional windows.
-//!
-//! You can run the second command in multiple windows and then chat between the
-//! two, seeing the messages from the other client as they're received. For all
-//! connected clients they'll all join the same room and see everyone else's
-//! messages.
+//! A chat server that broadcasts messages to all connections.
+//! From Tokio examples: https://github.com/tokio-rs/tokio/blob/master/examples/chat.rs
 
 #![warn(rust_2018_idioms)]
 

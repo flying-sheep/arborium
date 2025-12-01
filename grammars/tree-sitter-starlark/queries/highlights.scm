@@ -1,8 +1,5 @@
 ; Starlark highlights query (simplified from Python)
 
-; Comments
-(comment) @comment
-
 ; Strings
 (string) @string
 
@@ -21,21 +18,25 @@
 
 ; Function calls
 (call
-  function: (identifier) @function.call)
+  function: (primary_expression
+    (identifier) @function.call))
 
 (call
-  function: (attribute
-    attribute: (identifier) @function.call))
+  function: (primary_expression
+    (attribute
+      attribute: (identifier) @function.call)))
 
 ; Parameters
 (parameters
-  (identifier) @variable.parameter)
+  (parameter
+    (identifier) @variable.parameter))
 
 (default_parameter
   name: (identifier) @variable.parameter)
 
 (lambda_parameters
-  (identifier) @variable.parameter)
+  (parameter
+    (identifier) @variable.parameter))
 
 ; Keyword arguments
 (keyword_argument
@@ -49,11 +50,6 @@
 (load_statement) @keyword.import
 (aliased_load
   (identifier) @variable)
-
-; Decorators
-(decorator
-  "@" @punctuation.special
-  (identifier) @attribute)
 
 ; Keywords
 [
@@ -70,13 +66,10 @@
 [
   "for"
   "in"
-  "break"
-  "continue"
 ] @keyword.repeat
 
 [
   "return"
-  "pass"
   "load"
 ] @keyword
 

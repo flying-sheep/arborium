@@ -2,6 +2,7 @@
 resolver = "3"
 members = [
     "crates/arborium",
+    "crates/arborium-test-harness",
     "crates/arborium-ada",
     "crates/arborium-agda",
     "crates/arborium-asm",
@@ -87,6 +88,7 @@ members = [
     "crates/arborium-x86asm",
     "crates/arborium-xml",
     "crates/arborium-yaml",
+    "crates/arborium-yuri",
     "crates/arborium-zig",
     "crates/arborium-zsh",
     "xtask",

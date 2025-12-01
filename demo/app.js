@@ -180,12 +180,12 @@ function updateWatermark(id) {
     if (!watermark) {
         watermark = document.createElement('div');
         watermark.className = 'lang-watermark';
-        document.querySelector('.editor-wrapper').appendChild(watermark);
+        document.querySelector('.panel').appendChild(watermark);
     }
     watermark.innerHTML = getIconSvg(id);
 }
 
-// Update language info panel with metadata
+// Update language info panel with metadata (trading card style)
 function updateLangInfoPanel(id) {
     const info = languageInfo[id];
     const panel = document.getElementById('lang-info-panel');
@@ -198,26 +198,47 @@ function updateLangInfoPanel(id) {
     }
 
     const iconSvg = getIconSvg(id);
+    const tag = info.tag || 'code';
 
-    let metaHtml = '';
-    if (info.inventor) {
-        metaHtml += `<span>Created by ${info.inventor}</span>`;
-    }
+    // Build metadata pills with icons
+    let metaPills = '';
     if (info.year) {
-        metaHtml += `<span>${info.year}</span>`;
+        const calIcon = icons['mdi:calendar'] || '';
+        metaPills += `<span class="meta-pill">${calIcon}${info.year}</span>`;
+    }
+    if (info.inventor) {
+        const userIcon = icons['mdi:account'] || '';
+        metaPills += `<span class="meta-pill">${userIcon}${info.inventor}</span>`;
     }
     if (info.wikipedia) {
-        metaHtml += `<a href="${info.wikipedia}" target="_blank" rel="noopener">Wikipedia</a>`;
+        const wikiIcon = icons['mdi:wikipedia'] || '';
+        metaPills += `<span class="meta-pill"><a href="${info.wikipedia}" target="_blank" rel="noopener">${wikiIcon}Wikipedia</a></span>`;
+    }
+
+    // Update sample bar (separate from card)
+    const sampleBar = document.getElementById('sample-bar');
+    if (info.sample && sampleBar) {
+        const s = info.sample;
+        sampleBar.innerHTML = `
+            <span class="sample-desc">${s.description || 'Sample code'}</span>
+            ${s.link ? `<a class="sample-link" href="${s.link}" target="_blank" rel="noopener">Source ↗</a>` : ''}
+        `;
+        sampleBar.classList.add('visible');
+    } else if (sampleBar) {
+        sampleBar.classList.remove('visible');
     }
 
     panel.innerHTML = `
-        <div class="lang-info-header">
-            <span class="lang-icon">${iconSvg}</span>
-            <span class="lang-name">${info.name}</span>
+        <div class="card-hero">
+            <span class="hero-icon">${iconSvg}</span>
         </div>
-        ${metaHtml ? `<div class="lang-info-meta">${metaHtml}</div>` : ''}
-        ${info.description ? `<div class="lang-info-description">${info.description}</div>` : ''}
-        ${info.trivia ? `<div class="lang-info-trivia">${info.trivia}</div>` : ''}
+        <div class="card-header">
+            <span class="lang-name">${info.name}</span>
+            <span class="tag tag-${tag}">${tag}</span>
+        </div>
+        ${metaPills ? `<div class="card-meta">${metaPills}</div>` : ''}
+        ${info.description ? `<div class="card-body"><p class="card-description">${info.description}</p></div>` : ''}
+        ${info.trivia ? `<div class="card-trivia">${info.trivia}</div>` : ''}
     `;
     panel.classList.add('visible');
 }
@@ -260,6 +281,9 @@ function previewLanguage(id) {
             }
         }
     }
+    // Update info panel and watermark during preview
+    updateLangInfoPanel(id);
+    updateWatermark(id);
 }
 
 // Select a language
@@ -658,7 +682,6 @@ async function initialize() {
         wasmLoaded = true;
 
         allLanguages = supported_languages();
-        document.getElementById('lang-count').textContent = `${allLanguages.length} languages`;
 
         // Select Rust by default
         if (allLanguages.includes('rust')) {
@@ -716,8 +739,9 @@ async function loadBundleInfo() {
         const response = await fetch('/bundle-info.json');
         const info = await response.json();
         if (info.wasm) {
-            const el = document.getElementById('bundle-size');
-            el.textContent = `${formatBytes(info.wasm.compressed)} gzipped (${formatBytes(info.wasm.raw)} uncompressed)`;
+            const el = document.getElementById('bundle-stats');
+            const langCount = Object.keys(languageInfo).length;
+            el.innerHTML = `This demo bundles <strong>${langCount} languages</strong> in a <strong>${formatBytes(info.wasm.compressed)}</strong> gzipped WASM file (${formatBytes(info.wasm.raw)} uncompressed).`;
         }
     } catch (e) {
         // Ignore - bundle info not available

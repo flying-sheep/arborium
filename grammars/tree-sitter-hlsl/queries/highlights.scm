@@ -65,7 +65,6 @@
   "typedef"
   "while"
   "cbuffer"
-  "tbuffer"
   "register"
   "in"
   "out"

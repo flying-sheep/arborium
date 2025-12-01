@@ -15,8 +15,8 @@ path = "src/lib.rs"
 tree-sitter-patched-arborium = { version = "0.25.10", path = "../../tree-sitter" }
 arborium-sysroot = { version = "0.1.0", path = "../arborium-sysroot" }
 
+[dev-dependencies]
+arborium-test-harness = { version = "0.1.0", path = "../arborium-test-harness" }
+
 [build-dependencies]
 cc = { version = "1", features = ["parallel"] }
-
-[dev-dependencies]
-tree-sitter-highlight-patched-arborium = { version = "0.25.10", path = "../../tree-sitter-highlight" }

@@ -21,12 +21,12 @@
 (float_literal) @number
 
 ; Boolean and null literals
-(true) @constant.builtin
-(false) @constant.builtin
-(null) @constant.builtin
+"true" @constant.builtin
+"false" @constant.builtin
+"null" @constant.builtin
 
 ; This reference
-(this) @variable.builtin
+"this" @variable.builtin
 
 ; Keywords
 [
@@ -120,7 +120,6 @@
   "char"
   "wchar"
   "dchar"
-  "string"
 ] @type.builtin
 
 ; Operators

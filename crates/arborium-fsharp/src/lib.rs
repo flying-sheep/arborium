@@ -1,4 +1,4 @@
-//! F# grammar for tree-sitter
+//! FSHARP grammar for tree-sitter
 //!
 //! This crate provides the fsharp language grammar for use with tree-sitter.
 
@@ -27,8 +27,14 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_language() {
-        let lang = language();
-        assert!(lang.version() > 0);
+    fn test_grammar() {
+        arborium_test_harness::test_grammar(
+            language(),
+            "fsharp",
+            HIGHLIGHTS_QUERY,
+            INJECTIONS_QUERY,
+            LOCALS_QUERY,
+            env!("CARGO_MANIFEST_DIR"),
+        );
     }
 }

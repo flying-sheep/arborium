@@ -9,18 +9,14 @@
 </head>
 <body>
     <div class="container">
-        <h1>
-            <span class="arborium-icon">{{ICON:mdi:tree}}</span>
-            arborium
-            <span class="lang-count" id="lang-count">0 languages</span>
-            <span class="lang-count" id="bundle-size"></span>
-        </h1>
-        <p class="subtitle">
-            Batteries-included <a href="https://tree-sitter.github.io/tree-sitter/">tree-sitter</a>
-            grammar collection running in your browser via WebAssembly.
-        </p>
+        <!-- Hidden icons for JS use -->
+        <div style="display:none">{{ICON:mdi:calendar}}{{ICON:mdi:account}}{{ICON:mdi:wikipedia}}</div>
 
         <div class="controls">
+            <h1>
+                <span class="arborium-icon">{{ICON:mdi:tree}}</span>
+                arborium
+            </h1>
             <div class="theme-picker" id="theme-picker">
                 <div class="theme-picker-label" id="theme-label">
                     <span class="theme-name">Select a theme...</span>
@@ -43,32 +39,93 @@
                 <input type="text" class="lang-picker-input" id="lang-input" placeholder="Type to search..." autocomplete="off">
                 <div class="lang-dropdown" id="lang-dropdown"></div>
             </div>
+            <a href="#about" class="whats-this">What's this?</a>
         </div>
 
-        <div class="editor-container">
-            <div class="panel">
-                <div class="panel-header">Code Editor</div>
-                <div class="editor-wrapper">
-                    <div id="output" class="output">
-                        <span class="loading">Loading WASM module...</span>
+        <div class="main-layout">
+            <div class="editor-container">
+                <div class="panel">
+                    <div class="editor-scroll">
+                        <div class="editor-layers">
+                            <div id="output" class="output">
+                                <span class="loading">Loading WASM module...</span>
+                            </div>
+                            <textarea id="source" spellcheck="false"></textarea>
+                        </div>
                     </div>
-                    <textarea id="source" spellcheck="false"></textarea>
+                    <div id="sample-bar" class="sample-bar"></div>
                 </div>
             </div>
-        </div>
 
-        <div id="lang-info-panel" class="lang-info-panel"></div>
+            <div id="lang-info-panel" class="lang-info-panel"></div>
+        </div>
 
         <div id="status" class="status"></div>
 
-        <footer>
-            <p>
-                put together by <a href="https://fasterthanli.me/">fasterthanlime</a> |
-                <a href="https://github.com/bearcove/arborium">GitHub</a> |
-                <a href="https://crates.io/crates/arborium">crates.io</a> |
+        <section id="about" class="about">
+            <div class="about-hero">
+                <p class="slogan">What do we want? <em>Syntax highlighting.</em></p>
+                <p class="slogan">When do we want it? <em>Now.</em> But also <em>good.</em></p>
+            </div>
+
+            <p class="about-intro">
+                Arborium is a curated collection of <a href="https://tree-sitter.github.io/tree-sitter/">tree-sitter</a> grammars
+                for Rust — server-side or client-side via WebAssembly.
+            </p>
+            <p class="bundle-stats" id="bundle-stats"></p>
+
+            <div class="about-card problem">
+                <h3>The problem</h3>
+                <p>For <em>every language</em> you want to highlight, you have to figure out:</p>
+                <ul>
+                    <li>Which grammar is currently maintained?</li>
+                    <li>Is it up to date with tree-sitter?</li>
+                    <li>Does the generated C code actually compile?</li>
+                    <li>Does it compile to <strong>WASM</strong> without timing out?</li>
+                    <li>Do you need to provide C library functions yourself?</li>
+                    <li>What's the license?</li>
+                    <li>Does it have highlight queries? Do they <em>work</em>?</li>
+                </ul>
+                <p class="punchline">Multiply by 80 languages. Have fun.</p>
+            </div>
+
+            <div class="about-card solution">
+                <h3>The solution</h3>
+                <p>
+                    Arborium handles all of this. Every grammar is tested, patched, and ships with
+                    working highlight queries. If it's in the collection, <strong>it works</strong> —
+                    native and WASM.
+                </p>
+            </div>
+
+            <div class="about-card comparison">
+                <h3>A modern approach</h3>
+                <p>Forget class soup. Use semantic custom elements.</p>
+                <div class="compare-boxes">
+                    <div class="compare-box old">
+                        <span class="compare-label">Old way</span>
+                        <code>&lt;span class="keyword"&gt;fn&lt;/span&gt;</code>
+                    </div>
+                    <div class="compare-box new">
+                        <span class="compare-label">Arborium</span>
+                        <code>&lt;a-k&gt;fn&lt;/a-k&gt;</code>
+                    </div>
+                </div>
+                <p>No JavaScript registration. Just CSS. Theme switching becomes trivial.</p>
+            </div>
+
+            <p class="links">
+                <a href="https://github.com/bearcove/arborium">GitHub</a>
+                <a href="https://crates.io/crates/arborium">crates.io</a>
                 <a href="https://docs.rs/arborium">Documentation</a>
             </p>
-            <p>Licensed under MIT or Apache-2.0 (some grammars may have less permissive licenses, see feature flags)</p>
+        </section>
+
+        <footer>
+            <p>
+                put together by <a href="https://fasterthanli.me/">fasterthanlime</a> ·
+                Licensed under MIT or Apache-2.0
+            </p>
         </footer>
     </div>
 

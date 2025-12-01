@@ -13,12 +13,8 @@ pub fn language() -> Language {
     unsafe { tree_sitter_vue() }
 }
 
-/// The highlight query for vue (includes HTML highlights as base).
-pub const HIGHLIGHTS_QUERY: &str = concat!(
-    include_str!("../../../grammars/tree-sitter-html/queries/highlights.scm"),
-    "\n",
-    include_str!("../../../grammars/tree-sitter-vue/queries/highlights.scm"),
-);
+/// The highlight query for vue.
+pub const HIGHLIGHTS_QUERY: &str = include_str!("../../../grammars/tree-sitter-vue/queries/highlights.scm");
 
 /// The injections query for vue.
 pub const INJECTIONS_QUERY: &str = include_str!("../../../grammars/tree-sitter-vue/queries/injections.scm");
@@ -31,8 +27,14 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_language() {
-        let lang = language();
-        assert!(lang.version() > 0);
+    fn test_grammar() {
+        arborium_test_harness::test_grammar(
+            language(),
+            "vue",
+            HIGHLIGHTS_QUERY,
+            INJECTIONS_QUERY,
+            LOCALS_QUERY,
+            env!("CARGO_MANIFEST_DIR"),
+        );
     }
 }

@@ -13,7 +13,7 @@ env:
 
 jobs:
   test-linux:
-    runs-on: depot-ubuntu-24.04-16
+    runs-on: depot-ubuntu-24.04-32
     steps:
       - uses: actions/checkout@v4
 
@@ -62,7 +62,7 @@ jobs:
         run: cargo test --verbose
 
   wasm:
-    runs-on: depot-ubuntu-24.04-8
+    runs-on: depot-ubuntu-24.04-32
     steps:
       - uses: actions/checkout@v4
 
@@ -97,7 +97,7 @@ jobs:
           echo "No env imports found - WASM modules are browser-compatible"
 
   clippy:
-    runs-on: depot-ubuntu-24.04-8
+    runs-on: depot-ubuntu-24.04-32
     steps:
       - uses: actions/checkout@v4
 
@@ -125,7 +125,7 @@ jobs:
         run: cargo fmt --all -- --check
 
   docs:
-    runs-on: depot-ubuntu-24.04-8
+    runs-on: depot-ubuntu-24.04-32
     steps:
       - uses: actions/checkout@v4
 

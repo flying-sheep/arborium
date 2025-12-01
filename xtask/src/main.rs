@@ -70,6 +70,7 @@ fn main() {
         "generate-crates" => generate_grammar_crates(),
         "generate-demo" => generate_demo(),
         "generate-readme" => generate_readme(),
+        "update-crates" => update_grammar_crates(),
         "serve-demo" => {
             let mut addr = "127.0.0.1".to_string();
             let mut port: Option<u16> = None;
@@ -128,6 +129,7 @@ fn print_usage() {
     eprintln!("  check-updates    Check if any vendored grammars have newer versions available");
     eprintln!("  vendor <name>    Update a specific grammar to the latest version");
     eprintln!("  generate-crates  Generate arborium-* crates for all vendored grammars");
+    eprintln!("  update-crates    Update existing crates to use test harness");
     eprintln!("  generate-demo    Generate demo/index.html from template and example files");
     eprintln!("  generate-readme  Generate README.md from GRAMMARS.toml");
     eprintln!("  serve-demo       Build and serve the WASM demo locally");
@@ -785,9 +787,9 @@ fn step<F>(name: &str, f: F)
 where
     F: FnOnce() -> Result<(), Box<dyn std::error::Error>>,
 {
-    println!("\n==> {}", name);
+    println!("\n{} {}", "==>".cyan().bold(), name.bold());
     if let Err(e) = f() {
-        eprintln!("Error: {}", e);
+        eprintln!("{} {}", "Error:".red().bold(), e);
         std::process::exit(1);
     }
 }
@@ -1274,6 +1276,8 @@ struct GrammarCrateConfig {
     query_path: String,
     /// Additional languages exported by this grammar (e.g., "tsx" for typescript)
     extra_languages: Vec<(String, String)>, // (c_symbol, export_name)
+    /// Sample files for testing (paths relative to crate root)
+    samples: Vec<String>,
 }
 
 /// Special grammar configurations that differ from the standard pattern
@@ -1281,13 +1285,14 @@ fn get_special_grammar_config(name: &str) -> Option<GrammarCrateConfig> {
     match name {
         "rust" => Some(GrammarCrateConfig {
             name: "rust".to_string(),
-            c_symbol: "rust".to_string(),
+            c_symbol: "rust_orchard".to_string(),
             source_files: vec!["parser.c".to_string(), "scanner.c".to_string()],
             has_highlights: true,
             has_injections: true,
             has_locals: false,
             query_path: "".to_string(),
             extra_languages: vec![],
+            samples: vec![],
         }),
         "typescript" => Some(GrammarCrateConfig {
             name: "typescript".to_string(),
@@ -1298,6 +1303,7 @@ fn get_special_grammar_config(name: &str) -> Option<GrammarCrateConfig> {
             has_locals: true,
             query_path: "".to_string(),
             extra_languages: vec![("tsx".to_string(), "tsx".to_string())],
+            samples: vec![],
         }),
         "markdown" => Some(GrammarCrateConfig {
             name: "markdown".to_string(),
@@ -1308,6 +1314,7 @@ fn get_special_grammar_config(name: &str) -> Option<GrammarCrateConfig> {
             has_locals: false,
             query_path: "tree-sitter-markdown/".to_string(),
             extra_languages: vec![("markdown_inline".to_string(), "markdown_inline".to_string())],
+            samples: vec![],
         }),
         "ocaml" => Some(GrammarCrateConfig {
             name: "ocaml".to_string(),
@@ -1318,6 +1325,7 @@ fn get_special_grammar_config(name: &str) -> Option<GrammarCrateConfig> {
             has_locals: true,
             query_path: "".to_string(),
             extra_languages: vec![("ocaml_interface".to_string(), "ocaml_interface".to_string())],
+            samples: vec![],
         }),
         "xml" => Some(GrammarCrateConfig {
             name: "xml".to_string(),
@@ -1326,8 +1334,9 @@ fn get_special_grammar_config(name: &str) -> Option<GrammarCrateConfig> {
             has_highlights: true,
             has_injections: false,
             has_locals: false,
-            query_path: "xml/".to_string(),
+            query_path: "".to_string(),
             extra_languages: vec![("dtd".to_string(), "dtd".to_string())],
+            samples: vec![],
         }),
         "php" => Some(GrammarCrateConfig {
             name: "php".to_string(),
@@ -1338,6 +1347,7 @@ fn get_special_grammar_config(name: &str) -> Option<GrammarCrateConfig> {
             has_locals: false,
             query_path: "".to_string(),
             extra_languages: vec![("php_only".to_string(), "php_only".to_string())],
+            samples: vec![],
         }),
         "wasm" => Some(GrammarCrateConfig {
             name: "wasm".to_string(),
@@ -1348,6 +1358,7 @@ fn get_special_grammar_config(name: &str) -> Option<GrammarCrateConfig> {
             has_locals: false,
             query_path: "wat/".to_string(),
             extra_languages: vec![("wast".to_string(), "wast".to_string())],
+            samples: vec![],
         }),
         "just" => Some(GrammarCrateConfig {
             name: "just".to_string(),
@@ -1358,6 +1369,7 @@ fn get_special_grammar_config(name: &str) -> Option<GrammarCrateConfig> {
             has_locals: false,
             query_path: "just/".to_string(),
             extra_languages: vec![],
+            samples: vec![],
         }),
         "typst" => Some(GrammarCrateConfig {
             name: "typst".to_string(),
@@ -1368,6 +1380,7 @@ fn get_special_grammar_config(name: &str) -> Option<GrammarCrateConfig> {
             has_locals: false,
             query_path: "typst/".to_string(),
             extra_languages: vec![],
+            samples: vec![],
         }),
         "asm" => Some(GrammarCrateConfig {
             name: "asm".to_string(),
@@ -1378,6 +1391,18 @@ fn get_special_grammar_config(name: &str) -> Option<GrammarCrateConfig> {
             has_locals: false,
             query_path: "asm/".to_string(),
             extra_languages: vec![],
+            samples: vec![],
+        }),
+        "vb" => Some(GrammarCrateConfig {
+            name: "vb".to_string(),
+            c_symbol: "vb_dotnet".to_string(),
+            source_files: vec!["parser.c".to_string(), "scanner.c".to_string()],
+            has_highlights: true,
+            has_injections: false,
+            has_locals: false,
+            query_path: "".to_string(),
+            extra_languages: vec![],
+            samples: vec![],
         }),
         _ => None,
     }
@@ -1411,6 +1436,15 @@ fn detect_grammar_config(repo_root: &Path, name: &str) -> GrammarCrateConfig {
     // Convert name to C symbol (replace - with _)
     let c_symbol = name.replace('-', "_");
 
+    // Read samples from info.toml if it exists
+    let crate_dir = repo_root.join("crates").join(format!("arborium-{}", name));
+    let info_toml = crate_dir.join("info.toml");
+    let samples = if info_toml.exists() {
+        parse_samples_from_info_toml(&info_toml)
+    } else {
+        vec![]
+    };
+
     GrammarCrateConfig {
         name: name.to_string(),
         c_symbol,
@@ -1420,7 +1454,122 @@ fn detect_grammar_config(repo_root: &Path, name: &str) -> GrammarCrateConfig {
         has_locals,
         query_path: "".to_string(),
         extra_languages: vec![],
+        samples,
     }
+}
+
+/// Parse [[samples]] entries from info.toml
+fn parse_samples_from_info_toml(path: &Path) -> Vec<String> {
+    let content = match fs::read_to_string(path) {
+        Ok(c) => c,
+        Err(_) => return vec![],
+    };
+
+    let mut samples = Vec::new();
+    let mut in_samples_block = false;
+
+    for line in content.lines() {
+        let line = line.trim();
+
+        if line == "[[samples]]" {
+            in_samples_block = true;
+            continue;
+        }
+
+        if in_samples_block && line.starts_with("path") {
+            if let Some(value) = line.split('=').nth(1) {
+                let value = value.split('#').next().unwrap_or(value);
+                let value = value.trim().trim_matches('"').trim_matches('\'');
+                if !value.is_empty() {
+                    samples.push(value.to_string());
+                }
+            }
+            in_samples_block = false;
+        }
+    }
+
+    samples
+}
+
+/// Sample metadata parsed from info.toml
+struct SampleInfo {
+    path: Option<String>,
+    description: Option<String>,
+    link: Option<String>,
+    license: Option<String>,
+}
+
+/// Parse the first [[samples]] entry from info.toml
+fn parse_sample_info(content: &str) -> Option<SampleInfo> {
+    let mut in_samples_block = false;
+    let mut path = None;
+    let mut description = None;
+    let mut link = None;
+    let mut license = None;
+
+    for line in content.lines() {
+        let line = line.trim();
+
+        if line == "[[samples]]" {
+            if in_samples_block {
+                // Already found first sample, stop
+                break;
+            }
+            in_samples_block = true;
+            continue;
+        }
+
+        if in_samples_block {
+            if let Some(value) = extract_toml_string(line, "path") {
+                path = Some(value);
+            } else if let Some(value) = extract_toml_string(line, "description") {
+                description = Some(value);
+            } else if let Some(value) = extract_toml_string(line, "link") {
+                link = Some(value);
+            } else if let Some(value) = extract_toml_string(line, "license") {
+                license = Some(value);
+            }
+        }
+    }
+
+    // Only return if we found a path
+    if path.is_some() {
+        Some(SampleInfo { path, description, link, license })
+    } else {
+        None
+    }
+}
+
+/// Convert SampleInfo to JSON for the demo (without path)
+fn sample_info_to_json(info: &SampleInfo) -> Option<serde_json::Value> {
+    if info.description.is_none() && info.link.is_none() {
+        return None;
+    }
+    let mut obj = serde_json::Map::new();
+    if let Some(d) = &info.description {
+        obj.insert("description".to_string(), serde_json::Value::String(d.clone()));
+    }
+    if let Some(l) = &info.link {
+        obj.insert("link".to_string(), serde_json::Value::String(l.clone()));
+    }
+    if let Some(lic) = &info.license {
+        obj.insert("license".to_string(), serde_json::Value::String(lic.clone()));
+    }
+    Some(serde_json::Value::Object(obj))
+}
+
+/// Helper to extract a string value from a TOML line like `key = "value"`
+fn extract_toml_string(line: &str, key: &str) -> Option<String> {
+    if line.starts_with(key) {
+        if let Some(value) = line.split('=').nth(1) {
+            let value = value.split('#').next().unwrap_or(value); // strip comments
+            let value = value.trim().trim_matches('"').trim_matches('\'');
+            if !value.is_empty() {
+                return Some(value.to_string());
+            }
+        }
+    }
+    None
 }
 
 /// Generate Cargo.toml for a grammar crate
@@ -1445,6 +1594,9 @@ path = "src/lib.rs"
 [dependencies]
 tree-sitter-patched-arborium = {{ version = "0.25.10", path = "../../tree-sitter" }}
 arborium-sysroot = {{ version = "0.1.0", path = "../arborium-sysroot" }}
+
+[dev-dependencies]
+arborium-test-harness = {{ version = "0.1.0", path = "../arborium-test-harness" }}
 
 [build-dependencies]
 cc = {{ version = "1", features = ["parallel"] }}
@@ -1630,12 +1782,19 @@ mod tests {{
     use super::*;
 
     #[test]
-    fn test_language() {{
-        let lang = language();
-        assert!(lang.version() > 0);
+    fn test_grammar() {{
+        arborium_test_harness::test_grammar(
+            language(),
+            "{}",
+            HIGHLIGHTS_QUERY,
+            INJECTIONS_QUERY,
+            LOCALS_QUERY,
+            env!("CARGO_MANIFEST_DIR"),
+        );
     }}
 }}
 "#,
+        config.name,
     ));
 
     output
@@ -1719,6 +1878,67 @@ fn generate_grammar_crates() {
     }
 }
 
+/// Update existing grammar crates to use the test harness
+fn update_grammar_crates() {
+    let repo_root = find_repo_root().expect("Could not find repo root");
+    println!("Updating grammar crates to use test harness...\n");
+
+    // Parse GRAMMARS.toml to get license info
+    let grammars = match parse_grammars_toml(&repo_root) {
+        Ok(g) => g,
+        Err(e) => {
+            eprintln!("Error parsing GRAMMARS.toml: {}", e);
+            std::process::exit(1);
+        }
+    };
+
+    // Find all grammar directories
+    let grammar_dirs = find_grammars(&repo_root).expect("Failed to find grammars");
+
+    let crates_dir = repo_root.join("crates");
+    let mut updated = 0;
+    let mut skipped = 0;
+
+    for grammar_dir in grammar_dirs {
+        let dir_name = grammar_dir.file_name().unwrap().to_string_lossy();
+        let name = dir_name.strip_prefix("tree-sitter-").unwrap_or(&dir_name);
+
+        let crate_name = format!("arborium-{}", name);
+        let crate_dir = crates_dir.join(&crate_name);
+
+        // Skip if crate doesn't exist
+        if !crate_dir.exists() {
+            skipped += 1;
+            continue;
+        }
+
+        let license = grammars.get(name).map(|g| g.license.as_str()).unwrap_or("MIT");
+        let config = detect_grammar_config(&repo_root, name);
+
+        println!("  Updating {}...", crate_name);
+
+        // Regenerate lib.rs with new test harness
+        let lib_rs = generate_lib_rs(&config);
+        let src_dir = crate_dir.join("src");
+        fs::write(src_dir.join("lib.rs"), lib_rs).expect("Failed to write lib.rs");
+
+        // Update Cargo.toml to add dev-dependency if not present
+        let cargo_toml_path = crate_dir.join("Cargo.toml");
+        let cargo_content = fs::read_to_string(&cargo_toml_path).expect("Failed to read Cargo.toml");
+
+        if !cargo_content.contains("arborium-test-harness") {
+            // Regenerate entire Cargo.toml with dev-dependency
+            let cargo_toml = generate_cargo_toml(&config, license);
+            fs::write(&cargo_toml_path, cargo_toml).expect("Failed to write Cargo.toml");
+        }
+
+        updated += 1;
+    }
+
+    println!();
+    println!("Updated {} crates, skipped {} non-existent", updated, skipped);
+}
+
 // =============================================================================
 // Demo server
 // =============================================================================
@@ -1735,7 +1955,7 @@ fn serve_demo(addr: &str, specified_port: Option<u16>, dev_mode: bool) {
     }
 
     // Step 0: Generate index.html from template (use full generate_demo)
-    println!("\n==> Generating demo HTML");
+    println!("\n{} {}", "==>".cyan().bold(), "Generating demo HTML".bold());
     generate_demo();
 
     // Step 1: Check for wasm-pack
@@ -1832,8 +2052,8 @@ fn serve_demo(addr: &str, specified_port: Option<u16>, dev_mode: bool) {
     }
 
     // Step 7: Start HTTP server
-    println!("\n==> Starting HTTP server");
-    println!("  Demo directory: {}", demo_dir.display());
+    println!("\n{} {}", "==>".cyan().bold(), "Starting HTTP server".bold());
+    println!("  Demo directory: {}", demo_dir.display().to_string().dimmed());
     println!();
 
     let (server, port) = if let Some(p) = specified_port {
@@ -1872,13 +2092,13 @@ fn serve_demo(addr: &str, specified_port: Option<u16>, dev_mode: bool) {
     };
 
     let display_addr = if addr == "0.0.0.0" { "localhost" } else { addr };
-    println!("  ┌─────────────────────────────────────────────────┐");
-    println!("  │                                                 │");
-    println!("  │   Demo running at: http://{}:{:<5}       │", display_addr, port);
-    println!("  │                                                 │");
-    println!("  │   Press Ctrl+C to stop                          │");
-    println!("  │                                                 │");
-    println!("  └─────────────────────────────────────────────────┘");
+    let url = format!("http://{}:{}", display_addr, port);
+    println!();
+    println!("  {} {}", "✓".green().bold(), "Demo server ready!".green().bold());
+    println!();
+    println!("    {} {}", "→".cyan(), url.cyan().bold().underline());
+    println!();
+    println!("    {}", "Press Ctrl+C to stop".dimmed());
     println!();
 
     // Compute bundle info once at startup
@@ -2134,7 +2354,7 @@ fn check_wasm_env_imports(wasm_file: &Path) -> Result<(), Box<dyn std::error::Er
         return Err(format!("WASM file not found: {}", wasm_file.display()).into());
     }
 
-    println!("  Checking {} for env imports...", wasm_file.display());
+    println!("  Checking {} for env imports...", wasm_file.display().to_string().dimmed());
 
     let output = Command::new("wasm-objdump")
         .args(["-j", "Import", "-x"])
@@ -2143,8 +2363,8 @@ fn check_wasm_env_imports(wasm_file: &Path) -> Result<(), Box<dyn std::error::Er
 
     if !output.status.success() {
         // wasm-objdump might not be installed, just warn
-        println!("  Warning: wasm-objdump not found, skipping env import check");
-        println!("  Install wabt to enable this check: brew install wabt");
+        println!("  {}: wasm-objdump not found, skipping env import check", "Warning".yellow());
+        println!("  Install wabt to enable this check: {}", "brew install wabt".dimmed());
         return Ok(());
     }
 
@@ -2158,9 +2378,9 @@ fn check_wasm_env_imports(wasm_file: &Path) -> Result<(), Box<dyn std::error::Er
     }
 
     if !env_imports.is_empty() {
-        eprintln!("\n  ERROR: Found {} env imports that won't work in browsers:", env_imports.len());
+        eprintln!("\n  {}: Found {} env imports that won't work in browsers:", "ERROR".red().bold(), env_imports.len());
         for import in &env_imports {
-            eprintln!("    {}", import);
+            eprintln!("    {}", import.red());
         }
         eprintln!();
         eprintln!("  These functions need to be provided in wasm-sysroot or avoided.");
@@ -2171,7 +2391,7 @@ fn check_wasm_env_imports(wasm_file: &Path) -> Result<(), Box<dyn std::error::Er
         return Err(format!("Found {} env imports in WASM", env_imports.len()).into());
     }
 
-    println!("  No env imports found - WASM is browser-compatible!");
+    println!("  {} {}", "✓".green().bold(), "No env imports found - WASM is browser-compatible!".green());
     Ok(())
 }
 
@@ -2275,7 +2495,11 @@ fn precompress_files_fast(demo_dir: &Path) -> Result<(), Box<dyn std::error::Err
                 let gz_path = PathBuf::from(format!("{}.gz", file_path.display()));
                 let gz_data = compress_gzip_fast(&data).expect("gzip compression failed");
                 fs::write(&gz_path, &gz_data).expect("failed to write .gz file");
-                let msg = format!("  {} ({}) -> .gz ({})", file_name, format_size(raw_size), format_size(gz_data.len()));
+                let msg = format!("  {} {} → {} {}",
+                    file_name,
+                    format!("({})", format_size(raw_size)).dimmed(),
+                    ".gz".cyan(),
+                    format!("({})", format_size(gz_data.len())).green());
                 results.lock().unwrap().push(msg);
             }));
         }
@@ -2287,7 +2511,11 @@ fn precompress_files_fast(demo_dir: &Path) -> Result<(), Box<dyn std::error::Err
                 let br_path = PathBuf::from(format!("{}.br", file_path.display()));
                 let br_data = compress_brotli_fast(&data).expect("brotli compression failed");
                 fs::write(&br_path, &br_data).expect("failed to write .br file");
-                let msg = format!("  {} ({}) -> .br ({})", file_name, format_size(raw_size), format_size(br_data.len()));
+                let msg = format!("  {} {} → {} {}",
+                    file_name,
+                    format!("({})", format_size(raw_size)).dimmed(),
+                    ".br".magenta(),
+                    format!("({})", format_size(br_data.len())).green());
                 results.lock().unwrap().push(msg);
             }));
         }
@@ -2617,13 +2845,46 @@ fn generate_demo() {
             std::process::exit(1);
         }
     };
-    let lang_info: Value = match serde_json::from_str(&lang_info_str) {
+    let mut lang_info: Value = match serde_json::from_str(&lang_info_str) {
         Ok(v) => v,
         Err(e) => {
             eprintln!("Error parsing language-info.json: {}", e);
             std::process::exit(1);
         }
     };
+
+    // Step 1b: Merge sample metadata from info.toml files and collect sample paths
+    println!("  Merging sample metadata from info.toml files...");
+    let crates_dir = repo_root.join("crates");
+    let mut crate_samples: BTreeMap<String, PathBuf> = BTreeMap::new(); // lang_id -> sample file path
+
+    if let Some(lang_obj) = lang_info.as_object_mut() {
+        for (lang_id, info) in lang_obj.iter_mut() {
+            let crate_dir = crates_dir.join(format!("arborium-{}", lang_id));
+            let info_toml = crate_dir.join("info.toml");
+            if info_toml.exists() {
+                if let Ok(content) = fs::read_to_string(&info_toml) {
+                    if let Some(sample_info) = parse_sample_info(&content) {
+                        // Store sample path for later
+                        if let Some(ref path) = sample_info.path {
+                            let sample_path = crate_dir.join(path);
+                            if sample_path.exists() {
+                                crate_samples.insert(lang_id.clone(), sample_path);
+                            }
+                        }
+                        // Add metadata to lang_info (without the path)
+                        if let Some(json) = sample_info_to_json(&sample_info) {
+                            if let Some(info_obj) = info.as_object_mut() {
+                                info_obj.insert("sample".to_string(), json);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    // Re-serialize with merged sample data
+    let lang_info_str = serde_json::to_string(&lang_info).expect("Failed to serialize lang_info");
 
     // Step 2: Collect all unique icon names
     println!("  Collecting icons...");
@@ -2722,10 +2983,22 @@ fn generate_demo() {
         let _ = fs::write(&cache_path, cache_json);
     }
 
-    // Step 4: Read example files
+    // Step 4: Read example files (prefer crate samples, fall back to demo/examples)
     println!("  Reading example files...");
     let mut examples: BTreeMap<String, String> = BTreeMap::new();
 
+    // First, read samples from crates (these take priority)
+    println!("    Reading {} crate samples...", crate_samples.len());
+    for (lang_id, sample_path) in &crate_samples {
+        if let Ok(content) = fs::read_to_string(sample_path) {
+            let file_name = sample_path.file_name().unwrap().to_string_lossy();
+            println!("      {} {} (from crate)", lang_id, file_name.to_string().dimmed());
+            examples.insert(lang_id.clone(), content);
+        }
+    }
+
+    // Then read demo/examples as fallback for languages without crate samples
+    println!("    Reading fallback examples from demo/examples...");
     if let Ok(entries) = fs::read_dir(&examples_dir) {
         for entry in entries.flatten() {
             let path = entry.path();
@@ -2749,13 +3022,21 @@ fn generate_demo() {
                 stem.to_string()
             };
 
+            // Skip if we already have a crate sample for this language
+            if examples.contains_key(&lang_id) {
+                continue;
+            }
+
             if let Ok(content) = fs::read_to_string(&path) {
-                println!("    {} -> {}", file_name, lang_id);
+                println!("      {} {} (fallback)", lang_id, file_name.to_string().dimmed());
                 examples.insert(lang_id, content);
             }
         }
     }
-    println!("    Read {} example files", examples.len());
+    println!("    Total: {} example files ({} from crates, {} fallbacks)",
+        examples.len(),
+        crate_samples.len(),
+        examples.len().saturating_sub(crate_samples.len()));
 
     // Step 5: Build the icons JavaScript object
     let mut icons_js = String::from("{\n");

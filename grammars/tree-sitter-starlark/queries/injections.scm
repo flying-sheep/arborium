@@ -1,8 +1,1 @@
-((call
-  function: (attribute
-	  object: (identifier) @_re)
-  arguments: (argument_list (string) @regex))
- (#eq? @_re "re")
- (#match? @regex "^r.*"))
-
-(comment) @comment
+; Starlark injections (empty - no language injections supported)

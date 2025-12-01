@@ -62,7 +62,6 @@
 
 ; Vectors
 (vec_lit
-  "#(" @punctuation.bracket
   ")" @punctuation.bracket)
 
 ; Set literals

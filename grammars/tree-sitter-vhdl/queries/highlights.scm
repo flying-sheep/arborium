@@ -552,17 +552,7 @@
         (_) @error.illegal.discrete_range)))
 
 ; String subtypes shall be indexed by positive numbers
-(subtype_indication
-  (type_mark
-    (simple_name) @_t
-    (#eq? @_t "string"))
-  (array_constraint
-    (index_constraint
-      (_
-        (simple_expression
-          (integer_decimal
-            (integer) @error.illegal.index.zero @_l
-            (#eq? @_l "0")))))))
+; (pattern removed - grammar doesn't have expected node structure)
 
 (subtype_indication
   (type_mark

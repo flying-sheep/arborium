@@ -127,6 +127,7 @@ name = "arborium-ada"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -136,6 +137,7 @@ name = "arborium-agda"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -145,6 +147,7 @@ name = "arborium-asm"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -154,6 +157,7 @@ name = "arborium-awk"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -163,6 +167,7 @@ name = "arborium-bash"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -172,6 +177,7 @@ name = "arborium-batch"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -181,6 +187,7 @@ name = "arborium-c"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -190,6 +197,7 @@ name = "arborium-c-sharp"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -199,6 +207,7 @@ name = "arborium-caddy"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -208,6 +217,7 @@ name = "arborium-capnp"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -217,6 +227,7 @@ name = "arborium-clojure"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -226,6 +237,7 @@ name = "arborium-cmake"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -235,6 +247,7 @@ name = "arborium-commonlisp"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -244,6 +257,7 @@ name = "arborium-cpp"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -253,6 +267,7 @@ name = "arborium-css"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -262,6 +277,7 @@ name = "arborium-d"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -271,6 +287,7 @@ name = "arborium-dart"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -288,6 +305,7 @@ name = "arborium-devicetree"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -297,6 +315,7 @@ name = "arborium-diff"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -306,6 +325,7 @@ name = "arborium-dockerfile"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -315,6 +335,7 @@ name = "arborium-dot"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -324,6 +345,7 @@ name = "arborium-elisp"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -333,6 +355,7 @@ name = "arborium-elixir"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -342,6 +365,7 @@ name = "arborium-elm"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -351,6 +375,7 @@ name = "arborium-erlang"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -360,6 +385,7 @@ name = "arborium-fish"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -369,6 +395,7 @@ name = "arborium-fsharp"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -378,6 +405,7 @@ name = "arborium-gleam"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -387,6 +415,7 @@ name = "arborium-glsl"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -396,6 +425,7 @@ name = "arborium-go"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -405,6 +435,7 @@ name = "arborium-graphql"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -414,6 +445,7 @@ name = "arborium-haskell"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -423,6 +455,7 @@ name = "arborium-hcl"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -432,6 +465,7 @@ name = "arborium-hlsl"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -441,6 +475,7 @@ name = "arborium-html"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -450,6 +485,7 @@ name = "arborium-idris"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -459,6 +495,7 @@ name = "arborium-ini"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -468,8 +505,8 @@ name = "arborium-java"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
- "tree-sitter-highlight-patched-arborium",
  "tree-sitter-patched-arborium",
 ]
 
@@ -478,6 +515,7 @@ name = "arborium-javascript"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -487,6 +525,7 @@ name = "arborium-jinja2"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -496,6 +535,7 @@ name = "arborium-jq"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -505,6 +545,7 @@ name = "arborium-json"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -514,6 +555,7 @@ name = "arborium-julia"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -523,6 +565,7 @@ name = "arborium-kdl"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -532,6 +575,7 @@ name = "arborium-lean"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -541,6 +585,7 @@ name = "arborium-lua"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -550,6 +595,7 @@ name = "arborium-matlab"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -559,6 +605,7 @@ name = "arborium-meson"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -568,6 +615,7 @@ name = "arborium-nginx"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -577,6 +625,7 @@ name = "arborium-ninja"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -586,6 +635,7 @@ name = "arborium-nix"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -595,6 +645,7 @@ name = "arborium-objc"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -604,6 +655,7 @@ name = "arborium-perl"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -613,6 +665,7 @@ name = "arborium-php"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -622,6 +675,7 @@ name = "arborium-postscript"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -631,6 +685,7 @@ name = "arborium-powershell"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -640,6 +695,7 @@ name = "arborium-prolog"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -649,6 +705,7 @@ name = "arborium-python"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -658,6 +715,7 @@ name = "arborium-query"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -667,6 +725,7 @@ name = "arborium-r"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -676,6 +735,7 @@ name = "arborium-rescript"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -685,6 +745,7 @@ name = "arborium-ron"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -694,6 +755,7 @@ name = "arborium-ruby"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -703,6 +765,7 @@ name = "arborium-rust"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -712,6 +775,7 @@ name = "arborium-scala"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -721,6 +785,7 @@ name = "arborium-scss"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -730,6 +795,7 @@ name = "arborium-sparql"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -739,6 +805,7 @@ name = "arborium-sql"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -748,6 +815,7 @@ name = "arborium-ssh-config"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -757,6 +825,7 @@ name = "arborium-starlark"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -766,6 +835,7 @@ name = "arborium-svelte"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -775,10 +845,19 @@ name = "arborium-sysroot"
 version = "0.1.0"
 
 [[package]]
+name = "arborium-test-harness"
+version = "0.1.0"
+dependencies = [
+ "tree-sitter-highlight-patched-arborium",
+ "tree-sitter-patched-arborium",
+]
+
+[[package]]
 name = "arborium-textproto"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -788,6 +867,7 @@ name = "arborium-thrift"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -797,6 +877,7 @@ name = "arborium-tlaplus"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -806,6 +887,7 @@ name = "arborium-toml"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -815,6 +897,7 @@ name = "arborium-typst"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -824,6 +907,7 @@ name = "arborium-uiua"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -833,6 +917,7 @@ name = "arborium-vb"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -842,6 +927,7 @@ name = "arborium-verilog"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -851,6 +937,7 @@ name = "arborium-vhdl"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -860,6 +947,7 @@ name = "arborium-vim"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -869,6 +957,7 @@ name = "arborium-vue"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -878,6 +967,7 @@ name = "arborium-x86asm"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -887,6 +977,7 @@ name = "arborium-xml"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -896,6 +987,17 @@ name = "arborium-yaml"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
+ "cc",
+ "tree-sitter-patched-arborium",
+]
+
+[[package]]
+name = "arborium-yuri"
+version = "0.1.0"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -905,6 +1007,7 @@ name = "arborium-zig"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]
@@ -914,6 +1017,7 @@ name = "arborium-zsh"
 version = "0.1.0"
 dependencies = [
  "arborium-sysroot",
+ "arborium-test-harness",
  "cc",
  "tree-sitter-patched-arborium",
 ]

@@ -79,7 +79,6 @@
 [
   "def"
   "theorem"
-  "lemma"
   "axiom"
   "example"
   "abbrev"
@@ -123,8 +122,6 @@
   "open"
   "export"
   "import"
-  "prelude"
-  "module"
 ] @keyword.import
 
 ; Visibility/modifiers
@@ -164,7 +161,6 @@
   "<-"
   "=>"
   "↔"
-  "<->"
   ":="
   "="
   "≠"
@@ -188,7 +184,6 @@
   "λ"
   "|"
   "."
-  ".."
   "·"
 ] @operator
 
