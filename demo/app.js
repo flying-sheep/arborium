@@ -235,8 +235,9 @@ function updateLangInfoPanel(id) {
         }
         const gitIcon = icons['mdi:git'] || icons['mdi:source-branch'] || '';
         const scalesIcon = icons['mdi:scale-balance'] || '';
+        const descText = s.description || 'Sample code';
         sampleBar.innerHTML = `
-            <span class="sample-desc">${s.description || 'Sample code'}</span>
+            <span class="sample-desc" title="${descText}">${descText}</span>
             ${s.license ? `<span class="sample-license"><span class="sample-license-icon">${scalesIcon}</span>${s.license}</span>` : ''}
             ${s.link ? `<a class="sample-link" href="${s.link}" target="_blank" rel="noopener"><span class="sample-icon">${gitIcon}</span>${repoLabel}</a>` : ''}
         `;
@@ -798,26 +799,6 @@ function updateStatus(message, success) {
     status.className = success ? 'status success' : 'status';
 }
 
-function formatBytes(bytes) {
-    if (bytes < 1024) return bytes + ' B';
-    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
-    return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
-}
-
-async function loadBundleInfo() {
-    try {
-        const response = await fetch('/bundle-info.json');
-        const info = await response.json();
-        if (info.wasm) {
-            const el = document.getElementById('bundle-stats');
-            const langCount = Object.keys(languageInfo).length;
-            el.innerHTML = `This demo bundles <strong>${langCount} languages</strong> in a <strong>${formatBytes(info.wasm.compressed)}</strong> gzipped WASM file (${formatBytes(info.wasm.raw)} uncompressed).`;
-        }
-    } catch (e) {
-        // Ignore - bundle info not available
-    }
-}
-
 document.getElementById('source').addEventListener('input', doHighlight);
 
 // Global keyboard navigation with arrow keys
@@ -893,7 +874,7 @@ function populateLangMarquee() {
     // Update tagline
     const tagline = document.getElementById('tagline');
     if (tagline) {
-        tagline.textContent = `Regex hater club`;
+        tagline.textContent = `— Regex hater club`;
     }
 }
 
@@ -924,5 +905,4 @@ if (randomBtn) {
 }
 
 initialize();
-loadBundleInfo();
 populateLangMarquee();
