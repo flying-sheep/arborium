@@ -1,27 +1,19 @@
 id = "vim"
-tier = 2
+tier = 3
 name = "Vimscript"
-tag = "code"
+tag = "config"
 icon = "devicon-plain:vim"
-aliases = ["viml", "vimscript"]
+aliases = ["vimscript", "viml"]
 repo = "https://github.com/tree-sitter-grammars/tree-sitter-vim"
-commit = "3dd4747082d1b717b8978211c06ef7b6cd16125b"
+commit = "e8e3d62b2dda6e3a56bc7580628e6e1071a7887a"
 license = "MIT"
 inventor = "Bram Moolenaar"
 year = 1991
-description = "Modal text editor language (Vimscript); official reference at [:help usr_41.txt](https://vimhelp.org/usr_41.txt.html)."
+description = "Scripting language for the Vim editor; see the official Vim documentation at [vimdoc.sourceforge.net](http://vimdoc.sourceforge.net/)."
 link = "https://en.wikipedia.org/wiki/Vim_(text_editor)"
-trivia = "Moolenaar released Vim 1.14 for Amiga in 1991; Vimscript reference is built into `:help` and online at [vimhelp.org](https://vimhelp.org)."
+trivia = "Vimscript evolved alongside Vim since 1991; Vim 7 (2006) added major scripting features. Bram maintained Vim until his passing in 2023."
 
 [[samples]]
-path = "samples/eval.txt"
-description = "Vim help for eval features, covering expressions, functions, and scripting constructs."
-link = "https://github.com/vim/vim/blob/master/runtime/doc/eval.txt"
-license = "Vim"
-
-# amos-picked sample
-[[samples]]
-path = "samples/mru.vim"
-description = "Most-recently-used file list plugin demonstrating Vimscript functions, autocmds, and mappings."
-link = "https://github.com/QuietMisdreavus/misdreavus-mru/blob/master/plugin/mru.vim"
-license = "Vim"
+path = "samples/plugin.vim"
+description = "Vim plugin with functions, autocommands, mappings, and conditionals."
+license = "MIT"

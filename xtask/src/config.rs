@@ -71,6 +71,7 @@ pub struct LanguageInfo {
     #[serde(default)]
     pub tag: String,
     pub icon: Option<String>,
+    pub tier: Option<u32>,
     #[serde(default)]
     pub aliases: Vec<String>,
     pub inventor: Option<String>,
@@ -90,6 +91,7 @@ pub struct InfoToml {
     #[serde(default)]
     pub tag: String,
     pub icon: Option<String>,
+    pub tier: Option<u32>,
     #[serde(default)]
     pub aliases: Vec<String>,
     pub inventor: Option<String>,
@@ -314,6 +316,7 @@ pub fn parse_language_info(content: &str) -> Option<LanguageInfo> {
         name: info.name,
         tag: info.tag,
         icon: info.icon,
+        tier: info.tier,
         aliases: info.aliases,
         inventor: info.inventor,
         year: info.year,
@@ -333,6 +336,10 @@ pub fn language_info_to_json(info: &LanguageInfo, sample: Option<&SampleInfo>) -
 
     if let Some(icon) = &info.icon {
         obj.insert("icon".to_string(), serde_json::Value::String(icon.clone()));
+    }
+
+    if let Some(tier) = info.tier {
+        obj.insert("tier".to_string(), serde_json::Value::Number(tier.into()));
     }
 
     if !info.aliases.is_empty() {

@@ -13,3 +13,8 @@ description = "A high-performance language for numerical and scientific computin
 link = "https://en.wikipedia.org/wiki/Julia_(programming_language)"
 trivia = "Julia solves the 'two-language problem'—you can prototype in Julia and get C-like speed without rewriting in a lower-level language."
 
+[[samples]]
+path = "samples/basic.jl"
+description = "Flux.jl Chain layer with struct definitions, macros, and multiple dispatch."
+link = "https://github.com/FluxML/Flux.jl/blob/master/src/layers/basic.jl"
+license = "MIT"

@@ -192,6 +192,9 @@ pub use arborium_julia as lang_julia;
 #[cfg(feature = "lang-kdl")]
 pub use arborium_kdl as lang_kdl;
 
+#[cfg(feature = "lang-kotlin")]
+pub use arborium_kotlin as lang_kotlin;
+
 #[cfg(feature = "lang-lean")]
 pub use arborium_lean as lang_lean;
 
@@ -216,11 +219,20 @@ pub use arborium_nix as lang_nix;
 #[cfg(feature = "lang-objc")]
 pub use arborium_objc as lang_objc;
 
+#[cfg(feature = "lang-ocaml")]
+pub use arborium_ocaml as lang_ocaml;
+
 #[cfg(feature = "lang-perl")]
 pub use arborium_perl as lang_perl;
 
 #[cfg(feature = "lang-php")]
 pub use arborium_php as lang_php;
+
+#[cfg(feature = "lang-powershell")]
+pub use arborium_powershell as lang_powershell;
+
+#[cfg(feature = "lang-prolog")]
+pub use arborium_prolog as lang_prolog;
 
 #[cfg(feature = "lang-python")]
 pub use arborium_python as lang_python;
@@ -230,6 +242,9 @@ pub use arborium_query as lang_query;
 
 #[cfg(feature = "lang-r")]
 pub use arborium_r as lang_r;
+
+#[cfg(feature = "lang-rescript")]
+pub use arborium_rescript as lang_rescript;
 
 #[cfg(feature = "lang-ron")]
 pub use arborium_ron as lang_ron;
@@ -242,6 +257,9 @@ pub use arborium_rust as lang_rust;
 
 #[cfg(feature = "lang-scala")]
 pub use arborium_scala as lang_scala;
+
+#[cfg(feature = "lang-scheme")]
+pub use arborium_scheme as lang_scheme;
 
 #[cfg(feature = "lang-scss")]
 pub use arborium_scss as lang_scss;
@@ -261,14 +279,26 @@ pub use arborium_starlark as lang_starlark;
 #[cfg(feature = "lang-svelte")]
 pub use arborium_svelte as lang_svelte;
 
+#[cfg(feature = "lang-swift")]
+pub use arborium_swift as lang_swift;
+
 #[cfg(feature = "lang-textproto")]
 pub use arborium_textproto as lang_textproto;
 
 #[cfg(feature = "lang-thrift")]
 pub use arborium_thrift as lang_thrift;
 
+#[cfg(feature = "lang-tlaplus")]
+pub use arborium_tlaplus as lang_tlaplus;
+
 #[cfg(feature = "lang-toml")]
 pub use arborium_toml as lang_toml;
+
+#[cfg(feature = "lang-tsx")]
+pub use arborium_tsx as lang_tsx;
+
+#[cfg(feature = "lang-typescript")]
+pub use arborium_typescript as lang_typescript;
 
 #[cfg(feature = "lang-typst")]
 pub use arborium_typst as lang_typst;
@@ -281,6 +311,9 @@ pub use arborium_vb as lang_vb;
 
 #[cfg(feature = "lang-verilog")]
 pub use arborium_verilog as lang_verilog;
+
+#[cfg(feature = "lang-vhdl")]
+pub use arborium_vhdl as lang_vhdl;
 
 #[cfg(feature = "lang-vim")]
 pub use arborium_vim as lang_vim;
@@ -296,6 +329,9 @@ pub use arborium_xml as lang_xml;
 
 #[cfg(feature = "lang-yaml")]
 pub use arborium_yaml as lang_yaml;
+
+#[cfg(feature = "lang-yuri")]
+pub use arborium_yuri as lang_yuri;
 
 #[cfg(feature = "lang-zig")]
 pub use arborium_zig as lang_zig;

@@ -14,7 +14,7 @@ link = "https://en.wikipedia.org/wiki/Haskell"
 trivia = "Named after logician Haskell Curry; standardized in 1990 by a committee that published successive language reports—the 2010 Report remains the latest official spec."
 
 [[samples]]
-path = "samples/Config.hs"
-description = "xmonad configuration module showing imports, records, and IO actions."
-link = "https://github.com/xmonad/xmonad/blob/master/src/XMonad/Config.hs"
-license = "BSD-3-Clause"
+path = "samples/Shared.hs"
+description = "Pandoc shared utilities with imports, type signatures, and pattern matching."
+link = "https://github.com/jgm/pandoc/blob/main/src/Text/Pandoc/Shared.hs"
+license = "GPL-2.0-or-later"

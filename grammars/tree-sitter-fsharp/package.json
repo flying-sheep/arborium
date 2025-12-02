@@ -1,51 +1,45 @@
 {
   "name": "tree-sitter-fsharp",
   "version": "0.1.0",
-  "description": "Fsharp grammar for tree-sitter",
-  "repository": "https://github.com/ionide/tree-sitter-fsharp",
+  "description": "",
+  "repository": "https://github.com/tree-sitter/tree-sitter-fsharp",
   "license": "MIT",
-  "author": {
-    "name": "Nikolaj Sidorenco"
-  },
+  "author": "Nikolaj Sidorenco",
   "main": "bindings/node",
   "types": "bindings/node",
-  "keywords": [
-    "incremental",
-    "parsing",
-    "tree-sitter",
-    "fsharp"
-  ],
   "files": [
-    "grammar.js",
-    "tree-sitter.json",
     "binding.gyp",
-    "prebuilds/**",
     "bindings/node/*",
+    "prebuilds/**",
+    "common/**",
+    "fsharp/src/**",
+    "fsharp_signature/src/**",
     "queries/*",
-    "src/**",
     "*.wasm"
   ],
-  "dependencies": {
-    "node-addon-api": "^8.5.0",
-    "node-gyp-build": "^4.8.4"
-  },
   "devDependencies": {
+    "eslint": "^9.27.0",
+    "eslint-config-google": "^0.14.0",
     "prebuildify": "^6.0.1",
-    "tree-sitter": "^0.22.4",
-    "tree-sitter-cli": "^0.25.10"
+    "tree-sitter-cli": "^0.25.4"
   },
   "peerDependencies": {
     "tree-sitter": "^0.22.4"
   },
   "peerDependenciesMeta": {
-    "tree-sitter": {
+    "tree_sitter": {
       "optional": true
     }
   },
   "scripts": {
     "install": "node-gyp-build",
+    "generate": "for dir in fsharp fsharp_signature; do cd $dir; tree-sitter generate; cd -; done",
     "prestart": "tree-sitter build --wasm",
     "start": "tree-sitter playground",
     "test": "node --test bindings/node/*_test.js"
+  },
+  "dependencies": {
+    "node-addon-api": "^8.3.1",
+    "node-gyp-build": "^4.8.4"
   }
 }

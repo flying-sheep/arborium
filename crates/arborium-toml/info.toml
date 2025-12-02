@@ -13,7 +13,7 @@ link = "https://en.wikipedia.org/wiki/TOML"
 trivia = "TOML 1.0.0 was released January 2021 after 8 years of iteration; see the spec changelog on [toml.io](https://toml.io/en/v1.0.0)."
 
 [[samples]]
-path = "samples/example.toml"
-description = "Official TOML language example covering all data types: strings, integers, floats, booleans, datetimes, arrays, and tables."
-link = "https://github.com/toml-lang/toml/blob/357a4ba6782e48ff26e646780bab11c90ed0a7bc/examples/example-v0.4.0.toml"
-license = "MIT"
+path = "samples/starship.toml"
+description = "Starship Cargo.toml with dependencies, features, and build configuration."
+link = "https://github.com/starship/starship/blob/master/Cargo.toml"
+license = "ISC"

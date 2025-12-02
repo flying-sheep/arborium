@@ -1,0 +1,2 @@
+# Query queries are in queries/query/ subdirectory
+query_path = "query"

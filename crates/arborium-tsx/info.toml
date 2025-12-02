@@ -12,3 +12,9 @@ description = "TypeScript with JSX support for React component development"
 link = "https://en.wikipedia.org/wiki/TypeScript"
 trivia = "TSX combines TypeScript's static type checking with JSX's declarative UI syntax. While JSX was introduced by Facebook for React in 2013, TSX emerged as TypeScript gained popularity and React developers sought better tooling. Today, TSX is the de facto standard for React development in TypeScript codebases."
 
+[[samples]]
+path = "samples/basic-query.tsx"
+description = "TanStack Query basic example with data fetching, caching, custom hooks, and React components."
+link = "https://github.com/TanStack/query/blob/main/examples/react/basic/src/index.tsx"
+license = "MIT"
+

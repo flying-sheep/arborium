@@ -14,7 +14,7 @@ link = "https://en.wikipedia.org/wiki/JSON"
 trivia = "Crockford documented JSON in 2001 while at State Software; it was standardized as [RFC 8259](https://www.rfc-editor.org/rfc/rfc8259) and [ECMA-404](https://www.ecma-international.org/publications-and-standards/standards/ecma-404/)."
 
 [[samples]]
-path = "samples/settings.jsonc"
-description = "VSCode workspace settings with comments, nested objects, file associations, and search patterns."
-link = "https://github.com/microsoft/vscode/blob/main/.vscode/settings.json"
+path = "samples/package.json"
+description = "Vite monorepo package.json with scripts, dependencies, and workspace configuration."
+link = "https://github.com/vitejs/vite/blob/main/package.json"
 license = "MIT"

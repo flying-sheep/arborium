@@ -14,7 +14,7 @@ link = "https://en.wikipedia.org/wiki/PHP"
 trivia = "Started as 'Personal Home Page Tools' in 1994/95; renamed 'PHP: Hypertext Preprocessor' in 1997. History is documented in the [PHP changelog](https://www.php.net/ChangeLog-8.php) and manual preface."
 
 [[samples]]
-path = "samples/Route.php"
-description = "Laravel Route facade with PHPDoc, method annotations, and static proxy pattern."
-link = "https://github.com/laravel/framework/blob/11.x/src/Illuminate/Support/Facades/Route.php"
+path = "samples/SessionGuard.php"
+description = "Laravel SessionGuard with authentication, traits, and typed properties."
+link = "https://github.com/laravel/framework/blob/11.x/src/Illuminate/Auth/SessionGuard.php"
 license = "MIT"

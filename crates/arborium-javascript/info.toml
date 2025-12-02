@@ -14,7 +14,7 @@ link = "https://en.wikipedia.org/wiki/JavaScript"
 trivia = "Eich created JavaScript in 10 days at Netscape in May 1995; it shipped in Netscape Navigator 2.0. TC39 now standardizes it via [ECMA-262](https://tc39.es/ecma262/), and the official name of the language is ECMAScript."
 
 [[samples]]
-path = "samples/application.js"
-description = "Express.js application prototype with router initialization, settings, and middleware."
-link = "https://github.com/expressjs/express/blob/master/lib/application.js"
+path = "samples/x-model.js"
+description = "Alpine.js x-model directive with reactivity, DOM binding, and event handling."
+link = "https://github.com/alpinejs/alpine/blob/main/packages/alpinejs/src/directives/x-model.js"
 license = "MIT"

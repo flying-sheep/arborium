@@ -129,8 +129,8 @@ function filterLanguages(query) {
     return filtered;
 }
 
-// Render dropdown - simplified to icon + name only
-function renderDropdown(languages) {
+// Render dropdown - sorted by tier (lower = more popular)
+function renderDropdown(languages, query = '') {
     if (languages.length === 0) {
         langDropdown.innerHTML = '<div class="lang-dropdown-empty">No languages found</div>';
         return;
@@ -314,6 +314,9 @@ function selectLanguage(id) {
     updateLabel(id);
     exitSearchMode();
 
+    // Update URL hash
+    history.replaceState(null, '', `#${id}`);
+
     // Load example if available
     if (examples[id]) {
         document.getElementById('source').value = examples[id];
@@ -329,17 +332,19 @@ langLabel.addEventListener('click', () => {
 
 langInput.addEventListener('input', () => {
     highlightedIndex = 0;
-    const filtered = filterLanguages(langInput.value);
-    renderDropdown(filtered);
+    const query = langInput.value;
+    const filtered = filterLanguages(query);
+    renderDropdown(filtered, query);
 });
 
 langInput.addEventListener('keydown', (e) => {
-    const filtered = filterLanguages(langInput.value);
+    const query = langInput.value;
+    const filtered = filterLanguages(query);
 
     if (e.key === 'ArrowDown') {
         e.preventDefault();
         highlightedIndex = Math.min(highlightedIndex + 1, filtered.length - 1);
-        renderDropdown(filtered);
+        renderDropdown(filtered, query);
         scrollToHighlighted();
         // Preview the highlighted language
         if (filtered[highlightedIndex]) {
@@ -348,7 +353,7 @@ langInput.addEventListener('keydown', (e) => {
     } else if (e.key === 'ArrowUp') {
         e.preventDefault();
         highlightedIndex = Math.max(highlightedIndex - 1, 0);
-        renderDropdown(filtered);
+        renderDropdown(filtered, query);
         scrollToHighlighted();
         // Preview the highlighted language
         if (filtered[highlightedIndex]) {
@@ -788,8 +793,11 @@ async function initialize() {
             return (infoA.name || a).localeCompare(infoB.name || b);
         });
 
-        // Select Rust by default
-        if (allLanguages.includes('rust')) {
+        // Check URL hash for language selection
+        const hashLang = window.location.hash.slice(1);
+        if (hashLang && allLanguages.includes(hashLang)) {
+            selectLanguage(hashLang);
+        } else if (allLanguages.includes('rust')) {
             selectLanguage('rust');
         } else if (allLanguages.length > 0) {
             selectLanguage(allLanguages[0]);

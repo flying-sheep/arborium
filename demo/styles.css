@@ -662,7 +662,7 @@ h1 {
     font-family: 'Iosevka', 'SF Mono', 'Fira Code', 'Consolas', monospace;
     font-size: 0.85em;
     background: color-mix(in srgb, var(--fg) 10%, transparent);
-    padding: 0.15rem 0.35rem;
+    padding: 0.55rem 0.45rem;
     border-radius: 3px;
 }
 
@@ -875,8 +875,9 @@ select:hover, button:hover {
     border: 1px solid var(--muted);
     border-top: none;
     border-radius: 0 0 4px 4px;
-    max-height: 400px;
+    max-height: 280px;
     overflow-y: auto;
+    overscroll-behavior: contain;
     z-index: 100;
 }
 
@@ -1051,6 +1052,7 @@ select:hover, button:hover {
     border-radius: 0 0 4px 4px;
     max-height: 400px;
     overflow-y: auto;
+    overscroll-behavior: contain;
     z-index: 100;
 }
 
@@ -1287,6 +1289,7 @@ select:hover, button:hover {
     position: absolute;
     inset: 0;
     overflow: auto;
+    overscroll-behavior: contain;
 }
 
 /* Grid stacks both layers */
@@ -1413,7 +1416,7 @@ a-da { color: #a6e3a1; }  /* diff.addition - green */
 a-dd { color: #f38ba8; }  /* diff.deletion - red */
 a-n { color: #fab387; }   /* number - peach */
 a-tl { color: #cdd6f4; }  /* text.literal */
-a-te { font-style: italic; } /* text.emphasis */
+a-te { color: var(--accent); } /* text.emphasis - no italic, we lack the font */
 a-ts { font-weight: bold; }  /* text.strong */
 a-tu { color: #89b4fa; text-decoration: underline; } /* text.uri */
 a-tr { color: #89dceb; }  /* text.reference */

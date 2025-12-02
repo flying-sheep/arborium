@@ -12,3 +12,8 @@ description = "A graph description language for defining nodes, edges, and graph
 link = "https://en.wikipedia.org/wiki/DOT_(graph_description_language)"
 trivia = "Graphviz layout algorithms were developed at AT&T Labs and have been used to visualize everything from compiler internals to social networks."
 
+[[samples]]
+path = "samples/crazy.gv"
+description = "Unix family tree visualization; demonstrates creative node styling with distortion, orientation, and skew parameters."
+link = "https://gitlab.com/graphviz/graphviz/-/blob/main/graphs/directed/crazy.gv"
+license = "EPL-1.0"

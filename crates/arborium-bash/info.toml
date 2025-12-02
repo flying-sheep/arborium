@@ -14,9 +14,9 @@ link = "https://en.wikipedia.org/wiki/Bash_(Unix_shell)"
 trivia = "Bash means 'Bourne Again SHell', a nod to the Bourne shell; Fox began coding it in January 1988 and released the first beta in June 1989 for the GNU Project ([Bash history](https://www.gnu.org/software/bash/manual/bash.html#Bash-History))."
 
 [[samples]]
-path = "samples/bash3boilerplate_main.sh"
-description = "BASH3 Boilerplate script with functions, logging, strict mode, getopts parsing, traps."
-link = "https://github.com/kvz/bash3boilerplate/blob/master/main.sh"
+path = "samples/fzf_completion.bash"
+description = "fzf shell completion with functions, conditionals, and command detection."
+link = "https://github.com/junegunn/fzf/blob/master/shell/completion.bash"
 license = "MIT"
 
 # amos-picked sample
