@@ -47,9 +47,15 @@ pub use tree_sitter_patched_arborium as tree_sitter;
 pub use tree_sitter_highlight_patched_arborium as tree_sitter_highlight;
 
 pub mod highlights;
+pub mod highlighter;
 pub mod html;
 pub mod ansi;
 pub mod theme;
+
+#[cfg(test)]
+mod injection_tests;
+
+pub use highlighter::Highlighter;
 
 #[cfg(all(feature = "wasm-fix", target_family = "wasm"))]
 mod wasm;

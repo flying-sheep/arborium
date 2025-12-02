@@ -1,5 +1,9 @@
-; inherits: html_tags
+; Default CSS in <style> tags (no lang attribute)
+((style_element
+  (raw_text) @injection.content)
+ (#set! injection.language "css"))
 
+; SCSS/PostCSS/etc when lang attribute is set
 ((style_element
   (start_tag
     (attribute
@@ -11,7 +15,13 @@
   (#any-of? @_lang "scss" "postcss" "less" "stylus")
   (#set! injection.language "scss"))
 
-((raw_text) @injection.content
+; Default JavaScript in <script> tags (no lang attribute)
+((script_element
+  (raw_text) @injection.content)
+  (#set! injection.language "javascript"))
+
+; JavaScript in Svelte template expressions like {name}, {#if condition}, etc.
+((svelte_raw_text) @injection.content
   (#set! injection.language "javascript"))
 
 ((script_element

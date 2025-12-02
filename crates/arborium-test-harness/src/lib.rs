@@ -173,6 +173,138 @@ fn parse_samples_from_info_toml(path: &Path) -> Vec<String> {
     samples
 }
 
+/// Result of testing injections - tracks which highlight names were seen
+#[derive(Debug, Default)]
+pub struct InjectionTestResult {
+    /// The highlight names that were captured during highlighting
+    pub highlights_seen: std::collections::HashSet<String>,
+    /// The source ranges that were highlighted
+    pub highlighted_ranges: Vec<(usize, usize, String)>,
+}
+
+/// Configuration for an injected language
+pub struct InjectedLanguageConfig {
+    pub name: &'static str,
+    pub language: Language,
+    pub highlights_query: &'static str,
+    pub injections_query: &'static str,
+    pub locals_query: &'static str,
+}
+
+/// Tests that language injections work correctly by verifying that specific patterns
+/// produce highlights from the injected language.
+///
+/// # Arguments
+///
+/// * `host_language` - The host language (e.g., HTML, Svelte)
+/// * `host_name` - Name of the host language
+/// * `host_highlights` - Highlights query for host
+/// * `host_injections` - Injections query for host
+/// * `host_locals` - Locals query for host
+/// * `injected_languages` - Slice of injected language configs (CSS, JS, etc.)
+/// * `source` - Source code to test
+/// * `expected_highlights` - Highlight names that MUST appear in the output
+///
+/// # Panics
+///
+/// Panics if any expected highlight is not found, indicating the injection isn't working.
+pub fn test_injections(
+    host_language: Language,
+    host_name: &str,
+    host_highlights: &str,
+    host_injections: &str,
+    host_locals: &str,
+    injected_languages: &[InjectedLanguageConfig],
+    source: &str,
+    expected_highlights: &[&str],
+) -> InjectionTestResult {
+    use tree_sitter_highlight::HighlightEvent;
+
+    // Build configs for all languages
+    let mut host_config = HighlightConfiguration::new(
+        host_language,
+        host_name,
+        host_highlights,
+        host_injections,
+        host_locals,
+    )
+    .unwrap_or_else(|e| panic!("Failed to create host config for {}: {:?}", host_name, e));
+    host_config.configure(&HIGHLIGHT_NAMES);
+
+    let mut injected_configs: Vec<HighlightConfiguration> = Vec::new();
+    for lang in injected_languages {
+        let mut config = HighlightConfiguration::new(
+            lang.language,
+            lang.name,
+            lang.highlights_query,
+            lang.injections_query,
+            lang.locals_query,
+        )
+        .unwrap_or_else(|e| panic!("Failed to create config for {}: {:?}", lang.name, e));
+        config.configure(&HIGHLIGHT_NAMES);
+        injected_configs.push(config);
+    }
+
+    // Create injection callback
+    let injection_callback = |lang_name: &str| -> Option<&HighlightConfiguration> {
+        for (i, lang) in injected_languages.iter().enumerate() {
+            if lang.name == lang_name {
+                return Some(&injected_configs[i]);
+            }
+        }
+        None
+    };
+
+    let mut highlighter = Highlighter::new();
+    let highlights = highlighter
+        .highlight(&host_config, source.as_bytes(), None, injection_callback)
+        .unwrap_or_else(|e| panic!("Failed to highlight for {}: {:?}", host_name, e));
+
+    let mut result = InjectionTestResult::default();
+    let mut current_highlight: Option<usize> = None;
+    let mut current_start: usize = 0;
+
+    for event in highlights {
+        let event = event.unwrap_or_else(|e| panic!("Highlight event error: {:?}", e));
+        match event {
+            HighlightEvent::Source { start, end } => {
+                if let Some(idx) = current_highlight {
+                    if idx < HIGHLIGHT_NAMES.len() {
+                        let name = HIGHLIGHT_NAMES[idx].to_string();
+                        result.highlights_seen.insert(name.clone());
+                        result.highlighted_ranges.push((start, end, name));
+                    }
+                }
+            }
+            HighlightEvent::HighlightStart(tree_sitter_highlight::Highlight(idx)) => {
+                current_highlight = Some(idx);
+                current_start = 0; // Will be set by next Source event
+            }
+            HighlightEvent::HighlightEnd => {
+                current_highlight = None;
+            }
+        }
+    }
+
+    // Check expected highlights are present
+    for expected in expected_highlights {
+        if !result.highlights_seen.contains(*expected) {
+            panic!(
+                "Expected highlight '{}' not found in output for {}.\n\
+                 Source: {:?}\n\
+                 Highlights seen: {:?}\n\
+                 This likely means the injection query is not working correctly.",
+                expected,
+                host_name,
+                source,
+                result.highlights_seen
+            );
+        }
+    }
+
+    result
+}
+
 /// Standard highlight names used by arborium.
 pub const HIGHLIGHT_NAMES: &[&str] = &[
     "attribute",

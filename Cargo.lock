@@ -130,6 +130,7 @@ dependencies = [
  "arborium-zig",
  "arborium-zsh",
  "dlmalloc",
+ "indoc",
  "toml",
  "tree-sitter-highlight-patched-arborium",
  "tree-sitter-patched-arborium",
@@ -1480,6 +1481,15 @@ dependencies = [
  "portable-atomic",
  "unicode-width",
  "web-time",
+]
+
+[[package]]
+name = "indoc"
+version = "2.0.7"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "79cf5c93f93228cf8efb3ba362535fb11199ac548a09ce117c9b1adc3030d706"
+dependencies = [
+ "rustversion",
 ]
 
 [[package]]

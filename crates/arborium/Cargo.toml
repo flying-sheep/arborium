@@ -522,3 +522,6 @@ optional = true
 [dependencies.arborium-zsh]
 path = "../arborium-zsh"
 optional = true
+
+[dev-dependencies]
+indoc = "2"

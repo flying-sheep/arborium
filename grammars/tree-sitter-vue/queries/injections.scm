@@ -1,5 +1,14 @@
-; inherits html_tags
-; <script lang="css">
+; Default CSS in <style> tags (no lang attribute)
+((style_element
+  (raw_text) @injection.content)
+ (#set! injection.language "css"))
+
+; Default JavaScript in <script> tags (no lang attribute)
+((script_element
+  (raw_text) @injection.content)
+ (#set! injection.language "javascript"))
+
+; <style lang="css"> or <style lang="scss">
 ((style_element
   (start_tag
     (attribute
