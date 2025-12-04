@@ -8,6 +8,7 @@ grammar {
     tag "markup"
     internal #true
     has-scanner #true
+    generate-component #false
 
     description "Inline grammar for Markdown parsing; companion to the block-level markdown grammar."
 }
