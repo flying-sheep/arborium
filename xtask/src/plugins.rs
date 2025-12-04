@@ -145,8 +145,13 @@ pub fn build_plugins(repo_root: &Utf8Path, options: &BuildOptions) -> Result<()>
     let timings: Mutex<Vec<PluginTiming>> = Mutex::new(Vec::new());
     let errors: Mutex<Vec<String>> = Mutex::new(Vec::new());
 
-    // Build plugins in parallel
-    grammars.par_iter().for_each(|grammar| {
+    // Build plugins in parallel (limit to 16 concurrent builds)
+    let pool = rayon::ThreadPoolBuilder::new()
+        .num_threads(16)
+        .build()
+        .expect("failed to create thread pool");
+
+    pool.install(|| grammars.par_iter().for_each(|grammar| {
         let result = build_single_plugin(
             repo_root,
             grammar,
@@ -164,7 +169,7 @@ pub fn build_plugins(repo_root: &Utf8Path, options: &BuildOptions) -> Result<()>
                 errors.lock().unwrap().push(format!("{}: {}", grammar, e));
             }
         }
-    });
+    }));
 
     // Check for errors
     let errors = errors.into_inner().unwrap();
