@@ -376,6 +376,9 @@ package = "arborium:grammar"
 [package.metadata.component.target]
 world = "grammar-plugin"
 path = "../../wit/grammar.wit"
+
+# Prevent cargo from walking up to parent workspace
+[workspace]
 "#
     );
     std::fs::write(plugin_dir.join("Cargo.toml"), cargo_toml)

@@ -47,6 +47,60 @@ fn update_root_cargo_toml(repo_root: &Utf8Path, version: &str) -> Result<(), Rep
     Ok(())
 }
 
+/// Generate [workspace.dependencies] section from registry
+fn generate_workspace_dependencies(
+    repo_root: &Utf8Path,
+    registry: &CrateRegistry,
+    version: &str,
+) -> Result<(), Report> {
+    let cargo_toml_path = repo_root.join("Cargo.toml");
+    let content = fs::read_to_string(&cargo_toml_path)?;
+
+    // Collect all grammar crate names (sorted for deterministic output)
+    let mut crate_names: Vec<&str> = registry
+        .crates
+        .keys()
+        .map(|s| s.as_str())
+        .filter(|name| name.starts_with("arborium-"))
+        .collect();
+    crate_names.sort();
+
+    // Build the [workspace.dependencies] section
+    let mut deps_section = String::from("\n[workspace.dependencies]\n");
+    // Include the umbrella crate itself
+    deps_section.push_str(&format!(
+        "arborium = {{ path = \"crates/arborium\", version = \"{}\" }}\n",
+        version
+    ));
+    for crate_name in &crate_names {
+        deps_section.push_str(&format!(
+            "{} = {{ path = \"crates/{}\", version = \"{}\" }}\n",
+            crate_name, crate_name, version
+        ));
+    }
+
+    // Check if [workspace.dependencies] already exists
+    let new_content = if let Some(start) = content.find("\n[workspace.dependencies]") {
+        // Find the next section (or end of file)
+        let after_header = start + 1; // skip the leading newline
+        let section_end = content[after_header..]
+            .find("\n[")
+            .map(|i| after_header + i)
+            .unwrap_or(content.len());
+        // Replace the section
+        format!("{}{}{}", &content[..start], deps_section, &content[section_end..])
+    } else {
+        // Insert before [workspace.package]
+        content.replace(
+            "\n[workspace.package]",
+            &format!("{}\n[workspace.package]", deps_section),
+        )
+    };
+
+    fs::write(&cargo_toml_path, new_content)?;
+    Ok(())
+}
+
 /// Generate crate files for all or a specific grammar.
 pub fn plan_generate(
     crates_dir: &Utf8Path,
@@ -71,6 +125,9 @@ pub fn plan_generate(
 
     // Update root Cargo.toml with the specified version
     update_root_cargo_toml(&repo_root, version)?;
+
+    // Generate [workspace.dependencies] from registry
+    generate_workspace_dependencies(&repo_root, &registry, version)?;
 
     // Use the provided version for generated Cargo.toml files
     let workspace_version = version.to_string();
@@ -704,6 +761,7 @@ fn generate_build_rs(crate_name: &str, config: &crate::types::CrateConfig) -> St
         .include(src_dir)
         .include("grammar") // for common/ includes like "../common/scanner.h"
         .include(format!("{{}}/tree_sitter", src_dir))
+        .opt_level_str("s") // optimize for size, not speed
         .warnings(false)
         .flag_if_supported("-Wno-unused-parameter")
         .flag_if_supported("-Wno-unused-but-set-variable")

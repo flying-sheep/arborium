@@ -7,6 +7,7 @@ grammar {
     name "Lean"
     tag "code"
     tier 4
+    generate-component #false
     has-scanner #true
     icon "mdi:alpha-l-box-outline"
 

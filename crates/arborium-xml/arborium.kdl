@@ -24,25 +24,3 @@ grammar {
         license "Apache-2.0"
     }
 }
-
-grammar {
-    id "dtd"
-    name "DTD"
-    tag "markup"
-    tier 3
-    has-scanner #true
-    grammar-path "dtd"
-
-    inventor "W3C SGML Working Group"
-    year 1986
-    description "Document Type Definition for declaring XML/SGML document structure and valid elements."
-    link "https://en.wikipedia.org/wiki/Document_type_definition"
-    trivia "DTDs predate XML, originating from SGML in 1986. While largely superseded by XML Schema and RELAX NG, DTDs remain in use for entity declarations and are embedded in many XML documents."
-
-    sample {
-        path "samples/xhtml1-strict.dtd"
-        description "XHTML 1.0 Strict DTD defining document structure and valid elements."
-        link "https://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"
-        license "W3C"
-    }
-}

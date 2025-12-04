@@ -1,7 +1,6 @@
 [package]
-publish = false
 name = "arborium-javascript-plugin"
-version = "0.2.2"
+version = "0.1.0"
 edition = "2024"
 description = "javascript grammar plugin for arborium"
 license = "MIT"
@@ -22,3 +21,6 @@ package = "arborium:grammar"
 [package.metadata.component.target]
 world = "grammar-plugin"
 path = "../../wit/grammar.wit"
+
+# Prevent cargo from walking up to parent workspace
+[workspace]

@@ -120,7 +120,9 @@ impl exports::arborium::grammar::plugin::Guest for PluginImpl {
                     })
                     .collect(),
             }),
-            Err(e) => Err(ParseError { message: e.message }),
+            Err(e) => Err(ParseError {
+                message: e.message,
+            }),
         }
     }
 
