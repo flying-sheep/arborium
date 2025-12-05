@@ -173,6 +173,47 @@ fn generate_workspace_dependencies(
 }
 
 /// Generate crate files for all or a specific grammar.
+// New 5-function approach for testing
+pub fn plan_generate_new_approach(
+    crates_dir: &Utf8Path,
+    name: Option<&str>,
+    mode: PlanMode,
+    version: &str,
+    no_fail_fast: bool,
+) -> Result<PlanSet, Report> {
+    use std::time::Instant;
+    let total_start = Instant::now();
+
+    // 1. Load Registry
+    let registry = load_registry_new(crates_dir)?;
+
+    // 2. Prepare temp structures (SHARED by validation & generation)
+    let prepared = prepare_temp_structures_new(&registry, crates_dir, name, version)?;
+
+    if prepared.prepared_temps.is_empty() {
+        println!("No grammars to process");
+        return Ok(PlanSet::new());
+    }
+
+    // 3. Validate all grammars using prepared structures
+    validate_all_grammars_new(&prepared)?;
+
+    // 4. Generate all grammars using same prepared structures
+    let generation_results = generate_all_grammars_new(&prepared, mode, no_fail_fast)?;
+
+    // 5. Generate all crates using templates
+    let plan_set = generate_all_crates_new(&prepared, &generation_results)?;
+
+    let total_elapsed = total_start.elapsed();
+    println!("Total time: {:.2}s", total_elapsed.as_secs_f64());
+    println!(
+        "Cache hits: {}, misses: {}",
+        generation_results.cache_hits, generation_results.cache_misses
+    );
+
+    Ok(plan_set)
+}
+
 pub fn plan_generate(
     crates_dir: &Utf8Path,
     name: Option<&str>,
@@ -1079,9 +1120,7 @@ fn generate_cargo_toml(
         .map(|g| g.id.as_ref())
         .unwrap_or(crate_name.strip_prefix("arborium-").unwrap_or(crate_name));
 
-    let grammar_name = grammar
-        .map(|g| g.name.as_ref())
-        .unwrap_or(grammar_id);
+    let grammar_name = grammar.map(|g| g.name.as_ref()).unwrap_or(grammar_id);
 
     let tag = grammar
         .map(|g| g.tag.value.as_str())
@@ -1101,7 +1140,9 @@ fn generate_cargo_toml(
         license,
         tag,
     };
-    template.render_once().expect("CargoTomlTemplate render failed")
+    template
+        .render_once()
+        .expect("CargoTomlTemplate render failed")
 }
 
 /// Generate build.rs content for a grammar crate.
@@ -1123,7 +1164,9 @@ fn generate_build_rs(crate_name: &str, config: &crate::types::CrateConfig) -> St
         has_scanner,
         c_symbol: &c_symbol,
     };
-    template.render_once().expect("BuildRsTemplate render failed")
+    template
+        .render_once()
+        .expect("BuildRsTemplate render failed")
 }
 
 /// Generate src/lib.rs content for a grammar crate.
@@ -1168,9 +1211,7 @@ fn generate_readme(crate_name: &str, config: &crate::types::CrateConfig) -> Stri
         .map(|g| g.id.as_ref())
         .unwrap_or_else(|| crate_name.strip_prefix("arborium-").unwrap_or(crate_name));
 
-    let grammar_name = grammar
-        .map(|g| g.name.as_ref())
-        .unwrap_or(grammar_id);
+    let grammar_name = grammar.map(|g| g.name.as_ref()).unwrap_or(grammar_id);
 
     let upstream_url: &str = config.repo.value.as_ref();
     // Extract repo name from URL for display
@@ -1222,5 +1263,348 @@ fn generate_readme(crate_name: &str, config: &crate::types::CrateConfig) -> Stri
         year,
         language_link,
     };
-    template.render_once().expect("ReadmeTemplate render failed")
+    template
+        .render_once()
+        .expect("ReadmeTemplate render failed")
+}
+
+// ============================================================================
+// NEW 5-FUNCTION GENERATION FLOW (eliminates temp directory duplication)
+// ============================================================================
+
+// Data structures for prepared temp directories
+struct PreparedTemp {
+    crate_state: CrateState,
+    temp_dir: tempfile::TempDir,
+    temp_root: Utf8PathBuf,
+    temp_grammar: Utf8PathBuf,
+    config: crate::types::CrateConfig,
+}
+
+struct PreparedStructures {
+    prepared_temps: Vec<PreparedTemp>,
+    repo_root: Utf8PathBuf,
+    cache: GrammarCache,
+    workspace_version: String,
+    crates_to_process: Vec<String>,
+}
+
+struct GenerationResults {
+    cache_hits: usize,
+    cache_misses: usize,
+    plans: PlanSet,
+}
+
+// 1. Load Registry
+fn load_registry_new(crates_dir: &Utf8Path) -> Result<CrateRegistry, Report> {
+    CrateRegistry::load(crates_dir)
+}
+
+// 2. Prepare Temp Structures (SHARED by validation & generation)
+fn prepare_temp_structures_new(
+    registry: &CrateRegistry,
+    crates_dir: &Utf8Path,
+    name: Option<&str>,
+    version: &str,
+) -> Result<PreparedStructures, Report> {
+    // Set up repo root and cache
+    let repo_root =
+        find_repo_root().ok_or_else(|| std::io::Error::other("Could not find repo root"))?;
+    let repo_root = Utf8PathBuf::from_path_buf(repo_root)
+        .map_err(|_| std::io::Error::other("Non-UTF8 repo root"))?;
+    let cache = GrammarCache::new(&repo_root);
+
+    // Update root files
+    update_root_cargo_toml(&repo_root, version)?;
+    generate_workspace_dependencies(&repo_root, &registry, version)?;
+
+    // Collect crates to process (respecting filter)
+    let crates_to_process: Vec<String> = registry
+        .crates
+        .iter()
+        .filter_map(|(crate_name, crate_state)| {
+            // Skip if a specific name was requested and this isn't it
+            if let Some(filter) = name {
+                let matches = crate_state.name == filter
+                    || (crate_state.name.strip_prefix("arborium-") == Some(filter));
+                if !matches {
+                    return None;
+                }
+            }
+            // Skip crates without arborium.kdl
+            if crate_state.config.is_none() {
+                return None;
+            }
+            Some(crate_name.clone())
+        })
+        .collect();
+
+    // Prepare temp directories for all crates that have grammar.js files
+    let mut prepared_temps = Vec::new();
+
+    for crate_name in &crates_to_process {
+        let crate_state = &registry.crates[crate_name];
+        let config = crate_state.config.as_ref().unwrap().clone();
+        let grammar_js = crate_state.def_path.join("grammar/grammar.js");
+
+        if !grammar_js.exists() {
+            continue;
+        }
+
+        // Create temp directory with proper structure (shared by validation and generation)
+        let temp_dir = tempfile::tempdir()?;
+        let temp_root = Utf8PathBuf::from_path_buf(temp_dir.path().to_path_buf())
+            .map_err(|_| std::io::Error::other("Non-UTF8 temp path"))?;
+        let temp_grammar = temp_root.join("grammar");
+
+        // Copy grammar files to temp
+        let def_path = &crate_state.def_path;
+        let grammar_dir = def_path.join("grammar");
+        copy_dir_contents(&grammar_dir, &temp_grammar)?;
+
+        // Copy common/ to temp/common/ if it exists (some grammars share code via ../common/)
+        // Check both def/common (shared at language level) and def/grammar/common (local to grammar)
+        let def_common_dir = def_path.join("common");
+        let grammar_common_dir = def_path.join("grammar/common");
+
+        if def_common_dir.exists() {
+            let temp_common = temp_root.join("common");
+            copy_dir_contents(&def_common_dir, &temp_common)?;
+        }
+
+        if grammar_common_dir.exists() {
+            let temp_common = temp_root.join("common");
+            copy_dir_contents(&grammar_common_dir, &temp_common)?;
+        }
+
+        // Set up cross-grammar dependencies
+        setup_grammar_dependencies(&temp_grammar, crates_dir, &config)?;
+
+        prepared_temps.push(PreparedTemp {
+            crate_state: (*crate_state).clone(),
+            temp_dir,
+            temp_root,
+            temp_grammar,
+            config,
+        });
+    }
+
+    Ok(PreparedStructures {
+        prepared_temps,
+        repo_root,
+        cache,
+        workspace_version: version.to_string(),
+        crates_to_process,
+    })
+}
+
+// 3. Validate All Grammars using prepared structures
+fn validate_all_grammars_new(prepared: &PreparedStructures) -> Result<(), Report> {
+    println!("{}", "Validating grammar requires...".cyan().bold());
+
+    for prepared_temp in &prepared.prepared_temps {
+        validate_single_grammar_new(prepared_temp)?;
+    }
+
+    println!("{} All grammar requires validated", "✓".green());
+    println!();
+    Ok(())
+}
+
+fn validate_single_grammar_new(prepared_temp: &PreparedTemp) -> Result<(), Report> {
+    // Create wrapper script
+    let wrapper_path = prepared_temp.temp_dir.path().join("validate_grammar.js");
+    let temp_grammar_js = prepared_temp.temp_grammar.join("grammar.js");
+
+    let template = ValidateGrammarTemplate {
+        grammar_path: &temp_grammar_js.as_str().replace('\\', "\\\\"),
+    };
+    let wrapper_content = template.render_once()?;
+
+    fs::write(&wrapper_path, wrapper_content)?;
+
+    // Run Node.js on the wrapper
+    let output = std::process::Command::new("node")
+        .arg(&wrapper_path)
+        .current_dir(&prepared_temp.temp_root)
+        .output()
+        .map_err(|e| std::io::Error::other(format!("Failed to run node: {}", e)))?;
+
+    if !output.status.success() {
+        let stderr = String::from_utf8_lossy(&output.stderr);
+        return Err(std::io::Error::other(format!(
+            "Grammar validation failed for {}: {}",
+            prepared_temp
+                .crate_state
+                .name
+                .strip_prefix("arborium-")
+                .unwrap_or(&prepared_temp.crate_state.name),
+            stderr.trim()
+        ))
+        .into());
+    }
+
+    Ok(())
+}
+
+// 4. Generate All Grammars using same prepared structures
+fn generate_all_grammars_new(
+    prepared: &PreparedStructures,
+    mode: PlanMode,
+    no_fail_fast: bool,
+) -> Result<GenerationResults, Report> {
+    let cache_hits = AtomicUsize::new(0);
+    let cache_misses = AtomicUsize::new(0);
+    let plans = Mutex::new(PlanSet::new());
+    let errors: Mutex<Vec<(String, Report)>> = Mutex::new(Vec::new());
+
+    // Process grammars in parallel using prepared temp directories
+    let process_grammar = |prepared_temp: &PreparedTemp| {
+        let crate_name = &prepared_temp.crate_state.name;
+        let result =
+            plan_grammar_generation_with_prepared_temp(prepared_temp, &prepared.cache, mode);
+
+        match result {
+            Ok((plan, hit)) => {
+                if hit {
+                    cache_hits.fetch_add(1, Ordering::Relaxed);
+                } else {
+                    cache_misses.fetch_add(1, Ordering::Relaxed);
+                }
+                plans.lock().unwrap().add(plan);
+            }
+            Err(e) => {
+                errors.lock().unwrap().push((crate_name.clone(), e));
+            }
+        }
+    };
+
+    if no_fail_fast {
+        // Parallel processing - collect all errors
+        prepared.prepared_temps.par_iter().for_each(process_grammar);
+    } else {
+        // Sequential processing - fail fast
+        for prepared_temp in &prepared.prepared_temps {
+            process_grammar(prepared_temp);
+            let errors = errors.lock().unwrap();
+            if !errors.is_empty() {
+                let (name, error) = &errors[0];
+                return Err(std::io::Error::other(format!("Error in {}: {}", name, error)).into());
+            }
+        }
+    }
+
+    // Check for errors
+    let errors = errors.into_inner().unwrap();
+    if !errors.is_empty() {
+        for (crate_name, error) in &errors {
+            eprintln!("Error: {}: {}", crate_name.bold(), error);
+        }
+        return Err(std::io::Error::other(format!(
+            "{} grammar(s) failed to generate",
+            errors.len()
+        ))
+        .into());
+    }
+
+    Ok(GenerationResults {
+        cache_hits: cache_hits.load(Ordering::Relaxed),
+        cache_misses: cache_misses.load(Ordering::Relaxed),
+        plans: plans.into_inner().unwrap(),
+    })
+}
+
+// Helper function to generate a single grammar using prepared temp directory
+fn plan_grammar_generation_with_prepared_temp(
+    prepared_temp: &PreparedTemp,
+    cache: &GrammarCache,
+    mode: PlanMode,
+) -> Result<(Plan, bool), Report> {
+    let crate_name = &prepared_temp.crate_state.name;
+    let crate_path = &prepared_temp.crate_state.path;
+    let config = &prepared_temp.config;
+
+    // Use the already prepared temp directory instead of creating a new one
+    let temp_root = &prepared_temp.temp_root;
+    let temp_grammar = &prepared_temp.temp_grammar;
+
+    // Check cache first
+    let cache_key = cache.compute_cache_key(
+        &prepared_temp.crate_state.def_path,
+        crate_path,
+        &prepared_temp.config,
+    )?;
+    if let Some(cached_files) = cache.get(crate_name, &cache_key) {
+        // Cache hit - extract to crate
+        let temp_src = temp_root.join("src");
+        cached_files.extract_to(&temp_src)?;
+
+        let mut plan = Plan::new();
+        plan_updates_from_generated(&mut plan, crate_path, &temp_src, mode)?;
+
+        return Ok((plan, true)); // true = cache hit
+    }
+
+    // Cache miss - run tree-sitter generate in the prepared temp directory
+    let output = std::process::Command::new("tree-sitter")
+        .arg("generate")
+        .current_dir(temp_grammar) // Use temp_grammar directory like the original
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
+        .output()
+        .map_err(|e| std::io::Error::other(format!("Failed to run tree-sitter: {}", e)))?;
+
+    if !output.status.success() {
+        let stderr = String::from_utf8_lossy(&output.stderr);
+        let error_lines: Vec<&str> = stderr.lines().take(20).collect();
+        return Err(std::io::Error::other(format!(
+            "tree-sitter generate failed for {}:\n{}",
+            crate_name,
+            error_lines.join("\n")
+        ))
+        .into());
+    }
+
+    // Cache the generated files
+    let src_dir = temp_grammar.join("src");
+    if src_dir.exists() {
+        cache.save(crate_name, &cache_key, &src_dir)?;
+    }
+
+    // Plan file updates
+    let mut plan = Plan::new();
+    plan_updates_from_generated(&mut plan, crate_path, &src_dir, mode)?;
+
+    Ok((plan, false)) // false = cache miss
+}
+
+// 5. Generate All Crates using templates
+fn generate_all_crates_new(
+    prepared: &PreparedStructures,
+    generation_results: &GenerationResults,
+) -> Result<PlanSet, Report> {
+    let mut final_plan = generation_results.plans.clone();
+
+    // Generate crate files for all prepared crates
+    for prepared_temp in &prepared.prepared_temps {
+        let crate_state = &prepared_temp.crate_state;
+        let config = &prepared_temp.config;
+
+        // Generate Cargo.toml, build.rs, lib.rs, README.md using the existing function
+        let build_context = BuildContext {
+            cache: &prepared.cache,
+            crates_dir: &Utf8PathBuf::from("crates"), // Will be replaced by proper path
+            repo_root: &prepared.repo_root,
+            workspace_version: &prepared.workspace_version,
+            cache_hits: &AtomicUsize::new(0),
+            cache_misses: &AtomicUsize::new(0),
+            mode: PlanMode::Execute,
+        };
+
+        // Generate the crate plan and add it to final plan
+        let crate_plan = plan_crate_generation(crate_state, config, &build_context)?;
+        final_plan.add(crate_plan);
+    }
+
+    Ok(final_plan)
 }

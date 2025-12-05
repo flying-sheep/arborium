@@ -492,7 +492,7 @@ impl SampleConfig {
 // =============================================================================
 
 /// Complete state of an arborium-* crate, including config and disk state.
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct CrateState {
     /// The crate name (e.g., "arborium-rust").
     pub name: String,
@@ -518,7 +518,7 @@ pub struct CrateState {
 }
 
 /// State of a single file.
-#[derive(Debug, Default)]
+#[derive(Debug, Default, Clone)]
 pub enum FileState {
     #[default]
     Missing,
@@ -542,7 +542,7 @@ impl FileState {
 
 structstruck::strike! {
     /// State of files within a crate directory.
-    #[strikethrough[derive(Debug, Default)]]
+    #[strikethrough[derive(Debug, Default, Clone)]]
     pub struct CrateFiles {
         /// arborium.kdl - the source of truth
         pub kdl: FileState,
@@ -589,7 +589,7 @@ structstruck::strike! {
 }
 
 /// State of a sample file.
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct SampleState {
     /// Path relative to crate root (from kdl).
     pub path: String,
@@ -599,7 +599,7 @@ pub struct SampleState {
 }
 
 /// State of a sample file on disk.
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub enum SampleFileState {
     /// File doesn't exist.
     Missing,

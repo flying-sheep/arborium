@@ -339,7 +339,7 @@ fn display_diff(old: &str, new: &str) {
 }
 
 /// A plan consisting of multiple operations.
-#[derive(Debug, Default)]
+#[derive(Debug, Default, Clone)]
 pub struct Plan {
     operations: Vec<Operation>,
     pub crate_name: Option<String>,
@@ -445,7 +445,7 @@ impl Plan {
 }
 
 /// A collection of plans, typically one per crate.
-#[derive(Debug, Default)]
+#[derive(Debug, Default, Clone)]
 pub struct PlanSet {
     plans: Vec<Plan>,
 }

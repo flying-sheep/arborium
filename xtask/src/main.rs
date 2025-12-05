@@ -69,6 +69,10 @@ enum Command {
         /// Continue processing all crates even if some fail (default: stop on first failure)
         #[facet(args::named, default)]
         no_fail_fast: bool,
+
+        /// Use new 5-function approach (experimental)
+        #[facet(args::named, default)]
+        new_approach: bool,
     },
 
     /// Build and serve the WASM demo locally
@@ -250,6 +254,7 @@ fn main() {
             dry_run,
             version,
             no_fail_fast,
+            new_approach,
         } => {
             use std::time::Instant;
             let total_start = Instant::now();
@@ -269,8 +274,18 @@ fn main() {
             let version = version.as_str();
 
             // Plan and execute generation
-            match generate::plan_generate(&crates_dir, name.as_deref(), mode, version, no_fail_fast)
-            {
+            let result = if new_approach {
+                generate::plan_generate_new_approach(
+                    &crates_dir,
+                    name.as_deref(),
+                    mode,
+                    version,
+                    no_fail_fast,
+                )
+            } else {
+                generate::plan_generate(&crates_dir, name.as_deref(), mode, version, no_fail_fast)
+            };
+            match result {
                 Ok(plans) => {
                     if let Err(e) = plans.run(dry_run) {
                         eprintln!("Error: {}", e);
