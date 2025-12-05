@@ -653,10 +653,18 @@ fn plan_grammar_src_generation(
     copy_dir_contents(&grammar_dir, &temp_grammar)?;
 
     // Copy common/ to temp/common/ if it exists (some grammars share code via ../common/)
-    let common_dir = def_path.join("common");
-    if common_dir.exists() {
+    // Check both def/common (shared at language level) and def/grammar/common (local to grammar)
+    let def_common_dir = def_path.join("common");
+    let grammar_common_dir = def_path.join("grammar/common");
+
+    if def_common_dir.exists() {
         let temp_common = temp_root.join("common");
-        copy_dir_contents(&common_dir, &temp_common)?;
+        copy_dir_contents(&def_common_dir, &temp_common)?;
+    }
+
+    if grammar_common_dir.exists() {
+        let temp_grammar_common = temp_grammar.join("common");
+        copy_dir_contents(&grammar_common_dir, &temp_grammar_common)?;
     }
 
     // Set up cross-grammar dependencies if needed (in temp/grammar/node_modules/)
