@@ -386,7 +386,7 @@ fn get_grammar_dependencies(config: &crate::types::CrateConfig) -> Vec<(String, 
 
     for grammar in &config.grammars {
         for dep in &grammar.dependencies {
-            deps.push((dep.npm_name.clone(), dep.crate_name.clone()));
+            deps.push((dep.npm.clone(), dep.krate.clone()));
         }
     }
 

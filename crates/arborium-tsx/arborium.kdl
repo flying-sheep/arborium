@@ -25,4 +25,3 @@ grammar {
         license "MIT"
     }
 }
-}

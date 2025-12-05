@@ -115,7 +115,7 @@ impl RegistryGrammar {
             crate_name: crate_name.to_string(),
             name: grammar.name.value.to_string(),
             icon: grammar.icon.as_ref().map(|i| i.value.clone()),
-            tier: grammar.tier.as_ref().map(|t| *t.value),
+            tier: grammar.tier.as_ref().map(|t| t.value),
             tag: grammar.tag.value.to_string(),
             description: grammar.description.as_ref().map(|d| d.value.clone()),
             inventor: grammar.inventor.as_ref().map(|i| i.value.clone()),

@@ -197,10 +197,11 @@ kdl_child_string_optional!(SampleLink);
 kdl_child_string_optional!(SampleLicense);
 
 /// Tier child node (u8 value).
+/// Tier child node (single u8 argument).
 #[derive(Debug, Clone, Facet)]
 pub struct Tier {
     #[facet(kdl::argument)]
-    pub value: Spanned<u8>,
+    pub value: u8,
 }
 
 impl std::ops::Deref for Tier {
@@ -210,7 +211,7 @@ impl std::ops::Deref for Tier {
     }
 }
 
-/// Year child node (u16 value).
+/// Year child node (single u16 argument).
 #[derive(Debug, Clone, Facet)]
 pub struct Year {
     #[facet(kdl::argument)]
@@ -224,28 +225,28 @@ impl std::ops::Deref for Year {
     }
 }
 
-/// Has-scanner child node (bool value).
+/// Has-scanner child node (single bool argument).
 #[derive(Debug, Clone, Facet)]
 pub struct HasScanner {
     #[facet(kdl::argument)]
     pub value: bool,
 }
 
-/// Internal grammar marker (bool value).
+/// Internal child node (single bool argument).
 #[derive(Debug, Clone, Facet)]
 pub struct Internal {
     #[facet(kdl::argument)]
     pub value: bool,
 }
 
-/// Tests cursed marker (bool value) - skip test generation for problematic grammars.
+/// Tests-cursed child node (single bool argument).
 #[derive(Debug, Clone, Facet)]
 pub struct TestsCursed {
     #[facet(kdl::argument)]
     pub value: bool,
 }
 
-/// Generate WASM component marker (bool value) - build this grammar as a plugin.
+/// Generate-component child node (single bool argument).
 #[derive(Debug, Clone, Facet)]
 pub struct GenerateComponent {
     #[facet(kdl::argument)]
@@ -257,11 +258,11 @@ pub struct GenerateComponent {
 pub struct Dependency {
     /// NPM package name (argument).
     #[facet(kdl::argument)]
-    pub npm_name: String,
+    pub npm: String,
 
     /// Arborium crate name (property).
-    #[facet(kdl::property)]
-    pub crate_name: String,
+    #[facet(kdl::property, rename = "crate")]
+    pub krate: String,
 }
 
 /// Aliases child node (multiple string arguments).

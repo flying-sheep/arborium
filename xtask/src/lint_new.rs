@@ -234,7 +234,7 @@ fn lint_crate(
 
         // Validate tier
         if let Some(ref tier) = grammar.tier {
-            let tier_val = *tier.value;
+            let tier_val = tier.value;
             if !(1..=5).contains(&tier_val) {
                 diagnostics.push(LintDiagnostic::Error(format!(
                     "grammar '{gid}': tier must be between 1 and 5, got {tier_val}",

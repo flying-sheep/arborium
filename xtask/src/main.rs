@@ -61,10 +61,10 @@ enum Command {
         #[facet(args::named, default)]
         dry_run: bool,
 
-        /// Version to use for generated Cargo.toml files (defaults to 0.0.0-dev)
-        /// When set, also updates root Cargo.toml workspace.package.version and workspace.dependencies
-        #[facet(args::named, default)]
-        version: Option<String>,
+        /// Version to use for generated Cargo.toml files
+        /// Also updates root Cargo.toml workspace.package.version and workspace.dependencies
+        #[facet(args::named)]
+        version: String,
     },
 
     /// Build and serve the WASM demo locally
@@ -210,6 +210,9 @@ fn main() {
     }))
     .ok();
 
+    // Initialize tracing subscriber for structured logging
+    tracing_subscriber::fmt::init();
+
     let args: Args = facet_args::from_std_args().unwrap_or_else(|e| {
         eprintln!("{:?}", miette::Report::new(e));
         std::process::exit(1);
@@ -257,8 +260,8 @@ fn main() {
                 plan::PlanMode::Execute
             };
 
-            // Use provided version or default to 0.0.0-dev for local dev
-            let version = version.as_deref().unwrap_or("0.0.0-dev");
+            // Use provided version
+            let version = version.as_str();
 
             // Plan and execute generation
             match generate::plan_generate(&crates_dir, name.as_deref(), mode, version) {
