@@ -13,11 +13,10 @@ use crate::types::{CrateRegistry, CrateState};
 use crate::util::find_repo_root;
 use camino::{Utf8Path, Utf8PathBuf};
 use fs_err as fs;
-// Removed indicatif imports since we no longer use spinners for fast operations
-use leon::Template;
 use owo_colors::OwoColorize;
 use rayon::prelude::*;
 use rootcause::Report;
+use sailfish::TemplateSimple;
 use std::io::{IsTerminal, Write};
 use std::process::Stdio;
 use std::sync::atomic::{AtomicBool, AtomicUsize, Ordering};
@@ -25,7 +24,58 @@ use std::sync::{Arc, Mutex};
 use std::thread;
 use std::time::Duration;
 
-const VALIDATE_GRAMMAR_TEMPLATE: &str = include_str!("../templates/validate_grammar.js");
+// Sailfish templates - compiled at build time
+#[derive(TemplateSimple)]
+#[template(path = "validate_grammar.js.stpl")]
+struct ValidateGrammarTemplate<'a> {
+    grammar_path: &'a str,
+}
+
+#[derive(TemplateSimple)]
+#[template(path = "cargo_toml.stpl")]
+struct CargoTomlTemplate<'a> {
+    crate_name: &'a str,
+    workspace_version: &'a str,
+    grammar_id: &'a str,
+    grammar_name: &'a str,
+    license: &'a str,
+    tag: &'a str,
+}
+
+#[derive(TemplateSimple)]
+#[template(path = "build_rs.stpl")]
+struct BuildRsTemplate<'a> {
+    has_scanner: bool,
+    c_symbol: &'a str,
+}
+
+#[derive(TemplateSimple)]
+#[template(path = "lib_rs.stpl")]
+struct LibRsTemplate<'a> {
+    grammar_id: &'a str,
+    c_symbol: &'a str,
+    highlights_exists: bool,
+    injections_exists: bool,
+    locals_exists: bool,
+    tests_cursed: bool,
+}
+
+#[derive(TemplateSimple)]
+#[template(path = "readme.stpl")]
+struct ReadmeTemplate<'a> {
+    crate_name: &'a str,
+    crate_name_snake: &'a str,
+    grammar_name: &'a str,
+    grammar_id: &'a str,
+    upstream_repo: &'a str,
+    upstream_url: &'a str,
+    commit: &'a str,
+    license: &'a str,
+    description: &'a str,
+    inventor: &'a str,
+    year: u16,
+    language_link: &'a str,
+}
 
 /// Context for build operations - contains shared state and configuration
 struct BuildContext<'a> {
@@ -508,6 +558,28 @@ fn plan_crate_generation(
         });
     }
 
+    // Generate README.md
+    let readme_path = crate_path.join("README.md");
+    let new_readme = generate_readme(&crate_state.name, config);
+
+    if readme_path.exists() {
+        let old_content = fs::read_to_string(&readme_path)?;
+        if old_content != new_readme {
+            plan.add(Operation::UpdateFile {
+                path: readme_path,
+                old_content: Some(old_content),
+                new_content: new_readme,
+                description: "Update README.md".to_string(),
+            });
+        }
+    } else {
+        plan.add(Operation::CreateFile {
+            path: readme_path,
+            content: new_readme,
+            description: "Create README.md".to_string(),
+        });
+    }
+
     // Generate src/lib.rs
     let lib_rs_path = crate_path.join("src/lib.rs");
     let new_lib_rs = generate_lib_rs(&crate_state.name, def_path, config);
@@ -943,17 +1015,12 @@ fn validate_grammar_requires(
     let wrapper_path = temp_dir.path().join("validate_grammar.js");
     let temp_grammar_js = temp_grammar.join("grammar.js");
 
-    let template = Template::parse(VALIDATE_GRAMMAR_TEMPLATE)
-        .map_err(|e| std::io::Error::other(format!("Template parse error: {}", e)))?;
-
-    let mut values = std::collections::HashMap::new();
-    values.insert(
-        "grammar_path",
-        temp_grammar_js.as_str().replace('\\', "\\\\"),
-    );
-
+    let escaped_path = temp_grammar_js.as_str().replace('\\', "\\\\");
+    let template = ValidateGrammarTemplate {
+        grammar_path: &escaped_path,
+    };
     let wrapper_content = template
-        .render(&values)
+        .render_once()
         .map_err(|e| std::io::Error::other(format!("Template render error: {}", e)))?;
 
     fs::write(&wrapper_path, wrapper_content)?;
@@ -1006,18 +1073,19 @@ fn generate_cargo_toml(
     config: &crate::types::CrateConfig,
     workspace_version: &str,
 ) -> String {
-    let grammar_id = config
-        .grammars
-        .first()
+    let grammar = config.grammars.first();
+
+    let grammar_id = grammar
         .map(|g| g.id.as_ref())
         .unwrap_or(crate_name.strip_prefix("arborium-").unwrap_or(crate_name));
 
-    let _description = config
-        .grammars
-        .first()
-        .and_then(|g| g.description.as_ref())
-        .map(|d| d.as_ref())
-        .unwrap_or_else(|| "tree-sitter grammar bindings");
+    let grammar_name = grammar
+        .map(|g| g.name.as_ref())
+        .unwrap_or(grammar_id);
+
+    let tag = grammar
+        .map(|g| g.tag.value.as_str())
+        .unwrap_or("programming");
 
     // Use license from arborium.kdl, fallback to MIT if empty
     let license: &str = {
@@ -1025,31 +1093,15 @@ fn generate_cargo_toml(
         if l.is_empty() { "MIT" } else { l }
     };
 
-    format!(
-        r#"[package]
-name = "{crate_name}"
-version = "{workspace_version}"
-edition = "2024"
-description = "{grammar_id} grammar for arborium (tree-sitter bindings)"
-license = "{license}"
-repository = "https://github.com/bearcove/arborium"
-keywords = ["tree-sitter", "{grammar_id}", "syntax-highlighting"]
-categories = ["parsing", "text-processing"]
-
-[lib]
-path = "src/lib.rs"
-
-[dependencies]
-tree-sitter-patched-arborium = {{ version = "0.25.10", path = "../../tree-sitter" }}
-arborium-sysroot = {{ version = "{workspace_version}", path = "../arborium-sysroot" }}
-
-[dev-dependencies]
-arborium-test-harness = {{ version = "{workspace_version}", path = "../arborium-test-harness" }}
-
-[build-dependencies]
-cc = {{ version = "1", features = ["parallel"] }}
-"#
-    )
+    let template = CargoTomlTemplate {
+        crate_name,
+        workspace_version,
+        grammar_id,
+        grammar_name,
+        license,
+        tag,
+    };
+    template.render_once().expect("CargoTomlTemplate render failed")
 }
 
 /// Generate build.rs content for a grammar crate.
@@ -1067,52 +1119,11 @@ fn generate_build_rs(crate_name: &str, config: &crate::types::CrateConfig) -> St
                 .replace('-', "_")
         });
 
-    let scanner_section = if has_scanner {
-        r#"    println!("cargo:rerun-if-changed=grammar/scanner.c");
-"#
-    } else {
-        ""
+    let template = BuildRsTemplate {
+        has_scanner,
+        c_symbol: &c_symbol,
     };
-
-    let scanner_compile = if has_scanner {
-        r#"
-    build.file("grammar/scanner.c");"#
-    } else {
-        ""
-    };
-
-    format!(
-        r#"fn main() {{
-    let src_dir = "grammar/src";
-
-    println!("cargo:rerun-if-changed={{}}/parser.c", src_dir);
-{scanner_section}
-    let mut build = cc::Build::new();
-
-    build
-        .include(src_dir)
-        .include("grammar") // for common/ includes like "../common/scanner.h"
-        .include(format!("{{}}/tree_sitter", src_dir))
-        .opt_level_str("s") // optimize for size, not speed
-        .warnings(false)
-        .flag_if_supported("-Wno-unused-parameter")
-        .flag_if_supported("-Wno-unused-but-set-variable")
-        .flag_if_supported("-Wno-trigraphs");
-
-    // For WASM builds, use our custom sysroot (provided by arborium crate via links = "arborium")
-    let target = std::env::var("TARGET").unwrap_or_default();
-    if target.contains("wasm")
-        && let Ok(sysroot) = std::env::var("DEP_ARBORIUM_SYSROOT_PATH")
-    {{
-        build.include(&sysroot);
-    }}
-
-    build.file(format!("{{}}/parser.c", src_dir));{scanner_compile}
-
-    build.compile("tree_sitter_{c_symbol}");
-}}
-"#
-    )
+    template.render_once().expect("BuildRsTemplate render failed")
 }
 
 /// Generate src/lib.rs content for a grammar crate.
@@ -1128,11 +1139,6 @@ fn generate_lib_rs(
         .map(|g| g.id.as_ref())
         .unwrap_or_else(|| crate_name.strip_prefix("arborium-").unwrap_or(crate_name));
 
-    let grammar_name = grammar
-        .map(|g| g.name.as_ref())
-        .unwrap_or(grammar_id)
-        .to_uppercase();
-
     let c_symbol = grammar
         .and_then(|g| g.c_symbol.as_ref())
         .map(|s| s.to_string())
@@ -1143,88 +1149,78 @@ fn generate_lib_rs(
     let injections_exists = crate_path.join("queries/injections.scm").exists();
     let locals_exists = crate_path.join("queries/locals.scm").exists();
 
-    let highlights_query = if highlights_exists {
-        format!(
-            r#"/// The highlights query for {grammar_id}.
-pub const HIGHLIGHTS_QUERY: &str = include_str!("../queries/highlights.scm");"#
-        )
-    } else {
-        format!(
-            r#"/// The highlights query for {grammar_id} (empty - no highlights available).
-pub const HIGHLIGHTS_QUERY: &str = "";"#
-        )
+    let template = LibRsTemplate {
+        grammar_id,
+        c_symbol: &c_symbol,
+        highlights_exists,
+        injections_exists,
+        locals_exists,
+        tests_cursed,
+    };
+    template.render_once().expect("LibRsTemplate render failed")
+}
+
+/// Generate README.md content for a grammar crate.
+fn generate_readme(crate_name: &str, config: &crate::types::CrateConfig) -> String {
+    let grammar = config.grammars.first();
+
+    let grammar_id = grammar
+        .map(|g| g.id.as_ref())
+        .unwrap_or_else(|| crate_name.strip_prefix("arborium-").unwrap_or(crate_name));
+
+    let grammar_name = grammar
+        .map(|g| g.name.as_ref())
+        .unwrap_or(grammar_id);
+
+    let upstream_url: &str = config.repo.value.as_ref();
+    // Extract repo name from URL for display
+    let upstream_repo = upstream_url
+        .strip_prefix("https://github.com/")
+        .unwrap_or(upstream_url);
+
+    let commit: &str = config.commit.value.as_ref();
+
+    let license: &str = {
+        let l: &str = config.license.value.as_ref();
+        if l.is_empty() { "MIT" } else { l }
     };
 
-    let injections_query = if injections_exists {
-        format!(
-            r#"/// The injections query for {grammar_id}.
-pub const INJECTIONS_QUERY: &str = include_str!("../queries/injections.scm");"#
-        )
-    } else {
-        format!(
-            r#"/// The injections query for {grammar_id} (empty - no injections available).
-pub const INJECTIONS_QUERY: &str = "";"#
-        )
+    // Extract optional grammar metadata
+    let description = grammar
+        .and_then(|g| g.description.as_ref())
+        .map(|d| d.value.as_str())
+        .unwrap_or("");
+
+    let inventor = grammar
+        .and_then(|g| g.inventor.as_ref())
+        .map(|i| i.value.as_str())
+        .unwrap_or("");
+
+    let year = grammar
+        .and_then(|g| g.year.as_ref())
+        .map(|y| y.value)
+        .unwrap_or(0);
+
+    let language_link = grammar
+        .and_then(|g| g.link.as_ref())
+        .map(|l| l.value.as_str())
+        .unwrap_or_else(|| upstream_url);
+
+    let crate_name_snake = crate_name.replace('-', "_");
+
+    let template = ReadmeTemplate {
+        crate_name,
+        crate_name_snake: &crate_name_snake,
+        grammar_name,
+        grammar_id,
+        upstream_repo,
+        upstream_url,
+        commit,
+        license,
+        description,
+        inventor,
+        year,
+        language_link,
     };
-
-    let locals_query = if locals_exists {
-        format!(
-            r#"/// The locals query for {grammar_id}.
-pub const LOCALS_QUERY: &str = include_str!("../queries/locals.scm");"#
-        )
-    } else {
-        format!(
-            r#"/// The locals query for {grammar_id} (empty - no locals available).
-pub const LOCALS_QUERY: &str = "";"#
-        )
-    };
-
-    let test_module = if tests_cursed {
-        String::new()
-    } else {
-        format!(
-            r#"
-#[cfg(test)]
-mod tests {{
-    use super::*;
-
-    #[test]
-    fn test_grammar() {{
-        arborium_test_harness::test_grammar(
-            language(),
-            "{grammar_id}",
-            HIGHLIGHTS_QUERY,
-            INJECTIONS_QUERY,
-            LOCALS_QUERY,
-            env!("CARGO_MANIFEST_DIR"),
-        );
-    }}
-}}
-"#
-        )
-    };
-
-    format!(
-        r#"//! {grammar_name} grammar for tree-sitter
-//!
-//! This crate provides the {grammar_id} language grammar for use with tree-sitter.
-
-use tree_sitter_patched_arborium::Language;
-
-unsafe extern "C" {{
-    fn tree_sitter_{c_symbol}() -> Language;
-}}
-
-/// Returns the {grammar_id} tree-sitter language.
-pub fn language() -> Language {{
-    unsafe {{ tree_sitter_{c_symbol}() }}
-}}
-
-{highlights_query}
-
-{injections_query}
-
-{locals_query}
-{test_module}"#
-    )
+    template.render_once().expect("ReadmeTemplate render failed")
 }

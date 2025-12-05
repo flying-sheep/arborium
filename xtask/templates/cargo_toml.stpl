@@ -1,0 +1,23 @@
+[package]
+name = "<%= crate_name %>"
+version = "<%= workspace_version %>"
+edition = "2024"
+description = "<%= grammar_name %> grammar for arborium (tree-sitter bindings)"
+license = "<%= license %>"
+readme = "README.md"
+repository = "https://github.com/bearcove/arborium"
+keywords = ["tree-sitter", "<%= grammar_id %>", "syntax-highlighting", "<%= tag %>"]
+categories = ["parsing", "text-processing"]
+
+[lib]
+path = "src/lib.rs"
+
+[dependencies]
+tree-sitter-patched-arborium = { version = "0.25.10", path = "../../tree-sitter" }
+arborium-sysroot = { version = "<%= workspace_version %>", path = "../arborium-sysroot" }
+
+[dev-dependencies]
+arborium-test-harness = { version = "<%= workspace_version %>", path = "../arborium-test-harness" }
+
+[build-dependencies]
+cc = "1"
