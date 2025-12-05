@@ -230,7 +230,7 @@ pub fn build_plugins(repo_root: &Utf8Path, options: &BuildOptions) -> Result<()>
     let registry = CrateRegistry::load(&crates_dir)
         .map_err(|e| miette::miette!("failed to load crate registry: {}", e))?;
 
-    let grammars: Vec<String> = if !options.grammars.is_empty() {
+    let mut grammars: Vec<String> = if !options.grammars.is_empty() {
         options.grammars.clone()
     } else if let Some(ref group) = options.group {
         // Filter by group name (e.g., "birch" matches "group-birch")
@@ -250,6 +250,9 @@ pub fn build_plugins(repo_root: &Utf8Path, options: &BuildOptions) -> Result<()>
             .map(|(_, _, grammar)| grammar.id().to_string())
             .collect()
     };
+
+    // Randomize build order to reduce Cargo.lock contention between plugins in the same group
+    grammars.shuffle(&mut rand::rng());
 
     if grammars.is_empty() {
         println!(
