@@ -1,19 +1,5 @@
 # Publishing Guide
 
-## The New Paradigm
-
-**The git tag is the single source of truth for versions.**
-
-- Locally, versions are `0.0.0-dev` - they don't matter
-- CI parses the version from the tag (e.g., `v0.3.0` → `0.3.0`)
-- CI runs `xtask gen --version 0.3.0` which sets all versions
-- Then CI publishes everything
-
-This means:
-- No version drift or mismatch issues
-- No "forgot to bump version" mistakes
-- No chore commits for version bumps
-- Clean, simple workflow
 
 ## Core Crates (always present)
 
@@ -29,42 +15,85 @@ crates/
 
 ## Release Flow
 
-When you push a tag (e.g., `v0.3.0`), CI does:
+Everything is generated **once**, then we push tags **one by one** so jobs stay fast and easy to retry.
 
-1) Parse version (`v0.3.0` → `0.3.0`)
-2) Run `xtask gen --version 0.3.0`
-3) Publish **core crates** once: `arborium`, `tree-sitter`, `tree-sitter-highlight`, `miette-arborium` (and any other core crates)
-4) Kick off **per-group jobs** (animal-named: squirrel, deer, fox, bear, wolf, otter). Each job:
-   - Publishes its crates.io members from `langs/group-{animal}/` (`cargo publish --workspace`)
-   - Builds WASM plugins (cargo-component + jco) from the same workspace
-   - Publishes npm packages `@arborium/lang-{lang}` for that group
-   - Jobs can run 2–3 at a time for balance
-5) After all groups succeed, publish **arborium-collection** (feature-gated collection) to crates.io
+### 1. Prepare a release locally
 
-**Key insight**: Every group job publishes crates.io and npm **together**, keeping versions in lockstep. Retries are safe because crates.io skips already-published versions; npm needs `xtask publish` to skip EPUBLISHCONFLICT correctly.
+```bash
+# Pick a version and generate everything (core + all groups)
+# This runs tree-sitter-cli for all grammars, but results are cached
+# by tree-sitter-cli version + grammar.js hash, so reruns are cheap.
+
+cargo xtask gen --version 0.3.0
+```
+
+`xtask gen` also records the current release version in a small metadata file
+(so later commands like `xtask tag --group squirrel` don't need you to
+re-type `0.3.0`).
+
+### 2. Tag and push, one job at a time
+
+```bash
+# Core release tag (publishes core crates)
+cargo xtask tag --core      # creates + pushes v0.3.0
+
+# Group tags (about 10 animal groups, hand-crafted)
+cargo xtask tag --group squirrel   # creates + pushes v0.3.0-squirrel
+cargo xtask tag --group deer       # creates + pushes v0.3.0-deer
+# ... fox, bear, wolf, otter, etc. (up to ~10 groups)
+```
+
+Each pushed tag triggers a CI workflow that **only publishes** based on the
+already-generated, committed files. CI never runs `xtask gen --version`.
+
+- Core tag (`v0.3.0`) → publishes `arborium`, forks of `tree-sitter` and
+  `tree-sitter-highlight`, `miette-arborium`, etc.
+- Group tag (`v0.3.0-squirrel`, `v0.3.0-deer`, …) → publishes that group's
+  crates.io crates **and** its npm artifacts in a single job.
+
+You can stagger tags over time to keep jobs short and make retries cheap.
+
+### 3. Publish collection crate
+
+After all groups are out, a final tag (or the core tag job) publishes
+`arborium-collection`, which depends on the per-language crates and exposes
+feature flags.
 
 ## Two Outputs, Two Registries
 
 ### 1. Native Rust Crates → crates.io
 
-- 98 grammar crates organized into 6 hand-picked animal groups (e.g., squirrel, deer, fox, bear, wolf, otter)
+- ~98 grammar crates organized into ~10 hand-picked animal groups
 - Core crates (`arborium`, `arborium-collection`, `miette-arborium`, `tree-sitter-*`) always published
-- Each group publishes independently from `langs/group-{animal}/` via `cargo publish --workspace`
-- **Retry-safe**: cargo warns and skips already-published versions
+- Each group publishes independently from `langs/group-{animal}/` via
+  `cargo ws publish --publish-as-is`
+- We use `cargo ws publish` instead of `cargo publish --workspace` because the
+  latter is still brittle with partial publishes; `cargo ws publish` can resume
+  cleanly.
+- **Retry-safe**: crates.io warns and skips already-published versions
 
 ### 2. WASM Plugins → npm
 
 - All grammars with `generate-component: true` in `sources/{lang}/arborium.kdl`
 - Built via `cargo-component` for `wasm32-wasip2` from the same group directory
 - Transpiled via `jco` for browser compatibility
-- Published as `@arborium/lang-{grammar}` packages
+- Published as per-language packages under the `@arborium` scope, e.g.
+  `@arborium/rust`, `@arborium/javascript`, etc.
 - **Published together with crates.io** in the same per-group CI job for version sync
 
 ## Publishing Strategy
 
 - We publish per-group, and each group job handles **both** crates.io and npm together.
-- Groups can run in parallel (e.g., 2-3 at a time) to balance CI load.
+- Tags are pushed **manually**, one after another, so jobs stay fast and easy to
+  retry.
 - Core crates (`arborium`, `arborium-collection`, `tree-sitter-*`, `miette-arborium`) publish once per release before groups.
+
+### Trusted Publishing (Cargo + npm)
+
+- For **crates.io**, we use Cargo's Trusted Publishing (GitHub OIDC) so CI
+  doesn't need long-lived API tokens.
+- For **npm**, we likewise use GitHub's trusted publishing integration so
+  publishing is tied to tags and workflows, not shared secrets.
 
 ### crates.io (per group)
 
@@ -88,7 +117,8 @@ npm ERR! Cannot publish over existing version
 - Distinguish `EPUBLISHCONFLICT` (skip, continue) from real errors (fail)
 - Handle retries without re-publishing successes
 
-Each group job builds plugins from its own crates and publishes npm packages immediately to keep versions in lockstep.
+Each group job builds plugins from its own crates and publishes npm artifacts
+immediately to keep versions in lockstep.
 
 ## What's in Git vs Generated
 
@@ -147,7 +177,6 @@ langs/ (generated, gitignored)
     ├── php/
     ├── ruby/
     └── [other scripting languages...]
-```
 ```
 
 ### Generated (gitignored)
@@ -220,17 +249,7 @@ cargo test
 
 ### Release
 
-```bash
-# That's it. Just tag and push.
-git tag v0.3.0
-git push origin v0.3.0
-
-# CI does the rest:
-# 1. Parse version from tag
-# 2. xtask gen --version 0.3.0
-# 3. Parallel: publish crates.io + build WASM plugins
-# 4. After WASM: publish npm
-```
+See **Release Flow** above for the full tag + CI story.
 
 ## Artifacts Published
 
@@ -245,15 +264,16 @@ git push origin v0.3.0
 | crates.io | `tree-sitter-highlight-patched-arborium` | 1 |
 | crates.io | `miette-arborium` | 1 |
 | npmjs.com | `@arborium/arborium` (bundle) | 1 |
-| npmjs.com | `@arborium/lang-{lang}` (WASM plugins) | 98 |
+| npmjs.com | `@arborium/{lang}` (per-language WASM plugins) | 98 |
 
 ## TODO
 
-- [ ] Implement `xtask groups generate` command for optimal 6-group creation
+- [ ] Finalize ~10 hand-crafted animal groups (squirrel, deer, fox, bear, wolf,
+      otter, …) and document which languages live where
 - [ ] Implement inventory system in arborium crate
 - [ ] Create arborium-collection crate with feature flags
-- [ ] Update `xtask publish` command for:
-  - [ ] Group-based publishing (6 groups with individual tags)
+- [ ] Update `xtask publish` + `xtask tag` commands for:
+  - [ ] Group-based publishing (per-animal tags like v0.3.0-squirrel)
   - [ ] Combined crates.io + npm publishing per group
   - [ ] Inventory-aware dependency resolution
 - [ ] Update generate caching to tree-sitter-cli output only
