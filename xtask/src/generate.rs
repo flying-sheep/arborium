@@ -24,6 +24,17 @@ use std::sync::{Arc, Mutex};
 use std::thread;
 use std::time::Duration;
 
+/// Context for build operations - contains shared state and configuration
+struct BuildContext<'a> {
+    cache: &'a GrammarCache,
+    crates_dir: &'a Utf8Path,
+    repo_root: &'a Utf8Path,
+    cache_hits: &'a AtomicUsize,
+    cache_misses: &'a AtomicUsize,
+    mode: PlanMode,
+    workspace_version: &'a str,
+}
+
 /// Update root Cargo.toml with the specified version
 fn update_root_cargo_toml(repo_root: &Utf8Path, version: &str) -> Result<(), Report> {
     use regex::Regex;
@@ -198,16 +209,17 @@ pub fn plan_generate(
 
                 // Progress is shown later in cache miss/hit messages
 
-                match plan_crate_generation(
-                    crate_state,
-                    config,
-                    &cache,
+                let ctx = BuildContext {
+                    cache: &cache,
                     crates_dir,
-                    &cache_hits,
-                    &cache_misses,
+                    repo_root: &repo_root,
+                    cache_hits: &cache_hits,
+                    cache_misses: &cache_misses,
                     mode,
-                    &workspace_version,
-                ) {
+                    workspace_version: &workspace_version,
+                };
+
+                match plan_crate_generation(crate_state, config, &ctx) {
                     Ok(plan) => {
                         if !plan.is_empty() {
                             plans.lock().unwrap().add(plan);
@@ -249,16 +261,17 @@ pub fn plan_generate(
 
             // Progress is shown later in cache miss/hit messages
 
-            match plan_crate_generation(
-                crate_state,
-                config,
-                &cache,
+            let ctx = BuildContext {
+                cache: &cache,
                 crates_dir,
-                &cache_hits,
-                &cache_misses,
+                repo_root: &repo_root,
+                cache_hits: &cache_hits,
+                cache_misses: &cache_misses,
                 mode,
-                &workspace_version,
-            ) {
+                workspace_version: &workspace_version,
+            };
+
+            match plan_crate_generation(crate_state, config, &ctx) {
                 Ok(plan) => {
                     if !plan.is_empty() {
                         plans.lock().unwrap().add(plan);
@@ -424,17 +437,10 @@ pub fn plan_generate(
     Ok(plans.into_inner().unwrap())
 }
 
-#[allow(clippy::too_many_arguments)]
 fn plan_crate_generation(
     crate_state: &CrateState,
     config: &crate::types::CrateConfig,
-    cache: &GrammarCache,
-    crates_dir: &Utf8Path,
-    repo_root: &Utf8Path,
-    cache_hits: &AtomicUsize,
-    cache_misses: &AtomicUsize,
-    mode: PlanMode,
-    workspace_version: &str,
+    ctx: &BuildContext,
 ) -> Result<Plan, Report> {
     let mut plan = Plan::for_crate(&crate_state.name);
     let def_path = &crate_state.def_path;
@@ -450,7 +456,7 @@ fn plan_crate_generation(
 
     // Generate Cargo.toml
     let cargo_toml_path = crate_path.join("Cargo.toml");
-    let new_cargo_toml = generate_cargo_toml(&crate_state.name, config, workspace_version);
+    let new_cargo_toml = generate_cargo_toml(&crate_state.name, config, ctx.workspace_version);
 
     if cargo_toml_path.exists() {
         let old_content = fs::read_to_string(&cargo_toml_path)?;
@@ -526,16 +532,7 @@ fn plan_crate_generation(
     let grammar_dir = def_path.join("grammar");
 
     if grammar_dir.exists() && grammar_dir.join("grammar.js").exists() {
-        plan_grammar_src_generation(
-            &mut plan,
-            def_path,
-            config,
-            cache,
-            crates_dir,
-            cache_hits,
-            cache_misses,
-            mode,
-        )?;
+        plan_grammar_src_generation(&mut plan, def_path, config, ctx)?;
     }
 
     Ok(plan)
@@ -584,16 +581,11 @@ fn setup_grammar_dependencies(
 }
 
 /// Plan the generation of grammar/src/ by running tree-sitter generate in a temp directory.
-#[allow(clippy::too_many_arguments)]
 fn plan_grammar_src_generation(
     plan: &mut Plan,
     def_path: &Utf8Path,
     config: &crate::types::CrateConfig,
-    cache: &GrammarCache,
-    crates_dir: &Utf8Path,
-    cache_hits: &AtomicUsize,
-    cache_misses: &AtomicUsize,
-    mode: PlanMode,
+    ctx: &BuildContext,
 ) -> Result<(), Report> {
     let grammar_dir = def_path.join("grammar");
     let dest_src_dir = grammar_dir.join("src");
@@ -603,19 +595,22 @@ fn plan_grammar_src_generation(
         .unwrap_or("unknown");
 
     // Compute cache key from input files
-    let cache_key = cache.compute_cache_key(def_path, crates_dir, config)?;
+    let cache_key = ctx
+        .cache
+        .compute_cache_key(def_path, ctx.crates_dir, config)?;
 
     // Check cache first
-    if let Some(cached) = cache.get(crate_name, &cache_key) {
+    if let Some(cached) = ctx.cache.get(crate_name, &cache_key) {
         // Cache hit! Extract to a temp dir first, then plan updates
-        cache_hits.fetch_add(1, Ordering::Relaxed);
+        ctx.cache_hits.fetch_add(1, Ordering::Relaxed);
 
         // Print cache hit info
         let short_key = &cache_key[..8.min(cache_key.len())];
-        let cache_path = cache
+        let cache_path = ctx
+            .cache
             .cache_dir
-            .strip_prefix(repo_root)
-            .unwrap_or(&cache.cache_dir)
+            .strip_prefix(ctx.repo_root)
+            .unwrap_or(&ctx.cache.cache_dir)
             .join(crate_name)
             .join(short_key);
         println!(
@@ -633,12 +628,12 @@ fn plan_grammar_src_generation(
         cached.extract_to(&temp_src)?;
 
         // Plan updates from cached files
-        plan_updates_from_generated(&mut *plan, &temp_src, &dest_src_dir, mode)?;
+        plan_updates_from_generated(&mut *plan, &temp_src, &dest_src_dir, ctx.mode)?;
         return Ok(());
     }
 
     // Cache miss - need to generate
-    cache_misses.fetch_add(1, Ordering::Relaxed);
+    ctx.cache_misses.fetch_add(1, Ordering::Relaxed);
     let short_key = &cache_key[..8.min(cache_key.len())];
     println!(
         "● {} ({}: {}, regenerating)",
@@ -665,7 +660,7 @@ fn plan_grammar_src_generation(
     }
 
     // Set up cross-grammar dependencies if needed (in temp/grammar/node_modules/)
-    setup_grammar_dependencies(&temp_grammar, crates_dir, config)?;
+    setup_grammar_dependencies(&temp_grammar, ctx.crates_dir, config)?;
 
     // Create src/ directory for grammars that generate files there (e.g., vim's keywords.h)
     fs::create_dir_all(temp_grammar.join("src"))?;
@@ -718,13 +713,13 @@ fn plan_grammar_src_generation(
     let generated_src = temp_grammar.join("src");
 
     // Save to cache for next time
-    if let Err(e) = cache.save(crate_name, &cache_key, &generated_src) {
+    if let Err(e) = ctx.cache.save(crate_name, &cache_key, &generated_src) {
         // Cache save failure is not fatal, just log it
         eprintln!("Warning: failed to cache {}: {}", crate_name, e);
     }
 
-    // Plan updates from the generated files
-    plan_updates_from_generated(plan, &generated_src, &dest_src_dir, mode)?;
+    // Plan updates from generated files
+    plan_updates_from_generated(plan, &generated_src, &dest_src_dir, ctx.mode)?;
 
     Ok(())
 }
