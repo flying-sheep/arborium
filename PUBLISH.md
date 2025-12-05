@@ -29,58 +29,19 @@ crates/
 
 ## Release Flow
 
-When you push a tag, here's what happens:
+When you push a tag (e.g., `v0.3.0`), CI does:
 
-```
-git tag v0.3.0
-       │
-       ▼
-parse version (v0.3.0 → 0.3.0)
-       │
-       ▼
-┌─────────────────────────────────────────────────────┐
-│              PHASE 1: Core Publish             │
-├─────────────────────────────────────────────────────┤
-│ 1. Update arborium crate with inventory           │
-│ 2. Publish arborium to crates.io              │
-│ 3. Generate arborium-collection features       │
-└─────────────────────────────────────────────────────┘
-       │
-       ▼
-┌─────────────────────────────────────────────────────┐
-│           PHASE 2: Group Publishing           │
-├─────────────────────────────────────────────────────┤
-│ git tag v0.3.0-squirrel → publish group-squirrel │
-│ git tag v0.3.0-deer     → publish group-deer     │
-│ git tag v0.3.0-fox      → publish group-fox      │
-│ git tag v0.3.0-bear     → publish group-bear     │
-│ git tag v0.3.0-wolf     → publish group-wolf     │
-│ git tag v0.3.0-otter    → publish group-otter    │
-│ (Can run 2-3 groups in parallel)                 │
-└─────────────────────────────────────────────────────┘
-       │
-       ▼
-┌─────────────────────────────────────────────────────┐
-│          PHASE 3: Collection Publish         │
-├─────────────────────────────────────────────────────┤
-│ 1. Update arborium-collection dependencies       │
-│ 2. Publish arborium-collection to crates.io    │
-└─────────────────────────────────────────────────────┘
-       │
-       ▼
-┌─────────────────────────────────────────────────────┐
-│            PHASE 4: NPM Publishing           │
-├─────────────────────────────────────────────────────┤
-│ Build WASM plugins from published groups          │
-│ Publish @arborium/arborium bundle               │
-│ Publish @arborium/lang-* packages               │
-└─────────────────────────────────────────────────────┘
-       │
-       ▼
-     done
-```
+1) Parse version (`v0.3.0` → `0.3.0`)
+2) Run `xtask gen --version 0.3.0`
+3) Publish **core crates** once: `arborium`, `tree-sitter`, `tree-sitter-highlight`, `miette-arborium` (and any other core crates)
+4) Kick off **per-group jobs** (animal-named: squirrel, deer, fox, bear, wolf, otter). Each job:
+   - Publishes its crates.io members from `langs/group-{animal}/` (`cargo publish --workspace`)
+   - Builds WASM plugins (cargo-component + jco) from the same workspace
+   - Publishes npm packages `@arborium/lang-{lang}` for that group
+   - Jobs can run 2–3 at a time for balance
+5) After all groups succeed, publish **arborium-collection** (feature-gated collection) to crates.io
 
-**Key insight**: Groups are published in sequence but can run 2-3 groups in parallel. Each group publishes both crates.io crates AND npm packages together, ensuring version synchronization.
+**Key insight**: Every group job publishes crates.io and npm **together**, keeping versions in lockstep. Retries are safe because crates.io skips already-published versions; npm needs `xtask publish` to skip EPUBLISHCONFLICT correctly.
 
 ## Two Outputs, Two Registries
 
