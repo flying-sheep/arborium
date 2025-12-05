@@ -13,7 +13,12 @@
       "link": "https://en.wikipedia.org/wiki/Ada_(programming_language)",
       "trivia": "Named after Ada Lovelace; standardized first in 1983 (Ada 83) and later revisions Ada 95, 2005, 2012, 2022.",
       "aliases": [],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/inventory.adb",
+          "description": "Handwritten Ada program using vectors, records, and procedures to manage an inventory."
+        }
+      ]
     },
     {
       "id": "agda",
@@ -28,7 +33,12 @@
       "link": "https://en.wikipedia.org/wiki/Agda_(programming_language)",
       "trivia": "Agda's name comes from a Swedish song about a woman named Agda who had a hen that laid eggs containing the words of the song.",
       "aliases": [],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/List.agda",
+          "description": "Agda standard library List module with dependent types and pattern matching."
+        }
+      ]
     },
     {
       "id": "asciidoc",
@@ -45,7 +55,12 @@
       "aliases": [
         "adoc"
       ],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/readme.adoc",
+          "description": "AsciiDoc readme showing headers, code blocks, tables, and admonitions."
+        }
+      ]
     },
     {
       "id": "asm",
@@ -62,7 +77,12 @@
       "aliases": [
         "assembly"
       ],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/struc.asm",
+          "description": "Exercises NASM struc/istruc directives, offsets, and data definitions."
+        }
+      ]
     },
     {
       "id": "awk",
@@ -77,7 +97,12 @@
       "link": "https://en.wikipedia.org/wiki/AWK",
       "trivia": "Name comes from creators' initials Aho–Weinberger–Kernighan; see the <a href=\"https://dl.acm.org/doi/10.5555/104836\">ACM paper</a> and Unix V7 manual pages for the classic implementation.",
       "aliases": [],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/chem.awk",
+          "description": "AWK script from one-true-awk tests exercising records, fields, loops, and functions."
+        }
+      ]
     },
     {
       "id": "bash",
@@ -95,7 +120,12 @@
         "sh",
         "shell"
       ],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/doorbell.sh",
+          "description": "doorbell.sh notifier with POSIX shell features, signals, file descriptors, and scheduling."
+        }
+      ]
     },
     {
       "id": "batch",
@@ -113,7 +143,12 @@
         "bat",
         "cmd"
       ],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/init.bat",
+          "description": "Cmder console emulator init script with argument parsing, path setup, and library calls."
+        }
+      ]
     },
     {
       "id": "c",
@@ -130,7 +165,12 @@
       "aliases": [
         "h"
       ],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/shortest.c",
+          "description": "Dijkstra's shortest path algorithm for FSM traversal."
+        }
+      ]
     },
     {
       "id": "c-sharp",
@@ -148,7 +188,16 @@
         "cs",
         "csharp"
       ],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/ref_readonly_program.cs",
+          "description": "Demonstrates ref readonly structs, in parameters, default arguments, and static refs."
+        },
+        {
+          "path": "samples/ref_readonly_point3d.cs",
+          "description": "Supporting struct definitions with ref readonly properties and readonly struct."
+        }
+      ]
     },
     {
       "id": "caddy",
@@ -163,7 +212,12 @@
       "link": "https://caddyserver.com/docs/",
       "trivia": "Caddy launched in 2015 with automatic HTTPS via Let's Encrypt; minimal syntax allows a single-line site definition—documented in the [Caddyfile documentation](https://caddyserver.com/docs/caddyfile).",
       "aliases": [],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/Caddyfile",
+          "description": "Default Caddy distribution config showing sites, reverse proxy, and TLS settings."
+        }
+      ]
     },
     {
       "id": "capnp",
@@ -178,7 +232,12 @@
       "link": "https://en.wikipedia.org/wiki/Cap'n_Proto",
       "trivia": "Varda released Cap'n Proto on April 1, 2013, as a faster, zero-copy successor to Protocol Buffers; the [FAQ](https://capnproto.org/faq.html) explains the zero-copy format.",
       "aliases": [],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/addressbook.capnp",
+          "description": "Cap'n Proto address book example with structs, lists, and annotations."
+        }
+      ]
     },
     {
       "id": "clojure",
@@ -195,7 +254,12 @@
       "aliases": [
         "clj"
       ],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/params.clj",
+          "description": "Ring middleware for parsing params and multipart requests; showcases namespaces, metadata, higher-order functions."
+        }
+      ]
     },
     {
       "id": "cmake",
@@ -210,7 +274,12 @@
       "link": "https://en.wikipedia.org/wiki/CMake",
       "trivia": "CMake was originally developed to support the cross-platform build needs of the Insight Segmentation and Registration Toolkit (ITK).",
       "aliases": [],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/catch2_cmakelists.cmake",
+          "description": "Catch2 testing framework build configuration with options, subdirectories, and installation setup."
+        }
+      ]
     },
     {
       "id": "commonlisp",
@@ -228,7 +297,12 @@
         "lisp",
         "cl"
       ],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/session_middleware.lisp",
+          "description": "Lack web framework session middleware with closures, macros, and hash tables."
+        }
+      ]
     },
     {
       "id": "cpp",
@@ -247,7 +321,16 @@
         "cxx",
         "hpp"
       ],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/chrono-test.cc",
+          "description": "fmtlib chrono tests with templates, user-defined literals, chrono formatting, and GoogleTest macros."
+        },
+        {
+          "path": "samples/BytecodeReader.cpp",
+          "description": "Ark bytecode reader handling chunk parsing, endian conversion, and error cases."
+        }
+      ]
     },
     {
       "id": "css",
@@ -262,7 +345,12 @@
       "link": "https://en.wikipedia.org/wiki/CSS",
       "trivia": "Wium Lie proposed CSS on 10 Oct 1994 while at CERN and it became a W3C Recommendation in 1996; see his [original proposal](https://www.w3.org/People/howcome/p/Spec/) and the [CSS1 specification](https://www.w3.org/TR/REC-CSS1-961217).",
       "aliases": [],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/pico.css",
+          "description": "Pico CSS framework with typography, form inputs, and utility selectors."
+        }
+      ]
     },
     {
       "id": "d",
@@ -279,7 +367,12 @@
       "aliases": [
         "dlang"
       ],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/platform.d",
+          "description": "Build platform detection from Dub package manager; showcases D's version conditions and compile-time metaprogramming."
+        }
+      ]
     },
     {
       "id": "dart",
@@ -294,7 +387,12 @@
       "link": "https://en.wikipedia.org/wiki/Dart_(programming_language)",
       "trivia": "Unveiled at GOTO Aarhus 2011 by Bak and Lund; the [language tour](https://dart.dev/guides/language/language-tour) documents its core goals, and Dart became the language behind Flutter when Google announced Flutter in 2017.",
       "aliases": [],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/fluid_api.dart",
+          "description": "Extension methods demo with fluent API, getters, operators, and generics."
+        }
+      ]
     },
     {
       "id": "devicetree",
@@ -309,7 +407,12 @@
       "link": "https://en.wikipedia.org/wiki/Devicetree",
       "trivia": "Originated with Open Firmware (IEEE 1275-1994); the Flattened Device Tree format for Linux was introduced in 2005—see the [specifications](https://www.devicetree.org/specifications/).",
       "aliases": [],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/decawave_dwm1001_dev.dts",
+          "description": "Zephyr board DTS describing SPI, UART, regulators, GPIOs, and sensors."
+        }
+      ]
     },
     {
       "id": "diff",
@@ -326,7 +429,12 @@
       "aliases": [
         "patch"
       ],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/t-apply-1.patch",
+          "description": "Git rename refactoring patch from rpull/rpush to ssh-pull/ssh-push with docs, Makefile, and C sources."
+        }
+      ]
     },
     {
       "id": "dockerfile",
@@ -343,7 +451,12 @@
       "aliases": [
         "docker"
       ],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/python-bookworm.Dockerfile",
+          "description": "Official Python 3.12 Docker image with GPG verification, build optimization, and multi-arch support."
+        }
+      ]
     },
     {
       "id": "dot",
@@ -358,7 +471,12 @@
       "link": "https://en.wikipedia.org/wiki/DOT_(graph_description_language)",
       "trivia": "Graphviz layout algorithms were developed at AT&T Labs and have been used to visualize everything from compiler internals to social networks.",
       "aliases": [],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/crazy.gv",
+          "description": "Unix family tree visualization; demonstrates creative node styling with distortion, orientation, and skew parameters."
+        }
+      ]
     },
     {
       "id": "elisp",
@@ -376,7 +494,12 @@
         "emacs-lisp",
         "el"
       ],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/simple.el",
+          "description": "Emacs simple.el with defuns, defvars, and interactive commands."
+        }
+      ]
     },
     {
       "id": "elixir",
@@ -394,7 +517,12 @@
         "ex",
         "exs"
       ],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/controller.ex",
+          "description": "Phoenix controller module with plugs, alias/import/use macros, pattern matching, and response helpers."
+        }
+      ]
     },
     {
       "id": "elm",
@@ -409,7 +537,12 @@
       "link": "https://en.wikipedia.org/wiki/Elm_(programming_language)",
       "trivia": "Introduced by Czaplicki in 2012 with 'The Elm Architecture' that later inspired Redux; documented in the [architecture section](https://guide.elm-lang.org/architecture/) of the guide.",
       "aliases": [],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/Article.elm",
+          "description": "Elm SPA article page with Model-View-Update, commands, and HTML rendering."
+        }
+      ]
     },
     {
       "id": "erlang",
@@ -426,7 +559,12 @@
       "aliases": [
         "erl"
       ],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/lists.erl",
+          "description": "OTP's lists module with pattern matching, guards, and list comprehensions."
+        }
+      ]
     },
     {
       "id": "fish",
@@ -441,7 +579,12 @@
       "link": "https://en.wikipedia.org/wiki/Friendly_interactive_shell",
       "trivia": "Fish intentionally breaks POSIX compatibility for a cleaner syntax—its slogan is 'Finally, a command line shell for the 90s!'",
       "aliases": [],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/fisher.fish",
+          "description": "Fisher plugin manager with functions, conditionals, and command substitution."
+        }
+      ]
     },
     {
       "id": "fsharp",
@@ -459,7 +602,12 @@
         "fs",
         "f#"
       ],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/Http.fs",
+          "description": "FSharp.Data HTTP utilities with modules, constants, request headers, and content types."
+        }
+      ]
     },
     {
       "id": "gleam",
@@ -474,7 +622,12 @@
       "link": "https://en.wikipedia.org/wiki/Gleam_(programming_language)",
       "trivia": "Pilfold announced Gleam in 2016 to bring ML-style typing to Erlang; version 1.0 shipped in March 2024 per the [v1.0 announcement](https://gleam.run/news/gleam-v1.0/).",
       "aliases": [],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/router.gleam",
+          "description": "Gleam list operations with types, pattern matching, and tail recursion."
+        }
+      ]
     },
     {
       "id": "glsl",
@@ -492,7 +645,12 @@
         "vert",
         "frag"
       ],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/phong.frag",
+          "description": "Fragment shader from Vulkan samples using samplers, structs, and lighting calculations."
+        }
+      ]
     },
     {
       "id": "go",
@@ -509,7 +667,16 @@
       "aliases": [
         "golang"
       ],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/explore_repo.go",
+          "description": "Gitea explore page with imports, constants, structs, and HTTP handler functions."
+        },
+        {
+          "path": "samples/repo.go",
+          "description": "Gitea explore/repo handler showing routing, templating, pagination, and service calls."
+        }
+      ]
     },
     {
       "id": "graphql",
@@ -526,7 +693,12 @@
       "aliases": [
         "gql"
       ],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/starwars_schema.graphql",
+          "description": "Star Wars schema from graphql-js with interfaces, types, enums, and query definitions."
+        }
+      ]
     },
     {
       "id": "haskell",
@@ -543,7 +715,12 @@
       "aliases": [
         "hs"
       ],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/Version.hs",
+          "description": "Cabal's Version type with pragmas, data types, typeclass instances, and bit manipulation."
+        }
+      ]
     },
     {
       "id": "hcl",
@@ -561,7 +738,12 @@
         "terraform",
         "tf"
       ],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/vpc-main.tf",
+          "description": "Terraform VPC example using providers, modules, variables, and resource blocks."
+        }
+      ]
     },
     {
       "id": "hlsl",
@@ -576,7 +758,12 @@
       "link": "https://en.wikipedia.org/wiki/High-Level_Shading_Language",
       "trivia": "Introduced with DirectX 9; modern compiler `dxc` targets DXIL and SPIR-V—see [DirectX Shader Compiler](https://github.com/microsoft/DirectXShaderCompiler).",
       "aliases": [],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/HelloTriangle.hlsl",
+          "description": "DirectX 12 HelloTriangle shader showing vertex/pixel stages and constant buffers."
+        }
+      ]
     },
     {
       "id": "html",
@@ -593,7 +780,12 @@
       "aliases": [
         "htm"
       ],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/component.html",
+          "description": "Interactive component with inline CSS, JavaScript, templates, and event handlers."
+        }
+      ]
     },
     {
       "id": "idris",
@@ -610,7 +802,12 @@
       "aliases": [
         "idr"
       ],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/List.idr",
+          "description": "Idris2 Data.List module with dependent types, proofs, and list operations."
+        }
+      ]
     },
     {
       "id": "ini",
@@ -628,7 +825,12 @@
         "conf",
         "cfg"
       ],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/pytest.ini",
+          "description": "Combined Python linting config with pycodestyle, flake8, pylint sections and pytest markers."
+        }
+      ]
     },
     {
       "id": "java",
@@ -643,7 +845,12 @@
       "link": "https://en.wikipedia.org/wiki/Java_(programming_language)",
       "trivia": "Started as 'Oak' then renamed Java after Java coffee; the 'write once, run anywhere' mantra comes from Sun's 1995 launch. The [Java Language Specification](https://docs.oracle.com/javase/specs/) defines the language across versions.",
       "aliases": [],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/Vet.java",
+          "description": "Spring Petclinic domain entity using annotations, collections, comparators."
+        }
+      ]
     },
     {
       "id": "javascript",
@@ -663,7 +870,12 @@
         "mjs",
         "cjs"
       ],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/x-model.js",
+          "description": "Alpine.js x-model directive with reactivity, DOM binding, and event handling."
+        }
+      ]
     },
     {
       "id": "jinja2",
@@ -681,7 +893,12 @@
         "jinja",
         "j2"
       ],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/admin-base.html",
+          "description": "Django admin base template with blocks, conditionals, i18n, and component includes."
+        }
+      ]
     },
     {
       "id": "jq",
@@ -696,7 +913,12 @@
       "link": "https://en.wikipedia.org/wiki/Jq_(programming_language)",
       "trivia": "jq debuted in 2012 inspired by AWK/sed but for JSON; language features and functions are specified in the [manual](https://stedolan.github.io/jq/manual/).",
       "aliases": [],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/geo.jq",
+          "description": "Geographic calculations in jq - haversine distance, bearing, coordinate conversions."
+        }
+      ]
     },
     {
       "id": "json",
@@ -713,7 +935,12 @@
       "aliases": [
         "jsonc"
       ],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/package.json",
+          "description": "Vite monorepo package.json with scripts, dependencies, and workspace configuration."
+        }
+      ]
     },
     {
       "id": "julia",
@@ -730,7 +957,12 @@
       "aliases": [
         "jl"
       ],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/array.jl",
+          "description": "Julia's core array implementation with docstrings, macros, and multiple dispatch."
+        }
+      ]
     },
     {
       "id": "kdl",
@@ -745,7 +977,12 @@
       "link": "https://kdl.dev",
       "trivia": "KDL stands for 'KDL Document Language'—the recursive acronym is intentional, inspired by GNU.",
       "aliases": [],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/schema.kdl",
+          "description": "KDL schema definition with nested nodes and type annotations."
+        }
+      ]
     },
     {
       "id": "kotlin",
@@ -763,7 +1000,12 @@
         "kt",
         "kts"
       ],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/Sequences.kt",
+          "description": "Kotlin standard library sequence operations with lazy evaluation, inline functions, and extension methods."
+        }
+      ]
     },
     {
       "id": "lean",
@@ -778,7 +1020,12 @@
       "link": "https://en.wikipedia.org/wiki/Lean_(proof_assistant)",
       "trivia": "Used to formalize the 2023 Polynomial Freiman–Ruzsa proof by Gowers, Green, Manners, and Tao; the Lean community formalized it in mathlib. mathlib contained over 210,000 theorems as of [May 2025](https://lean-lang.org/blog/2024/05/16/mathlib-200k/); AlphaProof (DeepMind) achieved IMO silver-equivalent performance in [2024](https://www.deepmind.com/blog/alphaproof-ai-for-mathematical-reasoning).",
       "aliases": [],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/bintree.lean",
+          "description": "Lean 4 example defining binary trees, recursion, and proofs."
+        }
+      ]
     },
     {
       "id": "lua",
@@ -793,7 +1040,12 @@
       "link": "https://en.wikipedia.org/wiki/Lua_(programming_language)",
       "trivia": "Lua (meaning 'moon' in Portuguese) succeeded SOL ('sun'); see the [history page](https://www.lua.org/history.html) and the 1993 technical report introducing Lua.",
       "aliases": [],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/utf8.lua",
+          "description": "Lua UTF-8 test exercising pattern matching, loops, and standard library calls."
+        }
+      ]
     },
     {
       "id": "markdown",
@@ -811,7 +1063,12 @@
         "md",
         "mdx"
       ],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/rust-readme.md",
+          "description": "Rust language README with headings, lists, links, images, and code fences."
+        }
+      ]
     },
     {
       "id": "matlab",
@@ -828,7 +1085,12 @@
       "aliases": [
         "m"
       ],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/fft_example.m",
+          "description": "FFT signal analysis with functions, plotting, and matrix operations."
+        }
+      ]
     },
     {
       "id": "meson",
@@ -843,7 +1105,12 @@
       "link": "https://en.wikipedia.org/wiki/Meson_(software)",
       "trivia": "Pakkanen published Meson in Feb 2013; see the [announcement blog post](https://nibblestew.blogspot.com/2013/02/introducing-meson-build-system.html) and the manual highlighting sub-1s configure times.",
       "aliases": [],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/meson.build",
+          "description": "Real-world Meson build with MSVC/GCC detection, subprojects, and conditional dependencies."
+        }
+      ]
     },
     {
       "id": "nginx",
@@ -858,7 +1125,12 @@
       "link": "https://en.wikipedia.org/wiki/Nginx",
       "trivia": "Sysoev began nginx in 2002; first public release in 2004. The configuration syntax is documented in the [official documentation](https://nginx.org/en/docs/).",
       "aliases": [],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/nginx.conf",
+          "description": "H5BP nginx.conf with includes, gzip, SSL, maps, and logging directives."
+        }
+      ]
     },
     {
       "id": "ninja",
@@ -873,7 +1145,12 @@
       "link": "https://ninja-build.org",
       "trivia": "Ninja was created at Google to speed up Chrome builds—it's intentionally minimal and meant to be generated by tools like CMake or Meson.",
       "aliases": [],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/build.ninja",
+          "description": "Ninja build file with rules, variables, and build edges for C++."
+        }
+      ]
     },
     {
       "id": "nix",
@@ -888,7 +1165,12 @@
       "link": "https://en.wikipedia.org/wiki/Nix_(package_manager)",
       "trivia": "Nix stores packages in hash-addressed store paths (e.g., /nix/store/...), eliminating dependency hell. The design is formalized in Dolstra's 2006 thesis and underpins NixOS.",
       "aliases": [],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/buildDepsOnly.nix",
+          "description": "crane helper derivation that builds dependencies only, showing functions, let bindings, overrides, and mkDerivation usage."
+        }
+      ]
     },
     {
       "id": "objc",
@@ -906,7 +1188,12 @@
         "objective-c",
         "mm"
       ],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/RCTLog.mm",
+          "description": "React Native logging utility showing categories, macros, Objective-C classes, and C functions."
+        }
+      ]
     },
     {
       "id": "ocaml",
@@ -923,7 +1210,12 @@
       "aliases": [
         "ml"
       ],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/option.ml",
+          "description": "OCaml standard library option type with pattern matching, monadic operations, and syntax extensions."
+        }
+      ]
     },
     {
       "id": "perl",
@@ -941,7 +1233,12 @@
         "pl",
         "pm"
       ],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/gmtime.pm",
+          "description": "Perl5 Time::gmtime module with exports, OO wrappers, and POD documentation."
+        }
+      ]
     },
     {
       "id": "php",
@@ -956,7 +1253,12 @@
       "link": "https://en.wikipedia.org/wiki/PHP",
       "trivia": "Started as 'Personal Home Page Tools' in 1994/95; renamed 'PHP: Hypertext Preprocessor' in 1997. History is documented in the [ChangeLog](https://www.php.net/ChangeLog-8.php) and manual preface.",
       "aliases": [],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/SessionGuard.php",
+          "description": "Laravel SessionGuard with authentication, traits, and typed properties."
+        }
+      ]
     },
     {
       "id": "postscript",
@@ -973,7 +1275,12 @@
       "aliases": [
         "ps"
       ],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/tiger.ps",
+          "description": "Ghostscript tiger example showcasing PostScript drawing, paths, fills, and strokes."
+        }
+      ]
     },
     {
       "id": "powershell",
@@ -991,7 +1298,12 @@
         "ps1",
         "pwsh"
       ],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/Get-ChildItem.Tests.ps1",
+          "description": "PowerShell test script exercising cmdlets, parameter sets, error handling, and assertions."
+        }
+      ]
     },
     {
       "id": "prolog",
@@ -1008,7 +1320,12 @@
       "aliases": [
         "pl"
       ],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/http_server.pl",
+          "description": "SWI-Prolog HTTP server example with predicates, handlers, and threading."
+        }
+      ]
     },
     {
       "id": "python",
@@ -1027,7 +1344,12 @@
         "py3",
         "python3"
       ],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/dynamic_progress.py",
+          "description": "Rich demo showing dynamic progress bars, context managers, multiple progress tasks."
+        }
+      ]
     },
     {
       "id": "query",
@@ -1044,7 +1366,12 @@
       "aliases": [
         "scm"
       ],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/highlights.scm",
+          "description": "Tree-sitter highlight queries with S-expressions and captures."
+        }
+      ]
     },
     {
       "id": "r",
@@ -1061,7 +1388,12 @@
       "aliases": [
         "rlang"
       ],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/detect.R",
+          "description": "stringr functions for detecting patterns; showcases vectorization and tidyverse style."
+        }
+      ]
     },
     {
       "id": "rescript",
@@ -1078,7 +1410,12 @@
       "aliases": [
         "res"
       ],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/Core__Array.res",
+          "description": "ReScript Core array module with external bindings, recursive functions, and comparisons."
+        }
+      ]
     },
     {
       "id": "ron",
@@ -1093,7 +1430,12 @@
       "link": "https://github.com/ron-rs/ron",
       "trivia": "Designed for a (canceled) game project and revived by the Rust community; features trailing commas, comments, and Rust-like enums—see the [crate docs](https://docs.rs/ron).",
       "aliases": [],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/kits.ron",
+          "description": "Veloren game server kit definitions with nested item tuples, comments, and RON extensions."
+        }
+      ]
     },
     {
       "id": "ruby",
@@ -1110,7 +1452,12 @@
       "aliases": [
         "rb"
       ],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/inflector_methods.rb",
+          "description": "Rails ActiveSupport inflector with pluralize, singularize, and camelize methods."
+        }
+      ]
     },
     {
       "id": "rust",
@@ -1127,7 +1474,12 @@
       "aliases": [
         "rs"
       ],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/expl_impl_clone_on_copy.rs",
+          "description": "Clippy lint implementation with trait checking, generic handling, and diagnostics."
+        }
+      ]
     },
     {
       "id": "scala",
@@ -1142,7 +1494,12 @@
       "link": "https://en.wikipedia.org/wiki/Scala_(programming_language)",
       "trivia": "The name abbreviates 'scalable language'; Odersky announced Scala in 2004 after work on Java generics and the Pizza language. The [Scala 3 reference](https://docs.scala-lang.org/scala3/reference/) documents current syntax and features.",
       "aliases": [],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/ResultResolver.scala",
+          "description": "Sangria GraphQL result resolver with pattern matching, options, and marshallers."
+        }
+      ]
     },
     {
       "id": "scheme",
@@ -1159,7 +1516,12 @@
       "aliases": [
         "scm"
       ],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/list.rkt",
+          "description": "Racket list utilities with macros, recursive functions, tail-call optimization, and comprehensive error handling."
+        }
+      ]
     },
     {
       "id": "scss",
@@ -1176,7 +1538,12 @@
       "aliases": [
         "sass"
       ],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/_buttons.scss",
+          "description": "Bootstrap buttons partial with variables, mixins, nesting, and interpolation."
+        }
+      ]
     },
     {
       "id": "sparql",
@@ -1193,7 +1560,12 @@
       "aliases": [
         "rq"
       ],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/query.sparql",
+          "description": "SPARQL queries with SELECT, CONSTRUCT, FILTER, and aggregations."
+        }
+      ]
     },
     {
       "id": "sql",
@@ -1213,7 +1585,12 @@
         "postgres",
         "sqlite"
       ],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/join.sql",
+          "description": "PostgreSQL regression test covering joins, lateral, outer joins, aggregates, and set operations."
+        }
+      ]
     },
     {
       "id": "ssh-config",
@@ -1228,7 +1605,12 @@
       "link": "https://man.openbsd.org/ssh_config",
       "trivia": "SSH was created in 1995 after a password-sniffing attack at Helsinki University of Technology prompted Tatu Ylönen to develop a secure replacement for rlogin.",
       "aliases": [],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/config",
+          "description": "SSH client configuration with hosts, identity files, and forwarding."
+        }
+      ]
     },
     {
       "id": "starlark",
@@ -1246,7 +1628,12 @@
         "bzl",
         "bazel"
       ],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/http.bzl",
+          "description": "Bazel repository rule definitions using load, attrs, functions, and repository_ctx."
+        }
+      ]
     },
     {
       "id": "svelte",
@@ -1261,7 +1648,12 @@
       "link": "https://en.wikipedia.org/wiki/Svelte",
       "trivia": "Harris announced Svelte in 2016 to eliminate the virtual DOM; the [Svelte blog](https://svelte.dev/blog) covers milestones like SvelteKit and run-time improvements.",
       "aliases": [],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/App.svelte",
+          "description": "Svelte starter component with props, scoped styles, and reactive declarations."
+        }
+      ]
     },
     {
       "id": "swift",
@@ -1276,7 +1668,12 @@
       "link": "https://en.wikipedia.org/wiki/Swift_(programming_language)",
       "trivia": "Chris Lattner started Swift as a personal project in 2010 while working at Apple, spending 18 months on it before getting approval to make it official. He also created LLVM and Clang. Swift was designed to be a safer language than Objective-C, eliminating entire categories of bugs through features like optionals and automatic memory management.",
       "aliases": [],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/DirectoryConfiguration.swift",
+          "description": "Vapor directory configuration with platform-specific imports, working directory detection, and string extensions."
+        }
+      ]
     },
     {
       "id": "textproto",
@@ -1294,7 +1691,12 @@
         "pbtxt",
         "textpb"
       ],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/config.textproto",
+          "description": "Protocol Buffer text format with nested messages and repeated fields."
+        }
+      ]
     },
     {
       "id": "thrift",
@@ -1309,7 +1711,12 @@
       "link": "https://en.wikipedia.org/wiki/Apache_Thrift",
       "trivia": "Developed at Facebook starting 2006, open-sourced 2007; entered Apache Incubator in 2008 and became a TLP in 2010—see the [Apache Thrift site](https://thrift.apache.org/).",
       "aliases": [],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/tutorial.thrift",
+          "description": "Official Apache Thrift tutorial showing services, structs, enums, and exceptions."
+        }
+      ]
     },
     {
       "id": "tlaplus",
@@ -1326,7 +1733,12 @@
       "aliases": [
         "tla"
       ],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/TwoPhase.tla",
+          "description": "Paxos consensus algorithm specification with message-passing, quorums, and ballot phases."
+        }
+      ]
     },
     {
       "id": "toml",
@@ -1341,7 +1753,12 @@
       "link": "https://en.wikipedia.org/wiki/TOML",
       "trivia": "TOML 1.0.0 was released January 2021 after 8 years of iteration; see the spec changelog on [toml.io](https://toml.io/en/v1.0.0).",
       "aliases": [],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/starship.toml",
+          "description": "Starship Cargo.toml with dependencies, features, and build configuration."
+        }
+      ]
     },
     {
       "id": "tsx",
@@ -1356,7 +1773,12 @@
       "link": "https://en.wikipedia.org/wiki/TypeScript",
       "trivia": "TSX combines TypeScript's static type checking with JSX's declarative UI syntax. While JSX was introduced by Facebook for React in 2013, TSX emerged as TypeScript gained popularity and React developers sought better tooling. Today, TSX is de facto standard for React development in TypeScript codebases.",
       "aliases": [],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/basic-query.tsx",
+          "description": "TanStack Query basic example with data fetching, caching, custom hooks, and React components."
+        }
+      ]
     },
     {
       "id": "typescript",
@@ -1376,7 +1798,12 @@
         "mts",
         "cts"
       ],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/dot-print.ts",
+          "description": "DOT printer for function graphs with generics, async IO, and string templating."
+        }
+      ]
     },
     {
       "id": "typst",
@@ -1393,7 +1820,12 @@
       "aliases": [
         "typ"
       ],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/simple.typ",
+          "description": "Polylux presentation theme with slide layouts; showcases Typst's page styling, state management, and function definitions."
+        }
+      ]
     },
     {
       "id": "uiua",
@@ -1410,7 +1842,12 @@
       "aliases": [
         "ua"
       ],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/macros.ua",
+          "description": "Uiua array language with stack-based operations and unicode glyphs."
+        }
+      ]
     },
     {
       "id": "vb",
@@ -1428,7 +1865,12 @@
         "vbnet",
         "visualbasic"
       ],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/Math.vb",
+          "description": "Roslyn VB.NET operation factory with Select Case, DirectCast, and compiler internals."
+        }
+      ]
     },
     {
       "id": "verilog",
@@ -1447,7 +1889,16 @@
         "sv",
         "systemverilog"
       ],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/lint_style.sv",
+          "description": "CVA6 RISC-V ALU module with parameters, always_comb, generate blocks, and bit manipulation."
+        },
+        {
+          "path": "samples/state_machine.v",
+          "description": "BE-P decoder state machine with always blocks, parameters, and nonblocking assignments."
+        }
+      ]
     },
     {
       "id": "vhdl",
@@ -1464,7 +1915,12 @@
       "aliases": [
         "vhd"
       ],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/issue1220.vhdl",
+          "description": "GHDL finite state machine test with entity, architecture, process, and case statement."
+        }
+      ]
     },
     {
       "id": "vim",
@@ -1482,7 +1938,12 @@
         "vimscript",
         "viml"
       ],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/plugin.vim",
+          "description": "Vim plugin with functions, autocommands, mappings, and conditionals."
+        }
+      ]
     },
     {
       "id": "vue",
@@ -1497,7 +1958,12 @@
       "link": "https://en.wikipedia.org/wiki/Vue.js",
       "trivia": "You released Vue in Feb 2014 after working on Angular at Google; [release history](https://github.com/vuejs/core/releases) and guide document its evolution from 0.10 to Vue 3/4 composition API.",
       "aliases": [],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/App.vue",
+          "description": "Element Plus Button component with Vue 3 Composition API, TypeScript, and dynamic styling."
+        }
+      ]
     },
     {
       "id": "x86asm",
@@ -1515,7 +1981,12 @@
         "nasm",
         "x86"
       ],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/elftest.asm",
+          "description": "NASM ELF test exercising labels, externs, sections, and symbol definitions."
+        }
+      ]
     },
     {
       "id": "xml",
@@ -1534,7 +2005,12 @@
         "xslt",
         "svg"
       ],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/pom.xml",
+          "description": "Spring Petclinic Maven POM with dependencies, plugins, profiles, and properties."
+        }
+      ]
     },
     {
       "id": "yaml",
@@ -1551,7 +2027,12 @@
       "aliases": [
         "yml"
       ],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/bookinfo.yaml",
+          "description": "Istio Bookinfo sample with Services, ServiceAccounts, and Deployments for microservices."
+        }
+      ]
     },
     {
       "id": "yuri",
@@ -1566,7 +2047,12 @@
       "link": "https://git.gay/yuri/yuri",
       "trivia": "Yuri is an in-progress shader language and compiler; the design is not finalized and is released under Apache-2.0.",
       "aliases": [],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/example.yuri",
+          "description": "Example Yuri shader demonstrating language syntax."
+        }
+      ]
     },
     {
       "id": "zig",
@@ -1581,7 +2067,12 @@
       "link": "https://en.wikipedia.org/wiki/Zig_(programming_language)",
       "trivia": "Kelley introduced Zig in 2016 as a C replacement without hidden control flow; the self-hosted compiler milestone is chronicled on the [Zig news](https://ziglang.org/news/).",
       "aliases": [],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/generic.zig",
+          "description": "Args-lex generic tokenizer with slices, enums, error sets, and comptime parsing."
+        }
+      ]
     },
     {
       "id": "zsh",
@@ -1596,7 +2087,12 @@
       "link": "https://en.wikipedia.org/wiki/Z_shell",
       "trivia": "Created by Falstad while at Princeton; named after TA Zhong Shao. The [Zsh FAQ](https://zsh.sourceforge.io/FAQ/) documents its history and feature set.",
       "aliases": [],
-      "samples": []
+      "samples": [
+        {
+          "path": "samples/git.plugin.zsh",
+          "description": "oh-my-zsh git plugin with aliases, functions, and completions."
+        }
+      ]
     }
   ]
 }

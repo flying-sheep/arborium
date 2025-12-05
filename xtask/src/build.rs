@@ -620,6 +620,14 @@ fn build_manifest(
         let local_js = local_root.join("grammar.js");
         let local_wasm = local_root.join("grammar.core.wasm");
 
+        // Make local paths relative to repo root for serving
+        let rel_js = local_js
+            .strip_prefix(repo_root)
+            .unwrap_or(&local_js);
+        let rel_wasm = local_wasm
+            .strip_prefix(repo_root)
+            .unwrap_or(&local_wasm);
+
         let package = format!("@arborium/{}", grammar);
         let cdn_base = format!(
             "https://cdn.jsdelivr.net/npm/@arborium/{}@{}",
@@ -632,8 +640,8 @@ fn build_manifest(
             version: version.to_string(),
             cdn_js: format!("{}/grammar.js", cdn_base),
             cdn_wasm: format!("{}/grammar.core.wasm", cdn_base),
-            local_js: format!("/{}", local_js),
-            local_wasm: format!("/{}", local_wasm),
+            local_js: format!("/{}", rel_js),
+            local_wasm: format!("/{}", rel_wasm),
         });
     }
 

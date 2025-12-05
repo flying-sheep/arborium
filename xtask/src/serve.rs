@@ -8,11 +8,22 @@ use crate::util;
 use camino::{Utf8Path, Utf8PathBuf};
 use facet::Facet;
 use owo_colors::OwoColorize;
+use sailfish::TemplateSimple;
 
 use std::collections::{BTreeMap, HashSet};
 use std::fs;
 use std::io::Write;
 use std::path::{Path, PathBuf};
+
+// Sailfish template for app.js
+#[derive(TemplateSimple)]
+#[template(path = "app.stpl.js")]
+struct AppJsTemplate<'a> {
+    language_info: &'a str,
+    examples: &'a str,
+    icons: &'a str,
+    capture_tags: &'a str,
+}
 
 // =============================================================================
 // Registry JSON types (for demo consumption)
@@ -63,25 +74,29 @@ structstruck::strike! {
 
             /// Sample files (content served separately via /samples/{id}.txt).
             pub samples: Vec<pub struct RegistrySample {
-                /// Path relative to crate (e.g., "samples/example.rs").
+                /// Path relative to def directory (e.g., "samples/example.rs").
                 pub path: String,
 
                 /// Description of what this sample demonstrates.
                 pub description: Option<String>,
             }>,
+
+            /// Path to def/ directory (internal use only, not serialized).
+            #[facet(skip)]
+            pub def_path: String,
         }>,
     }
 }
 
 impl Registry {
-    /// Build the registry from a CrateRegistry, inlining sample content.
-    pub fn from_crate_registry(registry: &CrateRegistry, crates_dir: &Utf8Path) -> Self {
+    /// Build the registry from a CrateRegistry, using def_path for samples.
+    pub fn from_crate_registry(registry: &CrateRegistry, _crates_dir: &Utf8Path) -> Self {
         let mut grammars: Vec<RegistryGrammar> = registry
             .all_grammars()
             .filter(|(_, _, grammar)| !grammar.is_internal())
             .map(|(state, _config, grammar)| {
-                let crate_path = crates_dir.join(&state.name);
-                RegistryGrammar::from_grammar_config(&state.name, grammar, &crate_path)
+                // Use def_path where samples live (langs/group-*/*/def/)
+                RegistryGrammar::from_grammar_config(&state.name, grammar, &state.def_path)
             })
             .collect();
 
@@ -102,12 +117,12 @@ impl RegistryGrammar {
     fn from_grammar_config(
         crate_name: &str,
         grammar: &GrammarConfig,
-        crate_path: &Utf8Path,
+        def_path: &Utf8Path,
     ) -> Self {
         let samples: Vec<RegistrySample> = grammar
             .samples
             .iter()
-            .filter_map(|sample| RegistrySample::from_sample_config(sample, crate_path))
+            .filter_map(|sample| RegistrySample::from_sample_config(sample, def_path))
             .collect();
 
         Self {
@@ -128,6 +143,7 @@ impl RegistryGrammar {
                 .map(|a| a.values.clone())
                 .unwrap_or_default(),
             samples,
+            def_path: def_path.to_string(),
         }
     }
 }
@@ -182,7 +198,10 @@ pub fn serve(crates_dir: &Utf8Path, addr: &str, port: Option<u16>, dev: bool) {
         fetch_icons_from_registry(&registry, &demo_dir)
     });
 
-    // Step 3: Generate index.html from template
+    // Step 3: Generate theme CSS from arborium themes
+    step("Generating theme CSS", || generate_theme_css(&demo_dir));
+
+    // Step 4: Generate index.html from template
     step("Generating index.html", || {
         generate_index_html(&demo_dir, &icons)
     });
@@ -192,7 +211,12 @@ pub fn serve(crates_dir: &Utf8Path, addr: &str, port: Option<u16>, dev: bool) {
         generate_app_js(&demo_dir, &registry, &icons)
     });
 
-    // Step 5: Pre-compress files
+    // Step 5: Copy plugins.json with dev_mode flag
+    step("Copying plugins.json", || {
+        copy_plugins_json(crates_dir, &demo_dir, dev)
+    });
+
+    // Step 6: Pre-compress files
     if dev {
         step("Pre-compressing files (fast)", || {
             precompress_files_fast(&demo_dir)
@@ -255,6 +279,7 @@ pub fn build_static_site(crates_dir: &Utf8Path, dev: bool) -> Result<(), String>
         fetch_icons_from_registry(&registry, &demo_dir)
     });
 
+    step("Generating theme CSS", || generate_theme_css(&demo_dir));
     step("Generating index.html", || {
         generate_index_html(&demo_dir, &icons)
     });
@@ -298,6 +323,8 @@ pub fn generate_registry_and_assets(
     let icons = step_with_result("Fetching icons", || {
         fetch_icons_from_registry(&registry, demo_dir_path)
     });
+
+    step("Generating theme CSS", || generate_theme_css(demo_dir_path));
 
     step("Generating index.html", || {
         generate_index_html(demo_dir_path, &icons)
@@ -363,7 +390,7 @@ where
 }
 
 fn generate_sample_files(
-    crates_dir: &Utf8Path,
+    _crates_dir: &Utf8Path,
     registry: &Registry,
     demo_dir: &Path,
 ) -> Result<(), String> {
@@ -374,9 +401,8 @@ fn generate_sample_files(
 
     for grammar in &registry.grammars {
         if let Some(sample) = grammar.samples.first() {
-            // Read sample content from crate
-            let crate_path = crates_dir.join(&grammar.crate_name);
-            let sample_path = crate_path.join(&sample.path);
+            // Read sample content from def/ directory
+            let sample_path = std::path::Path::new(&grammar.def_path).join(&sample.path);
 
             if let Ok(content) = fs::read_to_string(&sample_path) {
                 // Get extension from original sample path
@@ -391,6 +417,36 @@ fn generate_sample_files(
         }
     }
 
+    Ok(())
+}
+
+fn generate_theme_css(demo_dir: &Path) -> Result<(), String> {
+    use arborium::theme::builtin;
+
+    let pkg_dir = demo_dir.join("pkg");
+    if !pkg_dir.exists() {
+        fs::create_dir_all(&pkg_dir).map_err(|e| e.to_string())?;
+    }
+
+    let output_path = pkg_dir.join("themes.generated.css");
+    let mut css = String::new();
+
+    // Generate CSS for each built-in theme
+    for theme in builtin::all() {
+        // Convert theme name to a valid CSS identifier (lowercase, hyphens)
+        let id = theme
+            .name
+            .to_lowercase()
+            .replace(' ', "-")
+            .replace('é', "e"); // Handle Rosé Pine -> rose-pine
+
+        // Generate CSS with [data-theme="id"] selector
+        let theme_css = theme.to_css(&format!("[data-theme=\"{id}\"]"));
+        css.push_str(&theme_css);
+        css.push('\n');
+    }
+
+    fs::write(&output_path, &css).map_err(|e| e.to_string())?;
     Ok(())
 }
 
@@ -760,7 +816,6 @@ fn generate_app_js(
     registry: &Registry,
     icons: &BTreeMap<String, String>,
 ) -> Result<(), String> {
-    let app_js_path = demo_dir.join("app.js");
     let output_path = demo_dir.join("pkg").join("app.generated.js");
 
     // Ensure pkg directory exists
@@ -768,8 +823,6 @@ fn generate_app_js(
     if !pkg_dir.exists() {
         fs::create_dir_all(&pkg_dir).map_err(|e| e.to_string())?;
     }
-
-    let app_js = fs::read_to_string(&app_js_path).map_err(|e| e.to_string())?;
 
     // Build languageInfo object from registry
     let lang_info_js = build_language_info_js(registry);
@@ -780,14 +833,14 @@ fn generate_app_js(
     // Build icons object
     let icons_js = build_icons_js(icons);
 
-    // Do replacements
-    let output = app_js
-        .replace(
-            "// {{LANGUAGE_INFO}}",
-            &format!("const languageInfo = {};", lang_info_js),
-        )
-        .replace("{{EXAMPLES}}", &examples_js)
-        .replace("{{ICONS}}", &icons_js);
+    // Render the template
+    let template = AppJsTemplate {
+        language_info: &lang_info_js,
+        examples: &examples_js,
+        icons: &icons_js,
+        capture_tags: &build_capture_tags_js(),
+    };
+    let output = template.render_once().map_err(|e| e.to_string())?;
 
     fs::write(&output_path, &output).map_err(|e| e.to_string())?;
     Ok(())
@@ -899,6 +952,25 @@ fn build_icons_js(icons: &BTreeMap<String, String>) -> String {
     js
 }
 
+fn build_capture_tags_js() -> String {
+    use arborium::highlights::HIGHLIGHTS;
+
+    let mut js = String::from("{\n");
+    for (i, def) in HIGHLIGHTS.iter().enumerate() {
+        if !def.tag.is_empty() {
+            js.push_str(&format!("    \"{}\": \"{}\"", def.name, def.tag));
+            // Check if there are more non-empty tags after this one
+            let has_more = HIGHLIGHTS[i + 1..].iter().any(|d| !d.tag.is_empty());
+            if has_more {
+                js.push(',');
+            }
+            js.push('\n');
+        }
+    }
+    js.push('}');
+    js
+}
+
 fn escape_for_js(s: &str) -> String {
     s.replace('\\', "\\\\")
         .replace('"', "\\\"")
@@ -964,16 +1036,23 @@ fn bind_server(addr: &str, port: Option<u16>) -> (tiny_http::Server, u16) {
 }
 
 fn serve_files(server: tiny_http::Server, demo_dir: &Path) {
+    // Get repo root for serving langs/ files
+    let repo_root = util::find_repo_root().expect("Could not find repo root");
+
     for request in server.incoming_requests() {
         let url_path = request.url().trim_start_matches('/');
 
-        let file_path = if url_path.is_empty() || url_path == "/" {
-            demo_dir.join("index.html")
+        // Determine base directory and allowed prefix based on path
+        let (file_path, allowed_prefix) = if url_path.is_empty() || url_path == "/" {
+            (demo_dir.join("index.html"), demo_dir.to_path_buf())
+        } else if url_path.starts_with("langs/") {
+            // Serve from repo root for langs/ paths
+            (repo_root.join(url_path), repo_root.join("langs"))
         } else {
-            demo_dir.join(url_path)
+            (demo_dir.join(url_path), demo_dir.to_path_buf())
         };
 
-        // Security: ensure path is within demo_dir
+        // Security: ensure path is within allowed directory
         let file_path = match file_path.canonicalize() {
             Ok(p) => p,
             Err(_) => {
@@ -983,7 +1062,8 @@ fn serve_files(server: tiny_http::Server, demo_dir: &Path) {
             }
         };
 
-        if !file_path.starts_with(demo_dir) {
+        let allowed_prefix = allowed_prefix.canonicalize().unwrap_or(allowed_prefix);
+        if !file_path.starts_with(&allowed_prefix) {
             let response = tiny_http::Response::from_string("Forbidden").with_status_code(403);
             let _ = request.respond(response);
             continue;

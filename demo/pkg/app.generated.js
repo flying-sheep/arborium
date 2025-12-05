@@ -1,6 +1,63 @@
 // Arborium Demo - Component-based highlighting
 // Grammars are loaded on demand as WASM components
 
+// Build WASI stubs for browser environment
+// Each instantiation needs fresh instances where stream objects are instanceof the classes passed in
+function createWasiStubs() {
+    class WasiInputStream {
+        read(len) { return new Uint8Array(0); }
+        blockingRead(len) { return new Uint8Array(0); }
+    }
+
+    class WasiOutputStream {
+        write(data) { return { tag: 'ok', val: data.length }; }
+        blockingFlush() {}
+        blockingWriteAndFlush(data) { return { tag: 'ok', val: data.length }; }
+    }
+
+    class WasiError {}
+
+    // Stream instances must be created from the same class references passed in imports
+    const stdinStream = new WasiInputStream();
+    const stdoutStream = new WasiOutputStream();
+    const stderrStream = new WasiOutputStream();
+
+    return {
+        'wasi:cli/environment': {
+            getEnvironment: () => [],
+        },
+        'wasi:cli/exit': {
+            exit: (code) => { throw new Error(`WASI exit called with code ${code}`); },
+        },
+        'wasi:cli/stderr': {
+            getStderr: () => stderrStream,
+        },
+        'wasi:cli/stdin': {
+            getStdin: () => stdinStream,
+        },
+        'wasi:cli/stdout': {
+            getStdout: () => stdoutStream,
+        },
+        'wasi:filesystem/preopens': {
+            getDirectories: () => [],
+        },
+        'wasi:filesystem/types': {
+            Descriptor: class {},
+            filesystemErrorCode: () => null,
+        },
+        'wasi:io/error': {
+            Error: WasiError,
+        },
+        'wasi:io/streams': {
+            InputStream: WasiInputStream,
+            OutputStream: WasiOutputStream,
+        },
+        'wasi:random/random': {
+            getRandomBytes: (len) => new Uint8Array(Number(len)),
+        },
+    };
+}
+
 // Language metadata and manifest injected by generate-demo
 const languageInfo = {
     "ada": {
@@ -1122,7 +1179,102 @@ const languageInfo = {
 // Examples: maps language id to file extension (e.g. "rust" -> "rs")
 // Content fetched on-demand from /samples/{id}.{ext}
 const exampleExtensions = {
-
+    "ada": "adb",
+    "agda": "agda",
+    "asciidoc": "adoc",
+    "asm": "asm",
+    "awk": "awk",
+    "bash": "sh",
+    "batch": "bat",
+    "c": "c",
+    "c-sharp": "cs",
+    "caddy": "txt",
+    "capnp": "capnp",
+    "clojure": "clj",
+    "cmake": "cmake",
+    "commonlisp": "lisp",
+    "cpp": "cc",
+    "css": "css",
+    "d": "d",
+    "dart": "dart",
+    "devicetree": "dts",
+    "diff": "patch",
+    "dockerfile": "Dockerfile",
+    "dot": "gv",
+    "elisp": "el",
+    "elixir": "ex",
+    "elm": "elm",
+    "erlang": "erl",
+    "fish": "fish",
+    "fsharp": "fs",
+    "gleam": "gleam",
+    "glsl": "frag",
+    "go": "go",
+    "graphql": "graphql",
+    "haskell": "hs",
+    "hcl": "tf",
+    "hlsl": "hlsl",
+    "html": "html",
+    "idris": "idr",
+    "ini": "ini",
+    "java": "java",
+    "javascript": "js",
+    "jinja2": "html",
+    "jq": "jq",
+    "json": "json",
+    "julia": "jl",
+    "kdl": "kdl",
+    "kotlin": "kt",
+    "lean": "lean",
+    "lua": "lua",
+    "markdown": "md",
+    "matlab": "m",
+    "meson": "build",
+    "nginx": "conf",
+    "ninja": "ninja",
+    "nix": "nix",
+    "objc": "mm",
+    "ocaml": "ml",
+    "perl": "pm",
+    "php": "php",
+    "postscript": "ps",
+    "powershell": "ps1",
+    "prolog": "pl",
+    "python": "py",
+    "query": "scm",
+    "r": "R",
+    "rescript": "res",
+    "ron": "ron",
+    "ruby": "rb",
+    "rust": "rs",
+    "scala": "scala",
+    "scheme": "rkt",
+    "scss": "scss",
+    "sparql": "sparql",
+    "sql": "sql",
+    "ssh-config": "txt",
+    "starlark": "bzl",
+    "svelte": "svelte",
+    "swift": "swift",
+    "textproto": "textproto",
+    "thrift": "thrift",
+    "tlaplus": "tla",
+    "toml": "toml",
+    "tsx": "tsx",
+    "typescript": "ts",
+    "typst": "typ",
+    "uiua": "ua",
+    "vb": "vb",
+    "verilog": "sv",
+    "vhdl": "vhdl",
+    "vim": "vim",
+    "vue": "vue",
+    "x86asm": "asm",
+    "xml": "xml",
+    "yaml": "yaml",
+    "yuri": "yuri",
+    "zig": "zig",
+    "zsh": "zsh"
 };
 
 // Icons will be injected by generate-demo (SVG strings keyed by iconify name)
@@ -1239,6 +1391,81 @@ const icons = {
     "simple-icons:zig": "<svg  width=\"1em\" height=\"1em\" viewBox=\"0 0 24 24\"><path fill=\"currentColor\" d=\"m23.53 1.02l-7.686 3.45h-7.06l-2.98 3.452h7.173L.47 22.98l7.681-3.607h7.065v-.002l2.978-3.45l-7.148-.001l12.482-14.9zM0 4.47v14.901h1.883l2.98-3.45H3.451v-8h.942l2.824-3.45zm22.117 0l-2.98 3.608h1.412v7.844h-.942l-2.98 3.45H24V4.47z\"/></svg>"
 };
 
+// Capture name to short HTML tag mapping (e.g., "keyword" -> "k", "keyword.function" -> "kf")
+const captureToTagMap = {
+    "attribute": "at",
+    "constant": "co",
+    "constant.builtin": "cb",
+    "constructor": "cr",
+    "function.builtin": "fb",
+    "function": "f",
+    "function.method": "fm",
+    "keyword": "k",
+    "keyword.conditional": "kc",
+    "keyword.coroutine": "ko",
+    "keyword.debug": "kd",
+    "keyword.exception": "ke",
+    "keyword.function": "kf",
+    "keyword.import": "ki",
+    "keyword.operator": "kp",
+    "keyword.repeat": "kr",
+    "keyword.return": "kt",
+    "keyword.type": "ky",
+    "operator": "o",
+    "property": "pr",
+    "punctuation": "p",
+    "punctuation.bracket": "pb",
+    "punctuation.delimiter": "pd",
+    "punctuation.special": "ps",
+    "string": "s",
+    "string.special": "ss",
+    "tag": "tg",
+    "tag.delimiter": "td",
+    "tag.error": "te",
+    "type": "t",
+    "type.builtin": "tb",
+    "type.qualifier": "tq",
+    "variable": "v",
+    "variable.builtin": "vb",
+    "variable.parameter": "vp",
+    "comment": "c",
+    "comment.documentation": "cd",
+    "macro": "m",
+    "label": "l",
+    "diff.addition": "da",
+    "diff.deletion": "dd",
+    "number": "n",
+    "text.literal": "tl",
+    "text.emphasis": "em",
+    "text.strong": "st",
+    "text.uri": "tu",
+    "text.reference": "tr",
+    "string.escape": "se",
+    "text.title": "tt",
+    "text.strikethrough": "tx",
+    "spell": "sp",
+    "embedded": "eb",
+    "error": "er",
+    "namespace": "ns",
+    "include": "in",
+    "storageclass": "sc",
+    "repeat": "rp",
+    "conditional": "cn",
+    "exception": "ex",
+    "preproc": "pp",
+    "character": "ch",
+    "character.special": "cs",
+    "variable.member": "vm",
+    "function.definition": "fd",
+    "type.definition": "tf",
+    "function.call": "fc",
+    "keyword.modifier": "km",
+    "keyword.directive": "dr",
+    "string.regexp": "rx",
+    "float": "n",
+    "boolean": "cb"
+};
+
 // Registry loaded from registry.json
 let registry = null;
 
@@ -1299,16 +1526,20 @@ async function loadGrammar(langId) {
         // Import the grammar.js module
         const module = await import(jsPath);
 
-        // Instantiate with WASM fetch function
+        // Instantiate with WASM fetch function and WASI stubs
+        // Make jsPath absolute for URL resolution
+        const baseUrl = new URL(jsPath, window.location.href).href;
         const instance = await module.instantiate(
-            async () => {
-                const response = await fetch(wasmPath);
+            async (name) => {
+                // Handle multiple core modules (grammar.core.wasm, grammar.core2.wasm, etc.)
+                const wasmUrl = new URL(name, baseUrl).href;
+                const response = await fetch(wasmUrl);
                 if (!response.ok) {
-                    throw new Error(`Failed to fetch WASM: ${response.status}`);
+                    throw new Error(`Failed to fetch WASM ${name}: ${response.status}`);
                 }
                 return WebAssembly.compile(await response.arrayBuffer());
             },
-            {}
+            createWasiStubs()
         );
 
         // Get the plugin interface
@@ -1339,11 +1570,19 @@ async function highlightCode(langId, source) {
         // Parse and get spans
         const result = plugin.parse(session);
 
+        // Handle both tagged union (result/error) and direct result formats
+        let parseResult;
         if (result.tag === 'err') {
             throw new Error(result.val.message);
+        } else if (result.tag === 'ok') {
+            parseResult = result.val;
+        } else if (result.spans) {
+            // Direct result format (not wrapped in tagged union)
+            parseResult = result;
+        } else {
+            console.error('Unexpected parse result format:', result);
+            throw new Error('Parse returned unexpected format');
         }
-
-        const parseResult = result.val;
 
         // Convert spans to HTML
         return spansToHtml(source, parseResult.spans);
@@ -1368,10 +1607,10 @@ function spansToHtml(source, spans) {
             html += escapeHtml(source.slice(lastEnd, span.start));
         }
 
-        // Add the highlighted span
+        // Add the highlighted span using custom element (matches arborium's native HTML output)
         const text = source.slice(span.start, span.end);
-        const className = captureToClass(span.capture);
-        html += `<span class="${className}">${escapeHtml(text)}</span>`;
+        const tag = captureToTag(span.capture);
+        html += `<a-${tag}>${escapeHtml(text)}</a-${tag}>`;
 
         lastEnd = Math.max(lastEnd, span.end);
     }
@@ -1384,10 +1623,23 @@ function spansToHtml(source, spans) {
     return html;
 }
 
-// Convert capture name to CSS class
-function captureToClass(capture) {
-    // Map tree-sitter captures to highlight classes
-    return `hl-${capture.replace(/\./g, '-')}`;
+// Convert capture name to short HTML tag (e.g., "keyword" -> "k", "keyword.function" -> "kf")
+function captureToTag(capture) {
+    // Look up the short tag in the mapping
+    if (captureToTagMap[capture]) {
+        return captureToTagMap[capture];
+    }
+    // Try progressively shorter prefixes (e.g., "keyword.control.repeat" -> "keyword.control" -> "keyword")
+    const parts = capture.split('.');
+    while (parts.length > 1) {
+        parts.pop();
+        const prefix = parts.join('.');
+        if (captureToTagMap[prefix]) {
+            return captureToTagMap[prefix];
+        }
+    }
+    // Fallback: use first two letters as a tag
+    return capture.slice(0, 2);
 }
 
 // Escape HTML special characters
@@ -1691,7 +1943,7 @@ async function previewLanguage(id) {
                 const html = await highlightCode(id, source);
                 output.innerHTML = html;
             } catch (e) {
-                // Ignore errors during preview
+                console.error('Preview highlighting failed:', e);
             }
         }
     }
@@ -2228,6 +2480,7 @@ async function doHighlight() {
         output.innerHTML = html;
         updateStatus(`Highlighted ${source.length} chars in ${elapsed}ms`, true);
     } catch (error) {
+        console.error('Highlighting failed:', error);
         output.innerHTML = `<span class="error">${error}</span>`;
         updateStatus('Highlighting failed', false);
     }

@@ -1,15 +1,75 @@
 // Arborium Demo - Component-based highlighting
 // Grammars are loaded on demand as WASM components
 
+// Build WASI stubs for browser environment
+// Each instantiation needs fresh instances where stream objects are instanceof the classes passed in
+function createWasiStubs() {
+    class WasiInputStream {
+        read(len) { return new Uint8Array(0); }
+        blockingRead(len) { return new Uint8Array(0); }
+    }
+
+    class WasiOutputStream {
+        write(data) { return { tag: 'ok', val: data.length }; }
+        blockingFlush() {}
+        blockingWriteAndFlush(data) { return { tag: 'ok', val: data.length }; }
+    }
+
+    class WasiError {}
+
+    // Stream instances must be created from the same class references passed in imports
+    const stdinStream = new WasiInputStream();
+    const stdoutStream = new WasiOutputStream();
+    const stderrStream = new WasiOutputStream();
+
+    return {
+        'wasi:cli/environment': {
+            getEnvironment: () => [],
+        },
+        'wasi:cli/exit': {
+            exit: (code) => { throw new Error(`WASI exit called with code ${code}`); },
+        },
+        'wasi:cli/stderr': {
+            getStderr: () => stderrStream,
+        },
+        'wasi:cli/stdin': {
+            getStdin: () => stdinStream,
+        },
+        'wasi:cli/stdout': {
+            getStdout: () => stdoutStream,
+        },
+        'wasi:filesystem/preopens': {
+            getDirectories: () => [],
+        },
+        'wasi:filesystem/types': {
+            Descriptor: class {},
+            filesystemErrorCode: () => null,
+        },
+        'wasi:io/error': {
+            Error: WasiError,
+        },
+        'wasi:io/streams': {
+            InputStream: WasiInputStream,
+            OutputStream: WasiOutputStream,
+        },
+        'wasi:random/random': {
+            getRandomBytes: (len) => new Uint8Array(Number(len)),
+        },
+    };
+}
+
 // Language metadata and manifest injected by generate-demo
-// {{LANGUAGE_INFO}}
+const languageInfo = <%- language_info %>;
 
 // Examples: maps language id to file extension (e.g. "rust" -> "rs")
 // Content fetched on-demand from /samples/{id}.{ext}
-const exampleExtensions = {{EXAMPLES}};
+const exampleExtensions = <%- examples %>;
 
 // Icons will be injected by generate-demo (SVG strings keyed by iconify name)
-const icons = {{ICONS}};
+const icons = <%- icons %>;
+
+// Capture name to short HTML tag mapping (e.g., "keyword" -> "k", "keyword.function" -> "kf")
+const captureToTagMap = <%- capture_tags %>;
 
 // Registry loaded from registry.json
 let registry = null;
@@ -71,16 +131,20 @@ async function loadGrammar(langId) {
         // Import the grammar.js module
         const module = await import(jsPath);
 
-        // Instantiate with WASM fetch function
+        // Instantiate with WASM fetch function and WASI stubs
+        // Make jsPath absolute for URL resolution
+        const baseUrl = new URL(jsPath, window.location.href).href;
         const instance = await module.instantiate(
-            async () => {
-                const response = await fetch(wasmPath);
+            async (name) => {
+                // Handle multiple core modules (grammar.core.wasm, grammar.core2.wasm, etc.)
+                const wasmUrl = new URL(name, baseUrl).href;
+                const response = await fetch(wasmUrl);
                 if (!response.ok) {
-                    throw new Error(`Failed to fetch WASM: ${response.status}`);
+                    throw new Error(`Failed to fetch WASM ${name}: ${response.status}`);
                 }
                 return WebAssembly.compile(await response.arrayBuffer());
             },
-            {}
+            createWasiStubs()
         );
 
         // Get the plugin interface
@@ -111,11 +175,19 @@ async function highlightCode(langId, source) {
         // Parse and get spans
         const result = plugin.parse(session);
 
+        // Handle both tagged union (result/error) and direct result formats
+        let parseResult;
         if (result.tag === 'err') {
             throw new Error(result.val.message);
+        } else if (result.tag === 'ok') {
+            parseResult = result.val;
+        } else if (result.spans) {
+            // Direct result format (not wrapped in tagged union)
+            parseResult = result;
+        } else {
+            console.error('Unexpected parse result format:', result);
+            throw new Error('Parse returned unexpected format');
         }
-
-        const parseResult = result.val;
 
         // Convert spans to HTML
         return spansToHtml(source, parseResult.spans);
@@ -140,10 +212,10 @@ function spansToHtml(source, spans) {
             html += escapeHtml(source.slice(lastEnd, span.start));
         }
 
-        // Add the highlighted span
+        // Add the highlighted span using custom element (matches arborium's native HTML output)
         const text = source.slice(span.start, span.end);
-        const className = captureToClass(span.capture);
-        html += `<span class="${className}">${escapeHtml(text)}</span>`;
+        const tag = captureToTag(span.capture);
+        html += `<a-${tag}>${escapeHtml(text)}</a-${tag}>`;
 
         lastEnd = Math.max(lastEnd, span.end);
     }
@@ -156,10 +228,23 @@ function spansToHtml(source, spans) {
     return html;
 }
 
-// Convert capture name to CSS class
-function captureToClass(capture) {
-    // Map tree-sitter captures to highlight classes
-    return `hl-${capture.replace(/\./g, '-')}`;
+// Convert capture name to short HTML tag (e.g., "keyword" -> "k", "keyword.function" -> "kf")
+function captureToTag(capture) {
+    // Look up the short tag in the mapping
+    if (captureToTagMap[capture]) {
+        return captureToTagMap[capture];
+    }
+    // Try progressively shorter prefixes (e.g., "keyword.control.repeat" -> "keyword.control" -> "keyword")
+    const parts = capture.split('.');
+    while (parts.length > 1) {
+        parts.pop();
+        const prefix = parts.join('.');
+        if (captureToTagMap[prefix]) {
+            return captureToTagMap[prefix];
+        }
+    }
+    // Fallback: use first two letters as a tag
+    return capture.slice(0, 2);
 }
 
 // Escape HTML special characters
@@ -463,7 +548,7 @@ async function previewLanguage(id) {
                 const html = await highlightCode(id, source);
                 output.innerHTML = html;
             } catch (e) {
-                // Ignore errors during preview
+                console.error('Preview highlighting failed:', e);
             }
         }
     }
@@ -1000,6 +1085,7 @@ async function doHighlight() {
         output.innerHTML = html;
         updateStatus(`Highlighted ${source.length} chars in ${elapsed}ms`, true);
     } catch (error) {
+        console.error('Highlighting failed:', error);
         output.innerHTML = `<span class="error">${error}</span>`;
         updateStatus('Highlighting failed', false);
     }
