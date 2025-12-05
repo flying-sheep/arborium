@@ -1,9 +1,5 @@
 [workspace]
 members = ["xtask"]
 
-[package]
-version = "0.1.3"
-edition = "2024"
-
-# This minimal workspace exists only for local development
-# Generated workspaces will be in langs/group-{animal}/
+# Minimal workspace for now; future generated workspaces
+# will live under langs/group-{animal}/.
