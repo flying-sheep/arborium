@@ -4,6 +4,8 @@ use std::sync::{Arc, Mutex};
 use std::thread;
 use std::time::Instant;
 
+use rand::seq::SliceRandom;
+
 use camino::{Utf8Path, Utf8PathBuf};
 use chrono::Utc;
 use miette::{Context, IntoDiagnostic, Result};

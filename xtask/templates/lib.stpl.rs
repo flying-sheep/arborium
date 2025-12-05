@@ -13,7 +13,7 @@ pub fn language() -> Language {
 
 <% if highlights_exists { %>
 /// The highlights query for <%= grammar_id %>.
-pub const HIGHLIGHTS_QUERY: &str = include_str!("../queries/highlights.scm");
+pub const HIGHLIGHTS_QUERY: &str = include_str!("../../def/queries/highlights.scm");
 <% } else { %>
 /// The highlights query for <%= grammar_id %> (empty - no highlights available).
 pub const HIGHLIGHTS_QUERY: &str = "";
@@ -21,7 +21,7 @@ pub const HIGHLIGHTS_QUERY: &str = "";
 
 <% if injections_exists { %>
 /// The injections query for <%= grammar_id %>.
-pub const INJECTIONS_QUERY: &str = include_str!("../queries/injections.scm");
+pub const INJECTIONS_QUERY: &str = include_str!("../../def/queries/injections.scm");
 <% } else { %>
 /// The injections query for <%= grammar_id %> (empty - no injections available).
 pub const INJECTIONS_QUERY: &str = "";
@@ -29,7 +29,7 @@ pub const INJECTIONS_QUERY: &str = "";
 
 <% if locals_exists { %>
 /// The locals query for <%= grammar_id %>.
-pub const LOCALS_QUERY: &str = include_str!("../queries/locals.scm");
+pub const LOCALS_QUERY: &str = include_str!("../../def/queries/locals.scm");
 <% } else { %>
 /// The locals query for <%= grammar_id %> (empty - no locals available).
 pub const LOCALS_QUERY: &str = "";

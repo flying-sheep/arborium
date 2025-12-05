@@ -9,6 +9,9 @@ repository = "https://github.com/bearcove/arborium"
 [lib]
 crate-type = ["cdylib"]
 
+[build-dependencies]
+cc = "1"
+
 [dependencies]
 arborium-plugin-runtime = { path = "<%= shared_rel %>/arborium-plugin-runtime" }
 arborium-wire = { path = "<%= shared_rel %>/arborium-wire" }
@@ -19,7 +22,6 @@ wit-bindgen = "0.36"
 
 [patch.crates-io]
 arborium-sysroot = { path = "<%= shared_rel %>/arborium-sysroot" }
-arborium-test-harness = { path = "<%= shared_rel %>/arborium-test-harness" }
 
 [package.metadata.component]
 package = "arborium:grammar"

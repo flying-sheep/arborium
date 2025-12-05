@@ -122,6 +122,14 @@ impl exports::arborium::grammar::plugin::Guest for PluginImpl {
             }),
         }
     }
+
+    fn cancel(session: u32) {
+        get_or_init_runtime()
+            .borrow_mut()
+            .as_mut()
+            .expect("runtime not initialized")
+            .cancel(session);
+    }
 }
 
 export!(PluginImpl);
