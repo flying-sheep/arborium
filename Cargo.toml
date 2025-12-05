@@ -89,6 +89,7 @@ arborium-starlark = { path = "langs/group-pine/starlark/crate", version = "0.2.0
 arborium-svelte = { path = "langs/group-willow/svelte/crate", version = "0.2.0" }
 arborium-swift = { path = "langs/group-pine/swift/crate", version = "0.2.0" }
 arborium-textproto = { path = "langs/group-pine/textproto/crate", version = "0.2.0" }
+arborium-theme = { path = "crates/arborium-theme", version = "0.2.0" }
 arborium-thrift = { path = "langs/group-pine/thrift/crate", version = "0.2.0" }
 arborium-tlaplus = { path = "langs/group-moss/tlaplus/crate", version = "0.2.0" }
 arborium-toml = { path = "langs/group-maple/toml/crate", version = "0.2.0" }

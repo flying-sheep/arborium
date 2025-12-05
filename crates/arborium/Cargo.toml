@@ -141,7 +141,7 @@ lang-zsh = ["dep:arborium-zsh"]
 [dependencies]
 tree-sitter-patched-arborium = { version = "0.25.10", path = "../../tree-sitter" }
 tree-sitter-highlight-patched-arborium = { version = "0.25.10", path = "../../tree-sitter-highlight" }
-toml = "0.8"
+arborium-theme = { workspace = true }
 
 # Optional grammar dependencies - use workspace versions
 arborium-ada = { workspace = true, optional = true }

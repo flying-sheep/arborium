@@ -48,9 +48,11 @@ pub use tree_sitter_patched_arborium as tree_sitter;
 
 pub mod ansi;
 pub mod highlighter;
-pub mod highlights;
 pub mod html;
-pub mod theme;
+
+// Re-export from arborium-theme
+pub use arborium_theme::highlights;
+pub use arborium_theme::theme;
 
 pub use highlighter::Highlighter;
 

@@ -22,6 +22,7 @@ const PRE_CRATES: &[&str] = &[
     "tree-sitter-highlight",     // tree-sitter-highlight-patched-arborium
     "crates/arborium-sysroot",
     "crates/arborium-test-harness",
+    "crates/arborium-theme",     // Theme and highlight definitions
 ];
 
 /// Crates in the "post" group - must be published after grammar crates.

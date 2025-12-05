@@ -421,7 +421,7 @@ fn generate_sample_files(
 }
 
 fn generate_theme_css(demo_dir: &Path) -> Result<(), String> {
-    use arborium::theme::builtin;
+    use arborium_theme::theme::builtin;
 
     let pkg_dir = demo_dir.join("pkg");
     if !pkg_dir.exists() {
@@ -466,18 +466,19 @@ fn copy_plugins_json(crates_dir: &Utf8Path, demo_dir: &Path, dev: bool) -> Resul
     // Read and parse the plugins.json
     let content = fs::read_to_string(&plugins_path).map_err(|e| e.to_string())?;
 
-    // Parse as JSON value so we can modify it
-    let mut json: serde_json::Value =
-        serde_json::from_str(&content).map_err(|e| e.to_string())?;
+    // Parse as facet Value so we can modify it
+    let mut json: facet_value::Value =
+        facet_json::from_str(&content).map_err(|e| e.to_string())?;
 
     // Add dev_mode field
     if let Some(obj) = json.as_object_mut() {
-        obj.insert("dev_mode".to_string(), serde_json::Value::Bool(dev));
+        let dev_value = if dev { facet_value::Value::TRUE } else { facet_value::Value::FALSE };
+        obj.insert(facet_value::VString::from("dev_mode"), dev_value);
     }
 
     // Write to demo directory
     let output_path = demo_dir.join("plugins.json");
-    let output = serde_json::to_string_pretty(&json).map_err(|e| e.to_string())?;
+    let output = facet_json::to_string_pretty(&json);
     fs::write(&output_path, output).map_err(|e| e.to_string())?;
 
     Ok(())
@@ -953,7 +954,7 @@ fn build_icons_js(icons: &BTreeMap<String, String>) -> String {
 }
 
 fn build_capture_tags_js() -> String {
-    use arborium::highlights::HIGHLIGHTS;
+    use arborium_theme::highlights::HIGHLIGHTS;
 
     let mut js = String::from("{\n");
     for (i, def) in HIGHLIGHTS.iter().enumerate() {
