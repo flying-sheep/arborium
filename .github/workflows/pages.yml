@@ -42,28 +42,8 @@ jobs:
       - name: Build WASM plugins
         run: arborium-xtask build
 
-      - name: Build demo assets
-        run: arborium-xtask build --demo
-
       - name: Prepare pages directory
-        run: |
-          mkdir -p _site
-          cp demo/index.html _site/
-          cp demo/styles.css _site/
-          cp demo/registry.json _site/
-          cp demo/plugins.json _site/
-          cp demo/*.woff2 _site/
-          cp -r demo/pkg _site/
-          cp -r demo/samples _site/
-          # Copy WASM plugins
-          mkdir -p _site/plugins
-          if [ -d demo/plugins ]; then
-            cp -r demo/plugins/* _site/plugins/ 2>/dev/null || true
-          fi
-          # Also check dist/plugins for built WASM files
-          if [ -d dist/plugins ]; then
-            cp -r dist/plugins/* _site/plugins/ 2>/dev/null || true
-          fi
+        run: ./scripts/prepare-website.sh _site
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
