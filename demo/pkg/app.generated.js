@@ -133,7 +133,7 @@ const languageInfo = {
         "tag": "shell",
         "icon": "mdi:console",
         "tier": 5,
-        "description": "DOS/Windows batch scripting (.bat/.cmd); commands documented in the [MS-DOS 5.x manual](https://winworldpc.com/product/ms-dos/5x) and modern [Windows Commands reference](https://learn.microsoft.com/windows-server/administration/windows-commands/windows-commands).",
+        "description": "DOS/Windows batch scripting (.bat/.cmd); commands documented in the <a href=\"https://winworldpc.com/product/ms-dos/5x\">MS-DOS 5.x manual</a> and modern <a href=\"https://learn.microsoft.com/windows-server/administration/windows-commands/windows-commands\">Windows Commands reference</a>.",
         "inventor": "Tim Paterson",
         "year": 1981,
         "url": "https://en.wikipedia.org/wiki/Batch_file",
@@ -157,11 +157,11 @@ const languageInfo = {
         "tag": "code",
         "icon": "devicon-plain:csharp",
         "tier": 1,
-        "description": "Modern object-oriented language for .NET; official spec is published as [ECMA-334](https://www.ecma-international.org/publications-and-standards/standards/ecma-334/).",
+        "description": "Modern object-oriented language for .NET; official spec is published as <a href=\"https://www.ecma-international.org/publications-and-standards/standards/ecma-334/\">ECMA-334</a>.",
         "inventor": "Anders Hejlsberg",
         "year": 2000,
         "url": "https://en.wikipedia.org/wiki/C_Sharp_(programming_language)",
-        "trivia": "Originally code-named 'Cool' (C-like Object Oriented Language) inside Microsoft before being renamed C#; see the [ECMA-334 specification](https://www.ecma-international.org/publications-and-standards/standards/ecma-334/) and early .NET announcements.",
+        "trivia": "Originally code-named 'Cool' (C-like Object Oriented Language) inside Microsoft before being renamed C#; see the <a href=\"https://www.ecma-international.org/publications-and-standards/standards/ecma-334/\">ECMA-334 specification</a> and early .NET announcements.",
         "aliases": ["cs", "csharp"]
     },
     "caddy": {
@@ -169,33 +169,33 @@ const languageInfo = {
         "tag": "config",
         "icon": "simple-icons:caddy",
         "tier": 5,
-        "description": "Caddyfile configuration language for the Caddy web server; official docs at [caddyserver.com](https://caddyserver.com/docs/caddyfile).",
+        "description": "Caddyfile configuration language for the Caddy web server; official docs at <a href=\"https://caddyserver.com/docs/caddyfile\">caddyserver.com</a>.",
         "inventor": "Matt Holt and Caddy contributors",
         "year": 2015,
         "url": "https://caddyserver.com/docs/",
-        "trivia": "Caddy launched in 2015 with automatic HTTPS via Let's Encrypt; minimal syntax allows a single-line site definition—documented in the [Caddyfile documentation](https://caddyserver.com/docs/caddyfile)."
+        "trivia": "Caddy launched in 2015 with automatic HTTPS via Let's Encrypt; minimal syntax allows a single-line site definition—documented in the <a href=\"https://caddyserver.com/docs/caddyfile\">Caddyfile documentation</a>."
     },
     "capnp": {
         "name": "Cap'n Proto",
         "tag": "data",
         "icon": "mdi:message-fast-outline",
         "tier": 4,
-        "description": "Cap'n Proto serialization and RPC system; design and spec at [capnproto.org](https://capnproto.org/).",
+        "description": "Cap'n Proto serialization and RPC system; design and spec at <a href=\"https://capnproto.org/\">capnproto.org</a>.",
         "inventor": "Kenton Varda",
         "year": 2013,
         "url": "https://en.wikipedia.org/wiki/Cap'n_Proto",
-        "trivia": "Varda released Cap'n Proto on April 1, 2013, as a faster, zero-copy successor to Protocol Buffers; the [FAQ](https://capnproto.org/faq.html) explains the zero-copy format."
+        "trivia": "Varda released Cap'n Proto on April 1, 2013, as a faster, zero-copy successor to Protocol Buffers; the <a href=\"https://capnproto.org/faq.html\">FAQ</a> explains the zero-copy format."
     },
     "clojure": {
         "name": "Clojure",
         "tag": "code",
         "icon": "simple-icons:clojure",
         "tier": 2,
-        "description": "Functional Lisp dialect for the JVM with strong concurrency support; official site: [clojure.org](https://clojure.org/).",
+        "description": "Functional Lisp dialect for the JVM with strong concurrency support; official site: <a href=\"https://clojure.org/\">clojure.org</a>.",
         "inventor": "Rich Hickey",
         "year": 2007,
         "url": "https://en.wikipedia.org/wiki/Clojure",
-        "trivia": "Hickey designed Clojure to simplify concurrent programming; the language was announced publicly in 2007 and documented in the [release downloads](https://clojure.org/releases/downloads).",
+        "trivia": "Hickey designed Clojure to simplify concurrent programming; the language was announced publicly in 2007 and documented in the <a href=\"https://clojure.org/releases/downloads\">release downloads</a>.",
         "aliases": ["clj"]
     },
     "cmake": {
@@ -216,7 +216,7 @@ const languageInfo = {
         "tier": 4,
         "description": "A multi-paradigm dialect of Lisp standardized by ANSI with powerful macro capabilities.",
         "inventor": "ANSI X3J13 committee",
-        "year": 1984,
+        "year": 1994,
         "url": "https://en.wikipedia.org/wiki/Common_Lisp",
         "trivia": "The Common Lisp standard is over 1,000 pages long and defines nearly 1,000 symbols—making it one of the most comprehensive language specifications ever written.",
         "aliases": ["lisp", "cl"]
@@ -226,11 +226,11 @@ const languageInfo = {
         "tag": "code",
         "icon": "devicon-plain:cplusplus",
         "tier": 1,
-        "description": "General-purpose language extending C with zero-overhead abstractions; see Stroustrup's official overview at [isocpp.org](https://isocpp.org/about).",
+        "description": "General-purpose language extending C with zero-overhead abstractions; see Stroustrup's official overview at <a href=\"https://isocpp.org/about\">isocpp.org</a>.",
         "inventor": "Bjarne Stroustrup",
         "year": 1985,
         "url": "https://en.wikipedia.org/wiki/C%2B%2B",
-        "trivia": "Began as 'C with Classes' in 1979 and was renamed C++ (using the C increment operator) in 1983; Stroustrup recounts the history in [The Design and Evolution of C++](https://www.stroustrup.com/dne.html).",
+        "trivia": "Began as 'C with Classes' in 1979 and was renamed C++ (using the C increment operator) in 1983; Stroustrup recounts the history in <a href=\"https://www.stroustrup.com/dne.html\">The Design and Evolution of C++</a>.",
         "aliases": ["c++", "cxx", "hpp"]
     },
     "css": {
@@ -238,11 +238,11 @@ const languageInfo = {
         "tag": "markup",
         "icon": "devicon-plain:css3",
         "tier": 2,
-        "description": "Style sheet language for web documents; the living standard is maintained by the [W3C](https://www.w3.org/TR/CSS/).",
+        "description": "Style sheet language for web documents; the living standard is maintained by the <a href=\"https://www.w3.org/TR/CSS/\">W3C</a>.",
         "inventor": "Håkon Wium Lie",
         "year": 1996,
         "url": "https://en.wikipedia.org/wiki/CSS",
-        "trivia": "Wium Lie proposed CSS on 10 Oct 1994 while at CERN and it became a W3C Recommendation in 1996; see his [original proposal](https://www.w3.org/People/howcome/p/Spec/) and the [CSS1 specification](https://www.w3.org/TR/REC-CSS1-961217)."
+        "trivia": "Wium Lie proposed CSS on 10 Oct 1994 while at CERN and it became a W3C Recommendation in 1996; see his <a href=\"https://www.w3.org/People/howcome/p/Spec/\">original proposal</a> and the <a href=\"https://www.w3.org/TR/REC-CSS1-961217\">CSS1 specification</a>."
     },
     "d": {
         "name": "D",
@@ -261,33 +261,33 @@ const languageInfo = {
         "tag": "code",
         "icon": "devicon-plain:dart",
         "tier": 2,
-        "description": "Object-oriented language optimized for UI development; official site: [dart.dev](https://dart.dev/).",
+        "description": "Object-oriented language optimized for UI development; official site: <a href=\"https://dart.dev/\">dart.dev</a>.",
         "inventor": "Lars Bak and Kasper Lund",
         "year": 2011,
         "url": "https://en.wikipedia.org/wiki/Dart_(programming_language)",
-        "trivia": "Unveiled at GOTO Aarhus 2011 by Bak and Lund; the [language tour](https://dart.dev/guides/language/language-tour) documents its core goals, and Dart became the language behind Flutter when Google announced Flutter in 2017."
+        "trivia": "Unveiled at GOTO Aarhus 2011 by Bak and Lund; the <a href=\"https://dart.dev/guides/language/language-tour\">language tour</a> documents its core goals, and Dart became the language behind Flutter when Google released Flutter in May 2017."
     },
     "devicetree": {
         "name": "Device Tree",
         "tag": "config",
         "icon": "mdi:file-tree",
         "tier": 5,
-        "description": "Data structure for describing hardware; documented in the [Device Tree specifications](https://www.devicetree.org/specifications/).",
+        "description": "Data structure for describing hardware; documented in the <a href=\"https://www.devicetree.org/specifications/\">Device Tree specifications</a>.",
         "inventor": "Sun Microsystems (Open Firmware)",
         "year": 1988,
         "url": "https://en.wikipedia.org/wiki/Devicetree",
-        "trivia": "Originated with Open Firmware (IEEE 1275-1994); the Flattened Device Tree format for Linux was introduced in 2005—see the [specifications](https://www.devicetree.org/specifications/)."
+        "trivia": "Originated with Open Firmware (IEEE 1275-1994); the Flattened Device Tree format for Linux was introduced in 2005—see the <a href=\"https://www.devicetree.org/specifications/\">specifications</a>."
     },
     "diff": {
         "name": "Diff",
         "tag": "data",
         "icon": "mdi:file-compare",
         "tier": 3,
-        "description": "Unified diff format for representing file differences; GNU diffutils manual documents the format ([diffutils manual](https://www.gnu.org/software/diffutils/manual/)).",
+        "description": "Unified diff format for representing file differences; GNU diffutils manual documents the format (<a href=\"https://www.gnu.org/software/diffutils/manual/\">diffutils manual</a>).",
         "inventor": "Wayne Davison",
         "year": 1990,
         "url": "https://en.wikipedia.org/wiki/Diff",
-        "trivia": "Wayne Davison proposed the unified format in Aug 1990 on comp.sources.misc; GNU diff added support in version 1.15 (Jan 1991) per the [NEWS file](https://git.savannah.gnu.org/gitweb/?p=diffutils.git;a=blob;f=NEWS;hb=refs/tags/v1.15).",
+        "trivia": "Wayne Davison proposed the unified format in Aug 1990 on comp.sources.misc; GNU diff added support in version 1.15 (Jan 1991) per the <a href=\"https://git.savannah.gnu.org/gitweb/?p=diffutils.git;a=blob;f=NEWS;hb=refs/tags/v1.15\">NEWS file</a>.",
         "aliases": ["patch"]
     },
     "dockerfile": {
@@ -295,11 +295,11 @@ const languageInfo = {
         "tag": "config",
         "icon": "devicon-plain:docker",
         "tier": 3,
-        "description": "Declarative format for Docker image builds; official reference: [Dockerfile reference](https://docs.docker.com/engine/reference/builder/).",
+        "description": "Declarative format for Docker image builds; official reference: <a href=\"https://docs.docker.com/engine/reference/builder/\">Dockerfile reference</a>.",
         "inventor": "Solomon Hykes and Docker, Inc.",
         "year": 2013,
         "url": "https://docs.docker.com/engine/reference/builder/",
-        "trivia": "Introduced with Docker's first public release in 2013; the [reference](https://docs.docker.com/engine/reference/builder/) documents each instruction and the layer-caching model that made Docker adoption explode.",
+        "trivia": "Introduced with Docker's first public release in 2013; the <a href=\"https://docs.docker.com/engine/reference/builder/\">reference</a> documents each instruction and the layer-caching model that made Docker adoption explode.",
         "aliases": ["docker"]
     },
     "dot": {
@@ -330,11 +330,11 @@ const languageInfo = {
         "tag": "code",
         "icon": "devicon-plain:elixir",
         "tier": 1,
-        "description": "Functional, concurrent language on the BEAM VM; [official site](https://elixir-lang.org/).",
+        "description": "Functional, concurrent language on the BEAM VM; <a href=\"https://elixir-lang.org/\">official site</a>.",
         "inventor": "José Valim",
         "year": 2011,
         "url": "https://en.wikipedia.org/wiki/Elixir_(programming_language)",
-        "trivia": "Valim announced Elixir in 2011 to blend Ruby-like ergonomics with Erlang's fault-tolerance; see the [getting started guide](https://elixir-lang.org/getting-started/introduction.html) and the original [announcement blog post](https://elixir-lang.org/blog/2011/01/09/introducing-elixir/).",
+        "trivia": "Valim announced Elixir in 2011 to blend Ruby-like ergonomics with Erlang's fault-tolerance; see the <a href=\"https://elixir-lang.org/getting-started/introduction.html\">getting started guide</a> and the original <a href=\"https://elixir-lang.org/blog/2011/01/09/introducing-elixir/\">announcement blog post</a>.",
         "aliases": ["ex", "exs"]
     },
     "elm": {
@@ -342,11 +342,11 @@ const languageInfo = {
         "tag": "code",
         "icon": "devicon-plain:elm",
         "tier": 2,
-        "description": "Purely functional language for reliable web apps; see the official [guide](https://guide.elm-lang.org/).",
+        "description": "Purely functional language for reliable web apps; see the official <a href=\"https://guide.elm-lang.org/\">guide</a>.",
         "inventor": "Evan Czaplicki",
         "year": 2012,
         "url": "https://en.wikipedia.org/wiki/Elm_(programming_language)",
-        "trivia": "Introduced by Czaplicki in 2012 with 'The Elm Architecture' that later inspired Redux; documented in the [architecture section](https://guide.elm-lang.org/architecture/) of the guide."
+        "trivia": "Introduced by Czaplicki in 2012 with 'The Elm Architecture' that later inspired Redux; documented in the <a href=\"https://guide.elm-lang.org/architecture/\">architecture section</a> of the guide."
     },
     "erlang": {
         "name": "Erlang",
@@ -376,11 +376,11 @@ const languageInfo = {
         "tag": "code",
         "icon": "devicon-plain:fsharp",
         "tier": 2,
-        "description": "Functional-first .NET language with type inference; [official docs](https://learn.microsoft.com/dotnet/fsharp/).",
+        "description": "Functional-first .NET language with type inference; <a href=\"https://learn.microsoft.com/dotnet/fsharp/\">official docs</a>.",
         "inventor": "Don Syme",
         "year": 2005,
         "url": "https://en.wikipedia.org/wiki/F_Sharp_(programming_language)",
-        "trivia": "Developed at Microsoft Research and first released publicly in 2005; see Syme's early [language reference](https://learn.microsoft.com/dotnet/fsharp/language-reference/) and the 2010 [language specification](https://learn.microsoft.com/dotnet/fsharp/language-reference/language-specification).",
+        "trivia": "Developed at Microsoft Research and first released publicly in 2005; see Syme's early <a href=\"https://learn.microsoft.com/dotnet/fsharp/language-reference/\">language reference</a> and the 2010 <a href=\"https://learn.microsoft.com/dotnet/fsharp/language-reference/language-specification\">language specification</a>.",
         "aliases": ["fs", "f#"]
     },
     "gleam": {
@@ -388,18 +388,18 @@ const languageInfo = {
         "tag": "code",
         "icon": "devicon-plain:gleam",
         "tier": 1,
-        "description": "Statically typed functional language for the BEAM; [official docs](https://gleam.run/).",
+        "description": "Statically typed functional language for the BEAM; <a href=\"https://gleam.run/\">official docs</a>.",
         "inventor": "Louis Pilfold",
         "year": 2016,
         "url": "https://en.wikipedia.org/wiki/Gleam_(programming_language)",
-        "trivia": "Pilfold announced Gleam in 2016 to bring ML-style typing to Erlang; version 1.0 shipped in March 2024 per the [v1.0 announcement](https://gleam.run/news/gleam-v1.0/)."
+        "trivia": "Pilfold announced Gleam in 2016 to bring ML-style typing to Erlang; version 1.0 shipped in March 2024 per the <a href=\"https://gleam.run/news/gleam-v1.0/\">v1.0 announcement</a>."
     },
     "glsl": {
         "name": "GLSL",
         "tag": "code",
         "icon": "devicon-plain:opengl",
         "tier": 3,
-        "description": "OpenGL Shading Language for programmable GPUs; defined in the [GLSL 4.60 specification](https://registry.khronos.org/OpenGL/specs/gl/GLSLangSpec.4.60.pdf).",
+        "description": "OpenGL Shading Language for programmable GPUs; defined in the <a href=\"https://registry.khronos.org/OpenGL/specs/gl/GLSLangSpec.4.60.pdf\">GLSL 4.60 specification</a>.",
         "inventor": "OpenGL ARB",
         "year": 2004,
         "url": "https://en.wikipedia.org/wiki/OpenGL_Shading_Language",
@@ -411,11 +411,11 @@ const languageInfo = {
         "tag": "code",
         "icon": "devicon-plain:go",
         "tier": 1,
-        "description": "Statically typed compiled language from Google; the canonical [language specification](https://go.dev/ref/spec).",
+        "description": "Statically typed compiled language from Google; the canonical <a href=\"https://go.dev/ref/spec\">language specification</a>.",
         "inventor": "Robert Griesemer, Rob Pike, Ken Thompson",
         "year": 2009,
         "url": "https://en.wikipedia.org/wiki/Go_(programming_language)",
-        "trivia": "Announced publicly in Nov 2009; its mascot the Gopher was created by Renée French and documented on the [Go blog](https://go.dev/blog/gopher).",
+        "trivia": "Announced publicly in Nov 2009; its mascot the Gopher was created by Renée French and documented on the <a href=\"https://go.dev/blog/gopher\">Go blog</a>.",
         "aliases": ["golang"]
     },
     "graphql": {
@@ -435,7 +435,7 @@ const languageInfo = {
         "tag": "code",
         "icon": "devicon-plain:haskell",
         "tier": 1,
-        "description": "Purely functional language with lazy evaluation and strong typing; see the [Haskell 2010 Report](https://www.haskell.org/onlinereport/haskell2010/) for the language definition.",
+        "description": "Purely functional language with lazy evaluation and strong typing; see the <a href=\"https://www.haskell.org/onlinereport/haskell2010/\">Haskell 2010 Report</a> for the language definition.",
         "inventor": "Simon Peyton Jones, Paul Hudak, Philip Wadler, et al.",
         "year": 1990,
         "url": "https://en.wikipedia.org/wiki/Haskell",
@@ -447,11 +447,11 @@ const languageInfo = {
         "tag": "config",
         "icon": "devicon-plain:terraform",
         "tier": 3,
-        "description": "HashiCorp Configuration Language for IaC; [language spec](https://developer.hashicorp.com/terraform/language/syntax/configuration) lives in the Terraform docs.",
+        "description": "HashiCorp Configuration Language for IaC; <a href=\"https://developer.hashicorp.com/terraform/language/syntax/configuration\">language spec</a> lives in the Terraform docs.",
         "inventor": "HashiCorp",
         "year": 2014,
         "url": "https://github.com/hashicorp/hcl",
-        "trivia": "Designed to be both human-readable and machine-friendly; Terraform accepts both JSON and native HCL, documented in the [Terraform language guide](https://developer.hashicorp.com/terraform/language).",
+        "trivia": "Designed to be both human-readable and machine-friendly; Terraform accepts both JSON and native HCL, documented in the <a href=\"https://developer.hashicorp.com/terraform/language\">Terraform language guide</a>.",
         "aliases": ["terraform", "tf"]
     },
     "hlsl": {
@@ -459,22 +459,22 @@ const languageInfo = {
         "tag": "code",
         "icon": "mdi:cube-outline",
         "tier": 3,
-        "description": "High-Level Shading Language for DirectX; [official reference](https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-pguide).",
+        "description": "High-Level Shading Language for DirectX; <a href=\"https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl-pguide\">official reference</a>.",
         "inventor": "Microsoft",
         "year": 2002,
         "url": "https://en.wikipedia.org/wiki/High-Level_Shading_Language",
-        "trivia": "Introduced with DirectX 9; modern compiler `dxc` targets DXIL and SPIR-V—see [DirectX Shader Compiler](https://github.com/microsoft/DirectXShaderCompiler)."
+        "trivia": "Introduced with DirectX 9; modern compiler `dxc` targets DXIL and SPIR-V—see <a href=\"https://github.com/microsoft/DirectXShaderCompiler\">DirectX Shader Compiler</a>."
     },
     "html": {
         "name": "HTML",
         "tag": "markup",
         "icon": "devicon-plain:html5",
         "tier": 2,
-        "description": "Standard markup language for web documents; current [living standard](https://html.spec.whatwg.org/) is maintained by WHATWG.",
+        "description": "Standard markup language for web documents; current <a href=\"https://html.spec.whatwg.org/\">living standard</a> is maintained by WHATWG.",
         "inventor": "Tim Berners-Lee",
         "year": 1993,
         "url": "https://en.wikipedia.org/wiki/HTML",
-        "trivia": "Berners-Lee introduced HTML in 1991; the first public description appeared in 1993, and the modern living standard is maintained by [WHATWG](https://whatwg.org/) as the authoritative spec.",
+        "trivia": "Berners-Lee introduced HTML in 1991; the first public description appeared in 1993, and the modern living standard is maintained by <a href=\"https://whatwg.org/\">WHATWG</a> as the authoritative spec.",
         "aliases": ["htm"]
     },
     "idris": {
@@ -482,11 +482,11 @@ const languageInfo = {
         "tag": "code",
         "icon": "mdi:alpha-i-box-outline",
         "tier": 4,
-        "description": "Dependently typed functional language for verified software; see the [official site](https://www.idris-lang.org/).",
+        "description": "Dependently typed functional language for verified software; see the <a href=\"https://www.idris-lang.org/\">official site</a>.",
         "inventor": "Edwin Brady",
         "year": 2009,
         "url": "https://en.wikipedia.org/wiki/Idris_(programming_language)",
-        "trivia": "Brady introduced Idris in 2009 to bring dependent types to general-purpose programming; the [documentation](https://www.idris-lang.org/documentation/) demonstrates length-indexed vectors and other proofs in code.",
+        "trivia": "Brady introduced Idris in 2009 to bring dependent types to general-purpose programming; the <a href=\"https://www.idris-lang.org/documentation/\">documentation</a> demonstrates length-indexed vectors and other proofs in code.",
         "aliases": ["idr"]
     },
     "ini": {
@@ -494,11 +494,11 @@ const languageInfo = {
         "tag": "config",
         "icon": "mdi:cog-outline",
         "tier": 3,
-        "description": "Simple key-value configuration format; Microsoft documented the `.ini` structure in early Windows SDKs (e.g., [Win16 documentation](https://win16.org/)).",
+        "description": "Simple key-value configuration format; Microsoft documented the `.ini` structure in early Windows SDKs (e.g., <a href=\"https://win16.org/\">Win16 documentation</a>).",
         "inventor": "Unknown (popularized by Microsoft Windows)",
         "year": 1985,
         "url": "https://en.wikipedia.org/wiki/INI_file",
-        "trivia": "Windows 1.0 (1985) popularized `.ini` for application settings; the legacy WinAPI functions `GetPrivateProfileString` etc. are still documented in [Windows API documentation](https://learn.microsoft.com/windows/win32/api/winbase/).",
+        "trivia": "Windows 1.0 (1985) popularized `.ini` for application settings; the legacy WinAPI functions `GetPrivateProfileString` etc. are still documented in <a href=\"https://learn.microsoft.com/windows/win32/api/winbase/\">Windows API documentation</a>.",
         "aliases": ["conf", "cfg"]
     },
     "java": {
@@ -506,22 +506,22 @@ const languageInfo = {
         "tag": "code",
         "icon": "devicon-plain:java",
         "tier": 1,
-        "description": "Object-oriented, class-based language targeting the JVM; authoritative [Java Language Specification](https://docs.oracle.com/javase/specs/).",
+        "description": "Object-oriented, class-based language targeting the JVM; authoritative <a href=\"https://docs.oracle.com/javase/specs/\">Java Language Specification</a>.",
         "inventor": "James Gosling",
         "year": 1995,
         "url": "https://en.wikipedia.org/wiki/Java_(programming_language)",
-        "trivia": "Started as 'Oak' then renamed Java after Java coffee; the 'write once, run anywhere' mantra comes from Sun's 1995 launch. The [Java Language Specification](https://docs.oracle.com/javase/specs/) defines the language across versions."
+        "trivia": "Started as 'Oak' then renamed Java after Java coffee; the 'write once, run anywhere' mantra comes from Sun's 1995 launch. The <a href=\"https://docs.oracle.com/javase/specs/\">Java Language Specification</a> defines the language across versions."
     },
     "javascript": {
         "name": "JavaScript",
         "tag": "code",
         "icon": "devicon-plain:javascript",
         "tier": 1,
-        "description": "High-level, dynamic language for the web and beyond; the current [ECMAScript specification](https://tc39.es/ecma262/).",
+        "description": "High-level, dynamic language for the web and beyond; the current <a href=\"https://tc39.es/ecma262/\">ECMAScript specification</a>.",
         "inventor": "Brendan Eich",
         "year": 1995,
         "url": "https://en.wikipedia.org/wiki/JavaScript",
-        "trivia": "Eich created JavaScript in 10 days at Netscape in May 1995; it shipped in Netscape Navigator 2.0. TC39 now standardizes it via [ECMAScript specification](https://tc39.es/ecma262/), and the official name of the language is ECMAScript.",
+        "trivia": "Eich created JavaScript in 10 days at Netscape in May 1995; it shipped in Netscape Navigator 2.0. TC39 now standardizes it via <a href=\"https://tc39.es/ecma262/\">ECMAScript specification</a>, and the official name of the language is ECMAScript.",
         "aliases": ["js", "jsx", "mjs", "cjs"]
     },
     "jinja2": {
@@ -529,11 +529,11 @@ const languageInfo = {
         "tag": "markup",
         "icon": "mdi:code-braces",
         "tier": 5,
-        "description": "Python templating engine inspired by Django; [official docs](https://jinja.palletsprojects.com/).",
+        "description": "Python templating engine inspired by Django; <a href=\"https://jinja.palletsprojects.com/\">official docs</a>.",
         "inventor": "Armin Ronacher",
         "year": 2008,
         "url": "https://en.wikipedia.org/wiki/Jinja_(template_engine)",
-        "trivia": "Named after the Jinja shrine; released as part of the Pocoo suite. See the [design goals](https://jinja.palletsprojects.com/en/stable/#design-goals) and early release history in the docs.",
+        "trivia": "Named after the Jinja shrine; released as part of the Pocoo suite. See the <a href=\"https://jinja.palletsprojects.com/en/stable/#design-goals\">design goals</a> and early release history in the docs.",
         "aliases": ["jinja", "j2"]
     },
     "jq": {
@@ -541,22 +541,22 @@ const languageInfo = {
         "tag": "query",
         "icon": "mdi:code-json",
         "tier": 4,
-        "description": "Command-line JSON processor; [manual](https://stedolan.github.io/jq/manual/) at the official site.",
+        "description": "Command-line JSON processor; <a href=\"https://stedolan.github.io/jq/manual/\">manual</a> at the official site.",
         "inventor": "Stephen Dolan",
         "year": 2012,
         "url": "https://en.wikipedia.org/wiki/Jq_(programming_language)",
-        "trivia": "jq debuted in 2012 inspired by AWK/sed but for JSON; language features and functions are specified in the [manual](https://stedolan.github.io/jq/manual/)."
+        "trivia": "jq debuted in 2012 inspired by AWK/sed but for JSON; language features and functions are specified in the <a href=\"https://stedolan.github.io/jq/manual/\">manual</a>."
     },
     "json": {
         "name": "JSON",
         "tag": "data",
         "icon": "mdi:code-json",
         "tier": 2,
-        "description": "Lightweight data interchange format; see the [ECMA-404 standard](https://www.ecma-international.org/publications-and-standards/standards/ecma-404/).",
+        "description": "Lightweight data interchange format; see the <a href=\"https://www.ecma-international.org/publications-and-standards/standards/ecma-404/\">ECMA-404 standard</a>.",
         "inventor": "Douglas Crockford",
         "year": 2001,
         "url": "https://en.wikipedia.org/wiki/JSON",
-        "trivia": "Crockford documented JSON in 2001 while at State Software; it was standardized as [RFC 8259](https://www.rfc-editor.org/rfc/rfc8259) and [ECMA-404](https://www.ecma-international.org/publications-and-standards/standards/ecma-404/).",
+        "trivia": "Crockford documented JSON in 2001 while at State Software; it was standardized as <a href=\"https://www.rfc-editor.org/rfc/rfc8259\">RFC 8259</a> and <a href=\"https://www.ecma-international.org/publications-and-standards/standards/ecma-404/\">ECMA-404</a>.",
         "aliases": ["jsonc"]
     },
     "julia": {
@@ -591,7 +591,7 @@ const languageInfo = {
         "inventor": "JetBrains",
         "year": 2011,
         "url": "https://en.wikipedia.org/wiki/Kotlin_(programming_language)",
-        "trivia": "Kotlin was named after Kotlin Island near St. Petersburg, Russia, where the JetBrains team is based. Google announced Kotlin as an official Android development language in 2017, and by 2019 made it the preferred language for Android app development.",
+        "trivia": "Kotlin was named after Kotlin Island in the Gulf of Finland, near St. Petersburg, Russia, as an homage similar to Java being named after an Indonesian island. Google announced Kotlin as an official Android development language in 2017, and in 2019 made it the preferred language for Android app development.",
         "aliases": ["kt", "kts"]
     },
     "lean": {
@@ -599,33 +599,33 @@ const languageInfo = {
         "tag": "code",
         "icon": "mdi:alpha-l-box-outline",
         "tier": 4,
-        "description": "Proof assistant and functional language based on dependent type theory; [official docs](https://lean-lang.org/).",
+        "description": "Proof assistant and functional language based on dependent type theory; <a href=\"https://lean-lang.org/\">official docs</a>.",
         "inventor": "Leonardo de Moura",
         "year": 2013,
         "url": "https://en.wikipedia.org/wiki/Lean_(proof_assistant)",
-        "trivia": "Used to formalize the 2023 Polynomial Freiman–Ruzsa proof by Gowers, Green, Manners, and Tao; the Lean community formalized it in mathlib. mathlib contained over 210,000 theorems as of [May 2025](https://lean-lang.org/blog/2024/05/16/mathlib-200k/); AlphaProof (DeepMind) achieved IMO silver-equivalent performance in [2024](https://www.deepmind.com/blog/alphaproof-ai-for-mathematical-reasoning)."
+        "trivia": "Used to formalize the 2023 Polynomial Freiman–Ruzsa proof by Gowers, Green, Manners, and Tao; the Lean community formalized it in mathlib. mathlib contained over 210,000 theorems as of <a href=\"https://lean-lang.org/blog/2024/05/16/mathlib-200k/\">May 2024</a>; AlphaProof (DeepMind) achieved IMO silver-equivalent performance in <a href=\"https://www.deepmind.com/blog/alphaproof-ai-for-mathematical-reasoning\">2024</a>."
     },
     "lua": {
         "name": "Lua",
         "tag": "code",
         "icon": "devicon-plain:lua",
         "tier": 1,
-        "description": "Lightweight embeddable scripting language from PUC-Rio; [official reference manual](https://www.lua.org/manual/5.4/).",
+        "description": "Lightweight embeddable scripting language from PUC-Rio; <a href=\"https://www.lua.org/manual/5.4/\">official reference manual</a>.",
         "inventor": "Roberto Ierusalimschy, Waldemar Celes, Luiz Henrique de Figueiredo",
         "year": 1993,
         "url": "https://en.wikipedia.org/wiki/Lua_(programming_language)",
-        "trivia": "Lua (meaning 'moon' in Portuguese) succeeded SOL ('sun'); see the [history page](https://www.lua.org/history.html) and the 1993 technical report introducing Lua."
+        "trivia": "Lua (meaning 'moon' in Portuguese) succeeded SOL ('sun'); see the <a href=\"https://www.lua.org/history.html\">history page</a> and the 1993 technical report introducing Lua."
     },
     "markdown": {
         "name": "Markdown",
         "tag": "markup",
         "icon": "simple-icons:markdown",
         "tier": 2,
-        "description": "Lightweight markup language for plain-text formatting; original spec on [Gruber's site](https://daringfireball.net/projects/markdown/).",
+        "description": "Lightweight markup language for plain-text formatting; original spec on <a href=\"https://daringfireball.net/projects/markdown/\">Gruber's site</a>.",
         "inventor": "John Gruber and Aaron Swartz",
         "year": 2004,
         "url": "https://en.wikipedia.org/wiki/Markdown",
-        "trivia": "Gruber published Markdown 1.0 with Swartz as beta tester in 2004; the canonical description and reference implementation are on [Gruber's site](https://daringfireball.net/projects/markdown/).",
+        "trivia": "Gruber published Markdown 1.0 with Swartz as beta tester in 2004; the canonical description and reference implementation are on <a href=\"https://daringfireball.net/projects/markdown/\">Gruber's site</a>.",
         "aliases": ["md", "mdx"]
     },
     "matlab": {
@@ -645,22 +645,22 @@ const languageInfo = {
         "tag": "build",
         "icon": "mdi:hammer-wrench",
         "tier": 4,
-        "description": "Fast, user-friendly build system using Ninja backend; official docs at [mesonbuild.com](https://mesonbuild.com/Manual.html).",
+        "description": "Fast, user-friendly build system using Ninja backend; official docs at <a href=\"https://mesonbuild.com/Manual.html\">mesonbuild.com</a>.",
         "inventor": "Jussi Pakkanen",
         "year": 2013,
         "url": "https://en.wikipedia.org/wiki/Meson_(software)",
-        "trivia": "Pakkanen published Meson in Feb 2013; see the [announcement blog post](https://nibblestew.blogspot.com/2013/02/introducing-meson-build-system.html) and the manual highlighting sub-1s configure times."
+        "trivia": "Pakkanen published Meson in Feb 2013; see the <a href=\"https://nibblestew.blogspot.com/2013/02/introducing-meson-build-system.html\">announcement blog post</a> and the manual highlighting sub-1s configure times."
     },
     "nginx": {
         "name": "nginx",
         "tag": "config",
         "icon": "simple-icons:nginx",
         "tier": 5,
-        "description": "Configuration language for the nginx web server; official reference at [nginx.org](https://nginx.org/en/docs/dirindex.html).",
+        "description": "Configuration language for the nginx web server; official reference at <a href=\"https://nginx.org/en/docs/dirindex.html\">nginx.org</a>.",
         "inventor": "Igor Sysoev",
         "year": 2004,
         "url": "https://en.wikipedia.org/wiki/Nginx",
-        "trivia": "Sysoev began nginx in 2002; first public release in 2004. The configuration syntax is documented in the [official documentation](https://nginx.org/en/docs/)."
+        "trivia": "Sysoev began nginx in 2002; first public release in 2004. The configuration syntax is documented in the <a href=\"https://nginx.org/en/docs/\">official documentation</a>."
     },
     "ninja": {
         "name": "Ninja",
@@ -678,7 +678,7 @@ const languageInfo = {
         "tag": "config",
         "icon": "devicon-plain:nixos",
         "tier": 2,
-        "description": "Purely functional package manager and language for reproducible builds; see [Dolstra's PhD thesis](https://edolstra.github.io/pubs/phd-thesis.pdf).",
+        "description": "Purely functional package manager and language for reproducible builds; see <a href=\"https://edolstra.github.io/pubs/phd-thesis.pdf\">Dolstra's PhD thesis</a>.",
         "inventor": "Eelco Dolstra",
         "year": 2003,
         "url": "https://en.wikipedia.org/wiki/Nix_(package_manager)",
@@ -689,7 +689,7 @@ const languageInfo = {
         "tag": "code",
         "icon": "devicon-plain:objectivec",
         "tier": 3,
-        "description": "Object-oriented superset of C used for macOS/iOS; Apple's modern reference is the [Programming with Objective-C guide](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/ProgrammingWithObjectiveC/).",
+        "description": "Object-oriented superset of C used for macOS/iOS; Apple's modern reference is the <a href=\"https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/ProgrammingWithObjectiveC/\">Programming with Objective-C guide</a>.",
         "inventor": "Brad Cox and Tom Love",
         "year": 1984,
         "url": "https://en.wikipedia.org/wiki/Objective-C",
@@ -713,11 +713,11 @@ const languageInfo = {
         "tag": "code",
         "icon": "devicon-plain:perl",
         "tier": 2,
-        "description": "General-purpose scripting language renowned for text processing; core docs at [perldoc.perl.org](https://perldoc.perl.org/).",
+        "description": "General-purpose scripting language renowned for text processing; core docs at <a href=\"https://perldoc.perl.org/\">perldoc.perl.org</a>.",
         "inventor": "Larry Wall",
         "year": 1987,
         "url": "https://en.wikipedia.org/wiki/Perl",
-        "trivia": "Wall released Perl 1.0 on 18 Dec 1987; the motto 'There's more than one way to do it' is from the official [perlstyle](https://perldoc.perl.org/perlstyle) and [perlintro](https://perldoc.perl.org/perlintro) documentation.",
+        "trivia": "Wall released Perl 1.0 on 18 Dec 1987; the motto 'There's more than one way to do it' is from the official <a href=\"https://perldoc.perl.org/perlstyle\">perlstyle</a> and <a href=\"https://perldoc.perl.org/perlintro\">perlintro</a> documentation.",
         "aliases": ["pl", "pm"]
     },
     "php": {
@@ -725,18 +725,18 @@ const languageInfo = {
         "tag": "code",
         "icon": "devicon-plain:php",
         "tier": 2,
-        "description": "Server-side scripting language; the official manual is at [php.net](https://www.php.net/manual/en/).",
+        "description": "Server-side scripting language; the official manual is at <a href=\"https://www.php.net/manual/en/\">php.net</a>.",
         "inventor": "Rasmus Lerdorf",
         "year": 1995,
         "url": "https://en.wikipedia.org/wiki/PHP",
-        "trivia": "Started as 'Personal Home Page Tools' in 1994/95; renamed 'PHP: Hypertext Preprocessor' in 1997. History is documented in the [ChangeLog](https://www.php.net/ChangeLog-8.php) and manual preface."
+        "trivia": "Started as 'Personal Home Page Tools' in 1994/95; renamed 'PHP: Hypertext Preprocessor' in 1997. History is documented in the <a href=\"https://www.php.net/ChangeLog-8.php\">ChangeLog</a> and manual preface."
     },
     "postscript": {
         "name": "PostScript",
         "tag": "code",
         "icon": "mdi:printer",
         "tier": 5,
-        "description": "Page description and programming language from Adobe; reference in the [PostScript Language Reference Manual](https://www.adobe.com/content/dam/acom/en/devnet/actionscript/articles/PLRM.pdf).",
+        "description": "Page description and programming language from Adobe; reference in the <a href=\"https://www.adobe.com/content/dam/acom/en/devnet/actionscript/articles/PLRM.pdf\">PostScript Language Reference Manual</a>.",
         "inventor": "John Warnock and Charles Geschke",
         "year": 1984,
         "url": "https://en.wikipedia.org/wiki/PostScript",
@@ -748,11 +748,11 @@ const languageInfo = {
         "tag": "shell",
         "icon": "devicon-plain:powershell",
         "tier": 1,
-        "description": "Task automation shell and scripting language; official docs at [Microsoft Learn](https://learn.microsoft.com/powershell/).",
+        "description": "Task automation shell and scripting language; official docs at <a href=\"https://learn.microsoft.com/powershell/\">Microsoft Learn</a>.",
         "inventor": "Jeffrey Snover",
         "year": 2006,
         "url": "https://en.wikipedia.org/wiki/PowerShell",
-        "trivia": "Born from Snover's 2002 'Monad Manifesto'; first released 2006. Open-sourced and cross-platform in 2016 as PowerShell Core—see the [PowerShell repository](https://github.com/PowerShell/PowerShell).",
+        "trivia": "Born from Snover's 2002 'Monad Manifesto'; first released 2006. Open-sourced and cross-platform in 2016 as PowerShell Core—see the <a href=\"https://github.com/PowerShell/PowerShell\">PowerShell repository</a>.",
         "aliases": ["ps1", "pwsh"]
     },
     "prolog": {
@@ -764,7 +764,7 @@ const languageInfo = {
         "inventor": "Alain Colmerauer and Philippe Roussel",
         "year": 1972,
         "url": "https://en.wikipedia.org/wiki/Prolog",
-        "trivia": "Prolog (PROgrammation en LOGique) emerged in 1972; used in Japan's Fifth Generation Project (1982). The ISO standard is [ISO/IEC 13211-1:1995](https://www.iso.org/standard/21413.html).",
+        "trivia": "Prolog (PROgrammation en LOGique) emerged in 1972; used in Japan's Fifth Generation Project (1982). The ISO standard is <a href=\"https://www.iso.org/standard/21413.html\">ISO/IEC 13211-1:1995</a>.",
         "aliases": ["pl"]
     },
     "python": {
@@ -772,11 +772,11 @@ const languageInfo = {
         "tag": "code",
         "icon": "devicon-plain:python",
         "tier": 1,
-        "description": "High-level general-purpose language emphasizing readability; authoritative reference is the [Python Language Reference](https://docs.python.org/3/reference/).",
+        "description": "High-level general-purpose language emphasizing readability; authoritative reference is the <a href=\"https://docs.python.org/3/reference/\">Python Language Reference</a>.",
         "inventor": "Guido van Rossum",
         "year": 1991,
         "url": "https://en.wikipedia.org/wiki/Python_(programming_language)",
-        "trivia": "Named after Monty Python; van Rossum released Python 0.9.0 in Feb 1991. The 'Zen of Python' is documented in `import this` and [PEP 20](https://peps.python.org/pep-0020/).",
+        "trivia": "Named after Monty Python; van Rossum released Python 0.9.0 in Feb 1991. The 'Zen of Python' is documented in `import this` and <a href=\"https://peps.python.org/pep-0020/\">PEP 20</a>.",
         "aliases": ["py", "py3", "python3"]
     },
     "query": {
@@ -786,7 +786,7 @@ const languageInfo = {
         "tier": 5,
         "description": "A S-expression based pattern language for matching nodes in tree-sitter syntax trees.",
         "inventor": "Max Brunsfeld",
-        "year": 2020,
+        "year": 2019,
         "url": "https://tree-sitter.github.io/tree-sitter/using-parsers#pattern-matching-with-queries",
         "trivia": "Tree-sitter queries power syntax highlighting in editors like Neovim, Helix, and Zed—this is what arborium uses under the hood.",
         "aliases": ["scm"]
@@ -796,11 +796,11 @@ const languageInfo = {
         "tag": "code",
         "icon": "devicon-plain:r",
         "tier": 1,
-        "description": "Language and environment for statistical computing; official manuals at [CRAN](https://cran.r-project.org/manuals.html).",
+        "description": "Language and environment for statistical computing; official manuals at <a href=\"https://cran.r-project.org/manuals.html\">CRAN</a>.",
         "inventor": "Ross Ihaka and Robert Gentleman",
         "year": 1993,
         "url": "https://en.wikipedia.org/wiki/R_(programming_language)",
-        "trivia": "Named for Ross and Robert and as a successor to S; initial public release was 1995. The [R Language Definition](https://cran.r-project.org/doc/manuals/r-release/R-lang.html) documents core semantics.",
+        "trivia": "Named for Ross and Robert and as a successor to S; initial public release was 1995. The <a href=\"https://cran.r-project.org/doc/manuals/r-release/R-lang.html\">R Language Definition</a> documents core semantics.",
         "aliases": ["rlang"]
     },
     "rescript": {
@@ -808,11 +808,11 @@ const languageInfo = {
         "tag": "code",
         "icon": "simple-icons:rescript",
         "tier": 4,
-        "description": "Functional language that compiles to JavaScript, evolved from BuckleScript/Reason; docs at [rescript-lang.org](https://rescript-lang.org/docs/latest).",
+        "description": "Functional language that compiles to JavaScript, evolved from BuckleScript/Reason; docs at <a href=\"https://rescript-lang.org/docs/latest\">rescript-lang.org</a>.",
         "inventor": "Hongbo Zhang and the ReScript team",
         "year": 2020,
         "url": "https://rescript-lang.org/",
-        "trivia": "Rebranded from BuckleScript/Reason in 2020 to focus on a JS-centric pipeline; see the [announcement](https://rescript-lang.org/blog/announcement) and docs for the syntax and compiler.",
+        "trivia": "Rebranded from BuckleScript/Reason in 2020 to focus on a JS-centric pipeline; see the <a href=\"https://rescript-lang.org/blog/announcement\">announcement</a> and docs for the syntax and compiler.",
         "aliases": ["res"]
     },
     "ron": {
@@ -820,11 +820,11 @@ const languageInfo = {
         "tag": "data",
         "icon": "devicon-plain:rust",
         "tier": 4,
-        "description": "Rusty Object Notation, a Rust-friendly data format; reference at [docs.rs/ron](https://docs.rs/ron/latest/ron/).",
+        "description": "Rusty Object Notation, a Rust-friendly data format; reference at <a href=\"https://docs.rs/ron/latest/ron/\">docs.rs/ron</a>.",
         "inventor": "kvark and torkleyy",
         "year": 2015,
         "url": "https://github.com/ron-rs/ron",
-        "trivia": "Designed for a (canceled) game project and revived by the Rust community; features trailing commas, comments, and Rust-like enums—see the [crate docs](https://docs.rs/ron)."
+        "trivia": "Designed for a (canceled) game project and revived by the Rust community; features trailing commas, comments, and Rust-like enums—see the <a href=\"https://docs.rs/ron\">crate docs</a>."
     },
     "ruby": {
         "name": "Ruby",
@@ -845,7 +845,7 @@ const languageInfo = {
         "tier": 1,
         "description": "Systems language focused on safety and performance without GC; official docs at <a href=\"https://doc.rust-lang.org/book/\">The Rust Book</a>.",
         "inventor": "Graydon Hoare",
-        "year": 2010,
+        "year": 2006,
         "url": "https://en.wikipedia.org/wiki/Rust_(programming_language)",
         "trivia": "Hoare began Rust as a side project at Mozilla in 2006; it became a Mozilla-backed project in 2009. The ownership/borrow checker model is documented in the <a href=\"https://doc.rust-lang.org/book/ch04-00-understanding-ownership.html\">Understanding Ownership chapter</a>.",
         "aliases": ["rs"]
@@ -855,11 +855,11 @@ const languageInfo = {
         "tag": "code",
         "icon": "devicon-plain:scala",
         "tier": 2,
-        "description": "Multi-paradigm JVM language blending OO and FP; official docs at [docs.scala-lang.org](https://docs.scala-lang.org/).",
+        "description": "Multi-paradigm JVM language blending OO and FP; official docs at <a href=\"https://docs.scala-lang.org/\">docs.scala-lang.org</a>.",
         "inventor": "Martin Odersky",
         "year": 2004,
         "url": "https://en.wikipedia.org/wiki/Scala_(programming_language)",
-        "trivia": "The name abbreviates 'scalable language'; Odersky announced Scala in 2004 after work on Java generics and the Pizza language. The [Scala 3 reference](https://docs.scala-lang.org/scala3/reference/) documents current syntax and features."
+        "trivia": "The name abbreviates 'scalable language'; Odersky announced Scala in 2004 after work on Java generics and the Pizza language. The <a href=\"https://docs.scala-lang.org/scala3/reference/\">Scala 3 reference</a> documents current syntax and features."
     },
     "scheme": {
         "name": "Scheme",
@@ -878,11 +878,11 @@ const languageInfo = {
         "tag": "markup",
         "icon": "simple-icons:sass",
         "tier": 3,
-        "description": "Sass/SCSS is a CSS superset adding variables, nesting, and mixins; see the official [documentation](https://sass-lang.com/documentation/).",
+        "description": "Sass/SCSS is a CSS superset adding variables, nesting, and mixins; see the official <a href=\"https://sass-lang.com/documentation/\">documentation</a>.",
         "inventor": "Hampton Catlin, Natalie Weizenbaum, Chris Eppstein",
         "year": 2006,
         "url": "https://en.wikipedia.org/wiki/Sass_(style_sheet_language)",
-        "trivia": "SCSS syntax arrived with Sass 3 (2010) to mirror CSS; history and design notes are in the [Sass blog](https://sass-lang.com/blog/) and [syntax documentation](https://sass-lang.com/documentation/syntax).",
+        "trivia": "SCSS syntax arrived with Sass 3 (2010) to mirror CSS; history and design notes are in the <a href=\"https://sass-lang.com/blog/\">Sass blog</a> and <a href=\"https://sass-lang.com/documentation/syntax\">syntax documentation</a>.",
         "aliases": ["sass"]
     },
     "sparql": {
@@ -902,7 +902,7 @@ const languageInfo = {
         "tag": "query",
         "icon": "mdi:database-outline",
         "tier": 2,
-        "description": "Structured Query Language for relational databases; standardized by ANSI/ISO, see [ISO/IEC 9075](https://www.iso.org/standard/63555.html) (paywalled) and [SQLite documentation](https://sqlite.org/lang.html) as an open reference.",
+        "description": "Structured Query Language for relational databases; standardized by ANSI/ISO, see <a href=\"https://www.iso.org/standard/63555.html\">ISO/IEC 9075</a> (paywalled) and <a href=\"https://sqlite.org/lang.html\">SQLite documentation</a> as an open reference.",
         "inventor": "Donald D. Chamberlin and Raymond F. Boyce",
         "year": 1974,
         "url": "https://en.wikipedia.org/wiki/SQL",
@@ -925,11 +925,11 @@ const languageInfo = {
         "tag": "build",
         "icon": "mdi:star-outline",
         "tier": 4,
-        "description": "Deterministic, hermetic build language used by Bazel/Buck2; spec at [bazel.build/rules/language](https://bazel.build/rules/language).",
+        "description": "Deterministic, hermetic build language used by Bazel/Buck2; spec at <a href=\"https://bazel.build/rules/language\">bazel.build/rules/language</a>.",
         "inventor": "Laurent Le Brun and Google",
         "year": 2015,
         "url": "https://en.wikipedia.org/wiki/Starlark",
-        "trivia": "Originally named Skylark (2015), renamed Starlark in 2018; deterministic semantics documented in the [Bazel language guide](https://bazel.build/rules/language).",
+        "trivia": "Originally named Skylark (2015), renamed Starlark in 2018; deterministic semantics documented in the <a href=\"https://bazel.build/rules/language\">Bazel language guide</a>.",
         "aliases": ["bzl", "bazel"]
     },
     "svelte": {
@@ -937,11 +937,11 @@ const languageInfo = {
         "tag": "markup",
         "icon": "devicon-plain:svelte",
         "tier": 3,
-        "description": "Compiler-based UI framework that outputs minimal JS; official tutorial at [svelte.dev](https://svelte.dev/docs/introduction).",
+        "description": "Compiler-based UI framework that outputs minimal JS; official tutorial at <a href=\"https://svelte.dev/docs/introduction\">svelte.dev</a>.",
         "inventor": "Rich Harris",
         "year": 2016,
         "url": "https://en.wikipedia.org/wiki/Svelte",
-        "trivia": "Harris announced Svelte in 2016 to eliminate the virtual DOM; the [Svelte blog](https://svelte.dev/blog) covers milestones like SvelteKit and run-time improvements."
+        "trivia": "Harris announced Svelte in 2016 to eliminate the virtual DOM; the <a href=\"https://svelte.dev/blog\">Svelte blog</a> covers milestones like SvelteKit and run-time improvements."
     },
     "swift": {
         "name": "Swift",
@@ -971,18 +971,18 @@ const languageInfo = {
         "tag": "data",
         "icon": "mdi:swap-horizontal",
         "tier": 4,
-        "description": "Interface Definition Language and RPC framework; official Apache docs at [thrift.apache.org](https://thrift.apache.org/docs).",
+        "description": "Interface Definition Language and RPC framework; official Apache docs at <a href=\"https://thrift.apache.org/docs\">thrift.apache.org</a>.",
         "inventor": "Facebook",
         "year": 2007,
         "url": "https://en.wikipedia.org/wiki/Apache_Thrift",
-        "trivia": "Developed at Facebook starting 2006, open-sourced 2007; entered Apache Incubator in 2008 and became a TLP in 2010—see the [Apache Thrift site](https://thrift.apache.org/)."
+        "trivia": "Developed at Facebook starting 2006, open-sourced April 2007; entered Apache Incubator in May 2008 and became a TLP in October 2010—see the <a href=\"https://thrift.apache.org/\">Apache Thrift site</a>."
     },
     "tlaplus": {
         "name": "TLA+",
         "tag": "code",
         "icon": "mdi:math-integral",
         "tier": 4,
-        "description": "Temporal Logic of Actions (TLA+) for formal specs; the canonical reference is [Lamport's book](https://lamport.azurewebsites.net/tla/book.html).",
+        "description": "Temporal Logic of Actions (TLA+) for formal specs; the canonical reference is <a href=\"https://lamport.azurewebsites.net/tla/book.html\">Lamport's book</a>.",
         "inventor": "Leslie Lamport",
         "year": 1999,
         "url": "https://en.wikipedia.org/wiki/TLA+",
@@ -994,11 +994,11 @@ const languageInfo = {
         "tag": "config",
         "icon": "simple-icons:toml",
         "tier": 2,
-        "description": "Tom's Obvious, Minimal Language for configuration; official spec at [toml.io](https://toml.io/en/).",
+        "description": "Tom's Obvious, Minimal Language for configuration; official spec at <a href=\"https://toml.io/en/\">toml.io</a>.",
         "inventor": "Tom Preston-Werner",
         "year": 2013,
         "url": "https://en.wikipedia.org/wiki/TOML",
-        "trivia": "TOML 1.0.0 was released January 2021 after 8 years of iteration; see the spec changelog on [toml.io](https://toml.io/en/v1.0.0)."
+        "trivia": "TOML 1.0.0 was released January 2021 after 8 years of iteration; see the spec changelog on <a href=\"https://toml.io/en/v1.0.0\">toml.io</a>."
     },
     "tsx": {
         "name": "TSX",
@@ -1007,16 +1007,16 @@ const languageInfo = {
         "tier": 3,
         "description": "TypeScript with JSX support for React component development",
         "inventor": "Facebook (Jordan Walke for React/JSX) + Microsoft (TypeScript)",
-        "year": 2015,
+        "year": 2013,
         "url": "https://en.wikipedia.org/wiki/TypeScript",
-        "trivia": "TSX combines TypeScript's static type checking with JSX's declarative UI syntax. While JSX was introduced by Facebook for React in 2013, TSX emerged as TypeScript gained popularity and React developers sought better tooling. Today, TSX is de facto standard for React development in TypeScript codebases."
+        "trivia": "TSX combines TypeScript's static type checking with JSX's declarative UI syntax. JSX was introduced by Facebook for React in 2013, and TypeScript added TSX support in 2015 with version 1.6. Today, TSX is the de facto standard for React development in TypeScript codebases."
     },
     "typescript": {
         "name": "TypeScript",
         "tag": "code",
         "icon": "devicon-plain:typescript",
         "tier": 1,
-        "description": "Statically typed superset of JavaScript; official handbook at [typescriptlang.org](https://www.typescriptlang.org/docs/).",
+        "description": "Statically typed superset of JavaScript; official handbook at <a href=\"https://www.typescriptlang.org/docs/\">typescriptlang.org</a>.",
         "inventor": "Anders Hejlsberg",
         "year": 2012,
         "url": "https://en.wikipedia.org/wiki/TypeScript",
@@ -1029,8 +1029,8 @@ const languageInfo = {
         "icon": "simple-icons:typst",
         "tier": 3,
         "description": "A modern markup-based typesetting system designed as a faster, friendlier alternative to LaTeX.",
-        "inventor": "Typst Labs",
-        "year": 2022,
+        "inventor": "Laurenz Mädje and Martin Haug",
+        "year": 2023,
         "url": "https://typst.app",
         "trivia": "Typst compiles documents incrementally—changes preview instantly, unlike LaTeX which must recompile the entire document.",
         "aliases": ["typ"]
@@ -1041,7 +1041,7 @@ const languageInfo = {
         "icon": "mdi:alpha-u-box-outline",
         "tier": 5,
         "description": "A stack-based array programming language with a focus on tacit (point-free) code using Unicode glyphs.",
-        "inventor": "Daniel Diaz",
+        "inventor": "Kai Schmidt",
         "year": 2023,
         "url": "https://www.uiua.org",
         "trivia": "Uiua (pronounced 'wee-wuh') uses Unicode symbols for operations—you can type them with ASCII shortcuts that auto-convert.",
@@ -1052,11 +1052,11 @@ const languageInfo = {
         "tag": "code",
         "icon": "devicon-plain:visualbasic",
         "tier": 5,
-        "description": "Visual Basic .NET, object-oriented language for the .NET Framework; language reference at [learn.microsoft.com](https://learn.microsoft.com/dotnet/visual-basic/).",
+        "description": "Visual Basic .NET, object-oriented language for the .NET Framework; language reference at <a href=\"https://learn.microsoft.com/dotnet/visual-basic/\">learn.microsoft.com</a>.",
         "inventor": "Microsoft",
         "year": 2002,
         "url": "https://en.wikipedia.org/wiki/Visual_Basic_(.NET)",
-        "trivia": "Launched with .NET Framework 1.0 in 2002 as a rewrite of VB6; the [VB.NET language reference](https://learn.microsoft.com/dotnet/visual-basic/language-reference/) documents syntax changes and OO features.",
+        "trivia": "Launched with .NET Framework 1.0 in 2002 as a rewrite of VB6; the <a href=\"https://learn.microsoft.com/dotnet/visual-basic/language-reference/\">VB.NET language reference</a> documents syntax changes and OO features.",
         "aliases": ["vbnet", "visualbasic"]
     },
     "verilog": {
@@ -1064,7 +1064,7 @@ const languageInfo = {
         "tag": "code",
         "icon": "mdi:chip",
         "tier": 5,
-        "description": "Hardware description language standardized as [IEEE 1364](https://standards.ieee.org/ieee/1364/2985/).",
+        "description": "Hardware description language standardized as <a href=\"https://standards.ieee.org/ieee/1364/2985/\">IEEE 1364</a>.",
         "inventor": "Phil Moorby and Prabhu Goel",
         "year": 1984,
         "url": "https://en.wikipedia.org/wiki/Verilog",
@@ -1076,7 +1076,7 @@ const languageInfo = {
         "tag": "code",
         "icon": "mdi:chip",
         "tier": 5,
-        "description": "VHSIC Hardware Description Language; standardized as [IEEE 1076](https://standards.ieee.org/ieee/1076/7424/).",
+        "description": "VHSIC Hardware Description Language; standardized as <a href=\"https://standards.ieee.org/ieee/1076/7424/\">IEEE 1076</a>.",
         "inventor": "U.S. Department of Defense",
         "year": 1983,
         "url": "https://en.wikipedia.org/wiki/VHDL",
@@ -1100,18 +1100,18 @@ const languageInfo = {
         "tag": "markup",
         "icon": "devicon-plain:vuejs",
         "tier": 3,
-        "description": "Progressive JavaScript framework for UIs; official docs at [vuejs.org](https://vuejs.org/guide/introduction.html).",
+        "description": "Progressive JavaScript framework for UIs; official docs at <a href=\"https://vuejs.org/guide/introduction.html\">vuejs.org</a>.",
         "inventor": "Evan You",
         "year": 2014,
         "url": "https://en.wikipedia.org/wiki/Vue.js",
-        "trivia": "You released Vue in Feb 2014 after working on Angular at Google; [release history](https://github.com/vuejs/core/releases) and guide document its evolution from 0.10 to Vue 3/4 composition API."
+        "trivia": "You released Vue in Feb 2014 after working on Angular at Google; <a href=\"https://github.com/vuejs/core/releases\">release history</a> and guide document its evolution from 0.10 to Vue 3/4 composition API."
     },
     "x86asm": {
         "name": "x86 Assembly",
         "tag": "code",
         "icon": "mdi:memory",
         "tier": 3,
-        "description": "Assembly language family for Intel x86; reference manuals at [Intel SDM](https://www.intel.com/content/www/us/en/developer/articles/technical/intel-sdm.html).",
+        "description": "Assembly language family for Intel x86; reference manuals at <a href=\"https://www.intel.com/content/www/us/en/developer/articles/technical/intel-sdm.html\">Intel SDM</a>.",
         "inventor": "Intel (Stephen P. Morse et al.)",
         "year": 1978,
         "url": "https://en.wikipedia.org/wiki/X86_assembly_language",
@@ -1135,11 +1135,11 @@ const languageInfo = {
         "tag": "config",
         "icon": "devicon-plain:yaml",
         "tier": 2,
-        "description": "Human-friendly data serialization language; official 1.2 spec at [yaml.org](https://yaml.org/spec/1.2.2/).",
+        "description": "Human-friendly data serialization language; official 1.2 spec at <a href=\"https://yaml.org/spec/1.2.2/\">yaml.org</a>.",
         "inventor": "Clark Evans, Ingy döt Net, Oren Ben-Kiki",
         "year": 2001,
         "url": "https://en.wikipedia.org/wiki/YAML",
-        "trivia": "Originally 'Yet Another Markup Language', later 'YAML Ain't Markup Language'; first proposed in 2001—see the [YAML history](https://yaml.org/spec/history/2001-01.html).",
+        "trivia": "Originally 'Yet Another Markup Language', later 'YAML Ain't Markup Language'; first proposed in 2001—see the <a href=\"https://yaml.org/spec/history/2001-01.html\">YAML history</a>.",
         "aliases": ["yml"]
     },
     "yuri": {
@@ -1157,22 +1157,22 @@ const languageInfo = {
         "name": "Zig",
         "tag": "code",
         "icon": "simple-icons:zig",
-        "description": "General-purpose systems language focused on simplicity and control; docs at [ziglang.org](https://ziglang.org/documentation/master/).",
+        "description": "General-purpose systems language focused on simplicity and control; docs at <a href=\"https://ziglang.org/documentation/master/\">ziglang.org</a>.",
         "inventor": "Andrew Kelley",
         "year": 2016,
         "url": "https://en.wikipedia.org/wiki/Zig_(programming_language)",
-        "trivia": "Kelley introduced Zig in 2016 as a C replacement without hidden control flow; the self-hosted compiler milestone is chronicled on the [Zig news](https://ziglang.org/news/)."
+        "trivia": "Kelley introduced Zig in 2016 as a C replacement without hidden control flow; the self-hosted compiler milestone is chronicled on the <a href=\"https://ziglang.org/news/\">Zig news</a>."
     },
     "zsh": {
         "name": "Zsh",
         "tag": "shell",
         "icon": "mdi:console",
         "tier": 3,
-        "description": "Extended Unix shell with rich scripting; reference manual at [zsh.sourceforge.io](https://zsh.sourceforge.io/Doc/).",
+        "description": "Extended Unix shell with rich scripting; reference manual at <a href=\"https://zsh.sourceforge.io/Doc/\">zsh.sourceforge.io</a>.",
         "inventor": "Paul Falstad",
         "year": 1990,
         "url": "https://en.wikipedia.org/wiki/Z_shell",
-        "trivia": "Created by Falstad while at Princeton; named after TA Zhong Shao. The [Zsh FAQ](https://zsh.sourceforge.io/FAQ/) documents its history and feature set."
+        "trivia": "Created by Falstad while at Princeton; named after TA Zhong Shao. The <a href=\"https://zsh.sourceforge.io/FAQ/\">Zsh FAQ</a> documents its history and feature set."
     }
 };
 

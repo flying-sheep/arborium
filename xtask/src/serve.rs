@@ -502,7 +502,7 @@ fn fetch_icons_from_registry(
     registry: &Registry,
     demo_dir: &Path,
 ) -> Result<BTreeMap<String, String>, String> {
-    let template_path = demo_dir.join("template.html");
+    let template_path = demo_dir.join("index.stpl.html");
     let template = fs::read_to_string(&template_path).map_err(|e| e.to_string())?;
 
     // Collect all icon names from registry
@@ -785,7 +785,7 @@ fn generate_theme_swatches() -> String {
 }
 
 fn generate_index_html(demo_dir: &Path, icons: &BTreeMap<String, String>) -> Result<(), String> {
-    let template_path = demo_dir.join("template.html");
+    let template_path = demo_dir.join("index.stpl.html");
     let output_path = demo_dir.join("index.html");
 
     let template = fs::read_to_string(&template_path).map_err(|e| e.to_string())?;
