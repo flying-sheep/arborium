@@ -334,6 +334,12 @@ fn main() {
                 std::process::exit(1);
             }
 
+            // Build the host component first
+            if let Err(e) = build::build_host(&repo_root) {
+                eprintln!("{:?}", e);
+                std::process::exit(1);
+            }
+
             // Build plugins
             let options = build::BuildOptions {
                 grammars,

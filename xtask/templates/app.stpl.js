@@ -1,5 +1,5 @@
-// Arborium Demo - Component-based highlighting
-// Grammars are loaded on demand as WASM components
+// Arborium Demo - Component-based highlighting via arborium-host
+// The host component orchestrates grammar plugins and returns rendered HTML
 
 // Build WASI stubs for browser environment
 // Each instantiation needs fresh instances where stream objects are instanceof the classes passed in
@@ -68,14 +68,22 @@ const exampleExtensions = <%- examples %>;
 // Icons will be injected by generate-demo (SVG strings keyed by iconify name)
 const icons = <%- icons %>;
 
-// Capture name to short HTML tag mapping (e.g., "keyword" -> "k", "keyword.function" -> "kf")
-const captureToTagMap = <%- capture_tags %>;
-
 // Registry loaded from registry.json
 let registry = null;
 
-// Cache for loaded grammar plugins
+// The host component instance
+let host = null;
+
+// Cache for loaded grammar plugins (used by plugin-provider)
 const grammarCache = {};
+
+// Map from plugin handle (u32) to plugin instance
+const pluginHandles = new Map();
+let nextPluginHandle = 1;
+
+// Map from session handle (u32) to {plugin, session}
+const sessionHandles = new Map();
+let nextSessionHandle = 1;
 
 // Cache for fetched sample content
 const examplesCache = {};
@@ -110,8 +118,8 @@ async function fetchExample(langId) {
     }
 }
 
-// Load a grammar plugin on demand
-async function loadGrammar(langId) {
+// Load a grammar plugin on demand (used internally by plugin-provider)
+async function loadGrammarPlugin(langId) {
     // Return cached plugin if available
     if (grammarCache[langId]) {
         return grammarCache[langId];
@@ -120,12 +128,11 @@ async function loadGrammar(langId) {
     // Find in registry
     const entry = registry?.entries?.find(e => e.language === langId);
     if (!entry) {
-        throw new Error(`Grammar '${langId}' not found in registry`);
+        return null; // Language not available
     }
 
     // Determine paths based on dev mode
     const jsPath = registry.dev_mode ? entry.local_js : entry.cdn_js;
-    const wasmPath = registry.dev_mode ? entry.local_wasm : entry.cdn_wasm;
 
     try {
         // Import the grammar.js module
@@ -150,122 +157,187 @@ async function loadGrammar(langId) {
         // Get the plugin interface
         const plugin = instance.plugin || instance['arborium:grammar/plugin@0.1.0'];
         if (!plugin) {
-            throw new Error(`Grammar '${langId}' missing plugin interface`);
+            console.error(`Grammar '${langId}' missing plugin interface`);
+            return null;
         }
 
         grammarCache[langId] = plugin;
         return plugin;
     } catch (e) {
         console.error(`Failed to load grammar '${langId}':`, e);
+        return null;
+    }
+}
+
+// Plugin provider implementation - called by the host component
+// These are synchronous because the host calls them synchronously,
+// but we need to have pre-loaded the plugins before calling host.highlight()
+function createPluginProvider() {
+    return {
+        'arborium:host/plugin-provider': {
+            // Load a plugin for the given language (must be pre-loaded)
+            loadPlugin(language) {
+                const plugin = grammarCache[language];
+                if (!plugin) {
+                    return { tag: 'none' };
+                }
+                // Assign a handle
+                const handle = nextPluginHandle++;
+                pluginHandles.set(handle, { plugin, language });
+                return { tag: 'some', val: handle };
+            },
+
+            // Get injection languages for a plugin
+            getInjectionLanguages(pluginHandle) {
+                const entry = pluginHandles.get(pluginHandle);
+                if (!entry) return [];
+                try {
+                    return entry.plugin.injectionLanguages();
+                } catch (e) {
+                    return [];
+                }
+            },
+
+            // Create a session on a plugin
+            createPluginSession(pluginHandle) {
+                const entry = pluginHandles.get(pluginHandle);
+                if (!entry) return 0;
+                const session = entry.plugin.createSession();
+                const sessionHandle = nextSessionHandle++;
+                sessionHandles.set(sessionHandle, { plugin: entry.plugin, session });
+                return sessionHandle;
+            },
+
+            // Free a plugin session
+            freePluginSession(pluginHandle, sessionHandle) {
+                const entry = sessionHandles.get(sessionHandle);
+                if (entry) {
+                    entry.plugin.freeSession(entry.session);
+                    sessionHandles.delete(sessionHandle);
+                }
+            },
+
+            // Set text on a plugin session
+            pluginSetText(pluginHandle, sessionHandle, text) {
+                const entry = sessionHandles.get(sessionHandle);
+                if (entry) {
+                    entry.plugin.setText(entry.session, text);
+                }
+            },
+
+            // Apply edit on a plugin session
+            pluginApplyEdit(pluginHandle, sessionHandle, text, edit) {
+                const entry = sessionHandles.get(sessionHandle);
+                if (entry) {
+                    entry.plugin.applyEdit(entry.session, text, edit);
+                }
+            },
+
+            // Parse on a plugin session
+            pluginParse(pluginHandle, sessionHandle) {
+                const entry = sessionHandles.get(sessionHandle);
+                if (!entry) {
+                    return { tag: 'err', val: { message: 'Invalid session' } };
+                }
+                try {
+                    const result = entry.plugin.parse(entry.session);
+                    // Handle both tagged union and direct formats
+                    if (result.tag === 'err') {
+                        return result;
+                    } else if (result.tag === 'ok') {
+                        return result;
+                    } else if (result.spans) {
+                        return { tag: 'ok', val: result };
+                    } else {
+                        return { tag: 'err', val: { message: 'Unexpected parse result format' } };
+                    }
+                } catch (e) {
+                    return { tag: 'err', val: { message: e.message || 'Parse failed' } };
+                }
+            },
+
+            // Cancel a plugin session's parse
+            pluginCancel(pluginHandle, sessionHandle) {
+                const entry = sessionHandles.get(sessionHandle);
+                if (entry && entry.plugin.cancel) {
+                    entry.plugin.cancel(entry.session);
+                }
+            },
+        },
+    };
+}
+
+// Load the host component
+async function loadHost() {
+    if (host) return host;
+
+    try {
+        // Import the host.js module (generated by jco)
+        const module = await import('/pkg/host.js');
+
+        // Instantiate with WASM fetch function, WASI stubs, and plugin provider
+        const instance = await module.instantiate(
+            async (name) => {
+                const wasmUrl = new URL(name, '/pkg/').href;
+                const response = await fetch(wasmUrl);
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch WASM ${name}: ${response.status}`);
+                }
+                return WebAssembly.compile(await response.arrayBuffer());
+            },
+            {
+                ...createWasiStubs(),
+                ...createPluginProvider(),
+            }
+        );
+
+        // Get the host interface
+        host = instance.host || instance['arborium:host/host@0.1.0'];
+        if (!host) {
+            throw new Error('Host component missing host interface');
+        }
+
+        return host;
+    } catch (e) {
+        console.error('Failed to load host component:', e);
         throw e;
     }
 }
 
-// Highlight code using the grammar component
+// Map from language to document handle (for reuse)
+const documentCache = new Map();
+
+// Highlight code using the host component
 async function highlightCode(langId, source) {
-    const plugin = await loadGrammar(langId);
-
-    // Create a session
-    const session = plugin.createSession();
-
-    try {
-        // Set the text
-        plugin.setText(session, source);
-
-        // Parse and get spans
-        const result = plugin.parse(session);
-
-        // Handle both tagged union (result/error) and direct result formats
-        let parseResult;
-        if (result.tag === 'err') {
-            throw new Error(result.val.message);
-        } else if (result.tag === 'ok') {
-            parseResult = result.val;
-        } else if (result.spans) {
-            // Direct result format (not wrapped in tagged union)
-            parseResult = result;
-        } else {
-            console.error('Unexpected parse result format:', result);
-            throw new Error('Parse returned unexpected format');
-        }
-
-        // Convert spans to HTML
-        return spansToHtml(source, parseResult.spans);
-    } finally {
-        // Always free the session
-        plugin.freeSession(session);
+    // Ensure the grammar plugin is pre-loaded (host calls are synchronous)
+    const plugin = await loadGrammarPlugin(langId);
+    if (!plugin) {
+        throw new Error(`Grammar '${langId}' not available`);
     }
+
+    // Ensure host is loaded
+    const h = await loadHost();
+
+    // Get or create a document for this language
+    let doc = documentCache.get(langId);
+    if (doc === undefined) {
+        const result = h.createDocument(langId);
+        if (result.tag === 'none' || result === undefined) {
+            throw new Error(`Failed to create document for '${langId}'`);
+        }
+        doc = result.tag === 'some' ? result.val : result;
+        documentCache.set(langId, doc);
+    }
+
+    // Set the text
+    h.setText(doc, source);
+
+    // Highlight and get HTML directly
+    const result = h.highlight(doc, 3); // max_depth = 3 for injections
+    return result.html;
 }
 
-// Convert spans to highlighted HTML
-function spansToHtml(source, spans) {
-    // Deduplicate spans: for identical (start, end), keep last one (more specific)
-    const dedupedMap = new Map();
-    for (const span of spans) {
-        const key = `${span.start}:${span.end}`;
-        dedupedMap.set(key, span); // Later spans overwrite earlier ones
-    }
-
-    // Sort spans by (start, then longer spans first for nesting)
-    const sortedSpans = [...dedupedMap.values()].sort((a, b) => {
-        if (a.start !== b.start) return a.start - b.start;
-        return b.end - a.end; // Longer spans first at same start
-    });
-
-    // Build HTML by processing spans, handling overlaps
-    let html = '';
-    let lastEnd = 0;
-
-    for (const span of sortedSpans) {
-        // Skip spans that are completely covered by previous output
-        if (span.end <= lastEnd) {
-            continue;
-        }
-
-        // Add any unhighlighted text before this span
-        if (span.start > lastEnd) {
-            html += escapeHtml(source.slice(lastEnd, span.start));
-        }
-
-        // Determine actual start position (may be clipped by previous span)
-        const actualStart = Math.max(span.start, lastEnd);
-
-        // Add the highlighted span using custom element
-        const text = source.slice(actualStart, span.end);
-        const tag = captureToTag(span.capture);
-        html += `<a-${tag}>${escapeHtml(text)}</a-${tag}>`;
-
-        lastEnd = span.end;
-    }
-
-    // Add any remaining unhighlighted text
-    if (lastEnd < source.length) {
-        html += escapeHtml(source.slice(lastEnd));
-    }
-
-    return html;
-}
-
-// Convert capture name to short HTML tag (e.g., "keyword" -> "k", "keyword.function" -> "kf")
-function captureToTag(capture) {
-    // Look up the short tag in the mapping
-    if (captureToTagMap[capture]) {
-        return captureToTagMap[capture];
-    }
-    // Try progressively shorter prefixes (e.g., "keyword.control.repeat" -> "keyword.control" -> "keyword")
-    const parts = capture.split('.');
-    while (parts.length > 1) {
-        parts.pop();
-        const prefix = parts.join('.');
-        if (captureToTagMap[prefix]) {
-            return captureToTagMap[prefix];
-        }
-    }
-    // Fallback: use first two letters as a tag
-    return capture.slice(0, 2);
-}
-
-// Escape HTML special characters
+// Escape HTML special characters (used for non-highlighted display)
 function escapeHtml(text) {
     return text
         .replace(/&/g, '&amp;')

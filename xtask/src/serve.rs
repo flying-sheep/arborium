@@ -22,7 +22,6 @@ struct AppJsTemplate<'a> {
     language_info: &'a str,
     examples: &'a str,
     icons: &'a str,
-    capture_tags: &'a str,
 }
 
 // =============================================================================
@@ -833,7 +832,6 @@ fn generate_app_js(
         language_info: &lang_info_js,
         examples: &examples_js,
         icons: &icons_js,
-        capture_tags: &build_capture_tags_js(),
     };
     let output = template.render_once().map_err(|e| e.to_string())?;
 
@@ -942,25 +940,6 @@ fn build_icons_js(icons: &BTreeMap<String, String>) -> String {
             js.push(',');
         }
         js.push('\n');
-    }
-    js.push('}');
-    js
-}
-
-fn build_capture_tags_js() -> String {
-    use arborium_theme::highlights::HIGHLIGHTS;
-
-    let mut js = String::from("{\n");
-    for (i, def) in HIGHLIGHTS.iter().enumerate() {
-        if !def.tag.is_empty() {
-            js.push_str(&format!("    \"{}\": \"{}\"", def.name, def.tag));
-            // Check if there are more non-empty tags after this one
-            let has_more = HIGHLIGHTS[i + 1..].iter().any(|d| !d.tag.is_empty());
-            if has_more {
-                js.push(',');
-            }
-            js.push('\n');
-        }
     }
     js.push('}');
     js

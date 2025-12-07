@@ -875,5 +875,5 @@
       "local_wasm": "/langs/group-hazel/zsh/npm/grammar.core.wasm"
     }
   ],
-  "dev_mode": false
+  "dev_mode": true
 }
