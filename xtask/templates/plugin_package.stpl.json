@@ -18,6 +18,9 @@
     "grammar.js",
     "grammar.d.ts",
     "grammar.core.wasm",
+    "grammar.core2.wasm",
+    "grammar.core3.wasm",
+    "grammar.core4.wasm",
     "interfaces"
   ],
   "keywords": [
