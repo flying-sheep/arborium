@@ -14,7 +14,7 @@ grammar {
 
     inventor "Bram Moolenaar"
     year 1991
-    description "Scripting language for the Vim editor; see the official Vim documentation at http://vimdoc.sourceforge.net/."
+    description "Scripting language for the Vim editor; see the official Vim documentation at <http://vimdoc.sourceforge.net/>."
     link "https://en.wikipedia.org/wiki/Vim_(text_editor)"
     trivia "Vimscript evolved alongside Vim since 1991; Vim 7 (2006) added major scripting features. Bram maintained Vim until his passing in 2023."
 

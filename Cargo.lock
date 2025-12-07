@@ -89,7 +89,6 @@ dependencies = [
  "arborium-lean",
  "arborium-lua",
  "arborium-markdown",
- "arborium-markdown-inline",
  "arborium-matlab",
  "arborium-meson",
  "arborium-nginx",
@@ -636,16 +635,6 @@ dependencies = [
 
 [[package]]
 name = "arborium-markdown"
-version = "0.3.0"
-dependencies = [
- "arborium-sysroot",
- "arborium-test-harness",
- "cc",
- "tree-sitter-patched-arborium",
-]
-
-[[package]]
-name = "arborium-markdown-inline"
 version = "0.3.0"
 dependencies = [
  "arborium-sysroot",

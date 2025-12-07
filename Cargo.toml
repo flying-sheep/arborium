@@ -58,7 +58,6 @@ arborium-kotlin = { path = "langs/group-cedar/kotlin/crate", version = "0.3.0" }
 arborium-lean = { path = "langs/group-fern/lean/crate", version = "0.3.0" }
 arborium-lua = { path = "langs/group-hazel/lua/crate", version = "0.3.0" }
 arborium-markdown = { path = "langs/group-willow/markdown/crate", version = "0.3.0" }
-arborium-markdown-inline = { path = "langs/group-willow/markdown-inline/crate", version = "0.3.0" }
 arborium-matlab = { path = "langs/group-moss/matlab/crate", version = "0.3.0" }
 arborium-meson = { path = "langs/group-maple/meson/crate", version = "0.3.0" }
 arborium-nginx = { path = "langs/group-maple/nginx/crate", version = "0.3.0" }

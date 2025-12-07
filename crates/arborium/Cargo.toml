@@ -194,7 +194,6 @@ arborium-kotlin = { workspace = true, optional = true }
 arborium-lean = { workspace = true, optional = true }
 arborium-lua = { workspace = true, optional = true }
 arborium-markdown = { workspace = true, optional = true }
-arborium-markdown-inline = { workspace = true, optional = true }
 arborium-matlab = { workspace = true, optional = true }
 arborium-meson = { workspace = true, optional = true }
 arborium-nginx = { workspace = true, optional = true }

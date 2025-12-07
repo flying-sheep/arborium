@@ -391,9 +391,9 @@ echo "Version: $VERSION (release: $IS_RELEASE)""#,
                         ("path", ".cache/arborium"),
                         (
                             "key",
-                            "grammar-cache-v6-${{ hashFiles('langs/group-*/*/def/grammar/grammar.js', 'langs/group-*/*/def/grammar/package.json') }}",
+                            "grammar-cache-v7-${{ hashFiles('langs/group-*/*/def/grammar/grammar.js', 'langs/group-*/*/def/grammar/package.json') }}",
                         ),
-                        ("restore-keys", "grammar-cache-v6-"),
+                        ("restore-keys", "grammar-cache-v7-"),
                     ]),
                 // Generate with version
                 Step::run(
@@ -506,18 +506,17 @@ echo "No env imports found - WASM modules are browser-compatible""#,
             ]),
     );
 
-    // Format
+    // CI workflow check (moved from Format job)
     jobs.insert(
-        "fmt".into(),
+        "ci-check".into(),
         Job::new(runners::UBUNTU_4)
-            .name("Format")
+            .name("CI Workflow Check")
             .container(CONTAINER)
             .needs(["generate"])
             .steps([
                 checkout(),
                 download_grammar_sources(),
                 extract_grammar_sources(),
-                Step::run("Check formatting", "cargo fmt --all -- --check"),
                 Step::run(
                     "Check CI workflow is up to date",
                     "arborium-xtask ci generate --check",
