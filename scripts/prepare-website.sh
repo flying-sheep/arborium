@@ -1,8 +1,12 @@
 #!/usr/bin/env bash
-# Prepare the website for deployment
-# This script is called by CI but can also be run locally for testing
+# DEPRECATED: Use `cargo xtask deploy-website --version <version>` instead
+#
+# This script was used by the old CI workflow to prepare static files.
+# The new workflow deploys directly to gh-pages from local.
 
 set -euo pipefail
+
+echo "WARNING: This script is deprecated. Use 'cargo xtask deploy-website --version <version>' instead." >&2
 
 # Determine output directory (default to _site for CI compatibility)
 OUT_DIR="${1:-_site}"

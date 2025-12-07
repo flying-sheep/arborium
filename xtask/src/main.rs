@@ -9,6 +9,7 @@
 
 mod cache;
 mod ci;
+mod deploy_website;
 mod generate;
 mod lint_new;
 
@@ -123,6 +124,17 @@ enum Command {
     Publish {
         #[facet(args::subcommand)]
         action: PublishAction,
+    },
+
+    /// Deploy website to GitHub Pages
+    DeployWebsite {
+        /// Version to use for CDN URLs (e.g., "0.2.0")
+        #[facet(args::named)]
+        version: String,
+
+        /// Dry run - show what would be deployed without actually deploying
+        #[facet(args::named, default)]
+        dry_run: bool,
     },
 }
 
@@ -390,6 +402,16 @@ fn main() {
                         std::process::exit(1);
                     }
                 }
+            }
+        }
+
+        Command::DeployWebsite { version, dry_run } => {
+            let repo_root = util::find_repo_root().expect("Could not find repo root");
+            let repo_root = camino::Utf8PathBuf::from_path_buf(repo_root).expect("non-UTF8 path");
+
+            if let Err(e) = deploy_website::deploy_website(&repo_root, &version, dry_run) {
+                eprintln!("{:?}", e);
+                std::process::exit(1);
             }
         }
     }
