@@ -662,7 +662,7 @@ h1 {
     font-family: 'Iosevka', 'SF Mono', 'Fira Code', 'Consolas', monospace;
     font-size: 0.85em;
     background: color-mix(in srgb, var(--fg) 10%, transparent);
-    padding: 0.55rem 0.45rem;
+    padding: 0.15rem 0.35rem;
     border-radius: 3px;
 }
 

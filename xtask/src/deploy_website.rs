@@ -37,7 +37,7 @@ pub fn deploy_website(repo_root: &Utf8Path, version: &str, dry_run: bool) -> Res
 
     // Copy static files from demo/
     let demo_dir = repo_root.join("demo");
-    copy_static_files(&demo_dir, &site_dir)?;
+    copy_static_files(&demo_dir, &site_dir, version)?;
 
     // Generate plugins.json with CDN URLs for the specified version
     generate_plugins_json(&registry, &site_dir, version)?;
@@ -73,19 +73,29 @@ pub fn deploy_website(repo_root: &Utf8Path, version: &str, dry_run: bool) -> Res
     Ok(())
 }
 
-fn copy_static_files(demo_dir: &Utf8Path, site_dir: &Utf8Path) -> Result<()> {
+fn copy_static_files(demo_dir: &Utf8Path, site_dir: &Utf8Path, version: &str) -> Result<()> {
     println!("  {} Copying static files...", "•".dimmed());
 
-    // Files to copy directly
-    let files = ["index.html", "styles.css"];
-    for file in files {
-        let src = demo_dir.join(file);
-        let dst = site_dir.join(file);
-        if src.exists() {
-            fs_err::copy(&src, &dst)
-                .into_diagnostic()
-                .context(format!("failed to copy {}", file))?;
-        }
+    // Copy index.html with version replacement
+    let index_src = demo_dir.join("index.html");
+    let index_dst = site_dir.join("index.html");
+    if index_src.exists() {
+        let content = fs_err::read_to_string(&index_src)
+            .into_diagnostic()
+            .context("failed to read index.html")?;
+        let content = content.replace("{{VERSION}}", version);
+        fs_err::write(&index_dst, content)
+            .into_diagnostic()
+            .context("failed to write index.html")?;
+    }
+
+    // Copy styles.css directly
+    let styles_src = demo_dir.join("styles.css");
+    let styles_dst = site_dir.join("styles.css");
+    if styles_src.exists() {
+        fs_err::copy(&styles_src, &styles_dst)
+            .into_diagnostic()
+            .context("failed to copy styles.css")?;
     }
 
     // Copy font files (*.woff2)

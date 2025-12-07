@@ -162,21 +162,30 @@
                 <h3>Get Started</h3>
                 <div class="get-started-options">
                     <div class="get-started-option">
+                        <h4>Script tag (zero config)</h4>
+                        <p>Add this to your HTML and all <code>&lt;pre&gt;&lt;code&gt;</code> blocks get highlighted automatically:</p>
+                        <pre class="code-block"><code><a-tg>&lt;script</a-tg> <a-at>src</a-at><a-p>=</a-p><a-s>"https://cdn.jsdelivr.net/npm/@arborium/arborium@{{VERSION}}/dist/arborium.iife.js"</a-s><a-tg>&gt;&lt;/script&gt;</a-tg></code></pre>
+                        <p>Language is detected from <code>class="language-rust"</code>, <code>data-lang="rust"</code>, or auto-detected from content.</p>
+                        <p>Configure via data attributes:</p>
+                        <pre class="code-block"><code><a-tg>&lt;script</a-tg> <a-at>src</a-at><a-p>=</a-p><a-s>"..."</a-s>
+  <a-at>data-theme</a-at><a-p>=</a-p><a-s>"github-light"</a-s>
+  <a-at>data-selector</a-at><a-p>=</a-p><a-s>"pre code, .highlight"</a-s>
+  <a-at>data-version</a-at><a-p>=</a-p><a-s>"{{VERSION}}"</a-s><a-tg>&gt;&lt;/script&gt;</a-tg></code></pre>
+                    </div>
+                    <div class="get-started-option">
                         <h4>Rust (native or WASM)</h4>
                         <p>Add to your <code>Cargo.toml</code>:</p>
-                        <pre class="code-block"><code>arborium = { version = "0.2", features = ["lang-rust", "lang-javascript"] }</code></pre>
+                        <pre class="code-block"><code>arborium = { version = "{{VERSION}}", features = ["lang-rust"] }</code></pre>
+                        <p>Then highlight code:</p>
+                        <pre class="code-block"><code><a-k>let</a-k> html <a-o>=</a-o> arborium<a-p>::</a-p>highlight(<a-s>"rust"</a-s>, source, <a-o>&amp;</a-o>theme)<a-p>;</a-p></code></pre>
                     </div>
                     <div class="get-started-option">
                         <h4>npm (ESM)</h4>
-                        <p>Install the package:</p>
-                        <pre class="code-block"><code>npm install @arborium/arborium</code></pre>
-                        <p>Then import and use:</p>
-                        <pre class="code-block"><code><a-k>import</a-k> { highlight } <a-k>from</a-k> <a-s>'@arborium/arborium'</a-s>;</code></pre>
-                    </div>
-                    <div class="get-started-option">
-                        <h4>Script tag (IIFE)</h4>
-                        <p>Drop this into your HTML to auto-highlight all code blocks:</p>
-                        <pre class="code-block"><code><a-tg>&lt;script</a-tg> <a-at>src</a-at><a-p>=</a-p><a-s>"https://unpkg.com/@arborium/arborium/dist/arborium.iife.js"</a-s><a-tg>&gt;&lt;/script&gt;</a-tg></code></pre>
+                        <p>For bundlers or manual control:</p>
+                        <pre class="code-block"><code><a-k>import</a-k> { loadGrammar, highlight } <a-k>from</a-k> <a-s>'@arborium/arborium'</a-s><a-p>;</a-p>
+
+<a-k>const</a-k> html <a-o>=</a-o> <a-k>await</a-k> highlight(<a-s>'rust'</a-s>, sourceCode)<a-p>;</a-p></code></pre>
+                        <p>Grammars are loaded on-demand from jsdelivr (configurable).</p>
                     </div>
                 </div>
             </div>
@@ -421,7 +430,7 @@
                 <div class="faq-item">
                     <h4><span class="faq-icon"><svg  width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M6.5 20q-2.28 0-3.89-1.57Q1 16.85 1 14.58q0-1.95 1.17-3.48q1.18-1.53 3.08-1.95q.43-1.8 2.13-3.42Q9.07 4.1 11 4.1q.83 0 1.41.59q.59.59.59 1.41v6.05l1.6-1.55L16 12l-4 4l-4-4l1.4-1.4l1.6 1.55V6.1q-1.9.35-2.95 1.84T7 11h-.5q-1.45 0-2.47 1.03Q3 13.05 3 14.5T4.03 17q1.02 1 2.47 1h12q1.05 0 1.77-.73q.73-.72.73-1.77t-.73-1.77Q19.55 13 18.5 13H17v-2q0-1.2-.55-2.24Q15.9 7.73 15 7V4.68q1.85.87 2.93 2.58Q19 9 19 11q1.73.2 2.86 1.5q1.14 1.28 1.14 3q0 1.88-1.31 3.19T18.5 20M12 11.05"/></svg></span>Could a ready-to-embed kit load grammars on-demand?</h4>
                     <div class="faq-answer">
-                        <p>I have a wit-based idea for that: <a href="https://github.com/bearcove/arborium/issues/1">see GitHub issue #1</a>.</p>
+                        <p>Yes! That's what the IIFE bundle does. It detects languages in your code blocks and fetches grammars from jsdelivr as needed.</p>
                     </div>
                 </div>
             </div>
