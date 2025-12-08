@@ -13,6 +13,47 @@ use crate::util::find_repo_root;
 use crate::version_store;
 use camino::{Utf8Path, Utf8PathBuf};
 
+/// Versions of shared dependency crates, read from their Cargo.toml files.
+#[derive(Debug, Clone)]
+pub struct DependencyVersions {
+    /// Version of tree-sitter-patched-arborium
+    pub tree_sitter: String,
+    /// Version of arborium-sysroot
+    pub sysroot: String,
+    /// Version of arborium-test-harness
+    pub test_harness: String,
+}
+
+impl DependencyVersions {
+    /// Read dependency versions from Cargo.toml files in the repo.
+    pub fn load(repo_root: &Utf8Path) -> Result<Self, Report> {
+        let tree_sitter = read_crate_version(&repo_root.join("tree-sitter/Cargo.toml"))?;
+        let sysroot = read_crate_version(&repo_root.join("crates/arborium-sysroot/Cargo.toml"))?;
+        let test_harness = read_crate_version(&repo_root.join("crates/arborium-test-harness/Cargo.toml"))?;
+        Ok(Self {
+            tree_sitter,
+            sysroot,
+            test_harness,
+        })
+    }
+}
+
+/// Read the version field from a Cargo.toml file.
+fn read_crate_version(cargo_toml_path: &Utf8Path) -> Result<String, Report> {
+    let content = fs::read_to_string(cargo_toml_path)?;
+    let doc: toml::Table = content.parse().map_err(|e| {
+        std::io::Error::other(format!("Failed to parse {}: {}", cargo_toml_path, e))
+    })?;
+    let version = doc
+        .get("package")
+        .and_then(|p| p.get("version"))
+        .and_then(|v| v.as_str())
+        .ok_or_else(|| {
+            std::io::Error::other(format!("No version found in {}", cargo_toml_path))
+        })?;
+    Ok(version.to_string())
+}
+
 /// Options for the generate command.
 pub struct GenerateOptions<'a> {
     /// Optional grammar name to regenerate (regenerates all if None)
@@ -53,9 +94,14 @@ struct CargoTomlTemplate<'a> {
     tag: &'a str,
     shared_rel: &'a str,
     repo_rel: &'a str,
+    /// Version of tree-sitter-patched-arborium crate
+    tree_sitter_version: &'a str,
+    /// Version of arborium-sysroot crate
+    sysroot_version: &'a str,
+    /// Version of arborium-test-harness crate
+    test_harness_version: &'a str,
     /// Crates to add as dependencies for highlight query inheritance
-    /// Each entry is (crate_name, relative_path) e.g. ("arborium-c", "../../c/crate")
-    highlights_prepend_deps: Vec<(&'a str, String)>,
+    highlights_prepend_deps: &'a [HighlightDep],
 }
 
 #[derive(TemplateSimple)]
@@ -408,7 +454,8 @@ fn generate_cargo_toml(
     workspace_version: &str,
     shared_rel: &str,
     repo_rel: &str,
-    highlights_prepend_deps: Vec<(&str, String)>,
+    highlights_prepend_deps: &[HighlightDep],
+    dep_versions: &DependencyVersions,
 ) -> String {
     let grammar = config.grammars.first();
 
@@ -437,6 +484,9 @@ fn generate_cargo_toml(
         tag,
         shared_rel,
         repo_rel,
+        tree_sitter_version: &dep_versions.tree_sitter,
+        sysroot_version: &dep_versions.sysroot,
+        test_harness_version: &dep_versions.test_harness,
         highlights_prepend_deps,
     };
     template
@@ -660,6 +710,8 @@ struct PreparedStructures {
     workspace_version: String,
     /// Full crate registry for path resolution (includes all crates, not just those being generated)
     registry: CrateRegistry,
+    /// Versions of shared dependency crates
+    dep_versions: DependencyVersions,
 }
 
 struct GenerationResults {
@@ -751,12 +803,16 @@ fn prepare_temp_structures(
         });
     }
 
+    // Load dependency versions from Cargo.toml files
+    let dep_versions = DependencyVersions::load(&repo_root)?;
+
     Ok(PreparedStructures {
         prepared_temps,
         repo_root,
         cache,
         workspace_version: version.to_string(),
         registry,
+        dep_versions,
     })
 }
 
@@ -1014,29 +1070,47 @@ fn resolve_crate_relative_path(
     Some(rel_parts.join("/"))
 }
 
+/// A dependency to add to Cargo.toml for highlight query inheritance.
+#[derive(Debug, Clone)]
+struct HighlightDep {
+    /// Crate name (e.g., "arborium-c")
+    crate_name: String,
+    /// Relative path from the dependent crate (e.g., "../../c/crate")
+    rel_path: String,
+    /// Version string
+    version: String,
+}
+
+/// Result of extracting highlight prepend configuration.
+#[derive(Debug, Clone, Default)]
+struct HighlightPrepends {
+    /// Dependencies to add to Cargo.toml
+    cargo_deps: Vec<HighlightDep>,
+    /// Rust identifiers for lib.rs (e.g., "arborium_c")
+    lib_prepends: Vec<String>,
+}
+
 /// Extract highlight prepend configuration from a grammar config.
-/// Returns (deps for Cargo.toml, crate names for lib.rs)
 fn extract_highlights_prepend(
     config: &crate::types::CrateConfig,
     from_crate_path: &Utf8Path,
     registry: &PreparedStructures,
-) -> (Vec<(String, String)>, Vec<String>) {
-    let mut cargo_deps = Vec::new();
-    let mut lib_prepends = Vec::new();
+) -> HighlightPrepends {
+    let mut result = HighlightPrepends::default();
 
     let grammar = match config.grammars.first() {
         Some(g) => g,
-        None => return (cargo_deps, lib_prepends),
+        None => return result,
     };
 
     let queries = match &grammar.queries {
         Some(q) => q,
-        None => return (cargo_deps, lib_prepends),
+        None => return result,
     };
 
     let highlights = match &queries.highlights {
         Some(h) => h,
-        None => return (cargo_deps, lib_prepends),
+        None => return result,
     };
 
     for prepend in &highlights.prepend {
@@ -1044,15 +1118,20 @@ fn extract_highlights_prepend(
 
         // Resolve relative path for Cargo.toml
         if let Some(rel_path) = resolve_crate_relative_path(from_crate_path, crate_name, registry) {
-            cargo_deps.push((crate_name.clone(), rel_path));
+            // Prepend deps are other grammar crates, which use the workspace version
+            result.cargo_deps.push(HighlightDep {
+                crate_name: crate_name.clone(),
+                rel_path,
+                version: registry.workspace_version.clone(),
+            });
         }
 
         // Convert crate name to Rust identifier for lib.rs (e.g., "arborium-c" -> "arborium_c")
         let rust_ident = crate_name.replace('-', "_");
-        lib_prepends.push(rust_ident);
+        result.lib_prepends.push(rust_ident);
     }
 
-    (cargo_deps, lib_prepends)
+    result
 }
 
 // 5. Generate All Crates using templates (Cargo.toml, build.rs, lib.rs, README.md)
@@ -1109,14 +1188,7 @@ fn plan_crate_files_only(
     let repo_rel = "../../../..";
 
     // Extract highlights prepend configuration
-    let (cargo_prepend_deps, lib_prepend_crates) =
-        extract_highlights_prepend(config, crate_path, registry);
-
-    // Convert owned strings to references for template (Cargo.toml needs (&str, String) pairs)
-    let highlights_prepend_deps: Vec<(&str, String)> = cargo_prepend_deps
-        .iter()
-        .map(|(name, path)| (name.as_str(), path.clone()))
-        .collect();
+    let highlight_prepends = extract_highlights_prepend(config, crate_path, registry);
 
     // Ensure crate directory exists
     if !crate_path.exists() {
@@ -1134,7 +1206,8 @@ fn plan_crate_files_only(
         workspace_version,
         shared_rel,
         repo_rel,
-        highlights_prepend_deps,
+        &highlight_prepends.cargo_deps,
+        &registry.dep_versions,
     );
 
     if cargo_toml_path.exists() {
@@ -1201,7 +1274,7 @@ fn plan_crate_files_only(
 
     // Generate src/lib.rs
     let lib_rs_path = crate_path.join("src/lib.rs");
-    let new_lib_rs = generate_lib_rs(&crate_state.name, def_path, config, lib_prepend_crates);
+    let new_lib_rs = generate_lib_rs(&crate_state.name, def_path, config, highlight_prepends.lib_prepends);
 
     if lib_rs_path.exists() {
         let old_content = fs::read_to_string(&lib_rs_path)?;

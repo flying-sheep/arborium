@@ -537,50 +537,56 @@ enum NpmPublishResult {
     Failed,
 }
 
-/// Find all npm package directories in the langs dir.
+/// Find all npm package directories.
 ///
-/// The layout is: langs/group-*/lang/npm/package.json
-fn find_npm_packages(langs_dir: &Utf8Path) -> Result<Vec<Utf8PathBuf>> {
+/// Supports two layouts:
+/// 1. Nested group structure: langs/group-*/lang/npm/package.json
+/// 2. Flat structure: dir/lang/package.json (e.g., dist/plugins/rust/package.json)
+fn find_npm_packages(packages_dir: &Utf8Path) -> Result<Vec<Utf8PathBuf>> {
     let mut packages = Vec::new();
 
-    if !langs_dir.exists() {
+    if !packages_dir.exists() {
         return Ok(packages);
     }
 
-    // Iterate over group directories (group-*)
-    for group_entry in langs_dir
+    for entry in packages_dir
         .read_dir_utf8()
         .into_diagnostic()
-        .wrap_err_with(|| format!("Failed to read directory: {}", langs_dir))?
+        .wrap_err_with(|| format!("Failed to read directory: {}", packages_dir))?
     {
-        let group_entry = group_entry.into_diagnostic()?;
-        let group_path = group_entry.path();
+        let entry = entry.into_diagnostic()?;
+        let path = entry.path();
 
-        if !group_path.is_dir() {
-            continue;
-        }
-        let group_name = group_path.file_name().unwrap_or("");
-        if !group_name.starts_with("group-") {
+        if !path.is_dir() {
             continue;
         }
 
-        // Iterate over language directories within the group
-        for lang_entry in group_path
-            .read_dir_utf8()
-            .into_diagnostic()
-            .wrap_err_with(|| format!("Failed to read directory: {}", group_path))?
-        {
-            let lang_entry = lang_entry.into_diagnostic()?;
-            let lang_path = lang_entry.path();
+        let name = path.file_name().unwrap_or("");
 
-            if !lang_path.is_dir() {
-                continue;
+        if name.starts_with("group-") {
+            // Nested group structure: group-*/lang/npm/package.json
+            for lang_entry in path
+                .read_dir_utf8()
+                .into_diagnostic()
+                .wrap_err_with(|| format!("Failed to read directory: {}", path))?
+            {
+                let lang_entry = lang_entry.into_diagnostic()?;
+                let lang_path = lang_entry.path();
+
+                if !lang_path.is_dir() {
+                    continue;
+                }
+
+                // Check for npm/package.json
+                let npm_dir = lang_path.join("npm");
+                if npm_dir.is_dir() && npm_dir.join("package.json").exists() {
+                    packages.push(npm_dir);
+                }
             }
-
-            // Check for npm/package.json
-            let npm_dir = lang_path.join("npm");
-            if npm_dir.is_dir() && npm_dir.join("package.json").exists() {
-                packages.push(npm_dir);
+        } else {
+            // Flat structure: lang/package.json (e.g., dist/plugins/rust/package.json)
+            if path.join("package.json").exists() {
+                packages.push(path.to_path_buf());
             }
         }
     }

@@ -189,6 +189,10 @@ enum PublishAction {
         /// Specific group to publish (e.g., cedar, fern, birch)
         #[facet(args::named, default)]
         group: Option<String>,
+
+        /// Directory containing npm packages to publish (e.g., dist/plugins)
+        #[facet(args::named, args::short = 'o', default)]
+        output: Option<String>,
     },
 
     /// Publish everything (crates.io + npm)
@@ -396,10 +400,12 @@ fn main() {
                         std::process::exit(1);
                     }
                 }
-                PublishAction::Npm { dry_run, group } => {
-                    let langs_dir = repo_root.join("langs");
+                PublishAction::Npm { dry_run, group, output } => {
+                    let packages_dir = output
+                        .map(|o| repo_root.join(o))
+                        .unwrap_or_else(|| repo_root.join("langs"));
                     if let Err(e) =
-                        publish::publish_npm(&repo_root, &langs_dir, group.as_deref(), dry_run)
+                        publish::publish_npm(&repo_root, &packages_dir, group.as_deref(), dry_run)
                     {
                         eprintln!("{:?}", e);
                         std::process::exit(1);
