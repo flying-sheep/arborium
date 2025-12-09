@@ -263,21 +263,19 @@ These projects use arborium for syntax highlighting:
 
 ### In Progress
 
-- [ ] WASM component plugin system (Phase 4 of WASMPLUG.md)
+- [ ] WASM component plugin system
   - [x] WIT interfaces defined (`grammar.wit`, `host.wit`)
   - [x] Plugin runtime crate (`arborium-plugin-runtime`)
-  - [x] Host component started (`arborium-host`)
-  - [ ] Dynamic grammar loading from bytes
-  - [ ] Injection dependency resolution in browser
+  - [x] Host component (`arborium-host`)
+  - [x] Injection dependency resolution in browser
+  - [ ] Dynamic grammar loading from bytes (currently loads from CDN)
 
 ### Blocking 1.0
 
 - [x] **Tree-named grammar groups** - 10 groups finalized (acorn, birch, cedar, etc.)
 - [x] **API stability review** - Documented above in "API Stability" section
-- [ ] **Language injection in browser** - HTML→JS→SQL nesting works in Rust but
-      not yet in WASM host component
-- [ ] **Visual regression tests** - Playwright infrastructure exists but needs
-      integration with CI
+- [x] **Language injection in browser** - HTML→JS→SQL nesting works
+- [x] **Visual regression tests** - Playwright integration with CI
 
 ### Nice to Have (post-1.0)
 
