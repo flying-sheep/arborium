@@ -32,10 +32,9 @@ fn main() {
     // For wasm32 targets, add the wasm-sysroot with stub headers and implementations
     let target = env::var("TARGET").unwrap_or_default();
     if target.contains("wasm") {
-        // wasm-sysroot is at the workspace root (parent of tree-sitter/)
-        let workspace_root = manifest_path.parent().unwrap();
-        let wasm_sysroot = workspace_root.join("wasm-sysroot");
-        if wasm_sysroot.exists() {
+        // wasm-sysroot is provided by arborium-sysroot via links = "arborium_sysroot"
+        if let Ok(sysroot) = env::var("DEP_ARBORIUM_SYSROOT_PATH") {
+            let wasm_sysroot = PathBuf::from(&sysroot);
             config.include(&wasm_sysroot);
             config.file(wasm_sysroot.join("src/stdio.c"));
             config.file(wasm_sysroot.join("src/ctype.c"));

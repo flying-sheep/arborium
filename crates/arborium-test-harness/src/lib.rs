@@ -26,13 +26,13 @@
 //! ```
 
 pub use arborium_highlight;
-pub use tree_sitter_patched_arborium as tree_sitter;
+pub use arborium_tree_sitter as tree_sitter;
 
 use std::fs;
 use std::path::Path;
 
 use arborium_highlight::{Grammar, TreeSitterGrammar, TreeSitterGrammarConfig};
-use tree_sitter_patched_arborium::Language;
+use arborium_tree_sitter::Language;
 
 // Re-export CAPTURE_NAMES from arborium-theme as HIGHLIGHT_NAMES for convenience
 pub use arborium_theme::CAPTURE_NAMES as HIGHLIGHT_NAMES_FULL;

@@ -35,7 +35,7 @@ use alloc::vec::Vec;
 use core::sync::atomic::{AtomicBool, AtomicU32, Ordering};
 
 use arborium_wire::{Edit, Injection, ParseError, ParseResult, Span};
-use tree_sitter_patched_arborium::{
+use arborium_tree_sitter::{
     InputEdit, Language, Parser, Point, Query, QueryCursor, QueryError, StreamingIterator, Tree,
 };
 

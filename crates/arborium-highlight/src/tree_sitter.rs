@@ -22,7 +22,7 @@
 use crate::types::{Injection, ParseResult, Span};
 use crate::Grammar;
 use streaming_iterator::StreamingIterator;
-use tree_sitter_patched_arborium::{Language, Parser, Query, QueryCursor, Tree};
+use arborium_tree_sitter::{Language, Parser, Query, QueryCursor, Tree};
 
 /// Configuration for creating a TreeSitterGrammar.
 pub struct TreeSitterGrammarConfig<'a> {

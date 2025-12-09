@@ -1,6 +1,6 @@
 #![doc = include_str!("../README.md")]
 
-use tree_sitter_patched_arborium::Language;
+use arborium_tree_sitter::Language;
 
 unsafe extern "C" {
     fn tree_sitter_<%= c_symbol %>() -> Language;

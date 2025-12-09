@@ -52,7 +52,6 @@ struct CargoTomlTemplate<'a> {
     license: &'a str,
     tag: &'a str,
     shared_rel: &'a str,
-    repo_rel: &'a str,
     /// Crates to add as dependencies for highlight query inheritance
     highlights_prepend_deps: &'a [HighlightDep],
 }
@@ -526,7 +525,6 @@ fn generate_cargo_toml(
     config: &crate::types::CrateConfig,
     workspace_version: &str,
     shared_rel: &str,
-    repo_rel: &str,
     highlights_prepend_deps: &[HighlightDep],
 ) -> String {
     let grammar = config.grammars.first();
@@ -555,7 +553,6 @@ fn generate_cargo_toml(
         license,
         tag,
         shared_rel,
-        repo_rel,
         highlights_prepend_deps,
     };
     template
@@ -1268,8 +1265,6 @@ fn plan_crate_files_only(
     // shared crates are at crates/ (repo root)
     // So: crate -> lang -> group-* -> langs -> repo-root -> crates
     let shared_rel = "../../../../crates";
-    // repo root is 4 levels up from crate/
-    let repo_rel = "../../../..";
 
     // Extract highlights prepend configuration
     let highlight_prepends = extract_highlights_prepend(config, crate_path, registry);
@@ -1289,7 +1284,6 @@ fn plan_crate_files_only(
         config,
         workspace_version,
         shared_rel,
-        repo_rel,
         &highlight_prepends.cargo_deps,
     );
 
@@ -1694,7 +1688,7 @@ all-languages = [
     content.push_str(&format!(
         r#"
 [dependencies]
-tree-sitter-patched-arborium = {{ version = "{version}", path = "../../tree-sitter" }}
+arborium-tree-sitter = {{ version = "{version}", path = "../arborium-tree-sitter" }}
 arborium-theme = {{ version = "{version}", path = "../arborium-theme" }}
 arborium-highlight = {{ version = "{version}", path = "../arborium-highlight", features = ["tree-sitter"] }}
 
@@ -1777,7 +1771,7 @@ fn plan_shared_crates(prepared: &PreparedStructures, mode: PlanMode) -> Result<P
         version,
         &[
             ("arborium-theme", version),
-            ("tree-sitter-patched-arborium", version),
+            ("arborium-tree-sitter", version),
         ],
         mode,
     )?;
@@ -1799,15 +1793,15 @@ fn plan_shared_crates(prepared: &PreparedStructures, mode: PlanMode) -> Result<P
         &[
             ("arborium-highlight", version),
             ("arborium-theme", version),
-            ("tree-sitter-patched-arborium", version),
+            ("arborium-tree-sitter", version),
         ],
         mode,
     )?;
 
-    // Update tree-sitter-patched-arborium
+    // Update arborium-tree-sitter
     update_cargo_toml_version(
         &mut plan,
-        &repo_root.join("tree-sitter/Cargo.toml"),
+        &repo_root.join("crates/arborium-tree-sitter/Cargo.toml"),
         version,
         &[],
         mode,
@@ -1828,7 +1822,7 @@ fn plan_shared_crates(prepared: &PreparedStructures, mode: PlanMode) -> Result<P
         &repo_root.join("crates/arborium-plugin-runtime/Cargo.toml"),
         version,
         &[
-            ("tree-sitter-patched-arborium", version),
+            ("arborium-tree-sitter", version),
             ("arborium-wire", version),
         ],
         mode,
@@ -1849,7 +1843,7 @@ fn plan_shared_crates(prepared: &PreparedStructures, mode: PlanMode) -> Result<P
         &repo_root.join("crates/arborium-query/Cargo.toml"),
         version,
         &[
-            ("tree-sitter-patched-arborium", version),
+            ("arborium-tree-sitter", version),
             ("arborium-sysroot", version),
             ("arborium-test-harness", version),
         ],

@@ -17,7 +17,7 @@ categories = ["parsing", "text-processing"]
 path = "src/lib.rs"
 
 [dependencies]
-tree-sitter-patched-arborium = { version = "<%= workspace_version %>", path = "<%= repo_rel %>/tree-sitter" }
+arborium-tree-sitter = { version = "<%= workspace_version %>", path = "<%= shared_rel %>/arborium-tree-sitter" }
 arborium-sysroot = { version = "<%= workspace_version %>", path = "<%= shared_rel %>/arborium-sysroot" }
 <% for dep in highlights_prepend_deps { %>
 <%= dep.crate_name %> = { version = "<%= dep.version %>", path = "<%= dep.rel_path %>" }

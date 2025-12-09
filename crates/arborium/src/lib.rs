@@ -30,7 +30,7 @@
 //! let html = highlighter.highlight_to_html("rust", "fn main() {}")?;
 //! ```
 
-pub use tree_sitter_patched_arborium as tree_sitter;
+pub use arborium_tree_sitter as tree_sitter;
 
 pub mod highlighter;
 pub mod provider;

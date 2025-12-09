@@ -27,7 +27,7 @@ use crate::types::CrateRegistry;
 /// Crates in the "pre" group - must be published before grammar crates.
 /// These are shared dependencies that grammar crates rely on.
 const PRE_CRATES: &[&str] = &[
-    "tree-sitter", // tree-sitter-patched-arborium
+    "crates/arborium-tree-sitter",
     "crates/arborium-sysroot",
     "crates/arborium-test-harness",
     "crates/arborium-theme",     // Theme and highlight definitions
