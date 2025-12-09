@@ -519,6 +519,45 @@ fn plan_copy_grammar_sources_inner(
     Ok(())
 }
 
+/// Recursively copy all files from src_dir to dest_dir.
+fn plan_copy_dir_recursive(
+    plan: &mut Plan,
+    src_dir: &Utf8Path,
+    dest_dir: &Utf8Path,
+    mode: PlanMode,
+) -> Result<(), Report> {
+    if !src_dir.exists() {
+        return Ok(());
+    }
+
+    // Create destination directory
+    if !dest_dir.exists() {
+        plan.add(Operation::CreateDir {
+            path: dest_dir.to_owned(),
+            description: format!("Create {}", dest_dir.file_name().unwrap_or(dest_dir.as_str())),
+        });
+    }
+
+    for entry in fs::read_dir(src_dir)? {
+        let entry = entry?;
+        let src_path = Utf8PathBuf::try_from(entry.path())?;
+        let file_name = src_path.file_name().unwrap_or("");
+
+        if src_path.is_dir() {
+            // Recursively copy subdirectories
+            let sub_dest = dest_dir.join(file_name);
+            plan_copy_dir_recursive(plan, &src_path, &sub_dest, mode)?;
+        } else {
+            // Copy file
+            let content = fs::read_to_string(&src_path)?;
+            let dest_path = dest_dir.join(file_name);
+            plan_file_update(plan, &dest_path, content, &format!("samples/{}", file_name), mode)?;
+        }
+    }
+
+    Ok(())
+}
+
 /// Generate Cargo.toml content for a grammar crate.
 fn generate_cargo_toml(
     crate_name: &str,
@@ -1442,6 +1481,34 @@ fn plan_crate_files_only(
                 let desc = format!("crate queries/{}", query_name);
 
                 plan_file_update(&mut plan, &dest_query, query_content, &desc, mode)?;
+            }
+        }
+    }
+
+    // Copy arborium.kdl and samples for tests
+    let def_kdl = def_path.join("arborium.kdl");
+    if def_kdl.exists() {
+        let kdl_content = fs::read_to_string(&def_kdl)?;
+        let crate_kdl = crate_path.join("arborium.kdl");
+        plan_file_update(&mut plan, &crate_kdl, kdl_content, "arborium.kdl for tests", mode)?;
+
+        // Copy samples directory if it exists
+        let def_samples = def_path.join("samples");
+        if def_samples.exists() {
+            let crate_samples = crate_path.join("samples");
+            plan_copy_dir_recursive(&mut plan, &def_samples, &crate_samples, mode)?;
+        }
+
+        // Copy individual sample files (sample.* at def root)
+        for entry in fs::read_dir(def_path)? {
+            let entry = entry?;
+            let path = Utf8PathBuf::try_from(entry.path())?;
+            if let Some(name) = path.file_name() {
+                if name.starts_with("sample.") && path.is_file() {
+                    let content = fs::read_to_string(&path)?;
+                    let dest = crate_path.join(name);
+                    plan_file_update(&mut plan, &dest, content, &format!("{} for tests", name), mode)?;
+                }
             }
         }
     }

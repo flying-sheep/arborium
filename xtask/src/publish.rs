@@ -352,10 +352,10 @@ fn read_crate_info(crate_dir: &Utf8Path) -> Result<(String, String)> {
     Ok((name, version))
 }
 
-/// Extract a string value from TOML.
+/// Extract a string value from TOML [package] section.
 fn extract_toml_string(toml_str: &str, key: &str) -> Option<String> {
     let doc: toml_edit::DocumentMut = toml_str.parse().ok()?;
-    doc.get(key)?.as_str().map(|s| s.to_string())
+    doc.get("package")?.get(key)?.as_str().map(|s| s.to_string())
 }
 
 /// Check if a crate version already exists on crates.io.
