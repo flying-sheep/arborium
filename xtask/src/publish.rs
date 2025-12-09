@@ -26,12 +26,18 @@ use crate::types::CrateRegistry;
 
 /// Crates in the "pre" group - must be published before grammar crates.
 /// These are shared dependencies that grammar crates rely on.
+/// ORDER MATTERS - sorted by dependency order (no deps first).
 const PRE_CRATES: &[&str] = &[
-    "crates/arborium-tree-sitter",
+    // No arborium dependencies
     "crates/arborium-sysroot",
+    "crates/arborium-theme",
+    "crates/arborium-wire",
+    // Depends on sysroot
+    "crates/arborium-tree-sitter",
+    // Depends on theme, tree-sitter
+    "crates/arborium-highlight",
+    // Depends on highlight, theme, tree-sitter
     "crates/arborium-test-harness",
-    "crates/arborium-theme",     // Theme and highlight definitions
-    "crates/arborium-highlight", // Unified highlighting engine
 ];
 
 /// Crates in the "post" group - must be published after grammar crates.
