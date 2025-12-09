@@ -61,12 +61,41 @@ function getConfigFromScript(): Partial<ArboriumConfig> {
   return config;
 }
 
+/** Detect if we're in a light theme environment */
+function detectLightTheme(): boolean {
+  // Check docs.rs/rustdoc theme attribute
+  const docsRsTheme = document.documentElement.dataset.docsRsTheme;
+  if (docsRsTheme) {
+    return docsRsTheme === 'light';
+  }
+
+  // Check rustdoc theme attribute (local rustdoc)
+  const rustdocTheme = document.documentElement.dataset.theme;
+  if (rustdocTheme) {
+    return rustdocTheme === 'light';
+  }
+
+  // Fall back to system preference
+  return window.matchMedia('(prefers-color-scheme: light)').matches;
+}
+
+/** Get the appropriate theme based on environment */
+function getAutoTheme(): string {
+  return detectLightTheme() ? 'github-light' : 'tokyo-night';
+}
+
 /** Get merged configuration from all sources and apply to loader */
 function getMergedConfig(): Required<ArboriumConfig> {
-  // Priority: data attributes > window.Arborium > defaults
+  // Priority: data attributes > window.Arborium > auto-detect > defaults
   const windowConfig = window.Arborium || {};
   const scriptConfig = getConfigFromScript();
   const merged = { ...windowConfig, ...scriptConfig };
+
+  // Auto-detect theme if not explicitly set
+  if (!merged.theme) {
+    merged.theme = getAutoTheme();
+  }
+
   // Apply to loader so host loading uses correct URLs
   setConfig(merged);
   return getConfig();
@@ -308,13 +337,59 @@ export async function highlightElement(
   config: getMergedConfig(),
 };
 
+/** Re-highlight all blocks when theme changes */
+async function onThemeChange(): Promise<void> {
+  const newTheme = getAutoTheme();
+  const currentConfig = getMergedConfig();
+
+  // Only re-highlight if theme actually changed and wasn't explicitly set
+  if (currentConfig.theme !== newTheme) {
+    // Update config
+    setConfig({ theme: newTheme });
+    (window as any).arborium.config = getMergedConfig();
+
+    // Inject new theme CSS
+    injectThemeCSS(newTheme);
+
+    // No need to re-highlight - CSS handles the colors
+    // The spans are already in place, just the theme CSS changes
+    console.debug(`[arborium] Theme changed to: ${newTheme}`);
+  }
+}
+
+/** Set up theme change watchers */
+function watchThemeChanges(): void {
+  // Watch for docs.rs/rustdoc theme attribute changes
+  const observer = new MutationObserver((mutations) => {
+    for (const mutation of mutations) {
+      if (
+        mutation.attributeName === 'data-docs-rs-theme' ||
+        mutation.attributeName === 'data-theme'
+      ) {
+        onThemeChange();
+        break;
+      }
+    }
+  });
+  observer.observe(document.documentElement, { attributes: true });
+
+  // Watch for system color scheme changes
+  window
+    .matchMedia('(prefers-color-scheme: light)')
+    .addEventListener('change', () => onThemeChange());
+}
+
 // Auto-highlight on DOMContentLoaded (unless manual mode)
 const config = getMergedConfig();
 if (!config.manual) {
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => autoHighlight());
+    document.addEventListener('DOMContentLoaded', () => {
+      autoHighlight();
+      watchThemeChanges();
+    });
   } else {
     // DOM already loaded
     autoHighlight();
+    watchThemeChanges();
   }
 }

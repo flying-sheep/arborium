@@ -132,6 +132,29 @@ struct PluginReadmeTemplate<'a> {
     year: u16,
 }
 
+// docs.rs demo crate templates
+#[derive(TemplateSimple)]
+#[template(path = "docsrs_demo_cargo.stpl.toml")]
+struct DocsrsDemoCargoTomlTemplate<'a> {
+    version: &'a str,
+}
+
+#[derive(TemplateSimple)]
+#[template(path = "docsrs_demo_header.stpl.html")]
+struct DocsrsDemoHeaderTemplate<'a> {
+    version: &'a str,
+}
+
+#[derive(TemplateSimple)]
+#[template(path = "docsrs_demo_lib.stpl.rs")]
+struct DocsrsDemoLibRsTemplate {}
+
+#[derive(TemplateSimple)]
+#[template(path = "docsrs_demo_readme.stpl.md")]
+struct DocsrsDemoReadmeTemplate<'a> {
+    version: &'a str,
+}
+
 /// Generate crate files for all or a specific grammar.
 ///
 /// This follows the 5-function generation flow from generate.md:
@@ -1284,6 +1307,10 @@ fn generate_all_crates(
     let shared_plan = plan_shared_crates(prepared, mode)?;
     final_plan.add(shared_plan);
 
+    // Generate docs.rs demo crate
+    let demo_plan = plan_docsrs_demo_crate(prepared, mode)?;
+    final_plan.add(demo_plan);
+
     Ok(final_plan)
 }
 
@@ -1912,4 +1939,57 @@ fn update_cargo_toml_version(
     }
 
     Ok(())
+}
+
+/// Generate the docs.rs demo crate (crates/arborium-docsrs-demo/).
+/// This crate showcases arborium syntax highlighting on docs.rs.
+fn plan_docsrs_demo_crate(prepared: &PreparedStructures, mode: PlanMode) -> Result<Plan, Report> {
+    let mut plan = Plan::for_crate("arborium-docsrs-demo");
+    let version = &prepared.workspace_version;
+    let demo_path = prepared.repo_root.join("crates/arborium-docsrs-demo");
+
+    // Ensure directory exists
+    if !demo_path.exists() {
+        plan.add(Operation::CreateDir {
+            path: demo_path.clone(),
+            description: "Create docs.rs demo crate directory".to_string(),
+        });
+    }
+
+    // Generate Cargo.toml
+    let cargo_toml_path = demo_path.join("Cargo.toml");
+    let new_cargo_toml = DocsrsDemoCargoTomlTemplate { version }
+        .render_once()
+        .expect("DocsrsDemoCargoTomlTemplate render failed");
+    plan_file_update(&mut plan, &cargo_toml_path, new_cargo_toml, "Cargo.toml", mode)?;
+
+    // Generate arborium-header.html
+    let header_path = demo_path.join("arborium-header.html");
+    let new_header = DocsrsDemoHeaderTemplate { version }
+        .render_once()
+        .expect("DocsrsDemoHeaderTemplate render failed");
+    plan_file_update(&mut plan, &header_path, new_header, "arborium-header.html", mode)?;
+
+    // Generate src/lib.rs
+    let src_dir = demo_path.join("src");
+    if !src_dir.exists() {
+        plan.add(Operation::CreateDir {
+            path: src_dir.clone(),
+            description: "Create src directory".to_string(),
+        });
+    }
+    let lib_rs_path = src_dir.join("lib.rs");
+    let new_lib_rs = DocsrsDemoLibRsTemplate {}
+        .render_once()
+        .expect("DocsrsDemoLibRsTemplate render failed");
+    plan_file_update(&mut plan, &lib_rs_path, new_lib_rs, "src/lib.rs", mode)?;
+
+    // Generate README.md
+    let readme_path = demo_path.join("README.md");
+    let new_readme = DocsrsDemoReadmeTemplate { version }
+        .render_once()
+        .expect("DocsrsDemoReadmeTemplate render failed");
+    plan_file_update(&mut plan, &readme_path, new_readme, "README.md", mode)?;
+
+    Ok(plan)
 }

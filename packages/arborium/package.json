@@ -52,5 +52,5 @@
   },
   "type": "module",
   "types": "./dist/arborium.d.ts",
-  "version": "0.700.0"
+  "version": "0.900.0"
 }

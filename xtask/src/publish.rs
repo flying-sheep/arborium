@@ -29,6 +29,7 @@ use crate::types::CrateRegistry;
 /// ORDER MATTERS - sorted by dependency order (no deps first).
 const PRE_CRATES: &[&str] = &[
     // No arborium dependencies
+    "crates/arborium-docsrs-demo",
     "crates/arborium-sysroot",
     "crates/arborium-theme",
     "crates/arborium-wire",
