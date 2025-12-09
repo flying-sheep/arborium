@@ -1,11 +1,14 @@
 {
-  "name": "@arborium/arborium",
-  "version": "0.1.0",
+  "author": "Amos Wenger <amos@bearcove.eu>",
+  "bugs": {
+    "url": "https://github.com/bearcove/arborium/issues"
+  },
   "description": "High-performance syntax highlighting powered by tree-sitter and WebAssembly",
-  "type": "module",
-  "main": "./dist/arborium.js",
-  "module": "./dist/arborium.js",
-  "types": "./dist/arborium.d.ts",
+  "devDependencies": {
+    "typescript": "^5.7.2",
+    "vite": "^7.2.6",
+    "vite-plugin-dts": "^4.5.0"
+  },
   "exports": {
     ".": {
       "import": "./dist/arborium.js",
@@ -14,20 +17,13 @@
     "./iife": {
       "import": "./dist/arborium.iife.js"
     },
-    "./themes/tokyo-night.css": "./dist/themes/tokyo-night.css",
-    "./themes/github-light.css": "./dist/themes/github-light.css"
+    "./themes/github-light.css": "./dist/themes/github-light.css",
+    "./themes/tokyo-night.css": "./dist/themes/tokyo-night.css"
   },
   "files": [
     "dist"
   ],
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build && vite build --config vite.config.iife.ts && tsc --emitDeclarationOnly",
-    "build:esm": "vite build",
-    "build:iife": "vite build --config vite.config.iife.ts",
-    "preview": "vite preview",
-    "typecheck": "tsc --noEmit"
-  },
+  "homepage": "https://github.com/bearcove/arborium",
   "keywords": [
     "syntax-highlighting",
     "tree-sitter",
@@ -36,20 +32,25 @@
     "code",
     "highlight"
   ],
-  "author": "Amos Wenger <amos@bearcove.eu>",
   "license": "MIT OR Apache-2.0",
+  "main": "./dist/arborium.js",
+  "module": "./dist/arborium.js",
+  "name": "@arborium/arborium",
   "repository": {
+    "directory": "packages/arborium",
     "type": "git",
-    "url": "git+https://github.com/bearcove/arborium.git",
-    "directory": "packages/arborium"
+    "url": "git+https://github.com/bearcove/arborium.git"
   },
-  "homepage": "https://github.com/bearcove/arborium",
-  "bugs": {
-    "url": "https://github.com/bearcove/arborium/issues"
+  "scripts": {
+    "build": "vite build && vite build --config vite.config.iife.ts && tsc --emitDeclarationOnly && npm run copy:host",
+    "build:esm": "vite build",
+    "build:iife": "vite build --config vite.config.iife.ts",
+    "copy:host": "cp ../../demo/pkg/arborium_host.js ../../demo/pkg/arborium_host_bg.wasm dist/",
+    "dev": "vite",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit"
   },
-  "devDependencies": {
-    "typescript": "^5.7.2",
-    "vite": "^7.2.6",
-    "vite-plugin-dts": "^4.5.0"
-  }
+  "type": "module",
+  "types": "./dist/arborium.d.ts",
+  "version": "0.700.0"
 }

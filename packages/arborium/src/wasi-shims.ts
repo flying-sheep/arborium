@@ -56,89 +56,91 @@ export function createWasiImports() {
   const stderr = new OutputStream();
   const stdin = new InputStream();
 
+  // WASI interface implementations
+  const environment = {
+    getEnvironment: (): Array<[string, string]> => [],
+    getArguments: (): string[] => [],
+  };
+
+  const exit = {
+    exit: (status: { tag: string; val?: number }): void => {
+      if (status.tag === 'err') {
+        throw new WasiError(`WASI exit with error: ${status.val}`);
+      }
+    },
+  };
+
+  const stdinIface = { getStdin: () => stdin };
+  const stdoutIface = { getStdout: () => stdout };
+  const stderrIface = { getStderr: () => stderr };
+
+  const wallClock = {
+    now: (): { seconds: bigint; nanoseconds: number } => {
+      const ms = Date.now();
+      return {
+        seconds: BigInt(Math.floor(ms / 1000)),
+        nanoseconds: (ms % 1000) * 1_000_000,
+      };
+    },
+    resolution: (): { seconds: bigint; nanoseconds: number } => {
+      return { seconds: BigInt(0), nanoseconds: 1_000_000 };
+    },
+  };
+
+  const filesystemTypes = {
+    Descriptor: class {},
+    DirectoryEntryStream: class {},
+    filesystemErrorCode: () => null,
+  };
+
+  const preopens = {
+    getDirectories: (): Array<[unknown, string]> => [],
+  };
+
+  const ioError = { Error: WasiError };
+  const streams = { InputStream, OutputStream };
+
+  const random = {
+    getRandomBytes: (len: bigint): Uint8Array => {
+      const bytes = new Uint8Array(Number(len));
+      crypto.getRandomValues(bytes);
+      return bytes;
+    },
+    getRandomU64: (): bigint => {
+      const bytes = new Uint8Array(8);
+      crypto.getRandomValues(bytes);
+      const view = new DataView(bytes.buffer);
+      return view.getBigUint64(0, true);
+    },
+  };
+
+  // Return both versioned (@0.2.3) and unversioned imports for compatibility
   return {
-    'wasi:cli/environment@0.2.3': {
-      getEnvironment(): Array<[string, string]> {
-        return [];
-      },
-      getArguments(): string[] {
-        return [];
-      },
-    },
+    // Unversioned (used by published grammars)
+    'wasi:cli/environment': environment,
+    'wasi:cli/exit': exit,
+    'wasi:cli/stdin': stdinIface,
+    'wasi:cli/stdout': stdoutIface,
+    'wasi:cli/stderr': stderrIface,
+    'wasi:clocks/wall-clock': wallClock,
+    'wasi:filesystem/types': filesystemTypes,
+    'wasi:filesystem/preopens': preopens,
+    'wasi:io/error': ioError,
+    'wasi:io/streams': streams,
+    'wasi:random/random': random,
 
-    'wasi:cli/exit@0.2.3': {
-      exit(status: { tag: string; val?: number }): void {
-        if (status.tag === 'err') {
-          throw new WasiError(`WASI exit with error: ${status.val}`);
-        }
-      },
-    },
-
-    'wasi:cli/stdin@0.2.3': {
-      getStdin(): InputStream {
-        return stdin;
-      },
-    },
-
-    'wasi:cli/stdout@0.2.3': {
-      getStdout(): OutputStream {
-        return stdout;
-      },
-    },
-
-    'wasi:cli/stderr@0.2.3': {
-      getStderr(): OutputStream {
-        return stderr;
-      },
-    },
-
-    'wasi:clocks/wall-clock@0.2.3': {
-      now(): { seconds: bigint; nanoseconds: number } {
-        const ms = Date.now();
-        return {
-          seconds: BigInt(Math.floor(ms / 1000)),
-          nanoseconds: (ms % 1000) * 1_000_000,
-        };
-      },
-      resolution(): { seconds: bigint; nanoseconds: number } {
-        return { seconds: BigInt(0), nanoseconds: 1_000_000 };
-      },
-    },
-
-    'wasi:filesystem/types@0.2.3': {
-      // Stub - grammar plugins shouldn't use filesystem
-      Descriptor: class {},
-      DirectoryEntryStream: class {},
-    },
-
-    'wasi:filesystem/preopens@0.2.3': {
-      getDirectories(): Array<[unknown, string]> {
-        return [];
-      },
-    },
-
-    'wasi:io/error@0.2.3': {
-      Error: WasiError,
-    },
-
-    'wasi:io/streams@0.2.3': {
-      InputStream,
-      OutputStream,
-    },
-
-    'wasi:random/random@0.2.3': {
-      getRandomBytes(len: bigint): Uint8Array {
-        const bytes = new Uint8Array(Number(len));
-        crypto.getRandomValues(bytes);
-        return bytes;
-      },
-      getRandomU64(): bigint {
-        const bytes = new Uint8Array(8);
-        crypto.getRandomValues(bytes);
-        const view = new DataView(bytes.buffer);
-        return view.getBigUint64(0, true);
-      },
-    },
+    // Versioned @0.2.3 (for newer builds)
+    'wasi:cli/environment@0.2.3': environment,
+    'wasi:cli/exit@0.2.3': exit,
+    'wasi:cli/stdin@0.2.3': stdinIface,
+    'wasi:cli/stdout@0.2.3': stdoutIface,
+    'wasi:cli/stderr@0.2.3': stderrIface,
+    'wasi:clocks/wall-clock@0.2.3': wallClock,
+    'wasi:filesystem/types@0.2.3': filesystemTypes,
+    'wasi:filesystem/preopens@0.2.3': preopens,
+    'wasi:io/error@0.2.3': ioError,
+    'wasi:io/streams@0.2.3': streams,
+    'wasi:random/random@0.2.3': random,
   };
 }
 

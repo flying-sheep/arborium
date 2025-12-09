@@ -201,7 +201,12 @@ pub fn serve(crates_dir: &Utf8Path, addr: &str, port: Option<u16>, dev: bool) {
         generate_index_html(&demo_dir, &icons)
     });
 
-    // Step 4: Generate app.generated.js
+    // Step 4b: Generate IIFE demo HTML files
+    step("Generating IIFE demo HTML", || {
+        generate_iife_demo_html(&demo_dir)
+    });
+
+    // Step 5: Generate app.generated.js
     step("Generating app.generated.js", || {
         generate_app_js(&demo_dir, &registry, &icons)
     });
@@ -278,6 +283,9 @@ pub fn build_static_site(crates_dir: &Utf8Path, dev: bool) -> Result<(), String>
     step("Generating index.html", || {
         generate_index_html(&demo_dir, &icons)
     });
+    step("Generating IIFE demo HTML", || {
+        generate_iife_demo_html(&demo_dir)
+    });
     step("Generating app.generated.js", || {
         generate_app_js(&demo_dir, &registry, &icons)
     });
@@ -323,6 +331,10 @@ pub fn generate_registry_and_assets(
 
     step("Generating index.html", || {
         generate_index_html(demo_dir_path, &icons)
+    });
+
+    step("Generating IIFE demo HTML", || {
+        generate_iife_demo_html(demo_dir_path)
     });
 
     step("Generating app.generated.js", || {
@@ -805,6 +817,35 @@ fn generate_index_html(demo_dir: &Path, icons: &BTreeMap<String, String>) -> Res
     Ok(())
 }
 
+fn generate_iife_demo_html(demo_dir: &Path) -> Result<(), String> {
+    let template_path = demo_dir.join("iife-demo.stpl.html");
+    let template = fs::read_to_string(&template_path).map_err(|e| e.to_string())?;
+
+    // Generate local version (iife-demo-local.html)
+    let local_html = template
+        .replace("{{TITLE_SUFFIX}}", " (Local)")
+        .replace("{{THEME_CSS_LINK}}", "    <!-- Local theme CSS -->\n    <link rel=\"stylesheet\" href=\"/pkg/themes.generated.css\">")
+        .replace("{{DESCRIPTION}}", "Testing the script tag integration with local builds. All code blocks below are automatically highlighted using tree-sitter grammars loaded on demand.")
+        .replace("{{FOOTER_SUFFIX}}", " (Local Build)")
+        .replace("{{SCRIPT_TAG}}", "    <!-- Local IIFE with query params for local testing -->\n    <script src=\"/pkg/arborium.iife.js?pluginsUrl=/plugins.json&hostUrl=/pkg\"></script>");
+
+    let local_output = demo_dir.join("iife-demo-local.html");
+    fs::write(&local_output, &local_html).map_err(|e| e.to_string())?;
+
+    // Generate CDN version (iife-demo.html) - {{VERSION}} will be replaced at deploy time
+    let cdn_html = template
+        .replace("{{TITLE_SUFFIX}}", "")
+        .replace("{{THEME_CSS_LINK}}", "")
+        .replace("{{DESCRIPTION}}", "Testing the script tag integration via CDN. All code blocks below are automatically highlighted using tree-sitter grammars loaded on demand.")
+        .replace("{{FOOTER_SUFFIX}}", "")
+        .replace("{{SCRIPT_TAG}}", "    <script src=\"https://cdn.jsdelivr.net/npm/@arborium/arborium@{{VERSION}}/dist/arborium.iife.js\"></script>");
+
+    let cdn_output = demo_dir.join("iife-demo.html");
+    fs::write(&cdn_output, &cdn_html).map_err(|e| e.to_string())?;
+
+    Ok(())
+}
+
 fn generate_app_js(
     demo_dir: &Path,
     registry: &Registry,
@@ -1009,7 +1050,9 @@ fn serve_files(server: tiny_http::Server, demo_dir: &Path) {
     let repo_root = util::find_repo_root().expect("Could not find repo root");
 
     for request in server.incoming_requests() {
-        let url_path = request.url().trim_start_matches('/');
+        // Strip query string from URL path
+        let url = request.url();
+        let url_path = url.split('?').next().unwrap_or(url).trim_start_matches('/');
 
         // Determine base directory and allowed prefix based on path
         let (file_path, allowed_prefix) = if url_path.is_empty() || url_path == "/" {

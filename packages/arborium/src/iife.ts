@@ -5,7 +5,7 @@
  * Configuration via data attributes or window.Arborium object.
  */
 
-import { loadGrammar, highlight, getConfig, defaultConfig } from './loader.js';
+import { loadGrammar, highlight, getConfig, setConfig, defaultConfig } from './loader.js';
 import {
   detectLanguage,
   extractLanguageFromClass,
@@ -16,12 +16,25 @@ import type { ArboriumConfig } from './types.js';
 // Capture current script immediately (before any async operations)
 const currentScript = document.currentScript as HTMLScriptElement | null;
 
-/** Parse configuration from script data attributes */
+/** Parse query parameters from script src URL */
+function getQueryParams(): URLSearchParams {
+  if (!currentScript?.src) return new URLSearchParams();
+  try {
+    const url = new URL(currentScript.src);
+    return url.searchParams;
+  } catch {
+    return new URLSearchParams();
+  }
+}
+
+/** Parse configuration from script data attributes and query params */
 function getConfigFromScript(): Partial<ArboriumConfig> {
   if (!currentScript) return {};
 
   const config: Partial<ArboriumConfig> = {};
+  const params = getQueryParams();
 
+  // Data attributes
   if (currentScript.hasAttribute('data-manual')) {
     config.manual = true;
   }
@@ -38,15 +51,25 @@ function getConfigFromScript(): Partial<ArboriumConfig> {
   const version = currentScript.getAttribute('data-version');
   if (version) config.version = version;
 
+  // Query parameters (for local testing)
+  const pluginsUrl = params.get('pluginsUrl');
+  if (pluginsUrl) config.pluginsUrl = pluginsUrl;
+
+  const hostUrl = params.get('hostUrl');
+  if (hostUrl) config.hostUrl = hostUrl;
+
   return config;
 }
 
-/** Get merged configuration from all sources */
+/** Get merged configuration from all sources and apply to loader */
 function getMergedConfig(): Required<ArboriumConfig> {
   // Priority: data attributes > window.Arborium > defaults
   const windowConfig = window.Arborium || {};
   const scriptConfig = getConfigFromScript();
-  return getConfig({ ...windowConfig, ...scriptConfig });
+  const merged = { ...windowConfig, ...scriptConfig };
+  // Apply to loader so host loading uses correct URLs
+  setConfig(merged);
+  return getConfig();
 }
 
 /** Find all code blocks that need highlighting */
@@ -85,22 +108,40 @@ function injectThemeCSS(theme: string): void {
   const themeId = `arborium-theme-${theme}`;
   if (document.getElementById(themeId)) return;
 
-  // Get the base URL for CSS
-  const config = getMergedConfig();
-  const cdn = config.cdn;
-  const version = config.version;
-
-  let baseUrl: string;
-  if (cdn === 'jsdelivr') {
-    baseUrl = 'https://cdn.jsdelivr.net/npm';
-  } else if (cdn === 'unpkg') {
-    baseUrl = 'https://unpkg.com';
-  } else {
-    baseUrl = cdn;
+  // Check if theme styles already loaded (e.g. via themes.generated.css)
+  for (const link of document.querySelectorAll('link[rel="stylesheet"]')) {
+    const href = (link as HTMLLinkElement).href || '';
+    if (href.includes('theme')) {
+      console.debug(`[arborium] Theme already loaded: ${href}`);
+      return;
+    }
   }
 
-  const versionSuffix = version === 'latest' ? '' : `@${version}`;
-  const cssUrl = `${baseUrl}/@arborium/arborium${versionSuffix}/dist/themes/${theme}.css`;
+  // Get the base URL for CSS
+  const config = getMergedConfig();
+
+  let cssUrl: string;
+  if (config.hostUrl) {
+    // Local mode - use hostUrl base
+    cssUrl = `${config.hostUrl}/themes/${theme}.css`;
+  } else {
+    // CDN mode
+    const cdn = config.cdn;
+    const version = config.version;
+
+    let baseUrl: string;
+    if (cdn === 'jsdelivr') {
+      baseUrl = 'https://cdn.jsdelivr.net/npm';
+    } else if (cdn === 'unpkg') {
+      baseUrl = 'https://unpkg.com';
+    } else {
+      baseUrl = cdn;
+    }
+
+    const versionSuffix = version === 'latest' ? '' : `@${version}`;
+    cssUrl = `${baseUrl}/@arborium/arborium${versionSuffix}/dist/themes/${theme}.css`;
+  }
+  console.debug(`[arborium] Loading theme: ${cssUrl}`);
 
   const link = document.createElement('link');
   link.id = themeId;

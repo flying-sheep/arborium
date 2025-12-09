@@ -27,7 +27,7 @@ export interface Grammar {
   /** Languages this grammar may inject */
   injectionLanguages(): string[];
   /** Highlight source code, returning HTML string */
-  highlight(source: string): string;
+  highlight(source: string): string | Promise<string>;
   /** Parse source code, returning raw spans */
   parse(source: string): ParseResult;
   /** Dispose of resources */
@@ -46,6 +46,10 @@ export interface ArboriumConfig {
   cdn?: string;
   /** Package version to load (default: "latest") */
   version?: string;
+  /** URL to plugins.json manifest (for local testing) */
+  pluginsUrl?: string;
+  /** Base URL for the Rust host module (for local testing) */
+  hostUrl?: string;
 }
 
 /** Global config set before script loads */

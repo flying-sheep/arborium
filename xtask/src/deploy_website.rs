@@ -11,6 +11,7 @@ use owo_colors::OwoColorize;
 use std::process::Command;
 
 use crate::build::{PluginManifest, PluginManifestEntry};
+use crate::serve::build_static_site;
 use crate::types::CrateRegistry;
 
 /// Deploy the website to GitHub Pages
@@ -25,6 +26,14 @@ pub fn deploy_website(repo_root: &Utf8Path, version: &str, dry_run: bool) -> Res
     let crates_dir = repo_root.join("crates");
     let registry = CrateRegistry::load(&crates_dir)
         .map_err(|e| miette::miette!("failed to load crate registry: {}", e))?;
+
+    // Build the demo site first (generates index.html, app.generated.js, etc.)
+    println!(
+        "  {} Building demo site...",
+        "•".dimmed()
+    );
+    build_static_site(&crates_dir, false)
+        .map_err(|e| miette::miette!("failed to build static site: {}", e))?;
 
     // Create a temporary directory for the site
     let temp_dir = tempfile::tempdir()
@@ -94,6 +103,19 @@ fn copy_static_files(demo_dir: &Utf8Path, site_dir: &Utf8Path, version: &str) ->
             .context("failed to write index.html")?;
     }
 
+    // Copy iife-demo.html with version replacement
+    let iife_demo_src = demo_dir.join("iife-demo.html");
+    let iife_demo_dst = site_dir.join("iife-demo.html");
+    if iife_demo_src.exists() {
+        let content = fs_err::read_to_string(&iife_demo_src)
+            .into_diagnostic()
+            .context("failed to read iife-demo.html")?;
+        let content = content.replace("{{VERSION}}", version);
+        fs_err::write(&iife_demo_dst, content)
+            .into_diagnostic()
+            .context("failed to write iife-demo.html")?;
+    }
+
     // Copy styles.css directly
     let styles_src = demo_dir.join("styles.css");
     let styles_dst = site_dir.join("styles.css");
@@ -138,6 +160,12 @@ fn copy_dir_recursive(src: &Utf8Path, dst: &Utf8Path) -> Result<()> {
         let entry = entry.into_diagnostic()?;
         let path = entry.path();
         let file_name = path.file_name().unwrap().to_string_lossy();
+
+        // Skip .gitignore files - they would prevent git from adding files in the deploy dir
+        if file_name == ".gitignore" {
+            continue;
+        }
+
         let dst_path = dst.join(file_name.as_ref());
 
         if path.is_dir() {
