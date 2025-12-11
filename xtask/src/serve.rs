@@ -24,6 +24,27 @@ struct AppJsTemplate<'a> {
     icons: &'a str,
 }
 
+// Sailfish template for index.html
+#[derive(TemplateSimple)]
+#[template(path = "index.stpl.html")]
+struct IndexHtmlTemplate<'a> {
+    icons: &'a BTreeMap<String, String>,
+    theme_swatches: &'a str,
+    theme_css_link: &'a str,
+    version: &'a str,
+}
+
+// Sailfish template for iife-demo.html
+#[derive(TemplateSimple)]
+#[template(path = "iife-demo.stpl.html")]
+struct IifeDemoHtmlTemplate<'a> {
+    title_suffix: &'a str,
+    theme_css_link: &'a str,
+    description: &'a str,
+    footer_suffix: &'a str,
+    script_tag: &'a str,
+}
+
 // =============================================================================
 // Registry JSON types (for demo consumption)
 // =============================================================================
@@ -507,8 +528,8 @@ fn fetch_icons_from_registry(
     registry: &Registry,
     demo_dir: &Path,
 ) -> Result<BTreeMap<String, String>, String> {
-    let template_path = demo_dir.join("index.stpl.html");
-    let template = fs::read_to_string(&template_path).map_err(|e| e.to_string())?;
+    // Read template from xtask/templates (compile-time location)
+    let template = include_str!("../templates/index.stpl.html");
 
     // Collect all icon names from registry
     let mut icon_names: HashSet<String> = HashSet::new();
@@ -518,9 +539,9 @@ fn fetch_icons_from_registry(
         }
     }
 
-    // Also collect icons from template ({{ICON:xxx}} patterns)
-    let icon_pattern = regex::Regex::new(r"\{\{ICON:([^}]+)\}\}").unwrap();
-    for cap in icon_pattern.captures_iter(&template) {
+    // Also collect icons from template (icons["xxx"] patterns from sailfish syntax)
+    let icon_pattern = regex::Regex::new(r#"icons\["([^"]+)"\]"#).unwrap();
+    for cap in icon_pattern.captures_iter(template) {
         if let Some(icon) = cap.get(1) {
             icon_names.insert(icon.as_str().to_string());
         }
@@ -790,62 +811,46 @@ fn generate_theme_swatches() -> String {
 }
 
 fn generate_index_html(demo_dir: &Path, icons: &BTreeMap<String, String>) -> Result<(), String> {
-    let template_path = demo_dir.join("index.stpl.html");
     let output_path = demo_dir.join("index.html");
-
-    let template = fs::read_to_string(&template_path).map_err(|e| e.to_string())?;
-
-    // Replace {{ICON:xxx}} with inline SVGs
-    let icon_pattern = regex::Regex::new(r"\{\{ICON:([^}]+)\}\}").unwrap();
-    let mut html = template.clone();
-
-    for cap in icon_pattern.captures_iter(&template) {
-        let full_match = cap.get(0).unwrap().as_str();
-        let icon_name = cap.get(1).unwrap().as_str();
-        if let Some(svg) = icons.get(icon_name) {
-            html = html.replace(full_match, svg);
-        } else {
-            html = html.replace(full_match, "");
-        }
-    }
 
     // Generate theme swatches
     let swatches_html = generate_theme_swatches();
-    html = html.replace("{{THEME_SWATCHES}}", &swatches_html);
+    let theme_css_link = "\n    <link rel=\"stylesheet\" href=\"/pkg/themes.generated.css\">";
 
-    // Inject theme CSS link
-    html = html.replace(
-        "{{THEME_CSS_LINK}}",
-        "\n    <link rel=\"stylesheet\" href=\"/pkg/themes.generated.css\">",
-    );
+    let template = IndexHtmlTemplate {
+        icons,
+        theme_swatches: &swatches_html,
+        theme_css_link,
+        version: "1",
+    };
 
+    let html = template.render_once().map_err(|e| e.to_string())?;
     fs::write(&output_path, &html).map_err(|e| e.to_string())?;
     Ok(())
 }
 
 fn generate_iife_demo_html(demo_dir: &Path) -> Result<(), String> {
-    let template_path = demo_dir.join("iife-demo.stpl.html");
-    let template = fs::read_to_string(&template_path).map_err(|e| e.to_string())?;
-
     // Generate local version (iife-demo-local.html)
-    let local_html = template
-        .replace("{{TITLE_SUFFIX}}", " (Local)")
-        .replace("{{THEME_CSS_LINK}}", "    <!-- Local theme CSS -->\n    <link rel=\"stylesheet\" href=\"/pkg/themes.generated.css\">")
-        .replace("{{DESCRIPTION}}", "Testing the script tag integration with local builds. All code blocks below are automatically highlighted using tree-sitter grammars loaded on demand.")
-        .replace("{{FOOTER_SUFFIX}}", " (Local Build)")
-        .replace("{{SCRIPT_TAG}}", "    <!-- Local IIFE with query params for local testing -->\n    <script src=\"/pkg/arborium.iife.js?pluginsUrl=/plugins.json&hostUrl=/pkg\"></script>");
-
+    let local_template = IifeDemoHtmlTemplate {
+        title_suffix: " (Local)",
+        theme_css_link: "    <!-- Local theme CSS -->\n    <link rel=\"stylesheet\" href=\"/pkg/themes.generated.css\">",
+        description: "Testing the script tag integration with local builds. All code blocks below are automatically highlighted using tree-sitter grammars loaded on demand.",
+        footer_suffix: " (Local Build)",
+        script_tag: "    <!-- Local IIFE with query params for local testing -->\n    <script src=\"/pkg/arborium.iife.js?pluginsUrl=/plugins.json&hostUrl=/pkg\"></script>",
+    };
+    let local_html = local_template.render_once().map_err(|e| e.to_string())?;
     let local_output = demo_dir.join("iife-demo-local.html");
     fs::write(&local_output, &local_html).map_err(|e| e.to_string())?;
 
-    // Generate CDN version (iife-demo.html) - {{VERSION}} will be replaced at deploy time
-    let cdn_html = template
-        .replace("{{TITLE_SUFFIX}}", "")
-        .replace("{{THEME_CSS_LINK}}", "")
-        .replace("{{DESCRIPTION}}", "Testing the script tag integration via CDN. All code blocks below are automatically highlighted using tree-sitter grammars loaded on demand.")
-        .replace("{{FOOTER_SUFFIX}}", "")
-        .replace("{{SCRIPT_TAG}}", "    <script src=\"https://cdn.jsdelivr.net/npm/@arborium/arborium@{{VERSION}}/dist/arborium.iife.js\"></script>");
-
+    // Generate CDN version (iife-demo.html)
+    let cdn_template = IifeDemoHtmlTemplate {
+        title_suffix: "",
+        theme_css_link: "",
+        description: "Testing the script tag integration via CDN. All code blocks below are automatically highlighted using tree-sitter grammars loaded on demand.",
+        footer_suffix: "",
+        script_tag: "    <script src=\"https://cdn.jsdelivr.net/npm/@arborium/arborium@1/dist/arborium.iife.js\"></script>",
+    };
+    let cdn_html = cdn_template.render_once().map_err(|e| e.to_string())?;
     let cdn_output = demo_dir.join("iife-demo.html");
     fs::write(&cdn_output, &cdn_html).map_err(|e| e.to_string())?;
 

@@ -13,19 +13,413 @@ dependencies = [
 
 [[package]]
 name = "arborium"
-version = "1.2.3"
+version = "1.0.1"
 dependencies = [
+ "arborium-ada",
+ "arborium-agda",
+ "arborium-asciidoc",
+ "arborium-asm",
+ "arborium-awk",
+ "arborium-bash",
+ "arborium-batch",
  "arborium-c",
+ "arborium-c-sharp",
+ "arborium-caddy",
+ "arborium-capnp",
+ "arborium-clojure",
+ "arborium-cmake",
+ "arborium-commonlisp",
+ "arborium-cpp",
+ "arborium-css",
+ "arborium-d",
+ "arborium-dart",
+ "arborium-devicetree",
+ "arborium-diff",
+ "arborium-dockerfile",
+ "arborium-dot",
+ "arborium-elisp",
+ "arborium-elixir",
+ "arborium-elm",
+ "arborium-erlang",
+ "arborium-fish",
+ "arborium-fsharp",
+ "arborium-gleam",
+ "arborium-glsl",
+ "arborium-go",
+ "arborium-graphql",
+ "arborium-haskell",
+ "arborium-hcl",
  "arborium-highlight",
+ "arborium-hlsl",
+ "arborium-html",
+ "arborium-idris",
+ "arborium-ini",
+ "arborium-java",
+ "arborium-javascript",
+ "arborium-jinja2",
+ "arborium-jq",
+ "arborium-json",
+ "arborium-julia",
+ "arborium-kdl",
+ "arborium-kotlin",
+ "arborium-lean",
+ "arborium-lua",
+ "arborium-markdown",
+ "arborium-matlab",
+ "arborium-meson",
+ "arborium-nginx",
+ "arborium-ninja",
+ "arborium-nix",
+ "arborium-objc",
+ "arborium-ocaml",
+ "arborium-perl",
+ "arborium-php",
+ "arborium-postscript",
+ "arborium-powershell",
+ "arborium-prolog",
+ "arborium-python",
+ "arborium-query",
+ "arborium-r",
+ "arborium-rescript",
+ "arborium-ron",
+ "arborium-ruby",
+ "arborium-rust",
+ "arborium-scala",
+ "arborium-scheme",
+ "arborium-scss",
+ "arborium-sparql",
+ "arborium-sql",
+ "arborium-ssh-config",
+ "arborium-starlark",
+ "arborium-svelte",
+ "arborium-swift",
+ "arborium-textproto",
  "arborium-theme",
+ "arborium-thrift",
+ "arborium-tlaplus",
+ "arborium-toml",
  "arborium-tree-sitter",
+ "arborium-tsx",
+ "arborium-typescript",
+ "arborium-typst",
+ "arborium-uiua",
+ "arborium-vb",
+ "arborium-verilog",
+ "arborium-vhdl",
+ "arborium-vim",
+ "arborium-vue",
+ "arborium-x86asm",
+ "arborium-xml",
+ "arborium-yaml",
+ "arborium-yuri",
+ "arborium-zig",
+ "arborium-zsh",
  "dlmalloc",
  "indoc",
 ]
 
 [[package]]
+name = "arborium-ada"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-agda"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-asciidoc"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-asm"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-awk"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-bash"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-batch"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
 name = "arborium-c"
-version = "1.2.3"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-c-sharp"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-caddy"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-capnp"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-clojure"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-cmake"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-commonlisp"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-cpp"
+version = "1.0.1"
+dependencies = [
+ "arborium-c",
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-css"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-d"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-dart"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-devicetree"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-diff"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-dockerfile"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-dot"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-elisp"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-elixir"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-elm"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-erlang"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-fish"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-fsharp"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-gleam"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-glsl"
+version = "1.0.1"
+dependencies = [
+ "arborium-c",
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-go"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-graphql"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-haskell"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-hcl"
+version = "1.0.1"
 dependencies = [
  "arborium-sysroot",
  "arborium-tree-sitter",
@@ -34,7 +428,7 @@ dependencies = [
 
 [[package]]
 name = "arborium-highlight"
-version = "1.2.3"
+version = "1.0.1"
 dependencies = [
  "arborium-theme",
  "arborium-tree-sitter",
@@ -42,19 +436,446 @@ dependencies = [
 ]
 
 [[package]]
+name = "arborium-hlsl"
+version = "1.0.1"
+dependencies = [
+ "arborium-cpp",
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-html"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-idris"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-ini"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-java"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-javascript"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-jinja2"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-jq"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-json"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-julia"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-kdl"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-kotlin"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-lean"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-lua"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-markdown"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-matlab"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-meson"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-nginx"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-ninja"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-nix"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-objc"
+version = "1.0.1"
+dependencies = [
+ "arborium-c",
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-ocaml"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-perl"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-php"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-postscript"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-powershell"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-prolog"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-python"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-query"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-r"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-rescript"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-ron"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-ruby"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-rust"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-scala"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-scheme"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-scss"
+version = "1.0.1"
+dependencies = [
+ "arborium-css",
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-sparql"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-sql"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-ssh-config"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-starlark"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-svelte"
+version = "1.0.1"
+dependencies = [
+ "arborium-html",
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-swift"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
 name = "arborium-sysroot"
-version = "1.2.3"
+version = "1.0.1"
+
+[[package]]
+name = "arborium-textproto"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
 
 [[package]]
 name = "arborium-theme"
-version = "1.2.3"
+version = "1.0.1"
 dependencies = [
  "toml",
 ]
 
 [[package]]
+name = "arborium-thrift"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-tlaplus"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-toml"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
 name = "arborium-tree-sitter"
-version = "1.2.3"
+version = "1.0.1"
 dependencies = [
  "arborium-sysroot",
  "cc",
@@ -62,6 +883,144 @@ dependencies = [
  "regex-syntax",
  "streaming-iterator",
  "tree-sitter-language",
+]
+
+[[package]]
+name = "arborium-tsx"
+version = "1.0.1"
+dependencies = [
+ "arborium-javascript",
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-typescript"
+version = "1.0.1"
+dependencies = [
+ "arborium-javascript",
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-typst"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-uiua"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-vb"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-verilog"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-vhdl"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-vim"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-vue"
+version = "1.0.1"
+dependencies = [
+ "arborium-html",
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-x86asm"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-xml"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-yaml"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-yuri"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-zig"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
+]
+
+[[package]]
+name = "arborium-zsh"
+version = "1.0.1"
+dependencies = [
+ "arborium-sysroot",
+ "arborium-tree-sitter",
+ "cc",
 ]
 
 [[package]]

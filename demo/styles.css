@@ -1,15 +1,15 @@
 /* Iosevka FTL font for code */
 @font-face {
-    font-family: 'Iosevka';
-    src: url('IosevkaFtl-Regular.woff2') format('woff2');
+    font-family: "Iosevka";
+    src: url("IosevkaFtl-Regular.woff2") format("woff2");
     font-weight: 400;
     font-style: normal;
     font-display: swap;
 }
 
 @font-face {
-    font-family: 'Iosevka';
-    src: url('IosevkaFtl-Bold.woff2') format('woff2');
+    font-family: "Iosevka";
+    src: url("IosevkaFtl-Bold.woff2") format("woff2");
     font-weight: 700;
     font-style: normal;
     font-display: swap;
@@ -153,47 +153,47 @@
 
 [data-theme="docsrs-light"] {
     /* docs.rs Light */
-    --bg: #f5f5f5;          /* code background */
+    --bg: #f5f5f5; /* code background */
     --fg: #1b1b1b;
     --surface: #ffffff;
     --accent: #4271ae;
     --muted: #6d6d6d;
-    --tag-prog: #4271ae;     /* prelude/link blue */
-    --tag-markup: #718c00;   /* string green */
-    --tag-config: #ad7c37;   /* function/link amber */
-    --tag-data: #c82829;     /* literal red */
-    --tag-shell: #3e999f;    /* macro teal */
-    --tag-query: #8959a8;    /* keyword purple */
+    --tag-prog: #4271ae; /* prelude/link blue */
+    --tag-markup: #718c00; /* string green */
+    --tag-config: #ad7c37; /* function/link amber */
+    --tag-data: #c82829; /* literal red */
+    --tag-shell: #3e999f; /* macro teal */
+    --tag-query: #8959a8; /* keyword purple */
 }
 
 [data-theme="docsrs-dark"] {
     /* docs.rs Dark */
-    --bg: #2a2a2a;          /* code background */
+    --bg: #2a2a2a; /* code background */
     --fg: #dddddd;
     --surface: #353535;
     --accent: #769acb;
     --muted: #8d8d8b;
-    --tag-prog: #769acb;     /* prelude/link blue */
-    --tag-markup: #83a300;   /* string green */
-    --tag-config: #2bab63;   /* function/link green */
-    --tag-data: #ee6868;     /* literal red */
-    --tag-shell: #3e999f;    /* macro teal */
-    --tag-query: #ab8ac1;    /* keyword purple */
+    --tag-prog: #769acb; /* prelude/link blue */
+    --tag-markup: #83a300; /* string green */
+    --tag-config: #2bab63; /* function/link green */
+    --tag-data: #ee6868; /* literal red */
+    --tag-shell: #3e999f; /* macro teal */
+    --tag-query: #ab8ac1; /* keyword purple */
 }
 
 [data-theme="docsrs-ayu"] {
     /* docs.rs Ayu */
-    --bg: #191f26;          /* code background */
+    --bg: #191f26; /* code background */
     --fg: #c5c5c5;
     --surface: #0f1419;
     --accent: #ff7733;
     --muted: #788797;
-    --tag-prog: #ff7733;     /* keyword orange */
-    --tag-markup: #b8cc52;   /* string green */
-    --tag-config: #fdd687;   /* function/link gold */
-    --tag-data: #ff7733;     /* literal orange */
-    --tag-shell: #69f2df;    /* prelude aqua */
-    --tag-query: #a37acc;    /* macro purple */
+    --tag-prog: #ff7733; /* keyword orange */
+    --tag-markup: #b8cc52; /* string green */
+    --tag-config: #fdd687; /* function/link gold */
+    --tag-data: #ff7733; /* literal orange */
+    --tag-shell: #69f2df; /* prelude aqua */
+    --tag-query: #a37acc; /* macro purple */
 }
 
 [data-theme="one-dark"] {
@@ -411,13 +411,21 @@
 }
 
 body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family:
+        "Inter",
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        sans-serif;
     background: var(--bg);
     color: var(--fg);
     margin: 0;
     padding: 2rem;
     min-height: 100vh;
-    transition: background 0.2s, color 0.2s;
+    transition:
+        background 0.2s,
+        color 0.2s;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -698,13 +706,13 @@ h1 {
 }
 
 .compare-box code {
-    font-family: 'Iosevka', 'SF Mono', 'Fira Code', 'Consolas', monospace;
+    font-family: "Iosevka", "SF Mono", "Fira Code", "Consolas", monospace;
     font-size: 0.85rem;
     color: var(--fg);
 }
 
 .cards-container code {
-    font-family: 'Iosevka', 'SF Mono', 'Fira Code', 'Consolas', monospace;
+    font-family: "Iosevka", "SF Mono", "Fira Code", "Consolas", monospace;
     font-size: 0.85em;
     background: color-mix(in srgb, var(--fg) 10%, transparent);
     padding: 0.15rem 0.35rem;
@@ -766,7 +774,9 @@ h1 {
     width: 1em;
     height: 1em;
     opacity: 0.6;
-    transition: transform 0.2s, opacity 0.2s;
+    transition:
+        transform 0.2s,
+        opacity 0.2s;
     flex-shrink: 0;
     margin-left: auto;
 }
@@ -800,7 +810,9 @@ h1 {
     border-radius: 4px;
     color: var(--fg);
     cursor: pointer;
-    transition: border-color 0.2s, background 0.2s;
+    transition:
+        border-color 0.2s,
+        background 0.2s;
     padding: 0 0.5rem;
     font-size: 0.75rem;
     font-weight: 500;
@@ -822,7 +834,8 @@ h1 {
     transform: rotate(180deg);
 }
 
-select, button {
+select,
+button {
     background: var(--surface);
     color: var(--fg);
     border: 1px solid var(--muted);
@@ -830,10 +843,13 @@ select, button {
     border-radius: 4px;
     font-size: 1rem;
     cursor: pointer;
-    transition: border-color 0.2s, background 0.2s;
+    transition:
+        border-color 0.2s,
+        background 0.2s;
 }
 
-select:hover, button:hover {
+select:hover,
+button:hover {
     border-color: var(--accent);
 }
 
@@ -1006,15 +1022,42 @@ select:hover, button:hover {
     letter-spacing: 0.03em;
 }
 
-.tag-code { background: var(--tag-prog); color: #1e1e2e; }
-.tag-markup { background: var(--tag-markup); color: #1e1e2e; }
-.tag-config { background: var(--tag-config); color: #1e1e2e; }
-.tag-data { background: var(--tag-data); color: #1e1e2e; }
-.tag-shell { background: var(--tag-shell); color: #1e1e2e; }
-.tag-query { background: var(--tag-query); color: #1e1e2e; }
-.tag-build { background: var(--tag-config); color: #1e1e2e; }
-.tag-dark { background: #45475a; color: #cdd6f4; }
-.tag-light { background: #dce0e8; color: #4c4f69; }
+.tag-code {
+    background: var(--tag-prog);
+    color: #1e1e2e;
+}
+.tag-markup {
+    background: var(--tag-markup);
+    color: #1e1e2e;
+}
+.tag-config {
+    background: var(--tag-config);
+    color: #1e1e2e;
+}
+.tag-data {
+    background: var(--tag-data);
+    color: #1e1e2e;
+}
+.tag-shell {
+    background: var(--tag-shell);
+    color: #1e1e2e;
+}
+.tag-query {
+    background: var(--tag-query);
+    color: #1e1e2e;
+}
+.tag-build {
+    background: var(--tag-config);
+    color: #1e1e2e;
+}
+.tag-dark {
+    background: #45475a;
+    color: #cdd6f4;
+}
+.tag-light {
+    background: #dce0e8;
+    color: #4c4f69;
+}
 
 /* Theme picker styles - mirrors lang-picker */
 .theme-picker {
@@ -1198,7 +1241,9 @@ select:hover, button:hover {
     padding: 0 0.4rem;
     color: var(--muted);
     cursor: pointer;
-    transition: background 0.2s, color 0.2s;
+    transition:
+        background 0.2s,
+        color 0.2s;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1213,7 +1258,7 @@ select:hover, button:hover {
 }
 
 .mode-btn:hover {
-    background: rgba(255,255,255,0.1);
+    background: rgba(255, 255, 255, 0.1);
 }
 
 .mode-btn.active {
@@ -1341,8 +1386,8 @@ select:hover, button:hover {
 .editor-layers {
     display: grid;
     min-height: 100%;
-    padding-top: 3.5rem;    /* Space for toolbar */
-    padding-bottom: 3rem;   /* Space for sample-bar */
+    padding-top: 3.5rem; /* Space for toolbar */
+    padding-bottom: 3rem; /* Space for sample-bar */
     box-sizing: border-box;
 }
 
@@ -1360,7 +1405,9 @@ select:hover, button:hover {
     opacity: 0.02;
     pointer-events: none;
     z-index: 0;
-    transition: opacity 0.3s, bottom 0.2s;
+    transition:
+        opacity 0.3s,
+        bottom 0.2s;
 }
 
 .lang-watermark svg {
@@ -1374,7 +1421,9 @@ select:hover, button:hover {
     background: var(--surface);
     border-radius: 8px;
     overflow: hidden;
-    transition: background 0.2s, box-shadow 0.2s;
+    transition:
+        background 0.2s,
+        box-shadow 0.2s;
     height: 60vh;
     display: flex;
     flex-direction: column;
@@ -1386,7 +1435,7 @@ select:hover, button:hover {
 }
 
 .panel-header {
-    background: rgba(0,0,0,0.2);
+    background: rgba(0, 0, 0, 0.2);
     padding: 0.5rem 1rem;
     font-size: 0.85rem;
     color: var(--muted);
@@ -1400,7 +1449,7 @@ textarea {
     caret-color: var(--fg);
     border: none;
     padding: 1rem;
-    font-family: 'Iosevka', 'SF Mono', 'Fira Code', 'Consolas', monospace;
+    font-family: "Iosevka", "SF Mono", "Fira Code", "Consolas", monospace;
     font-size: 14px;
     line-height: 1.5;
     resize: none;
@@ -1422,7 +1471,7 @@ textarea::selection {
 
 .output {
     padding: 1rem;
-    font-family: 'Iosevka', 'SF Mono', 'Fira Code', 'Consolas', monospace;
+    font-family: "Iosevka", "SF Mono", "Fira Code", "Consolas", monospace;
     font-size: 14px;
     line-height: 1.5;
     white-space: pre-wrap;
@@ -1436,370 +1485,1064 @@ textarea::selection {
 /* Do not edit manually - changes will be overwritten */
 
 /* Syntax highlighting using custom web elements - Catppuccin Mocha (dark themes) */
-a-at { color: #f9e2af; }  /* attribute - yellow */
-a-co { color: #fab387; }  /* constant - peach */
-a-fb { color: #89dceb; }  /* function.builtin - sky */
-a-f { color: #89b4fa; }   /* function - blue */
-a-k { color: #cba6f7; }   /* keyword - mauve */
-a-o { color: #94e2d5; }   /* operator - teal */
-a-pr { color: #89b4fa; }  /* property - blue */
-a-p { color: #9399b2; }   /* punctuation - overlay2 */
-a-pb { color: #9399b2; }  /* punctuation.bracket */
-a-pd { color: #9399b2; }  /* punctuation.delimiter */
-a-s { color: #a6e3a1; }   /* string - green */
-a-ss { color: #f38ba8; }  /* string.special - red */
-a-tg { color: #89b4fa; }  /* tag - blue */
-a-t { color: #f9e2af; }   /* type - yellow */
-a-tb { color: #f9e2af; }  /* type.builtin */
-a-v { color: #cdd6f4; }   /* variable - text */
-a-vb { color: #f38ba8; }  /* variable.builtin - red */
-a-vp { color: #fab387; }  /* variable.parameter - peach */
-a-c { color: #6c7086; }   /* comment - overlay0 */
-a-m { color: #94e2d5; }   /* macro - teal */
-a-l { color: #f5c2e7; }   /* label - pink */
-a-da { color: #a6e3a1; }  /* diff.addition - green */
-a-dd { color: #f38ba8; }  /* diff.deletion - red */
-a-n { color: #fab387; }   /* number - peach */
-a-tl { color: #cdd6f4; }  /* text.literal */
-a-te { color: var(--accent); } /* text.emphasis - no italic, we lack the font */
-a-ts { font-weight: bold; }  /* text.strong */
-a-tu { color: #89b4fa; text-decoration: underline; } /* text.uri */
-a-tr { color: #89dceb; }  /* text.reference */
-a-se { color: #fab387; }  /* string.escape */
-a-tt { color: #cba6f7; font-weight: bold; } /* text.title */
-a-ps { color: #f5c2e7; }  /* punctuation.special */
-a-tx { text-decoration: line-through; } /* text.strikethrough */
-a-sp { color: #cdd6f4; }  /* spell */
+a-at {
+    color: #f9e2af;
+} /* attribute - yellow */
+a-co {
+    color: #fab387;
+} /* constant - peach */
+a-fb {
+    color: #89dceb;
+} /* function.builtin - sky */
+a-f {
+    color: #89b4fa;
+} /* function - blue */
+a-k {
+    color: #cba6f7;
+} /* keyword - mauve */
+a-o {
+    color: #94e2d5;
+} /* operator - teal */
+a-pr {
+    color: #89b4fa;
+} /* property - blue */
+a-p {
+    color: #9399b2;
+} /* punctuation - overlay2 */
+a-pb {
+    color: #9399b2;
+} /* punctuation.bracket */
+a-pd {
+    color: #9399b2;
+} /* punctuation.delimiter */
+a-s {
+    color: #a6e3a1;
+} /* string - green */
+a-ss {
+    color: #f38ba8;
+} /* string.special - red */
+a-tg {
+    color: #89b4fa;
+} /* tag - blue */
+a-t {
+    color: #f9e2af;
+} /* type - yellow */
+a-tb {
+    color: #f9e2af;
+} /* type.builtin */
+a-v {
+    color: #cdd6f4;
+} /* variable - text */
+a-vb {
+    color: #f38ba8;
+} /* variable.builtin - red */
+a-vp {
+    color: #fab387;
+} /* variable.parameter - peach */
+a-c {
+    color: #6c7086;
+} /* comment - overlay0 */
+a-m {
+    color: #94e2d5;
+} /* macro - teal */
+a-l {
+    color: #f5c2e7;
+} /* label - pink */
+a-da {
+    color: #a6e3a1;
+} /* diff.addition - green */
+a-dd {
+    color: #f38ba8;
+} /* diff.deletion - red */
+a-n {
+    color: #fab387;
+} /* number - peach */
+a-tl {
+    color: #cdd6f4;
+} /* text.literal */
+a-te {
+    color: var(--accent);
+} /* text.emphasis - no italic, we lack the font */
+a-ts {
+    font-weight: bold;
+} /* text.strong */
+a-tu {
+    color: #89b4fa;
+    text-decoration: underline;
+} /* text.uri */
+a-tr {
+    color: #89dceb;
+} /* text.reference */
+a-se {
+    color: #fab387;
+} /* string.escape */
+a-tt {
+    color: #cba6f7;
+    font-weight: bold;
+} /* text.title */
+a-ps {
+    color: #f5c2e7;
+} /* punctuation.special */
+a-tx {
+    text-decoration: line-through;
+} /* text.strikethrough */
+a-sp {
+    color: #cdd6f4;
+} /* spell */
 
 /* Light theme overrides (Catppuccin Latte) */
-[data-theme="latte"] a-at { color: #df8e1d; }
-[data-theme="latte"] a-co { color: #fe640b; }
-[data-theme="latte"] a-fb { color: #04a5e5; }
-[data-theme="latte"] a-f { color: #1e66f5; }
-[data-theme="latte"] a-k { color: #8839ef; }
-[data-theme="latte"] a-o { color: #179299; }
-[data-theme="latte"] a-pr { color: #1e66f5; }
-[data-theme="latte"] a-p { color: #7c7f93; }
-[data-theme="latte"] a-pb { color: #7c7f93; }
-[data-theme="latte"] a-pd { color: #7c7f93; }
-[data-theme="latte"] a-s { color: #40a02b; }
-[data-theme="latte"] a-ss { color: #d20f39; }
-[data-theme="latte"] a-tg { color: #1e66f5; }
-[data-theme="latte"] a-t { color: #df8e1d; }
-[data-theme="latte"] a-tb { color: #df8e1d; }
-[data-theme="latte"] a-v { color: #4c4f69; }
-[data-theme="latte"] a-vb { color: #d20f39; }
-[data-theme="latte"] a-vp { color: #fe640b; }
-[data-theme="latte"] a-c { color: #9ca0b0; }
-[data-theme="latte"] a-m { color: #179299; }
-[data-theme="latte"] a-l { color: #ea76cb; }
-[data-theme="latte"] a-da { color: #40a02b; }
-[data-theme="latte"] a-dd { color: #d20f39; }
-[data-theme="latte"] a-n { color: #fe640b; }
-[data-theme="latte"] a-tl { color: #4c4f69; }
-[data-theme="latte"] a-tu { color: #1e66f5; }
-[data-theme="latte"] a-tr { color: #04a5e5; }
-[data-theme="latte"] a-se { color: #fe640b; }
-[data-theme="latte"] a-tt { color: #8839ef; }
-[data-theme="latte"] a-ps { color: #ea76cb; }
-[data-theme="latte"] a-sp { color: #4c4f69; }
+[data-theme="latte"] a-at {
+    color: #df8e1d;
+}
+[data-theme="latte"] a-co {
+    color: #fe640b;
+}
+[data-theme="latte"] a-fb {
+    color: #04a5e5;
+}
+[data-theme="latte"] a-f {
+    color: #1e66f5;
+}
+[data-theme="latte"] a-k {
+    color: #8839ef;
+}
+[data-theme="latte"] a-o {
+    color: #179299;
+}
+[data-theme="latte"] a-pr {
+    color: #1e66f5;
+}
+[data-theme="latte"] a-p {
+    color: #7c7f93;
+}
+[data-theme="latte"] a-pb {
+    color: #7c7f93;
+}
+[data-theme="latte"] a-pd {
+    color: #7c7f93;
+}
+[data-theme="latte"] a-s {
+    color: #40a02b;
+}
+[data-theme="latte"] a-ss {
+    color: #d20f39;
+}
+[data-theme="latte"] a-tg {
+    color: #1e66f5;
+}
+[data-theme="latte"] a-t {
+    color: #df8e1d;
+}
+[data-theme="latte"] a-tb {
+    color: #df8e1d;
+}
+[data-theme="latte"] a-v {
+    color: #4c4f69;
+}
+[data-theme="latte"] a-vb {
+    color: #d20f39;
+}
+[data-theme="latte"] a-vp {
+    color: #fe640b;
+}
+[data-theme="latte"] a-c {
+    color: #9ca0b0;
+}
+[data-theme="latte"] a-m {
+    color: #179299;
+}
+[data-theme="latte"] a-l {
+    color: #ea76cb;
+}
+[data-theme="latte"] a-da {
+    color: #40a02b;
+}
+[data-theme="latte"] a-dd {
+    color: #d20f39;
+}
+[data-theme="latte"] a-n {
+    color: #fe640b;
+}
+[data-theme="latte"] a-tl {
+    color: #4c4f69;
+}
+[data-theme="latte"] a-tu {
+    color: #1e66f5;
+}
+[data-theme="latte"] a-tr {
+    color: #04a5e5;
+}
+[data-theme="latte"] a-se {
+    color: #fe640b;
+}
+[data-theme="latte"] a-tt {
+    color: #8839ef;
+}
+[data-theme="latte"] a-ps {
+    color: #ea76cb;
+}
+[data-theme="latte"] a-sp {
+    color: #4c4f69;
+}
 
 /* Tokyo Night */
-[data-theme="tokyo-night"] a-at { color: #e0af68; }
-[data-theme="tokyo-night"] a-co { color: #ff9e64; }
-[data-theme="tokyo-night"] a-fb { color: #7dcfff; }
-[data-theme="tokyo-night"] a-f { color: #7aa2f7; }
-[data-theme="tokyo-night"] a-k { color: #bb9af7; }
-[data-theme="tokyo-night"] a-o { color: #89ddff; }
-[data-theme="tokyo-night"] a-pr { color: #7aa2f7; }
-[data-theme="tokyo-night"] a-p { color: #a9b1d6; }
-[data-theme="tokyo-night"] a-pb { color: #a9b1d6; }
-[data-theme="tokyo-night"] a-pd { color: #a9b1d6; }
-[data-theme="tokyo-night"] a-s { color: #9ece6a; }
-[data-theme="tokyo-night"] a-ss { color: #f7768e; }
-[data-theme="tokyo-night"] a-tg { color: #f7768e; }
-[data-theme="tokyo-night"] a-t { color: #2ac3de; }
-[data-theme="tokyo-night"] a-tb { color: #2ac3de; }
-[data-theme="tokyo-night"] a-v { color: #c0caf5; }
-[data-theme="tokyo-night"] a-vb { color: #f7768e; }
-[data-theme="tokyo-night"] a-vp { color: #e0af68; }
-[data-theme="tokyo-night"] a-c { color: #565f89; }
-[data-theme="tokyo-night"] a-m { color: #7dcfff; }
-[data-theme="tokyo-night"] a-l { color: #ff9e64; }
-[data-theme="tokyo-night"] a-da { color: #9ece6a; }
-[data-theme="tokyo-night"] a-dd { color: #f7768e; }
-[data-theme="tokyo-night"] a-n { color: #ff9e64; }
-[data-theme="tokyo-night"] a-tl { color: #a9b1d6; }
-[data-theme="tokyo-night"] a-tu { color: #7aa2f7; }
-[data-theme="tokyo-night"] a-tr { color: #7dcfff; }
-[data-theme="tokyo-night"] a-se { color: #89ddff; }
-[data-theme="tokyo-night"] a-tt { color: #bb9af7; }
-[data-theme="tokyo-night"] a-ps { color: #89ddff; }
-[data-theme="tokyo-night"] a-sp { color: #a9b1d6; }
+[data-theme="tokyo-night"] a-at {
+    color: #e0af68;
+}
+[data-theme="tokyo-night"] a-co {
+    color: #ff9e64;
+}
+[data-theme="tokyo-night"] a-fb {
+    color: #7dcfff;
+}
+[data-theme="tokyo-night"] a-f {
+    color: #7aa2f7;
+}
+[data-theme="tokyo-night"] a-k {
+    color: #bb9af7;
+}
+[data-theme="tokyo-night"] a-o {
+    color: #89ddff;
+}
+[data-theme="tokyo-night"] a-pr {
+    color: #7aa2f7;
+}
+[data-theme="tokyo-night"] a-p {
+    color: #a9b1d6;
+}
+[data-theme="tokyo-night"] a-pb {
+    color: #a9b1d6;
+}
+[data-theme="tokyo-night"] a-pd {
+    color: #a9b1d6;
+}
+[data-theme="tokyo-night"] a-s {
+    color: #9ece6a;
+}
+[data-theme="tokyo-night"] a-ss {
+    color: #f7768e;
+}
+[data-theme="tokyo-night"] a-tg {
+    color: #f7768e;
+}
+[data-theme="tokyo-night"] a-t {
+    color: #2ac3de;
+}
+[data-theme="tokyo-night"] a-tb {
+    color: #2ac3de;
+}
+[data-theme="tokyo-night"] a-v {
+    color: #c0caf5;
+}
+[data-theme="tokyo-night"] a-vb {
+    color: #f7768e;
+}
+[data-theme="tokyo-night"] a-vp {
+    color: #e0af68;
+}
+[data-theme="tokyo-night"] a-c {
+    color: #565f89;
+}
+[data-theme="tokyo-night"] a-m {
+    color: #7dcfff;
+}
+[data-theme="tokyo-night"] a-l {
+    color: #ff9e64;
+}
+[data-theme="tokyo-night"] a-da {
+    color: #9ece6a;
+}
+[data-theme="tokyo-night"] a-dd {
+    color: #f7768e;
+}
+[data-theme="tokyo-night"] a-n {
+    color: #ff9e64;
+}
+[data-theme="tokyo-night"] a-tl {
+    color: #a9b1d6;
+}
+[data-theme="tokyo-night"] a-tu {
+    color: #7aa2f7;
+}
+[data-theme="tokyo-night"] a-tr {
+    color: #7dcfff;
+}
+[data-theme="tokyo-night"] a-se {
+    color: #89ddff;
+}
+[data-theme="tokyo-night"] a-tt {
+    color: #bb9af7;
+}
+[data-theme="tokyo-night"] a-ps {
+    color: #89ddff;
+}
+[data-theme="tokyo-night"] a-sp {
+    color: #a9b1d6;
+}
 
 /* Dracula */
-[data-theme="dracula"] a-at { color: #50fa7b; }
-[data-theme="dracula"] a-co { color: #bd93f9; }
-[data-theme="dracula"] a-fb { color: #8be9fd; }
-[data-theme="dracula"] a-f { color: #50fa7b; }
-[data-theme="dracula"] a-k { color: #ff79c6; }
-[data-theme="dracula"] a-o { color: #ff79c6; }
-[data-theme="dracula"] a-pr { color: #8be9fd; }
-[data-theme="dracula"] a-p { color: #f8f8f2; }
-[data-theme="dracula"] a-pb { color: #f8f8f2; }
-[data-theme="dracula"] a-pd { color: #f8f8f2; }
-[data-theme="dracula"] a-s { color: #f1fa8c; }
-[data-theme="dracula"] a-ss { color: #ff5555; }
-[data-theme="dracula"] a-tg { color: #ff79c6; }
-[data-theme="dracula"] a-t { color: #8be9fd; }
-[data-theme="dracula"] a-tb { color: #8be9fd; }
-[data-theme="dracula"] a-v { color: #f8f8f2; }
-[data-theme="dracula"] a-vb { color: #bd93f9; }
-[data-theme="dracula"] a-vp { color: #ffb86c; }
-[data-theme="dracula"] a-c { color: #6272a4; }
-[data-theme="dracula"] a-m { color: #50fa7b; }
-[data-theme="dracula"] a-l { color: #8be9fd; }
-[data-theme="dracula"] a-da { color: #50fa7b; }
-[data-theme="dracula"] a-dd { color: #ff5555; }
-[data-theme="dracula"] a-n { color: #bd93f9; }
-[data-theme="dracula"] a-tl { color: #f8f8f2; }
-[data-theme="dracula"] a-tu { color: #8be9fd; }
-[data-theme="dracula"] a-tr { color: #8be9fd; }
-[data-theme="dracula"] a-se { color: #ff79c6; }
-[data-theme="dracula"] a-tt { color: #bd93f9; }
-[data-theme="dracula"] a-ps { color: #ff79c6; }
-[data-theme="dracula"] a-sp { color: #f8f8f2; }
+[data-theme="dracula"] a-at {
+    color: #50fa7b;
+}
+[data-theme="dracula"] a-co {
+    color: #bd93f9;
+}
+[data-theme="dracula"] a-fb {
+    color: #8be9fd;
+}
+[data-theme="dracula"] a-f {
+    color: #50fa7b;
+}
+[data-theme="dracula"] a-k {
+    color: #ff79c6;
+}
+[data-theme="dracula"] a-o {
+    color: #ff79c6;
+}
+[data-theme="dracula"] a-pr {
+    color: #8be9fd;
+}
+[data-theme="dracula"] a-p {
+    color: #f8f8f2;
+}
+[data-theme="dracula"] a-pb {
+    color: #f8f8f2;
+}
+[data-theme="dracula"] a-pd {
+    color: #f8f8f2;
+}
+[data-theme="dracula"] a-s {
+    color: #f1fa8c;
+}
+[data-theme="dracula"] a-ss {
+    color: #ff5555;
+}
+[data-theme="dracula"] a-tg {
+    color: #ff79c6;
+}
+[data-theme="dracula"] a-t {
+    color: #8be9fd;
+}
+[data-theme="dracula"] a-tb {
+    color: #8be9fd;
+}
+[data-theme="dracula"] a-v {
+    color: #f8f8f2;
+}
+[data-theme="dracula"] a-vb {
+    color: #bd93f9;
+}
+[data-theme="dracula"] a-vp {
+    color: #ffb86c;
+}
+[data-theme="dracula"] a-c {
+    color: #6272a4;
+}
+[data-theme="dracula"] a-m {
+    color: #50fa7b;
+}
+[data-theme="dracula"] a-l {
+    color: #8be9fd;
+}
+[data-theme="dracula"] a-da {
+    color: #50fa7b;
+}
+[data-theme="dracula"] a-dd {
+    color: #ff5555;
+}
+[data-theme="dracula"] a-n {
+    color: #bd93f9;
+}
+[data-theme="dracula"] a-tl {
+    color: #f8f8f2;
+}
+[data-theme="dracula"] a-tu {
+    color: #8be9fd;
+}
+[data-theme="dracula"] a-tr {
+    color: #8be9fd;
+}
+[data-theme="dracula"] a-se {
+    color: #ff79c6;
+}
+[data-theme="dracula"] a-tt {
+    color: #bd93f9;
+}
+[data-theme="dracula"] a-ps {
+    color: #ff79c6;
+}
+[data-theme="dracula"] a-sp {
+    color: #f8f8f2;
+}
 
 /* Monokai Pro */
-[data-theme="monokai"] a-at { color: #a9dc76; }
-[data-theme="monokai"] a-co { color: #ab9df2; }
-[data-theme="monokai"] a-fb { color: #78dce8; }
-[data-theme="monokai"] a-f { color: #a9dc76; }
-[data-theme="monokai"] a-k { color: #ff6188; }
-[data-theme="monokai"] a-o { color: #ff6188; }
-[data-theme="monokai"] a-pr { color: #78dce8; }
-[data-theme="monokai"] a-p { color: #fcfcfa; }
-[data-theme="monokai"] a-pb { color: #fcfcfa; }
-[data-theme="monokai"] a-pd { color: #fcfcfa; }
-[data-theme="monokai"] a-s { color: #ffd866; }
-[data-theme="monokai"] a-ss { color: #ff6188; }
-[data-theme="monokai"] a-tg { color: #ff6188; }
-[data-theme="monokai"] a-t { color: #78dce8; }
-[data-theme="monokai"] a-tb { color: #78dce8; }
-[data-theme="monokai"] a-v { color: #fcfcfa; }
-[data-theme="monokai"] a-vb { color: #ab9df2; }
-[data-theme="monokai"] a-vp { color: #fc9867; }
-[data-theme="monokai"] a-c { color: #727072; }
-[data-theme="monokai"] a-m { color: #78dce8; }
-[data-theme="monokai"] a-l { color: #fc9867; }
-[data-theme="monokai"] a-da { color: #a9dc76; }
-[data-theme="monokai"] a-dd { color: #ff6188; }
-[data-theme="monokai"] a-n { color: #ab9df2; }
-[data-theme="monokai"] a-tl { color: #fcfcfa; }
-[data-theme="monokai"] a-tu { color: #78dce8; }
-[data-theme="monokai"] a-tr { color: #78dce8; }
-[data-theme="monokai"] a-se { color: #ff6188; }
-[data-theme="monokai"] a-tt { color: #ffd866; }
-[data-theme="monokai"] a-ps { color: #ff6188; }
-[data-theme="monokai"] a-sp { color: #fcfcfa; }
+[data-theme="monokai"] a-at {
+    color: #a9dc76;
+}
+[data-theme="monokai"] a-co {
+    color: #ab9df2;
+}
+[data-theme="monokai"] a-fb {
+    color: #78dce8;
+}
+[data-theme="monokai"] a-f {
+    color: #a9dc76;
+}
+[data-theme="monokai"] a-k {
+    color: #ff6188;
+}
+[data-theme="monokai"] a-o {
+    color: #ff6188;
+}
+[data-theme="monokai"] a-pr {
+    color: #78dce8;
+}
+[data-theme="monokai"] a-p {
+    color: #fcfcfa;
+}
+[data-theme="monokai"] a-pb {
+    color: #fcfcfa;
+}
+[data-theme="monokai"] a-pd {
+    color: #fcfcfa;
+}
+[data-theme="monokai"] a-s {
+    color: #ffd866;
+}
+[data-theme="monokai"] a-ss {
+    color: #ff6188;
+}
+[data-theme="monokai"] a-tg {
+    color: #ff6188;
+}
+[data-theme="monokai"] a-t {
+    color: #78dce8;
+}
+[data-theme="monokai"] a-tb {
+    color: #78dce8;
+}
+[data-theme="monokai"] a-v {
+    color: #fcfcfa;
+}
+[data-theme="monokai"] a-vb {
+    color: #ab9df2;
+}
+[data-theme="monokai"] a-vp {
+    color: #fc9867;
+}
+[data-theme="monokai"] a-c {
+    color: #727072;
+}
+[data-theme="monokai"] a-m {
+    color: #78dce8;
+}
+[data-theme="monokai"] a-l {
+    color: #fc9867;
+}
+[data-theme="monokai"] a-da {
+    color: #a9dc76;
+}
+[data-theme="monokai"] a-dd {
+    color: #ff6188;
+}
+[data-theme="monokai"] a-n {
+    color: #ab9df2;
+}
+[data-theme="monokai"] a-tl {
+    color: #fcfcfa;
+}
+[data-theme="monokai"] a-tu {
+    color: #78dce8;
+}
+[data-theme="monokai"] a-tr {
+    color: #78dce8;
+}
+[data-theme="monokai"] a-se {
+    color: #ff6188;
+}
+[data-theme="monokai"] a-tt {
+    color: #ffd866;
+}
+[data-theme="monokai"] a-ps {
+    color: #ff6188;
+}
+[data-theme="monokai"] a-sp {
+    color: #fcfcfa;
+}
 
 /* GitHub Dark */
-[data-theme="github-dark"] a-at { color: #79c0ff; }
-[data-theme="github-dark"] a-co { color: #79c0ff; }
-[data-theme="github-dark"] a-fb { color: #d2a8ff; }
-[data-theme="github-dark"] a-f { color: #d2a8ff; }
-[data-theme="github-dark"] a-k { color: #ff7b72; }
-[data-theme="github-dark"] a-o { color: #ff7b72; }
-[data-theme="github-dark"] a-pr { color: #79c0ff; }
-[data-theme="github-dark"] a-p { color: #c9d1d9; }
-[data-theme="github-dark"] a-pb { color: #c9d1d9; }
-[data-theme="github-dark"] a-pd { color: #c9d1d9; }
-[data-theme="github-dark"] a-s { color: #a5d6ff; }
-[data-theme="github-dark"] a-ss { color: #ff7b72; }
-[data-theme="github-dark"] a-tg { color: #7ee787; }
-[data-theme="github-dark"] a-t { color: #ffa657; }
-[data-theme="github-dark"] a-tb { color: #ffa657; }
-[data-theme="github-dark"] a-v { color: #c9d1d9; }
-[data-theme="github-dark"] a-vb { color: #ffa657; }
-[data-theme="github-dark"] a-vp { color: #ffa657; }
-[data-theme="github-dark"] a-c { color: #8b949e; }
-[data-theme="github-dark"] a-m { color: #79c0ff; }
-[data-theme="github-dark"] a-l { color: #d2a8ff; }
-[data-theme="github-dark"] a-da { color: #7ee787; }
-[data-theme="github-dark"] a-dd { color: #ff7b72; }
-[data-theme="github-dark"] a-n { color: #79c0ff; }
-[data-theme="github-dark"] a-tl { color: #c9d1d9; }
-[data-theme="github-dark"] a-tu { color: #58a6ff; }
-[data-theme="github-dark"] a-tr { color: #d2a8ff; }
-[data-theme="github-dark"] a-se { color: #79c0ff; }
-[data-theme="github-dark"] a-tt { color: #d2a8ff; }
-[data-theme="github-dark"] a-ps { color: #79c0ff; }
-[data-theme="github-dark"] a-sp { color: #c9d1d9; }
+[data-theme="github-dark"] a-at {
+    color: #79c0ff;
+}
+[data-theme="github-dark"] a-co {
+    color: #79c0ff;
+}
+[data-theme="github-dark"] a-fb {
+    color: #d2a8ff;
+}
+[data-theme="github-dark"] a-f {
+    color: #d2a8ff;
+}
+[data-theme="github-dark"] a-k {
+    color: #ff7b72;
+}
+[data-theme="github-dark"] a-o {
+    color: #ff7b72;
+}
+[data-theme="github-dark"] a-pr {
+    color: #79c0ff;
+}
+[data-theme="github-dark"] a-p {
+    color: #c9d1d9;
+}
+[data-theme="github-dark"] a-pb {
+    color: #c9d1d9;
+}
+[data-theme="github-dark"] a-pd {
+    color: #c9d1d9;
+}
+[data-theme="github-dark"] a-s {
+    color: #a5d6ff;
+}
+[data-theme="github-dark"] a-ss {
+    color: #ff7b72;
+}
+[data-theme="github-dark"] a-tg {
+    color: #7ee787;
+}
+[data-theme="github-dark"] a-t {
+    color: #ffa657;
+}
+[data-theme="github-dark"] a-tb {
+    color: #ffa657;
+}
+[data-theme="github-dark"] a-v {
+    color: #c9d1d9;
+}
+[data-theme="github-dark"] a-vb {
+    color: #ffa657;
+}
+[data-theme="github-dark"] a-vp {
+    color: #ffa657;
+}
+[data-theme="github-dark"] a-c {
+    color: #8b949e;
+}
+[data-theme="github-dark"] a-m {
+    color: #79c0ff;
+}
+[data-theme="github-dark"] a-l {
+    color: #d2a8ff;
+}
+[data-theme="github-dark"] a-da {
+    color: #7ee787;
+}
+[data-theme="github-dark"] a-dd {
+    color: #ff7b72;
+}
+[data-theme="github-dark"] a-n {
+    color: #79c0ff;
+}
+[data-theme="github-dark"] a-tl {
+    color: #c9d1d9;
+}
+[data-theme="github-dark"] a-tu {
+    color: #58a6ff;
+}
+[data-theme="github-dark"] a-tr {
+    color: #d2a8ff;
+}
+[data-theme="github-dark"] a-se {
+    color: #79c0ff;
+}
+[data-theme="github-dark"] a-tt {
+    color: #d2a8ff;
+}
+[data-theme="github-dark"] a-ps {
+    color: #79c0ff;
+}
+[data-theme="github-dark"] a-sp {
+    color: #c9d1d9;
+}
 
 /* GitHub Light */
-[data-theme="github-light"] a-at { color: #0550ae; }
-[data-theme="github-light"] a-co { color: #0550ae; }
-[data-theme="github-light"] a-fb { color: #8250df; }
-[data-theme="github-light"] a-f { color: #8250df; }
-[data-theme="github-light"] a-k { color: #cf222e; }
-[data-theme="github-light"] a-o { color: #cf222e; }
-[data-theme="github-light"] a-pr { color: #0550ae; }
-[data-theme="github-light"] a-p { color: #24292f; }
-[data-theme="github-light"] a-pb { color: #24292f; }
-[data-theme="github-light"] a-pd { color: #24292f; }
-[data-theme="github-light"] a-s { color: #0a3069; }
-[data-theme="github-light"] a-ss { color: #cf222e; }
-[data-theme="github-light"] a-tg { color: #116329; }
-[data-theme="github-light"] a-t { color: #953800; }
-[data-theme="github-light"] a-tb { color: #953800; }
-[data-theme="github-light"] a-v { color: #24292f; }
-[data-theme="github-light"] a-vb { color: #953800; }
-[data-theme="github-light"] a-vp { color: #953800; }
-[data-theme="github-light"] a-c { color: #6e7781; }
-[data-theme="github-light"] a-m { color: #0550ae; }
-[data-theme="github-light"] a-l { color: #8250df; }
-[data-theme="github-light"] a-da { color: #116329; }
-[data-theme="github-light"] a-dd { color: #cf222e; }
-[data-theme="github-light"] a-n { color: #0550ae; }
-[data-theme="github-light"] a-tl { color: #24292f; }
-[data-theme="github-light"] a-tu { color: #0969da; }
-[data-theme="github-light"] a-tr { color: #8250df; }
-[data-theme="github-light"] a-se { color: #0550ae; }
-[data-theme="github-light"] a-tt { color: #0550ae; }
-[data-theme="github-light"] a-ps { color: #0550ae; }
-[data-theme="github-light"] a-sp { color: #24292f; }
+[data-theme="github-light"] a-at {
+    color: #0550ae;
+}
+[data-theme="github-light"] a-co {
+    color: #0550ae;
+}
+[data-theme="github-light"] a-fb {
+    color: #8250df;
+}
+[data-theme="github-light"] a-f {
+    color: #8250df;
+}
+[data-theme="github-light"] a-k {
+    color: #cf222e;
+}
+[data-theme="github-light"] a-o {
+    color: #cf222e;
+}
+[data-theme="github-light"] a-pr {
+    color: #0550ae;
+}
+[data-theme="github-light"] a-p {
+    color: #24292f;
+}
+[data-theme="github-light"] a-pb {
+    color: #24292f;
+}
+[data-theme="github-light"] a-pd {
+    color: #24292f;
+}
+[data-theme="github-light"] a-s {
+    color: #0a3069;
+}
+[data-theme="github-light"] a-ss {
+    color: #cf222e;
+}
+[data-theme="github-light"] a-tg {
+    color: #116329;
+}
+[data-theme="github-light"] a-t {
+    color: #953800;
+}
+[data-theme="github-light"] a-tb {
+    color: #953800;
+}
+[data-theme="github-light"] a-v {
+    color: #24292f;
+}
+[data-theme="github-light"] a-vb {
+    color: #953800;
+}
+[data-theme="github-light"] a-vp {
+    color: #953800;
+}
+[data-theme="github-light"] a-c {
+    color: #6e7781;
+}
+[data-theme="github-light"] a-m {
+    color: #0550ae;
+}
+[data-theme="github-light"] a-l {
+    color: #8250df;
+}
+[data-theme="github-light"] a-da {
+    color: #116329;
+}
+[data-theme="github-light"] a-dd {
+    color: #cf222e;
+}
+[data-theme="github-light"] a-n {
+    color: #0550ae;
+}
+[data-theme="github-light"] a-tl {
+    color: #24292f;
+}
+[data-theme="github-light"] a-tu {
+    color: #0969da;
+}
+[data-theme="github-light"] a-tr {
+    color: #8250df;
+}
+[data-theme="github-light"] a-se {
+    color: #0550ae;
+}
+[data-theme="github-light"] a-tt {
+    color: #0550ae;
+}
+[data-theme="github-light"] a-ps {
+    color: #0550ae;
+}
+[data-theme="github-light"] a-sp {
+    color: #24292f;
+}
 
 /* One Dark Pro */
-[data-theme="one-dark"] a-at { color: #d19a66; }
-[data-theme="one-dark"] a-co { color: #d19a66; }
-[data-theme="one-dark"] a-fb { color: #56b6c2; }
-[data-theme="one-dark"] a-f { color: #61afef; }
-[data-theme="one-dark"] a-k { color: #c678dd; }
-[data-theme="one-dark"] a-o { color: #56b6c2; }
-[data-theme="one-dark"] a-pr { color: #e06c75; }
-[data-theme="one-dark"] a-p { color: #abb2bf; }
-[data-theme="one-dark"] a-pb { color: #abb2bf; }
-[data-theme="one-dark"] a-pd { color: #abb2bf; }
-[data-theme="one-dark"] a-s { color: #98c379; }
-[data-theme="one-dark"] a-ss { color: #e06c75; }
-[data-theme="one-dark"] a-tg { color: #e06c75; }
-[data-theme="one-dark"] a-t { color: #e5c07b; }
-[data-theme="one-dark"] a-tb { color: #e5c07b; }
-[data-theme="one-dark"] a-v { color: #abb2bf; }
-[data-theme="one-dark"] a-vb { color: #e06c75; }
-[data-theme="one-dark"] a-vp { color: #d19a66; }
-[data-theme="one-dark"] a-c { color: #5c6370; }
-[data-theme="one-dark"] a-m { color: #56b6c2; }
-[data-theme="one-dark"] a-l { color: #e06c75; }
-[data-theme="one-dark"] a-da { color: #98c379; }
-[data-theme="one-dark"] a-dd { color: #e06c75; }
-[data-theme="one-dark"] a-n { color: #d19a66; }
-[data-theme="one-dark"] a-tl { color: #abb2bf; }
-[data-theme="one-dark"] a-tu { color: #61afef; }
-[data-theme="one-dark"] a-tr { color: #56b6c2; }
-[data-theme="one-dark"] a-se { color: #56b6c2; }
-[data-theme="one-dark"] a-tt { color: #e06c75; }
-[data-theme="one-dark"] a-ps { color: #c678dd; }
-[data-theme="one-dark"] a-sp { color: #abb2bf; }
+[data-theme="one-dark"] a-at {
+    color: #d19a66;
+}
+[data-theme="one-dark"] a-co {
+    color: #d19a66;
+}
+[data-theme="one-dark"] a-fb {
+    color: #56b6c2;
+}
+[data-theme="one-dark"] a-f {
+    color: #61afef;
+}
+[data-theme="one-dark"] a-k {
+    color: #c678dd;
+}
+[data-theme="one-dark"] a-o {
+    color: #56b6c2;
+}
+[data-theme="one-dark"] a-pr {
+    color: #e06c75;
+}
+[data-theme="one-dark"] a-p {
+    color: #abb2bf;
+}
+[data-theme="one-dark"] a-pb {
+    color: #abb2bf;
+}
+[data-theme="one-dark"] a-pd {
+    color: #abb2bf;
+}
+[data-theme="one-dark"] a-s {
+    color: #98c379;
+}
+[data-theme="one-dark"] a-ss {
+    color: #e06c75;
+}
+[data-theme="one-dark"] a-tg {
+    color: #e06c75;
+}
+[data-theme="one-dark"] a-t {
+    color: #e5c07b;
+}
+[data-theme="one-dark"] a-tb {
+    color: #e5c07b;
+}
+[data-theme="one-dark"] a-v {
+    color: #abb2bf;
+}
+[data-theme="one-dark"] a-vb {
+    color: #e06c75;
+}
+[data-theme="one-dark"] a-vp {
+    color: #d19a66;
+}
+[data-theme="one-dark"] a-c {
+    color: #5c6370;
+}
+[data-theme="one-dark"] a-m {
+    color: #56b6c2;
+}
+[data-theme="one-dark"] a-l {
+    color: #e06c75;
+}
+[data-theme="one-dark"] a-da {
+    color: #98c379;
+}
+[data-theme="one-dark"] a-dd {
+    color: #e06c75;
+}
+[data-theme="one-dark"] a-n {
+    color: #d19a66;
+}
+[data-theme="one-dark"] a-tl {
+    color: #abb2bf;
+}
+[data-theme="one-dark"] a-tu {
+    color: #61afef;
+}
+[data-theme="one-dark"] a-tr {
+    color: #56b6c2;
+}
+[data-theme="one-dark"] a-se {
+    color: #56b6c2;
+}
+[data-theme="one-dark"] a-tt {
+    color: #e06c75;
+}
+[data-theme="one-dark"] a-ps {
+    color: #c678dd;
+}
+[data-theme="one-dark"] a-sp {
+    color: #abb2bf;
+}
 
 /* Melange Dark */
-[data-theme="melange-dark"] a-at { color: #c1a78e; }
-[data-theme="melange-dark"] a-co { color: #cf9bc2; }
-[data-theme="melange-dark"] a-fb { color: #7d9bba; }
-[data-theme="melange-dark"] a-f { color: #7d9bba; }
-[data-theme="melange-dark"] a-k { color: #bd8183; }
-[data-theme="melange-dark"] a-o { color: #bd8183; }
-[data-theme="melange-dark"] a-pr { color: #c1a78e; }
-[data-theme="melange-dark"] a-p { color: #ece1d7; }
-[data-theme="melange-dark"] a-pb { color: #ece1d7; }
-[data-theme="melange-dark"] a-pd { color: #ece1d7; }
-[data-theme="melange-dark"] a-s { color: #78997a; }
-[data-theme="melange-dark"] a-ss { color: #d47766; }
-[data-theme="melange-dark"] a-tg { color: #bd8183; }
-[data-theme="melange-dark"] a-t { color: #c1a78e; }
-[data-theme="melange-dark"] a-tb { color: #c1a78e; }
-[data-theme="melange-dark"] a-v { color: #ece1d7; }
-[data-theme="melange-dark"] a-vb { color: #d47766; }
-[data-theme="melange-dark"] a-vp { color: #c1a78e; }
-[data-theme="melange-dark"] a-c { color: #867462; }
-[data-theme="melange-dark"] a-m { color: #7d9bba; }
-[data-theme="melange-dark"] a-l { color: #cf9bc2; }
-[data-theme="melange-dark"] a-da { color: #78997a; }
-[data-theme="melange-dark"] a-dd { color: #d47766; }
-[data-theme="melange-dark"] a-n { color: #cf9bc2; }
-[data-theme="melange-dark"] a-tl { color: #ece1d7; }
-[data-theme="melange-dark"] a-tu { color: #7d9bba; }
-[data-theme="melange-dark"] a-tr { color: #7d9bba; }
-[data-theme="melange-dark"] a-se { color: #ebc06d; }
-[data-theme="melange-dark"] a-tt { color: #c1a78e; }
-[data-theme="melange-dark"] a-ps { color: #cf9bc2; }
-[data-theme="melange-dark"] a-sp { color: #ece1d7; }
+[data-theme="melange-dark"] a-at {
+    color: #c1a78e;
+}
+[data-theme="melange-dark"] a-co {
+    color: #cf9bc2;
+}
+[data-theme="melange-dark"] a-fb {
+    color: #7d9bba;
+}
+[data-theme="melange-dark"] a-f {
+    color: #7d9bba;
+}
+[data-theme="melange-dark"] a-k {
+    color: #bd8183;
+}
+[data-theme="melange-dark"] a-o {
+    color: #bd8183;
+}
+[data-theme="melange-dark"] a-pr {
+    color: #c1a78e;
+}
+[data-theme="melange-dark"] a-p {
+    color: #ece1d7;
+}
+[data-theme="melange-dark"] a-pb {
+    color: #ece1d7;
+}
+[data-theme="melange-dark"] a-pd {
+    color: #ece1d7;
+}
+[data-theme="melange-dark"] a-s {
+    color: #78997a;
+}
+[data-theme="melange-dark"] a-ss {
+    color: #d47766;
+}
+[data-theme="melange-dark"] a-tg {
+    color: #bd8183;
+}
+[data-theme="melange-dark"] a-t {
+    color: #c1a78e;
+}
+[data-theme="melange-dark"] a-tb {
+    color: #c1a78e;
+}
+[data-theme="melange-dark"] a-v {
+    color: #ece1d7;
+}
+[data-theme="melange-dark"] a-vb {
+    color: #d47766;
+}
+[data-theme="melange-dark"] a-vp {
+    color: #c1a78e;
+}
+[data-theme="melange-dark"] a-c {
+    color: #867462;
+}
+[data-theme="melange-dark"] a-m {
+    color: #7d9bba;
+}
+[data-theme="melange-dark"] a-l {
+    color: #cf9bc2;
+}
+[data-theme="melange-dark"] a-da {
+    color: #78997a;
+}
+[data-theme="melange-dark"] a-dd {
+    color: #d47766;
+}
+[data-theme="melange-dark"] a-n {
+    color: #cf9bc2;
+}
+[data-theme="melange-dark"] a-tl {
+    color: #ece1d7;
+}
+[data-theme="melange-dark"] a-tu {
+    color: #7d9bba;
+}
+[data-theme="melange-dark"] a-tr {
+    color: #7d9bba;
+}
+[data-theme="melange-dark"] a-se {
+    color: #ebc06d;
+}
+[data-theme="melange-dark"] a-tt {
+    color: #c1a78e;
+}
+[data-theme="melange-dark"] a-ps {
+    color: #cf9bc2;
+}
+[data-theme="melange-dark"] a-sp {
+    color: #ece1d7;
+}
 
 /* Melange Light */
-[data-theme="melange-light"] a-at { color: #c29830; }
-[data-theme="melange-light"] a-co { color: #945eb8; }
-[data-theme="melange-light"] a-fb { color: #4c7399; }
-[data-theme="melange-light"] a-f { color: #4c7399; }
-[data-theme="melange-light"] a-k { color: #bc5c00; }
-[data-theme="melange-light"] a-o { color: #bc5c00; }
-[data-theme="melange-light"] a-pr { color: #c29830; }
-[data-theme="melange-light"] a-p { color: #54433a; }
-[data-theme="melange-light"] a-pb { color: #54433a; }
-[data-theme="melange-light"] a-pd { color: #54433a; }
-[data-theme="melange-light"] a-s { color: #6f894e; }
-[data-theme="melange-light"] a-ss { color: #d73737; }
-[data-theme="melange-light"] a-tg { color: #bc5c00; }
-[data-theme="melange-light"] a-t { color: #c29830; }
-[data-theme="melange-light"] a-tb { color: #c29830; }
-[data-theme="melange-light"] a-v { color: #54433a; }
-[data-theme="melange-light"] a-vb { color: #d73737; }
-[data-theme="melange-light"] a-vp { color: #c29830; }
-[data-theme="melange-light"] a-c { color: #a38d78; }
-[data-theme="melange-light"] a-m { color: #4c7399; }
-[data-theme="melange-light"] a-l { color: #945eb8; }
-[data-theme="melange-light"] a-da { color: #6f894e; }
-[data-theme="melange-light"] a-dd { color: #d73737; }
-[data-theme="melange-light"] a-n { color: #945eb8; }
-[data-theme="melange-light"] a-tl { color: #54433a; }
-[data-theme="melange-light"] a-tu { color: #4c7399; }
-[data-theme="melange-light"] a-tr { color: #4c7399; }
-[data-theme="melange-light"] a-se { color: #a06d00; }
-[data-theme="melange-light"] a-tt { color: #c29830; }
-[data-theme="melange-light"] a-ps { color: #945eb8; }
-[data-theme="melange-light"] a-sp { color: #54433a; }
+[data-theme="melange-light"] a-at {
+    color: #c29830;
+}
+[data-theme="melange-light"] a-co {
+    color: #945eb8;
+}
+[data-theme="melange-light"] a-fb {
+    color: #4c7399;
+}
+[data-theme="melange-light"] a-f {
+    color: #4c7399;
+}
+[data-theme="melange-light"] a-k {
+    color: #bc5c00;
+}
+[data-theme="melange-light"] a-o {
+    color: #bc5c00;
+}
+[data-theme="melange-light"] a-pr {
+    color: #c29830;
+}
+[data-theme="melange-light"] a-p {
+    color: #54433a;
+}
+[data-theme="melange-light"] a-pb {
+    color: #54433a;
+}
+[data-theme="melange-light"] a-pd {
+    color: #54433a;
+}
+[data-theme="melange-light"] a-s {
+    color: #6f894e;
+}
+[data-theme="melange-light"] a-ss {
+    color: #d73737;
+}
+[data-theme="melange-light"] a-tg {
+    color: #bc5c00;
+}
+[data-theme="melange-light"] a-t {
+    color: #c29830;
+}
+[data-theme="melange-light"] a-tb {
+    color: #c29830;
+}
+[data-theme="melange-light"] a-v {
+    color: #54433a;
+}
+[data-theme="melange-light"] a-vb {
+    color: #d73737;
+}
+[data-theme="melange-light"] a-vp {
+    color: #c29830;
+}
+[data-theme="melange-light"] a-c {
+    color: #a38d78;
+}
+[data-theme="melange-light"] a-m {
+    color: #4c7399;
+}
+[data-theme="melange-light"] a-l {
+    color: #945eb8;
+}
+[data-theme="melange-light"] a-da {
+    color: #6f894e;
+}
+[data-theme="melange-light"] a-dd {
+    color: #d73737;
+}
+[data-theme="melange-light"] a-n {
+    color: #945eb8;
+}
+[data-theme="melange-light"] a-tl {
+    color: #54433a;
+}
+[data-theme="melange-light"] a-tu {
+    color: #4c7399;
+}
+[data-theme="melange-light"] a-tr {
+    color: #4c7399;
+}
+[data-theme="melange-light"] a-se {
+    color: #a06d00;
+}
+[data-theme="melange-light"] a-tt {
+    color: #c29830;
+}
+[data-theme="melange-light"] a-ps {
+    color: #945eb8;
+}
+[data-theme="melange-light"] a-sp {
+    color: #54433a;
+}
 
 /* Desert256 */
-[data-theme="desert256"] a-at { color: #98fb98; }
-[data-theme="desert256"] a-co { color: #ffa0a0; }
-[data-theme="desert256"] a-fb { color: #98fb98; }
-[data-theme="desert256"] a-f { color: #98fb98; }
-[data-theme="desert256"] a-k { color: #f0e68c; font-weight: bold; }
-[data-theme="desert256"] a-o { color: #f0e68c; }
-[data-theme="desert256"] a-pr { color: #98fb98; }
-[data-theme="desert256"] a-p { color: #cccccc; }
-[data-theme="desert256"] a-pb { color: #cccccc; }
-[data-theme="desert256"] a-pd { color: #cccccc; }
-[data-theme="desert256"] a-s { color: #ffa0a0; }
-[data-theme="desert256"] a-ss { color: #cd5c5c; }
-[data-theme="desert256"] a-tg { color: #f0e68c; }
-[data-theme="desert256"] a-t { color: #bdb76b; font-weight: bold; }
-[data-theme="desert256"] a-tb { color: #bdb76b; font-weight: bold; }
-[data-theme="desert256"] a-v { color: #cccccc; }
-[data-theme="desert256"] a-vb { color: #cd5c5c; }
-[data-theme="desert256"] a-vp { color: #ffa0a0; }
-[data-theme="desert256"] a-c { color: #87ceeb; }
-[data-theme="desert256"] a-m { color: #cd5c5c; }
-[data-theme="desert256"] a-l { color: #ffdead; }
-[data-theme="desert256"] a-da { color: #98fb98; }
-[data-theme="desert256"] a-dd { color: #cd5c5c; }
-[data-theme="desert256"] a-n { color: #ffa0a0; }
-[data-theme="desert256"] a-tl { color: #cccccc; }
-[data-theme="desert256"] a-tu { color: #87ceeb; }
-[data-theme="desert256"] a-tr { color: #87ceeb; }
-[data-theme="desert256"] a-se { color: #ffdead; }
-[data-theme="desert256"] a-tt { color: #bdb76b; font-weight: bold; }
-[data-theme="desert256"] a-ps { color: #ffdead; }
-[data-theme="desert256"] a-sp { color: #cccccc; }
+[data-theme="desert256"] a-at {
+    color: #98fb98;
+}
+[data-theme="desert256"] a-co {
+    color: #ffa0a0;
+}
+[data-theme="desert256"] a-fb {
+    color: #98fb98;
+}
+[data-theme="desert256"] a-f {
+    color: #98fb98;
+}
+[data-theme="desert256"] a-k {
+    color: #f0e68c;
+    font-weight: bold;
+}
+[data-theme="desert256"] a-o {
+    color: #f0e68c;
+}
+[data-theme="desert256"] a-pr {
+    color: #98fb98;
+}
+[data-theme="desert256"] a-p {
+    color: #cccccc;
+}
+[data-theme="desert256"] a-pb {
+    color: #cccccc;
+}
+[data-theme="desert256"] a-pd {
+    color: #cccccc;
+}
+[data-theme="desert256"] a-s {
+    color: #ffa0a0;
+}
+[data-theme="desert256"] a-ss {
+    color: #cd5c5c;
+}
+[data-theme="desert256"] a-tg {
+    color: #f0e68c;
+}
+[data-theme="desert256"] a-t {
+    color: #bdb76b;
+    font-weight: bold;
+}
+[data-theme="desert256"] a-tb {
+    color: #bdb76b;
+    font-weight: bold;
+}
+[data-theme="desert256"] a-v {
+    color: #cccccc;
+}
+[data-theme="desert256"] a-vb {
+    color: #cd5c5c;
+}
+[data-theme="desert256"] a-vp {
+    color: #ffa0a0;
+}
+[data-theme="desert256"] a-c {
+    color: #87ceeb;
+}
+[data-theme="desert256"] a-m {
+    color: #cd5c5c;
+}
+[data-theme="desert256"] a-l {
+    color: #ffdead;
+}
+[data-theme="desert256"] a-da {
+    color: #98fb98;
+}
+[data-theme="desert256"] a-dd {
+    color: #cd5c5c;
+}
+[data-theme="desert256"] a-n {
+    color: #ffa0a0;
+}
+[data-theme="desert256"] a-tl {
+    color: #cccccc;
+}
+[data-theme="desert256"] a-tu {
+    color: #87ceeb;
+}
+[data-theme="desert256"] a-tr {
+    color: #87ceeb;
+}
+[data-theme="desert256"] a-se {
+    color: #ffdead;
+}
+[data-theme="desert256"] a-tt {
+    color: #bdb76b;
+    font-weight: bold;
+}
+[data-theme="desert256"] a-ps {
+    color: #ffdead;
+}
+[data-theme="desert256"] a-sp {
+    color: #cccccc;
+}
 /* ==== GENERATED_THEME_CSS_END ==== */
 
 .loading {
@@ -1878,7 +2621,8 @@ footer a:hover {
 
 .skeleton-line {
     height: 0.85rem;
-    background: linear-gradient(90deg,
+    background: linear-gradient(
+        90deg,
         color-mix(in srgb, var(--fg) 8%, transparent) 25%,
         color-mix(in srgb, var(--fg) 15%, transparent) 50%,
         color-mix(in srgb, var(--fg) 8%, transparent) 75%
@@ -1904,8 +2648,12 @@ footer a:hover {
 }
 
 @keyframes skeleton-shimmer {
-    0% { background-position: 200% 0; }
-    100% { background-position: -200% 0; }
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
 }
 
 /* Hide skeleton when content is loaded */
@@ -2158,7 +2906,7 @@ footer a:hover {
     margin: 0;
     padding: 0;
     border-radius: 0;
-    font-family: 'Iosevka', 'SF Mono', 'Fira Code', 'Consolas', monospace;
+    font-family: "Iosevka", "SF Mono", "Fira Code", "Consolas", monospace;
     font-size: 0.85rem;
     line-height: 1.4;
     overflow: hidden;
@@ -2319,7 +3067,7 @@ footer a:hover {
     padding: 0.5rem 0.75rem;
     margin: 0.5rem 0;
     overflow-x: auto;
-    font-family: 'Iosevka', 'SF Mono', 'Fira Code', 'Consolas', monospace;
+    font-family: "Iosevka", "SF Mono", "Fira Code", "Consolas", monospace;
     font-size: 0.85rem;
     line-height: 1.4;
 }
@@ -2331,12 +3079,60 @@ footer a:hover {
     border-radius: 0;
 }
 
+/* Code block with copy button */
+.code-block {
+    position: relative;
+}
+
+.code-block .copy-btn {
+    position: absolute;
+    top: 0.35rem;
+    right: 0.35rem;
+    background: color-mix(in srgb, var(--surface) 90%, transparent);
+    border: 1px solid color-mix(in srgb, var(--fg) 20%, transparent);
+    border-radius: 4px;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.7rem;
+    color: var(--muted);
+    cursor: pointer;
+    opacity: 0;
+    transition:
+        opacity 0.15s,
+        background 0.15s,
+        color 0.15s;
+}
+
+.code-block:hover .copy-btn {
+    opacity: 1;
+}
+
+.code-block .copy-btn:hover {
+    background: var(--surface);
+    color: var(--fg);
+    border-color: var(--accent);
+}
+
+.code-block .copy-btn.copied {
+    color: #a6e3a1;
+    border-color: #a6e3a1;
+}
+
+[data-theme="latte"] .code-block .copy-btn.copied,
+[data-theme="github-light"] .code-block .copy-btn.copied,
+[data-theme="gruvbox-light"] .code-block .copy-btn.copied,
+[data-theme="alabaster"] .code-block .copy-btn.copied,
+[data-theme="dayfox"] .code-block .copy-btn.copied,
+[data-theme="melange-light"] .code-block .copy-btn.copied {
+    color: #40a02b;
+    border-color: #40a02b;
+}
+
 /* Highlighted code blocks (demo output & inline samples) */
 pre:has(code[data-highlighted]) {
     padding: 1rem;
     border-radius: 6px;
     border: 1px solid color-mix(in srgb, var(--fg) 12%, transparent);
-    font-family: 'Iosevka', 'SF Mono', 'Fira Code', 'Consolas', monospace;
+    font-family: "Iosevka", "SF Mono", "Fira Code", "Consolas", monospace;
     font-size: 0.9rem;
     line-height: 1.5;
     overflow-x: auto;
@@ -2391,8 +3187,8 @@ pre:has(code[data-highlighted]) code {
 
 /* Integrations section */
 .integrations-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    display: flex;
+    flex-direction: column;
     gap: 1rem;
     margin-top: 1rem;
 }
