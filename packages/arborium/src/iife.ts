@@ -375,10 +375,9 @@ export async function highlightElement(
 /** Re-highlight all blocks when theme changes */
 async function onThemeChange(): Promise<void> {
   const newTheme = getAutoTheme();
-  const currentConfig = getMergedConfig();
 
-  // Only re-highlight if theme actually changed and wasn't explicitly set
-  if (currentConfig.theme !== newTheme) {
+  // Only update if theme actually changed
+  if (currentThemeId !== newTheme) {
     // Update config
     setConfig({ theme: newTheme });
     (window as any).arborium.config = getMergedConfig();
