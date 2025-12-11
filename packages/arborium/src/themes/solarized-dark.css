@@ -1,0 +1,69 @@
+/* Solarized Dark theme - generated from TOML */
+/* This file contains ONLY syntax highlighting colors. */
+/* Background, font, and layout are YOUR responsibility. */
+
+a-at { color: #b58900; }
+a-co { color: #2aa198; }
+a-cb { color: #2aa198; }
+a-fb { color: #268bd2; }
+a-f { color: #268bd2; }
+a-fm { color: #268bd2; }
+a-k { color: #859900; }
+a-kc { color: #859900; }
+a-ko { color: #859900; }
+a-kd { color: #859900; }
+a-ke { color: #859900; }
+a-kf { color: #859900; }
+a-ki { color: #859900; }
+a-kp { color: #859900; }
+a-kr { color: #859900; }
+a-kt { color: #859900; }
+a-ky { color: #859900; }
+a-o { color: #93a1a1; }
+a-pr { color: #268bd2; }
+a-p { color: #93a1a1; }
+a-pb { color: #93a1a1; }
+a-pd { color: #93a1a1; }
+a-ps { color: #dc322f; }
+a-s { color: #2aa198; }
+a-ss { color: #cb4b16; }
+a-tg { color: #268bd2; }
+a-td { color: #268bd2; }
+a-te { color: #268bd2; }
+a-t { color: #b58900; }
+a-tb { color: #b58900; }
+a-tq { color: #b58900; }
+a-v { color: #839496; }
+a-vb { color: #d33682; }
+a-vp { color: #839496; }
+a-c { color: #586e75; font-style: italic; }
+a-cd { color: #586e75; font-style: italic; }
+a-m { color: #cb4b16; }
+a-l { color: #6c71c4; }
+a-da { color: #859900; }
+a-dd { color: #dc322f; }
+a-n { color: #d33682; }
+a-tl { color: #839496; }
+a-em { font-style: italic; }
+a-st { font-weight: bold; }
+a-tu { color: #2aa198; text-decoration: underline; }
+a-tr { color: #268bd2; }
+a-se { color: #cb4b16; }
+a-tt { color: #b58900; font-weight: bold; }
+a-tx { text-decoration: line-through; }
+a-sp { color: #839496; }
+a-in { color: #859900; }
+a-sc { color: #859900; }
+a-rp { color: #859900; }
+a-cn { color: #859900; }
+a-ex { color: #859900; }
+a-pp { color: #859900; }
+a-ch { color: #2aa198; }
+a-cs { color: #2aa198; }
+a-vm { color: #839496; }
+a-fd { color: #268bd2; }
+a-tf { color: #b58900; }
+a-fc { color: #268bd2; }
+a-km { color: #859900; }
+a-dr { color: #859900; }
+a-rx { color: #2aa198; }

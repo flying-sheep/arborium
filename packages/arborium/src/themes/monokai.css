@@ -1,0 +1,69 @@
+/* Monokai theme - generated from TOML */
+/* This file contains ONLY syntax highlighting colors. */
+/* Background, font, and layout are YOUR responsibility. */
+
+a-at { color: #a9dc76; }
+a-co { color: #ab9df2; }
+a-cb { color: #ab9df2; }
+a-fb { color: #78dce8; }
+a-f { color: #a9dc76; }
+a-fm { color: #a9dc76; }
+a-k { color: #ff6188; }
+a-kc { color: #ff6188; }
+a-ko { color: #ff6188; }
+a-kd { color: #ff6188; }
+a-ke { color: #ff6188; }
+a-kf { color: #ff6188; }
+a-ki { color: #ff6188; }
+a-kp { color: #ff6188; }
+a-kr { color: #ff6188; }
+a-kt { color: #ff6188; }
+a-ky { color: #ff6188; }
+a-o { color: #ff6188; }
+a-pr { color: #78dce8; }
+a-p { color: #fcfcfa; }
+a-pb { color: #fcfcfa; }
+a-pd { color: #fcfcfa; }
+a-ps { color: #ff6188; }
+a-s { color: #ffd866; }
+a-ss { color: #ab9df2; }
+a-tg { color: #ff6188; }
+a-td { color: #ff6188; }
+a-te { color: #ff6188; }
+a-t { color: #78dce8; }
+a-tb { color: #78dce8; }
+a-tq { color: #78dce8; }
+a-v { color: #fcfcfa; }
+a-vb { color: #ab9df2; }
+a-vp { color: #fc9867; }
+a-c { color: #727072; }
+a-cd { color: #727072; }
+a-m { color: #78dce8; }
+a-l { color: #ff6188; }
+a-da { color: #a9dc76; }
+a-dd { color: #ff6188; }
+a-n { color: #ab9df2; }
+a-tl { color: #fcfcfa; }
+a-em { font-style: italic; }
+a-st { font-weight: bold; }
+a-tu { color: #78dce8; text-decoration: underline; }
+a-tr { color: #78dce8; }
+a-se { color: #ab9df2; }
+a-tt { color: #ffd866; font-weight: bold; }
+a-tx { text-decoration: line-through; }
+a-sp { color: #fcfcfa; }
+a-in { color: #ff6188; }
+a-sc { color: #ff6188; }
+a-rp { color: #ff6188; }
+a-cn { color: #ff6188; }
+a-ex { color: #ff6188; }
+a-pp { color: #ff6188; }
+a-ch { color: #ffd866; }
+a-cs { color: #ffd866; }
+a-vm { color: #fcfcfa; }
+a-fd { color: #a9dc76; }
+a-tf { color: #78dce8; }
+a-fc { color: #a9dc76; }
+a-km { color: #ff6188; }
+a-dr { color: #ff6188; }
+a-rx { color: #ffd866; }

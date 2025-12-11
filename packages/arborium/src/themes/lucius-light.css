@@ -1,0 +1,69 @@
+/* Lucius Light theme - generated from TOML */
+/* This file contains ONLY syntax highlighting colors. */
+/* Background, font, and layout are YOUR responsibility. */
+
+a-at { color: #008787; }
+a-co { color: #af5f00; }
+a-cb { color: #af5f00; }
+a-fb { color: #008700; }
+a-f { color: #008700; }
+a-fm { color: #008700; }
+a-k { color: #005faf; }
+a-kc { color: #005faf; }
+a-ko { color: #005faf; }
+a-kd { color: #005faf; }
+a-ke { color: #005faf; }
+a-kf { color: #005faf; }
+a-ki { color: #005faf; }
+a-kp { color: #005faf; }
+a-kr { color: #005faf; }
+a-kt { color: #005faf; }
+a-ky { color: #005faf; }
+a-o { color: #005faf; }
+a-pr { color: #008700; }
+a-p { color: #444444; }
+a-pb { color: #444444; }
+a-pd { color: #444444; }
+a-ps { color: #870087; }
+a-s { color: #af5f00; }
+a-ss { color: #870087; }
+a-tg { color: #005faf; }
+a-td { color: #005faf; }
+a-te { color: #005faf; }
+a-t { color: #005f87; }
+a-tb { color: #005f87; }
+a-tq { color: #005f87; }
+a-v { color: #444444; }
+a-vb { color: #870087; }
+a-vp { color: #444444; }
+a-c { color: #808080; font-style: italic; }
+a-cd { color: #808080; font-style: italic; }
+a-m { color: #008787; }
+a-l { color: #008787; }
+a-da { color: #008700; }
+a-dd { color: #af0000; }
+a-n { color: #af5f00; }
+a-tl { color: #444444; }
+a-em { font-style: italic; }
+a-st { font-weight: bold; }
+a-tu { color: #005faf; text-decoration: underline; }
+a-tr { color: #005faf; }
+a-se { color: #008787; }
+a-tt { color: #005faf; font-weight: bold; }
+a-tx { text-decoration: line-through; }
+a-sp { color: #444444; }
+a-in { color: #005faf; }
+a-sc { color: #005faf; }
+a-rp { color: #005faf; }
+a-cn { color: #005faf; }
+a-ex { color: #005faf; }
+a-pp { color: #005faf; }
+a-ch { color: #af5f00; }
+a-cs { color: #af5f00; }
+a-vm { color: #444444; }
+a-fd { color: #008700; }
+a-tf { color: #005f87; }
+a-fc { color: #008700; }
+a-km { color: #005faf; }
+a-dr { color: #005faf; }
+a-rx { color: #af5f00; }

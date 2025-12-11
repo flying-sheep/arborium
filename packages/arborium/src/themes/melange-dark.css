@@ -1,0 +1,69 @@
+/* Melange Dark theme - generated from TOML */
+/* This file contains ONLY syntax highlighting colors. */
+/* Background, font, and layout are YOUR responsibility. */
+
+a-at { color: #c1a78e; }
+a-co { color: #cf9bc2; }
+a-cb { color: #cf9bc2; }
+a-fb { color: #a3a9ce; }
+a-f { color: #a3a9ce; }
+a-fm { color: #a3a9ce; }
+a-k { color: #bd8183; }
+a-kc { color: #bd8183; }
+a-ko { color: #bd8183; }
+a-kd { color: #bd8183; }
+a-ke { color: #bd8183; }
+a-kf { color: #bd8183; }
+a-ki { color: #bd8183; }
+a-kp { color: #bd8183; }
+a-kr { color: #bd8183; }
+a-kt { color: #bd8183; }
+a-ky { color: #bd8183; }
+a-o { color: #bd8183; }
+a-pr { color: #c1a78e; }
+a-p { color: #ece1d7; }
+a-pb { color: #ece1d7; }
+a-pd { color: #ece1d7; }
+a-ps { color: #cf9bc2; }
+a-s { color: #85b695; }
+a-ss { color: #d47766; }
+a-tg { color: #bd8183; }
+a-td { color: #bd8183; }
+a-te { color: #bd8183; }
+a-t { color: #c1a78e; }
+a-tb { color: #c1a78e; }
+a-tq { color: #c1a78e; }
+a-v { color: #ece1d7; }
+a-vb { color: #d47766; }
+a-vp { color: #c1a78e; }
+a-c { color: #867462; font-style: italic; }
+a-cd { color: #867462; font-style: italic; }
+a-m { color: #a3a9ce; }
+a-l { color: #cf9bc2; }
+a-da { color: #85b695; }
+a-dd { color: #d47766; }
+a-n { color: #cf9bc2; }
+a-tl { color: #ece1d7; }
+a-em { font-style: italic; }
+a-st { font-weight: bold; }
+a-tu { color: #a3a9ce; text-decoration: underline; }
+a-tr { color: #a3a9ce; }
+a-se { color: #ebc06d; }
+a-tt { color: #c1a78e; font-weight: bold; }
+a-tx { text-decoration: line-through; }
+a-sp { color: #ece1d7; }
+a-in { color: #bd8183; }
+a-sc { color: #bd8183; }
+a-rp { color: #bd8183; }
+a-cn { color: #bd8183; }
+a-ex { color: #bd8183; }
+a-pp { color: #bd8183; }
+a-ch { color: #85b695; }
+a-cs { color: #85b695; }
+a-vm { color: #ece1d7; }
+a-fd { color: #a3a9ce; }
+a-tf { color: #c1a78e; }
+a-fc { color: #a3a9ce; }
+a-km { color: #bd8183; }
+a-dr { color: #bd8183; }
+a-rx { color: #85b695; }

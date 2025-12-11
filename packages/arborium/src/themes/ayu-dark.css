@@ -1,0 +1,65 @@
+/* Ayu Dark theme - generated from TOML */
+/* This file contains ONLY syntax highlighting colors. */
+/* Background, font, and layout are YOUR responsibility. */
+
+a-co { color: #d2a6ff; }
+a-cb { color: #d2a6ff; }
+a-fb { color: #ffb454; }
+a-f { color: #ffb454; }
+a-fm { color: #ffb454; }
+a-k { color: #ff8f40; }
+a-kc { color: #ff8f40; }
+a-ko { color: #ff8f40; }
+a-kd { color: #ff8f40; }
+a-ke { color: #ff8f40; }
+a-kf { color: #ff8f40; }
+a-ki { color: #ff8f40; }
+a-kp { color: #ff8f40; }
+a-kr { color: #ff8f40; }
+a-kt { color: #ff8f40; }
+a-ky { color: #ff8f40; }
+a-o { color: #f29668; }
+a-pr { color: #59c2ff; }
+a-ps { color: #e6b673; }
+a-s { color: #aad94c; }
+a-ss { color: #95e6cb; }
+a-tg { color: #39bae6; }
+a-td { color: #39bae6; }
+a-te { color: #39bae6; }
+a-t { color: #59c2ff; }
+a-tb { color: #59c2ff; }
+a-tq { color: #59c2ff; }
+a-v { color: #bfbdb6; }
+a-vb { color: #ff8f40; }
+a-vp { color: #bfbdb6; }
+a-c { color: #626a73; font-style: italic; }
+a-cd { color: #626a73; font-style: italic; }
+a-m { color: #ffb454; }
+a-l { color: #39bae6; }
+a-da { color: #aad94c; }
+a-dd { color: #d95757; }
+a-n { color: #d2a6ff; }
+a-tl { color: #bfbdb6; }
+a-em { font-style: italic; }
+a-st { font-weight: bold; }
+a-tu { color: #39bae6; text-decoration: underline; }
+a-tr { color: #59c2ff; }
+a-se { color: #95e6cb; }
+a-tt { color: #59c2ff; font-weight: bold; }
+a-tx { text-decoration: line-through; }
+a-sp { color: #bfbdb6; }
+a-in { color: #ff8f40; }
+a-sc { color: #ff8f40; }
+a-rp { color: #ff8f40; }
+a-cn { color: #ff8f40; }
+a-ex { color: #ff8f40; }
+a-pp { color: #ff8f40; }
+a-ch { color: #aad94c; }
+a-cs { color: #aad94c; }
+a-vm { color: #bfbdb6; }
+a-fd { color: #ffb454; }
+a-tf { color: #59c2ff; }
+a-fc { color: #ffb454; }
+a-km { color: #ff8f40; }
+a-dr { color: #ff8f40; }
+a-rx { color: #aad94c; }

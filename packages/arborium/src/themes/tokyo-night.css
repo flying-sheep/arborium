@@ -1,122 +1,69 @@
-/**
- * Tokyo Night theme for Arborium
- * Based on https://github.com/tokyo-night/tokyo-night-vscode-theme
- */
+/* Tokyo Night theme - generated from TOML */
+/* This file contains ONLY syntax highlighting colors. */
+/* Background, font, and layout are YOUR responsibility. */
 
-/* Code block styling */
-pre:has(code[data-highlighted]) {
-  background-color: #1a1b26;
-  color: #a9b1d6;
-  padding: 1em;
-  border-radius: 6px;
-  overflow-x: auto;
-  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
-  font-size: 0.9em;
-  line-height: 1.5;
-}
-
-code[data-highlighted] {
-  background: transparent;
-  font-family: inherit;
-}
-
-/* Keywords: if, else, for, while, fn, let, const, etc. */
-a-k {
-  color: #bb9af7;
-}
-
-/* Strings */
-a-s {
-  color: #9ece6a;
-}
-
-/* Comments */
-a-c {
-  color: #565f89;
-  font-style: italic;
-}
-
-/* Functions */
-a-f {
-  color: #7aa2f7;
-}
-
-/* Types */
-a-t {
-  color: #2ac3de;
-}
-
-/* Variables */
-a-v {
-  color: #c0caf5;
-}
-
-/* Built-in variables (self, this, etc.) */
-a-vb {
-  color: #f7768e;
-}
-
-/* Numbers */
-a-n {
-  color: #ff9e64;
-}
-
-/* Operators */
-a-o {
-  color: #89ddff;
-}
-
-/* Punctuation (brackets, delimiters) */
-a-p {
-  color: #a9b1d6;
-}
-
-/* Constants */
-a-ct {
-  color: #ff9e64;
-}
-
-/* Built-in constants (true, false, null, etc.) */
-a-cb {
-  color: #ff9e64;
-}
-
-/* Properties */
-a-pr {
-  color: #73daca;
-}
-
-/* Attributes (HTML/XML attributes, decorators) */
-a-at {
-  color: #bb9af7;
-}
-
-/* Tags (HTML/XML tags) */
-a-tg {
-  color: #f7768e;
-}
-
-/* Namespaces */
-a-ns {
-  color: #7dcfff;
-}
-
-/* Labels */
-a-lb {
-  color: #e0af68;
-}
-
-/* Escape sequences */
-a-e {
-  color: #89ddff;
-}
-
-/* Embedded code */
-a-em {
-  color: #c0caf5;
-}
-
-/* Unknown/fallback */
-a-x {
-  color: #c0caf5;
-}
+a-at { color: #e0af68; }
+a-co { color: #ff9e64; }
+a-cb { color: #ff9e64; }
+a-fb { color: #7dcfff; }
+a-f { color: #7aa2f7; }
+a-fm { color: #7aa2f7; }
+a-k { color: #bb9af7; }
+a-kc { color: #bb9af7; }
+a-ko { color: #bb9af7; }
+a-kd { color: #bb9af7; }
+a-ke { color: #bb9af7; }
+a-kf { color: #bb9af7; }
+a-ki { color: #bb9af7; }
+a-kp { color: #bb9af7; }
+a-kr { color: #bb9af7; }
+a-kt { color: #bb9af7; }
+a-ky { color: #bb9af7; }
+a-o { color: #89ddff; }
+a-pr { color: #7aa2f7; }
+a-p { color: #a9b1d6; }
+a-pb { color: #a9b1d6; }
+a-pd { color: #a9b1d6; }
+a-ps { color: #89ddff; }
+a-s { color: #9ece6a; }
+a-ss { color: #f7768e; }
+a-tg { color: #f7768e; }
+a-td { color: #f7768e; }
+a-te { color: #f7768e; }
+a-t { color: #2ac3de; }
+a-tb { color: #2ac3de; }
+a-tq { color: #2ac3de; }
+a-v { color: #c0caf5; }
+a-vb { color: #f7768e; }
+a-vp { color: #e0af68; }
+a-c { color: #565f89; }
+a-cd { color: #565f89; }
+a-m { color: #7dcfff; }
+a-l { color: #ff9e64; }
+a-da { color: #9ece6a; }
+a-dd { color: #f7768e; }
+a-n { color: #ff9e64; }
+a-tl { color: #a9b1d6; }
+a-em { font-style: italic; }
+a-st { font-weight: bold; }
+a-tu { color: #7aa2f7; text-decoration: underline; }
+a-tr { color: #7dcfff; }
+a-se { color: #89ddff; }
+a-tt { color: #bb9af7; font-weight: bold; }
+a-tx { text-decoration: line-through; }
+a-sp { color: #a9b1d6; }
+a-in { color: #bb9af7; }
+a-sc { color: #bb9af7; }
+a-rp { color: #bb9af7; }
+a-cn { color: #bb9af7; }
+a-ex { color: #bb9af7; }
+a-pp { color: #bb9af7; }
+a-ch { color: #9ece6a; }
+a-cs { color: #9ece6a; }
+a-vm { color: #c0caf5; }
+a-fd { color: #7aa2f7; }
+a-tf { color: #2ac3de; }
+a-fc { color: #7aa2f7; }
+a-km { color: #bb9af7; }
+a-dr { color: #bb9af7; }
+a-rx { color: #9ece6a; }

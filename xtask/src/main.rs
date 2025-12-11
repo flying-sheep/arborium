@@ -41,6 +41,9 @@ enum Command {
     /// Print version information
     Version,
 
+    /// Generate theme CSS files for the npm package from TOML sources
+    GenThemes,
+
     /// Validate all grammar configurations
     Lint {
         /// Strict mode: missing generated files (parser.c) are errors.
@@ -254,6 +257,12 @@ fn main() {
 
     match args.command {
         Command::Version => unreachable!(),
+        Command::GenThemes => {
+            if let Err(e) = serve::generate_npm_theme_css(&crates_dir) {
+                eprintln!("{:?}", e);
+                std::process::exit(1);
+            }
+        }
         Command::Lint { strict } => {
             let options = lint_new::LintOptions { strict };
             if let Err(e) = lint_new::run_lints(&crates_dir, options) {

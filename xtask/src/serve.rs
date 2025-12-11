@@ -1126,6 +1126,138 @@ fn guess_content_type(path: &Path) -> &'static str {
     }
 }
 
+/// Generate theme CSS files for the npm package from TOML theme definitions.
+///
+/// This generates individual CSS files for each theme in packages/arborium/src/themes/
+/// using the Rust theme library's `to_css()` method. The generated CSS contains
+/// ONLY color rules for the `a-*` syntax elements - no background, font-family,
+/// padding, or other styling that should be controlled by the user's site.
+pub fn generate_npm_theme_css(crates_dir: &Utf8Path) -> Result<(), String> {
+    use arborium_theme::builtin;
+
+    let repo_root = crates_dir.parent().ok_or("crates_dir has no parent")?;
+    let themes_dir = repo_root.join("packages/arborium/src/themes");
+
+    // Create directory if it doesn't exist
+    fs::create_dir_all(&themes_dir).map_err(|e| e.to_string())?;
+
+    println!(
+        "{} Generating theme CSS files in {}",
+        "●".cyan(),
+        themes_dir.cyan()
+    );
+
+    let mut generated = 0;
+    for theme in builtin::all() {
+        let id = theme_name_to_id(&theme.name);
+        let output_path = themes_dir.join(format!("{}.css", id));
+
+        // Generate CSS for this theme - only color rules for a-* elements
+        // We do NOT include background/foreground at the top level since
+        // that styling is the user's responsibility
+        let mut css = String::new();
+
+        // Header comment
+        css.push_str(&format!(
+            "/* {} theme - generated from TOML */\n",
+            theme.name
+        ));
+        css.push_str("/* This file contains ONLY syntax highlighting colors. */\n");
+        css.push_str("/* Background, font, and layout are YOUR responsibility. */\n\n");
+
+        // Generate the rules - we reuse the theme's to_css but with a simpler selector
+        // that doesn't set background/foreground at the container level
+        use arborium_theme::highlights::HIGHLIGHTS;
+        use std::collections::HashMap;
+        use std::fmt::Write;
+
+        // Build a map from tag -> style for parent lookups
+        let mut tag_to_style: HashMap<&str, &arborium_theme::Style> = HashMap::new();
+        for (i, def) in HIGHLIGHTS.iter().enumerate() {
+            if let Some(style) = theme.style(i) {
+                if !def.tag.is_empty() && !style.is_empty() {
+                    tag_to_style.insert(def.tag, style);
+                }
+            }
+        }
+
+        // Generate rules for each highlight category
+        for (i, def) in HIGHLIGHTS.iter().enumerate() {
+            if def.tag.is_empty() {
+                continue;
+            }
+
+            let style = if let Some(s) = theme.style(i) {
+                if !s.is_empty() {
+                    s
+                } else if !def.parent_tag.is_empty() {
+                    if let Some(parent_style) = tag_to_style.get(def.parent_tag) {
+                        *parent_style
+                    } else {
+                        continue;
+                    }
+                } else {
+                    continue;
+                }
+            } else {
+                continue;
+            };
+
+            write!(css, "a-{} {{", def.tag).unwrap();
+
+            if let Some(fg) = &style.fg {
+                write!(css, " color: {};", fg.to_hex()).unwrap();
+            }
+            // Note: we intentionally skip background colors for individual tokens
+            // as that's rarely needed and can cause visual issues
+
+            let mut decorations = Vec::new();
+            if style.modifiers.underline {
+                decorations.push("underline");
+            }
+            if style.modifiers.strikethrough {
+                decorations.push("line-through");
+            }
+            if !decorations.is_empty() {
+                write!(css, " text-decoration: {};", decorations.join(" ")).unwrap();
+            }
+
+            if style.modifiers.bold {
+                write!(css, " font-weight: bold;").unwrap();
+            }
+            if style.modifiers.italic {
+                write!(css, " font-style: italic;").unwrap();
+            }
+
+            writeln!(css, " }}").unwrap();
+        }
+
+        fs::write(&output_path, &css).map_err(|e| e.to_string())?;
+        generated += 1;
+    }
+
+    println!(
+        "{} Generated {} theme CSS files",
+        "✓".green(),
+        generated.to_string().cyan()
+    );
+
+    // Print instructions for updating package.json
+    println!();
+    println!("{}", "Next steps:".bold());
+    println!(
+        "  {} Update packages/arborium/package.json exports if new themes were added",
+        "→".blue()
+    );
+    println!(
+        "  {} Run {} to build the package",
+        "→".blue(),
+        "npm run build".cyan()
+    );
+
+    Ok(())
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
