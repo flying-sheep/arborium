@@ -424,44 +424,19 @@ pub fn build_host(repo_root: &Utf8Path) -> Result<()> {
 }
 
 pub fn clean_plugins(repo_root: &Utf8Path, _output_dir: &str) -> Result<()> {
-    // Clean all target/ directories inside langs/group-*/*/npm/
-    // This removes stale build artifacts without deleting source files
+    // Clean the workspace target directory (langs/target/)
+    // With a workspace, all crates share this single target directory
     let langs_dir = repo_root.join("langs");
-    let mut cleaned = 0;
+    let workspace_target = langs_dir.join("target");
 
-    for group_entry in std::fs::read_dir(&langs_dir).into_diagnostic()? {
-        let group_entry = group_entry.into_diagnostic()?;
-        let group_path = group_entry.path();
-        if !group_path.is_dir() {
-            continue;
-        }
-        let group_name = group_path.file_name().unwrap_or_default().to_string_lossy();
-        if !group_name.starts_with("group-") {
-            continue;
-        }
-
-        for lang_entry in std::fs::read_dir(&group_path).into_diagnostic()? {
-            let lang_entry = lang_entry.into_diagnostic()?;
-            let lang_path = lang_entry.path();
-            if !lang_path.is_dir() {
-                continue;
-            }
-
-            let npm_target = lang_path.join("npm/target");
-            if npm_target.exists() {
-                std::fs::remove_dir_all(&npm_target)
-                    .into_diagnostic()
-                    .context(format!("failed to remove {}", npm_target.display()))?;
-                cleaned += 1;
-            }
-        }
-    }
-
-    if cleaned > 0 {
+    if workspace_target.exists() {
+        std::fs::remove_dir_all(&workspace_target)
+            .into_diagnostic()
+            .context(format!("failed to remove {}", workspace_target))?;
         println!(
-            "{} Cleaned {} plugin target directories",
+            "{} Cleaned workspace target directory: {}",
             "✓".green(),
-            cleaned
+            workspace_target
         );
     } else {
         println!("{} Nothing to clean", "○".dimmed());
@@ -564,12 +539,13 @@ fn build_single_plugin(
         miette::bail!("cargo-component build failed (see output above)");
     }
 
-    let wasm_file = plugin_source
-        .join("target/wasm32-wasip1/release")
-        .join(format!(
-            "arborium_{}_plugin.wasm",
-            grammar.replace('-', "_")
-        ));
+    // With a workspace, Cargo outputs to the workspace root's target directory (langs/target/)
+    // not each crate's individual target directory
+    let langs_dir = repo_root.join("langs");
+    let wasm_file = langs_dir.join("target/wasm32-wasip1/release").join(format!(
+        "arborium_{}_plugin.wasm",
+        grammar.replace('-', "_")
+    ));
 
     if !wasm_file.exists() {
         miette::bail!("expected wasm file not found: {}", wasm_file);
