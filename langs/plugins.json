@@ -1,104 +1,14 @@
 {
-  "generated_at": "2025-12-11T08:58:41.929684+00:00",
+  "generated_at": "2025-12-11T13:33:59.156690+00:00",
   "entries": [
     {
-      "language": "python",
-      "package": "@arborium/python",
+      "language": "typescript",
+      "package": "@arborium/typescript",
       "version": "1.0.1",
-      "cdn_js": "https://cdn.jsdelivr.net/npm/@arborium/python@1.0.1/grammar.js",
-      "cdn_wasm": "https://cdn.jsdelivr.net/npm/@arborium/python@1.0.1/grammar.core.wasm",
-      "local_js": "/langs/group-hazel/python/npm/grammar.js",
-      "local_wasm": "/langs/group-hazel/python/npm/grammar.core.wasm"
-    },
-    {
-      "language": "zsh",
-      "package": "@arborium/zsh",
-      "version": "1.0.1",
-      "cdn_js": "https://cdn.jsdelivr.net/npm/@arborium/zsh@1.0.1/grammar.js",
-      "cdn_wasm": "https://cdn.jsdelivr.net/npm/@arborium/zsh@1.0.1/grammar.core.wasm",
-      "local_js": "/langs/group-hazel/zsh/npm/grammar.js",
-      "local_wasm": "/langs/group-hazel/zsh/npm/grammar.core.wasm"
-    },
-    {
-      "language": "ruby",
-      "package": "@arborium/ruby",
-      "version": "1.0.1",
-      "cdn_js": "https://cdn.jsdelivr.net/npm/@arborium/ruby@1.0.1/grammar.js",
-      "cdn_wasm": "https://cdn.jsdelivr.net/npm/@arborium/ruby@1.0.1/grammar.core.wasm",
-      "local_js": "/langs/group-hazel/ruby/npm/grammar.js",
-      "local_wasm": "/langs/group-hazel/ruby/npm/grammar.core.wasm"
-    },
-    {
-      "language": "php",
-      "package": "@arborium/php",
-      "version": "1.0.1",
-      "cdn_js": "https://cdn.jsdelivr.net/npm/@arborium/php@1.0.1/grammar.js",
-      "cdn_wasm": "https://cdn.jsdelivr.net/npm/@arborium/php@1.0.1/grammar.core.wasm",
-      "local_js": "/langs/group-hazel/php/npm/grammar.js",
-      "local_wasm": "/langs/group-hazel/php/npm/grammar.core.wasm"
-    },
-    {
-      "language": "powershell",
-      "package": "@arborium/powershell",
-      "version": "1.0.1",
-      "cdn_js": "https://cdn.jsdelivr.net/npm/@arborium/powershell@1.0.1/grammar.js",
-      "cdn_wasm": "https://cdn.jsdelivr.net/npm/@arborium/powershell@1.0.1/grammar.core.wasm",
-      "local_js": "/langs/group-hazel/powershell/npm/grammar.js",
-      "local_wasm": "/langs/group-hazel/powershell/npm/grammar.core.wasm"
-    },
-    {
-      "language": "fish",
-      "package": "@arborium/fish",
-      "version": "1.0.1",
-      "cdn_js": "https://cdn.jsdelivr.net/npm/@arborium/fish@1.0.1/grammar.js",
-      "cdn_wasm": "https://cdn.jsdelivr.net/npm/@arborium/fish@1.0.1/grammar.core.wasm",
-      "local_js": "/langs/group-hazel/fish/npm/grammar.js",
-      "local_wasm": "/langs/group-hazel/fish/npm/grammar.core.wasm"
-    },
-    {
-      "language": "awk",
-      "package": "@arborium/awk",
-      "version": "1.0.1",
-      "cdn_js": "https://cdn.jsdelivr.net/npm/@arborium/awk@1.0.1/grammar.js",
-      "cdn_wasm": "https://cdn.jsdelivr.net/npm/@arborium/awk@1.0.1/grammar.core.wasm",
-      "local_js": "/langs/group-hazel/awk/npm/grammar.js",
-      "local_wasm": "/langs/group-hazel/awk/npm/grammar.core.wasm"
-    },
-    {
-      "language": "perl",
-      "package": "@arborium/perl",
-      "version": "1.0.1",
-      "cdn_js": "https://cdn.jsdelivr.net/npm/@arborium/perl@1.0.1/grammar.js",
-      "cdn_wasm": "https://cdn.jsdelivr.net/npm/@arborium/perl@1.0.1/grammar.core.wasm",
-      "local_js": "/langs/group-hazel/perl/npm/grammar.js",
-      "local_wasm": "/langs/group-hazel/perl/npm/grammar.core.wasm"
-    },
-    {
-      "language": "bash",
-      "package": "@arborium/bash",
-      "version": "1.0.1",
-      "cdn_js": "https://cdn.jsdelivr.net/npm/@arborium/bash@1.0.1/grammar.js",
-      "cdn_wasm": "https://cdn.jsdelivr.net/npm/@arborium/bash@1.0.1/grammar.core.wasm",
-      "local_js": "/langs/group-hazel/bash/npm/grammar.js",
-      "local_wasm": "/langs/group-hazel/bash/npm/grammar.core.wasm"
-    },
-    {
-      "language": "lua",
-      "package": "@arborium/lua",
-      "version": "1.0.1",
-      "cdn_js": "https://cdn.jsdelivr.net/npm/@arborium/lua@1.0.1/grammar.js",
-      "cdn_wasm": "https://cdn.jsdelivr.net/npm/@arborium/lua@1.0.1/grammar.core.wasm",
-      "local_js": "/langs/group-hazel/lua/npm/grammar.js",
-      "local_wasm": "/langs/group-hazel/lua/npm/grammar.core.wasm"
-    },
-    {
-      "language": "batch",
-      "package": "@arborium/batch",
-      "version": "1.0.1",
-      "cdn_js": "https://cdn.jsdelivr.net/npm/@arborium/batch@1.0.1/grammar.js",
-      "cdn_wasm": "https://cdn.jsdelivr.net/npm/@arborium/batch@1.0.1/grammar.core.wasm",
-      "local_js": "/langs/group-hazel/batch/npm/grammar.js",
-      "local_wasm": "/langs/group-hazel/batch/npm/grammar.core.wasm"
+      "cdn_js": "https://cdn.jsdelivr.net/npm/@arborium/typescript@1.0.1/grammar.js",
+      "cdn_wasm": "https://cdn.jsdelivr.net/npm/@arborium/typescript@1.0.1/grammar.core.wasm",
+      "local_js": "//tmp/test-plugins/grammar.js",
+      "local_wasm": "//tmp/test-plugins/grammar.core.wasm"
     }
   ]
 }
