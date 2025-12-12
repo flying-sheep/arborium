@@ -31,7 +31,6 @@ use owo_colors::OwoColorize;
 use rayon::prelude::*;
 use rootcause::Report;
 use sailfish::TemplateSimple;
-use std::fmt::Write;
 use std::process::Stdio;
 use std::sync::Mutex;
 use std::sync::atomic::{AtomicUsize, Ordering};
@@ -48,6 +47,8 @@ struct ValidateGrammarTemplate<'a> {
 struct CargoTomlTemplate<'a> {
     crate_name: &'a str,
     workspace_version: &'a str,
+    /// Major version for dependencies (e.g., "1" instead of "1.1.5")
+    dep_version: &'a str,
     grammar_id: &'a str,
     grammar_name: &'a str,
     license: &'a str,
@@ -103,7 +104,6 @@ struct PluginCargoTomlTemplate<'a> {
     grammar_crate_name: &'a str,
     crate_rel: &'a str,
     shared_rel: &'a str,
-    wit_path: &'a str,
 }
 
 #[derive(TemplateSimple)]
@@ -111,7 +111,6 @@ struct PluginCargoTomlTemplate<'a> {
 struct PluginLibRsTemplate<'a> {
     grammar_id: &'a str,
     grammar_crate_name_snake: &'a str,
-    wit_path: &'a str,
 }
 
 #[derive(TemplateSimple)]
@@ -615,9 +614,13 @@ fn generate_cargo_toml(
         if l.is_empty() { "MIT" } else { l }
     };
 
+    // Extract major version for dependencies (e.g., "1.1.5" -> "1")
+    let dep_version = workspace_version.split('.').next().unwrap_or("1");
+
     let template = CargoTomlTemplate {
         crate_name,
         workspace_version,
+        dep_version,
         grammar_id,
         grammar_name,
         license,
@@ -756,11 +759,7 @@ fn generate_readme(crate_name: &str, config: &crate::types::CrateConfig) -> Stri
 }
 
 /// Generate plugin Cargo.toml content.
-fn generate_plugin_cargo_toml(
-    grammar_id: &str,
-    grammar_crate_name: &str,
-    wit_path: &str,
-) -> String {
+fn generate_plugin_cargo_toml(grammar_id: &str, grammar_crate_name: &str) -> String {
     // Paths relative to npm/:
     // npm/ is at langs/group-*/lang/npm/
     // crate/ is at langs/group-*/lang/crate/ (sibling)
@@ -774,7 +773,6 @@ fn generate_plugin_cargo_toml(
         grammar_crate_name,
         crate_rel,
         shared_rel,
-        wit_path,
     };
     template
         .render_once()
@@ -782,13 +780,12 @@ fn generate_plugin_cargo_toml(
 }
 
 /// Generate plugin src/lib.rs content.
-fn generate_plugin_lib_rs(grammar_id: &str, grammar_crate_name: &str, wit_path: &str) -> String {
+fn generate_plugin_lib_rs(grammar_id: &str, grammar_crate_name: &str) -> String {
     let grammar_crate_name_snake = grammar_crate_name.replace('-', "_");
 
     let template = PluginLibRsTemplate {
         grammar_id,
         grammar_crate_name_snake: &grammar_crate_name_snake,
-        wit_path,
     };
     template
         .render_once()
@@ -1216,8 +1213,6 @@ struct HighlightDep {
     crate_name: String,
     /// Relative path from the dependent crate (e.g., "../../c/crate")
     rel_path: String,
-    /// Version string
-    version: String,
 }
 
 /// Result of extracting highlight prepend configuration.
@@ -1261,7 +1256,6 @@ fn extract_highlights_prepend(
             result.cargo_deps.push(HighlightDep {
                 crate_name: crate_name.clone(),
                 rel_path,
-                version: registry.workspace_version.clone(),
             });
         }
 
@@ -1305,10 +1299,6 @@ fn generate_all_crates(
         )?;
         final_plan.add(plugin_plan);
     }
-
-    // Generate langs/ workspace manifest covering all grammar + plugin crates
-    let workspace_plan = plan_langs_workspace(prepared, mode)?;
-    final_plan.add(workspace_plan);
 
     // Generate umbrella crate (crates/arborium/Cargo.toml)
     let umbrella_plan = plan_umbrella_crate(prepared)?;
@@ -1552,21 +1542,31 @@ fn plan_crate_files_only(
         for entry in fs::read_dir(def_path)? {
             let entry = entry?;
             let path = Utf8PathBuf::try_from(entry.path())?;
-            if let Some(name) = path.file_name() {
-                if name.starts_with("sample.") && path.is_file() {
-                    let content = fs::read_to_string(&path)?;
-                    let dest = crate_path.join(name);
-                    plan_file_update(
-                        &mut plan,
-                        &dest,
-                        content,
-                        &format!("{} for tests", name),
-                        mode,
-                    )?;
-                }
+            if let Some(name) = path.file_name()
+                && name.starts_with("sample.")
+                && path.is_file()
+            {
+                let content = fs::read_to_string(&path)?;
+                let dest = crate_path.join(name);
+                plan_file_update(
+                    &mut plan,
+                    &dest,
+                    content,
+                    &format!("{} for tests", name),
+                    mode,
+                )?;
             }
         }
     }
+
+    // Generate .arborium-hash file for publish change detection
+    // This hash includes all crate files that would be published
+    // It's used during publishing to skip re-publishing if nothing changed
+    // We add this as an operation that runs AFTER all file copies complete
+    plan.add(Operation::ComputeGrammarHash {
+        crate_path: crate_path.clone(),
+        description: ".arborium-hash (for publish change detection)".to_string(),
+    });
 
     Ok(plan)
 }
@@ -1604,9 +1604,6 @@ fn plan_plugin_crate_files(
         .parent()
         .expect("crate_path should have parent");
     let npm_path = lang_dir.join("npm");
-    // Use relative path from npm/ to wit/grammar.wit
-    // npm/ is at langs/group-*/lang/npm/, so: npm -> lang -> group-* -> langs -> repo-root -> wit
-    let wit_path = "../../../../wit/grammar.wit";
 
     // Ensure npm directory exists
     if !npm_path.exists() {
@@ -1618,7 +1615,7 @@ fn plan_plugin_crate_files(
 
     // Generate npm/Cargo.toml
     let cargo_toml_path = npm_path.join("Cargo.toml");
-    let new_cargo_toml = generate_plugin_cargo_toml(grammar_id, crate_name, wit_path);
+    let new_cargo_toml = generate_plugin_cargo_toml(grammar_id, crate_name);
 
     if cargo_toml_path.exists() {
         let old_content = fs::read_to_string(&cargo_toml_path)?;
@@ -1640,7 +1637,7 @@ fn plan_plugin_crate_files(
 
     // Generate npm/src/lib.rs
     let lib_rs_path = npm_path.join("src/lib.rs");
-    let new_lib_rs = generate_plugin_lib_rs(grammar_id, crate_name, wit_path);
+    let new_lib_rs = generate_plugin_lib_rs(grammar_id, crate_name);
 
     if lib_rs_path.exists() {
         let old_content = fs::read_to_string(&lib_rs_path)?;
@@ -1743,114 +1740,16 @@ fn plan_plugin_crate_files(
     // already compiles parser.c/scanner.c via its own build.rs. We don't need to
     // duplicate that here - the plugin just links to the grammar crate's static lib.
 
-    Ok(plan)
-}
-
-/// Generate the langs/ workspace manifest so grammar + plugin crates share a target dir.
-fn plan_langs_workspace(prepared: &PreparedStructures, mode: PlanMode) -> Result<Plan, Report> {
-    let mut plan = Plan::for_crate("langs-workspace");
-    let langs_dir = prepared.repo_root.join("langs");
-
-    if !langs_dir.exists() {
-        return Ok(plan);
+    // Remove any stray build.rs file if it exists (leftover from old WIT setup)
+    let build_rs_path = npm_path.join("build.rs");
+    if build_rs_path.exists() {
+        plan.add(Operation::DeleteFile {
+            path: build_rs_path,
+            description: "Remove unnecessary build.rs (plugins don't build C code)".to_string(),
+        });
     }
-
-    let mut grammar_members = Vec::new();
-    let mut plugin_members = Vec::new();
-
-    for crate_state in prepared.registry.crates.values() {
-        let crate_path = &crate_state.crate_path;
-        if !crate_path.starts_with(&langs_dir) {
-            continue;
-        }
-
-        if crate_state.config.is_none() {
-            continue;
-        }
-
-        if let Ok(rel_path) = crate_path.strip_prefix(&langs_dir) {
-            grammar_members.push(rel_path.to_string());
-        }
-
-        if should_generate_plugin(crate_state) {
-            if let Some(lang_dir) = crate_path.parent() {
-                let npm_path = lang_dir.join("npm");
-                if npm_path.starts_with(&langs_dir) {
-                    if let Ok(rel_plugin) = npm_path.strip_prefix(&langs_dir) {
-                        plugin_members.push(rel_plugin.to_string());
-                    }
-                }
-            }
-        }
-    }
-
-    grammar_members.sort();
-    grammar_members.dedup();
-    plugin_members.sort();
-    plugin_members.dedup();
-
-    let workspace_toml = render_langs_workspace(
-        &prepared.workspace_version,
-        &grammar_members,
-        &plugin_members,
-    );
-
-    let workspace_path = langs_dir.join("Cargo.toml");
-    plan_file_update(
-        &mut plan,
-        &workspace_path,
-        workspace_toml,
-        "langs workspace Cargo.toml",
-        mode,
-    )?;
 
     Ok(plan)
-}
-
-fn should_generate_plugin(crate_state: &CrateState) -> bool {
-    crate_state
-        .config
-        .as_ref()
-        .and_then(|cfg| cfg.grammars.first())
-        .map(|grammar| grammar.generate_component())
-        .unwrap_or(false)
-}
-
-fn render_langs_workspace(
-    version: &str,
-    grammar_members: &[String],
-    plugin_members: &[String],
-) -> String {
-    let mut content = String::new();
-    let _ = writeln!(
-        content,
-        "# This file is generated by `cargo xtask gen --version {}`.",
-        version
-    );
-    let _ = writeln!(content, "# Do not edit manually.\n");
-    let _ = writeln!(content, "[workspace]");
-    let _ = writeln!(content, "resolver = \"2\"\n");
-    let _ = writeln!(content, "members = [");
-
-    if !grammar_members.is_empty() {
-        let _ = writeln!(content, "    # Grammar crates");
-        for member in grammar_members {
-            let _ = writeln!(content, "    \"{}\",", member);
-        }
-    }
-
-    if !plugin_members.is_empty() {
-        if !grammar_members.is_empty() {
-            let _ = writeln!(content);
-        }
-        let _ = writeln!(content, "    # Plugin crates (WASM components)");
-        for member in plugin_members {
-            let _ = writeln!(content, "    \"{}\",", member);
-        }
-    }
-
-    let _ = writeln!(content, "]");
-    content
 }
 
 /// Generate the umbrella crate (crates/arborium/Cargo.toml)
@@ -1915,13 +1814,16 @@ all-languages = [
         content.push_str(&format!("lang-{} = [\"dep:{}\"]\n", grammar_id, name));
     }
 
+    // Extract major version (e.g., "1.2.3" -> "1")
+    let major_version = version.split('.').next().unwrap_or("1");
+
     // Dependencies section
     content.push_str(&format!(
         r#"
 [dependencies]
-arborium-tree-sitter = {{ version = "{version}", path = "../arborium-tree-sitter" }}
-arborium-theme = {{ version = "{version}", path = "../arborium-theme" }}
-arborium-highlight = {{ version = "{version}", path = "../arborium-highlight", features = ["tree-sitter"] }}
+arborium-tree-sitter = {{ version = "{major_version}", path = "../arborium-tree-sitter" }}
+arborium-theme = {{ version = "{major_version}", path = "../arborium-theme" }}
+arborium-highlight = {{ version = "{major_version}", path = "../arborium-highlight", features = ["tree-sitter"] }}
 
 # Optional grammar dependencies
 "#
@@ -1934,7 +1836,7 @@ arborium-highlight = {{ version = "{version}", path = "../arborium-highlight", f
             .unwrap_or(crate_path);
         content.push_str(&format!(
             "{} = {{ version = \"{}\", path = \"../../{}\", optional = true }}\n",
-            name, version, rel_path
+            name, major_version, rel_path
         ));
     }
 
@@ -1997,6 +1899,7 @@ fn plan_shared_crates(prepared: &PreparedStructures, mode: PlanMode) -> Result<P
         "arborium-plugin-runtime",
         "arborium-wire",
         "arborium-query",
+        "miette-arborium",
     ];
 
     for crate_name in shared_crates {
@@ -2011,7 +1914,9 @@ fn plan_shared_crates(prepared: &PreparedStructures, mode: PlanMode) -> Result<P
     Ok(plan)
 }
 
-/// Update a Cargo.toml file's version and all arborium-* dependency versions.
+/// Update a Cargo.toml file's version and all arborium dependency versions.
+/// The package version is set to the full version (e.g., "1.1.11").
+/// Dependency versions are set to just the major version (e.g., "1") for SemVer compatibility.
 fn update_cargo_toml_version(
     plan: &mut Plan,
     cargo_toml_path: &Utf8Path,
@@ -2029,26 +1934,30 @@ fn update_cargo_toml_version(
         std::io::Error::other(format!("Failed to parse {}: {}", cargo_toml_path, e))
     })?;
 
-    // Update package version
-    if let Some(package) = doc.get_mut("package") {
-        if let Some(version) = package.get_mut("version") {
-            *version = Item::Value(Value::from(new_version));
-        }
+    // Extract major version for dependencies (e.g., "1.1.11" -> "1")
+    let major_version = new_version.split('.').next().unwrap_or(new_version);
+
+    // Update package version (full version)
+    if let Some(package) = doc.get_mut("package")
+        && let Some(version) = package.get_mut("version")
+    {
+        *version = Item::Value(Value::from(new_version));
     }
 
-    // Update arborium-* dependencies in all dependency sections
+    // Update arborium dependencies in all dependency sections (major version only)
     let dep_sections = ["dependencies", "dev-dependencies", "build-dependencies"];
     for section_name in dep_sections {
-        if let Some(deps) = doc.get_mut(section_name) {
-            if let Some(table) = deps.as_table_mut() {
-                for (name, value) in table.iter_mut() {
-                    if name.get().starts_with("arborium-") {
-                        if let Some(dep_table) = value.as_table_like_mut() {
-                            if dep_table.contains_key("version") {
-                                dep_table.insert("version", Item::Value(Value::from(new_version)));
-                            }
-                        }
-                    }
+        if let Some(deps) = doc.get_mut(section_name)
+            && let Some(table) = deps.as_table_mut()
+        {
+            for (name, value) in table.iter_mut() {
+                // Match "arborium" or "arborium-*"
+                let dep_name = name.get();
+                if (dep_name == "arborium" || dep_name.starts_with("arborium-"))
+                    && let Some(dep_table) = value.as_table_like_mut()
+                    && dep_table.contains_key("version")
+                {
+                    dep_table.insert("version", Item::Value(Value::from(major_version)));
                 }
             }
         }

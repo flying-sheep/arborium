@@ -1,6 +1,6 @@
 [package]
 name = "arborium-sysroot"
-version = "1.0.8"
+version = "1.1.11"
 edition = "2024"
 description = "WASM sysroot for arborium grammar crates"
 license = "MIT"
@@ -11,3 +11,10 @@ links = "arborium_sysroot"
 
 [lib]
 path = "src/lib.rs"
+
+[dependencies]
+# For WASM allocator implementation
+dlmalloc = "0.2"
+
+[build-dependencies]
+cc = "1"

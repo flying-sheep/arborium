@@ -22,6 +22,7 @@ use owo_colors::OwoColorize;
 use std::collections::HashMap;
 use std::process::{Command, Stdio};
 
+use crate::tool::Tool;
 use crate::types::CrateRegistry;
 use crate::version_store;
 
@@ -52,13 +53,154 @@ const POST_CRATES: &[&str] = &[
     "crates/miette-arborium",
 ];
 
+/// Name of the file that contains the grammar content hash
+const HASH_FILE: &str = ".arborium-hash";
+
+/// Check if a crate directory is a grammar crate (has grammar/ subdirectory).
+fn is_grammar_crate(crate_dir: &Utf8Path) -> bool {
+    crate_dir.join("grammar").exists()
+}
+
+/// Check if we should skip publishing a grammar crate by comparing content hashes.
+///
+/// Returns:
+/// - Ok(true) if published version exists and hash matches (should skip)
+/// - Ok(false) if hash differs or no published version (should publish)
+/// - Err if couldn't check (e.g., download failed)
+fn should_skip_grammar_publish(crate_dir: &Utf8Path, name: &str, version: &str) -> Result<bool> {
+    // Compute current hash
+    let current_hash = compute_grammar_hash(crate_dir)?;
+
+    // Try to get hash from published version
+    match get_published_crate_hash(name, version) {
+        Ok(Some(published_hash)) => {
+            // Compare hashes
+            Ok(current_hash == published_hash)
+        }
+        Ok(None) => {
+            // No published version or no hash file in it
+            Ok(false)
+        }
+        Err(_) => {
+            // Couldn't download/check, assume we should publish
+            Ok(false)
+        }
+    }
+}
+
+/// Download a published crate and extract its .arborium-hash file if present.
+fn get_published_crate_hash(name: &str, version: &str) -> Result<Option<String>> {
+    // Download the .crate file from crates.io
+    let url = format!(
+        "https://crates.io/api/v1/crates/{}/{}/download",
+        name, version
+    );
+
+    let temp_dir = tempfile::tempdir().into_diagnostic()?;
+    let crate_file = temp_dir.path().join("crate.tar.gz");
+
+    // Download
+    let output = std::process::Command::new("curl")
+        .args(["-sL", "-o", crate_file.to_str().unwrap(), &url])
+        .output()
+        .into_diagnostic()?;
+
+    if !output.status.success() {
+        return Ok(None); // Crate doesn't exist yet
+    }
+
+    // Extract .arborium-hash from tar.gz
+    let tar_gz = std::fs::File::open(&crate_file).into_diagnostic()?;
+    let tar = flate2::read::GzDecoder::new(tar_gz);
+    let mut archive = tar::Archive::new(tar);
+
+    for entry in archive.entries().into_diagnostic()? {
+        let mut entry = entry.into_diagnostic()?;
+        let path = entry.path().into_diagnostic()?;
+
+        // The file will be in the archive like: {name}-{version}/.arborium-hash
+        if path.file_name() == Some(std::ffi::OsStr::new(HASH_FILE)) {
+            let mut contents = String::new();
+            std::io::Read::read_to_string(&mut entry, &mut contents).into_diagnostic()?;
+            return Ok(Some(contents.trim().to_string()));
+        }
+    }
+
+    Ok(None) // No hash file found
+}
+
+/// Compute hash of grammar crate contents for change detection.
+///
+/// Hashes all files that would be published in the crate:
+/// - grammar/ directory (parser.c, scanner.c, grammar.json, etc.)
+/// - src/ directory (lib.rs and other Rust source)
+/// - build.rs
+/// - Cargo.toml
+/// - queries/ directory (if exists)
+/// - arborium.kdl (if exists)
+/// - sample files (if exist)
+/// - tree-sitter CLI version
+///
+/// Returns hex-encoded blake3 hash.
+pub fn compute_grammar_hash(crate_dir: &Utf8Path) -> Result<String> {
+    let mut hasher = blake3::Hasher::new();
+
+    // Hash tree-sitter CLI version
+    let ts_version = Tool::TreeSitter
+        .get_version()
+        .unwrap_or_else(|_| "unknown".to_string());
+    hasher.update(b"tree-sitter-version:");
+    hasher.update(ts_version.as_bytes());
+    hasher.update(b"\n");
+
+    // Collect all files to hash, excluding build artifacts
+    let mut files = Vec::new();
+    for entry in walkdir::WalkDir::new(crate_dir)
+        .sort_by_file_name()
+        .into_iter()
+        .filter_entry(|e| {
+            // Skip target/ directory and .arborium-hash itself
+            let name = e.file_name().to_string_lossy();
+            name != "target" && name != ".arborium-hash"
+        })
+        .filter_map(|e| e.ok())
+    {
+        if entry.file_type().is_file() {
+            files.push(entry.path().to_path_buf());
+        }
+    }
+
+    // Hash all files in sorted order
+    for file_path in files {
+        let relative = file_path.strip_prefix(crate_dir).unwrap();
+        let contents = std::fs::read(&file_path)
+            .into_diagnostic()
+            .with_context(|| format!("Failed to read {}", file_path.display()))?;
+
+        // Hash file path and contents
+        hasher.update(b"file:");
+        hasher.update(relative.to_string_lossy().as_bytes());
+        hasher.update(b"\n");
+        hasher.update(&contents);
+        hasher.update(b"\n");
+    }
+
+    let hash = hasher.finalize();
+    Ok(hash.to_hex().to_string())
+}
+
 /// Publish crates to crates.io.
 ///
 /// If `group` is None, publishes everything in order: pre, then all groups, then post.
 /// If `group` is Some("pre"), publishes only the pre crates.
 /// If `group` is Some("post"), publishes only the post crates.
 /// If `group` is Some(name), publishes only crates from that language group.
-pub fn publish_crates(repo_root: &Utf8Path, group: Option<&str>, dry_run: bool) -> Result<()> {
+pub fn publish_crates(
+    repo_root: &Utf8Path,
+    group: Option<&str>,
+    dry_run: bool,
+    verbose: bool,
+) -> Result<()> {
     println!("{}", "Publishing to crates.io...".cyan().bold());
 
     if dry_run {
@@ -72,7 +214,7 @@ pub fn publish_crates(repo_root: &Utf8Path, group: Option<&str>, dry_run: bool) 
             println!("  Publishing {} group", "pre".cyan());
             let crate_paths: Vec<Utf8PathBuf> =
                 PRE_CRATES.iter().map(|c| repo_root.join(c)).collect();
-            publish_crate_paths(&crate_paths, dry_run)?;
+            publish_crate_paths(&crate_paths, dry_run, verbose)?;
             print_crates_next_steps(&langs_dir, Some("pre"))?;
             Ok(())
         }
@@ -80,7 +222,7 @@ pub fn publish_crates(repo_root: &Utf8Path, group: Option<&str>, dry_run: bool) 
             println!("  Publishing {} group", "post".cyan());
             let crate_paths: Vec<Utf8PathBuf> =
                 POST_CRATES.iter().map(|c| repo_root.join(c)).collect();
-            publish_crate_paths(&crate_paths, dry_run)?;
+            publish_crate_paths(&crate_paths, dry_run, verbose)?;
             print_crates_next_steps(&langs_dir, Some("post"))?;
             Ok(())
         }
@@ -96,7 +238,7 @@ pub fn publish_crates(repo_root: &Utf8Path, group: Option<&str>, dry_run: bool) 
                 );
                 return Ok(());
             }
-            publish_crate_paths(&crates, dry_run)?;
+            publish_crate_paths(&crates, dry_run, verbose)?;
             print_crates_next_steps(&langs_dir, Some(group_name))?;
             Ok(())
         }
@@ -109,7 +251,7 @@ pub fn publish_crates(repo_root: &Utf8Path, group: Option<&str>, dry_run: bool) 
             println!("  {} Publishing {} group...", "●".cyan(), "pre".bold());
             let pre_paths: Vec<Utf8PathBuf> =
                 PRE_CRATES.iter().map(|c| repo_root.join(c)).collect();
-            publish_crate_paths(&pre_paths, dry_run)?;
+            publish_crate_paths(&pre_paths, dry_run, verbose)?;
             println!();
 
             // 2. All grammar crates in dependency order (leaves first)
@@ -123,14 +265,14 @@ pub fn publish_crates(repo_root: &Utf8Path, group: Option<&str>, dry_run: bool) 
                 "    {} crates to publish in dependency order",
                 sorted_crates.len()
             );
-            publish_crate_paths(&sorted_crates, dry_run)?;
+            publish_crate_paths(&sorted_crates, dry_run, verbose)?;
             println!();
 
             // 3. Post crates
             println!("  {} Publishing {} group...", "●".cyan(), "post".bold());
             let post_paths: Vec<Utf8PathBuf> =
                 POST_CRATES.iter().map(|c| repo_root.join(c)).collect();
-            publish_crate_paths(&post_paths, dry_run)?;
+            publish_crate_paths(&post_paths, dry_run, verbose)?;
 
             println!();
             println!("{} All crates published!", "✓".green().bold());
@@ -288,9 +430,14 @@ fn ensure_release_version(version: &str) -> Result<()> {
 }
 
 /// Publish everything (crates.io + npm).
-pub fn publish_all(repo_root: &Utf8Path, langs_dir: &Utf8Path, dry_run: bool) -> Result<()> {
+pub fn publish_all(
+    repo_root: &Utf8Path,
+    langs_dir: &Utf8Path,
+    dry_run: bool,
+    verbose: bool,
+) -> Result<()> {
     // Publish to crates.io first (all groups in order)
-    publish_crates(repo_root, None, dry_run)?;
+    publish_crates(repo_root, None, dry_run, verbose)?;
 
     println!();
 
@@ -315,13 +462,13 @@ enum CratePublishResult {
 }
 
 /// Publish crates from a list of paths.
-fn publish_crate_paths(crates: &[Utf8PathBuf], dry_run: bool) -> Result<()> {
+fn publish_crate_paths(crates: &[Utf8PathBuf], dry_run: bool, verbose: bool) -> Result<()> {
     let mut published = 0;
     let mut skipped = 0;
     let mut failed = 0;
 
     for crate_dir in crates {
-        match publish_single_crate(crate_dir, dry_run)? {
+        match publish_single_crate(crate_dir, dry_run, verbose)? {
             CratePublishResult::Published => published += 1,
             CratePublishResult::AlreadyExists => skipped += 1,
             CratePublishResult::Failed => failed += 1,
@@ -403,7 +550,11 @@ fn crate_version_exists(crate_name: &str, version: &str) -> Result<bool> {
 }
 
 /// Publish a single crate.
-fn publish_single_crate(crate_dir: &Utf8Path, dry_run: bool) -> Result<CratePublishResult> {
+fn publish_single_crate(
+    crate_dir: &Utf8Path,
+    dry_run: bool,
+    verbose: bool,
+) -> Result<CratePublishResult> {
     // Check if Cargo.toml exists
     if !crate_dir.join("Cargo.toml").exists() {
         println!(
@@ -438,6 +589,32 @@ fn publish_single_crate(crate_dir: &Utf8Path, dry_run: bool) -> Result<CratePubl
 
     print!("  {} {}@{}...", "→".blue(), name, display_version);
 
+    // For grammar crates, check if content hash matches published version
+    // Skip publishing if nothing changed (grammar source files + tree-sitter version)
+    if is_grammar_crate(crate_dir) {
+        match should_skip_grammar_publish(crate_dir, &name, &version) {
+            Ok(true) => {
+                if dry_run {
+                    println!(
+                        " {} {}",
+                        "[dry-run]".yellow(),
+                        "unchanged (hash match), would skip".dimmed()
+                    );
+                } else {
+                    println!(" {}", "unchanged (hash match), skipping".dimmed());
+                    return Ok(CratePublishResult::AlreadyExists);
+                }
+            }
+            Ok(false) => {
+                // Hash different or no published version, continue to publish
+            }
+            Err(e) => {
+                // Couldn't check hash, continue with normal version check
+                eprintln!(" {} checking hash: {}", "warning".yellow(), e);
+            }
+        }
+    }
+
     // Check if version already exists (skip for workspace versions - cargo publish will handle it)
     if !dry_run && version != "workspace" {
         match crate_version_exists(&name, &version) {
@@ -455,14 +632,37 @@ fn publish_single_crate(crate_dir: &Utf8Path, dry_run: bool) -> Result<CratePubl
         }
     }
 
+    // Publish (or dry-run publish)
+    let mut args = vec!["publish", "--allow-dirty"];
     if dry_run {
-        println!(" {}", "would publish (dry run)".cyan());
-        return Ok(CratePublishResult::Published);
+        args.push("--dry-run");
     }
 
-    // Actually publish
+    // In verbose mode, let output stream directly to terminal
+    if verbose {
+        println!(); // newline after the "→ crate@version..." prefix
+        let status = Command::new("cargo")
+            .args(&args)
+            .current_dir(crate_dir)
+            .status()
+            .into_diagnostic()
+            .wrap_err("Failed to run cargo publish")?;
+
+        if status.success() {
+            if dry_run {
+                println!("  {}", "dry-run ok".green());
+            } else {
+                println!("  {}", "published".green());
+            }
+            return Ok(CratePublishResult::Published);
+        } else {
+            println!("  {}", "FAILED".red());
+            return Ok(CratePublishResult::Failed);
+        }
+    }
+
     let output = Command::new("cargo")
-        .args(["publish", "--allow-dirty"])
+        .args(&args)
         .current_dir(crate_dir)
         .stdout(Stdio::piped())
         .stderr(Stdio::piped())
@@ -471,7 +671,11 @@ fn publish_single_crate(crate_dir: &Utf8Path, dry_run: bool) -> Result<CratePubl
         .wrap_err("Failed to run cargo publish")?;
 
     if output.status.success() {
-        println!(" {}", "published".green());
+        if dry_run {
+            println!(" {}", "dry-run ok".green());
+        } else {
+            println!(" {}", "published".green());
+        }
         return Ok(CratePublishResult::Published);
     }
 
@@ -852,14 +1056,17 @@ fn publish_single_npm_package(
         }
     }
 
-    if dry_run {
-        println!(" {}", "would publish (dry run)".cyan());
-        return Ok(NpmPublishResult::Published);
+    // Publish (or dry-run publish) with provenance for OIDC trusted publishing
+    let mut args = vec!["publish", "--access", "public"];
+    if !dry_run {
+        // Provenance only works for actual publishes, not dry-run
+        args.push("--provenance");
+    } else {
+        args.push("--dry-run");
     }
 
-    // Actually publish with provenance for OIDC trusted publishing
     let output = Command::new("npm")
-        .args(["publish", "--access", "public", "--provenance"])
+        .args(&args)
         .current_dir(package_dir)
         .stdout(Stdio::piped())
         .stderr(Stdio::piped())
@@ -868,7 +1075,11 @@ fn publish_single_npm_package(
         .wrap_err("Failed to run npm publish")?;
 
     if output.status.success() {
-        println!(" {}", "published".green());
+        if dry_run {
+            println!(" {}", "dry-run ok".green());
+        } else {
+            println!(" {}", "published".green());
+        }
         return Ok(NpmPublishResult::Published);
     }
 

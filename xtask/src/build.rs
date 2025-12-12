@@ -1,58 +1,387 @@
-use std::io::{BufRead, BufReader, Write};
+use std::io::{BufRead, BufReader};
 use std::process::{Command, ExitStatus, Stdio};
-use std::sync::{Arc, Mutex};
+use std::sync::Arc;
+use std::sync::Mutex;
+use std::sync::atomic::{AtomicUsize, Ordering};
 use std::thread;
 
+use indicatif::{MultiProgress, ProgressBar, ProgressStyle};
+use owo_colors::OwoColorize;
 use rand::seq::SliceRandom;
 
 use camino::{Utf8Path, Utf8PathBuf};
 use chrono::Utc;
-use miette::{Context, IntoDiagnostic, Result};
-use owo_colors::OwoColorize;
+use miette::{Context, IntoDiagnostic, Result, miette};
 use rayon::prelude::*;
 use sailfish::TemplateSimple;
+use walrus::Module;
 
 use crate::tool::Tool;
 use crate::types::CrateRegistry;
 use crate::version_store;
 
-/// Thread-safe output printer for parallel builds.
+/// Print command before execution (for non-streaming commands)
+fn print_cmd(cmd: &Command) {
+    let program = cmd.get_program().to_string_lossy();
+    let args: Vec<_> = cmd.get_args().map(|a| a.to_string_lossy()).collect();
+    let full_cmd = if args.is_empty() {
+        program.to_string()
+    } else {
+        format!("{} {}", program, args.join(" "))
+    };
+    println!("  {} {}", "$".dimmed(), full_cmd.dimmed());
+}
+
+/// Run a command, print it first, and return output
+fn run_cmd_output(mut cmd: Command) -> std::io::Result<std::process::Output> {
+    print_cmd(&cmd);
+    cmd.output()
+}
+
+/// Run a command, print it first, and return status
+fn run_cmd_status(mut cmd: Command) -> std::io::Result<ExitStatus> {
+    print_cmd(&cmd);
+    cmd.status()
+}
+
+/// Ensure nightly toolchain and wasm32-unknown-unknown target are installed
+fn ensure_rust_nightly_with_wasm_target() -> Result<()> {
+    // Check if nightly toolchain is installed
+    let mut cmd = Command::new("rustup");
+    cmd.args(["toolchain", "list"]);
+    let output = run_cmd_output(cmd)
+        .into_diagnostic()
+        .context("failed to run rustup toolchain list")?;
+
+    let toolchains = String::from_utf8_lossy(&output.stdout);
+    let has_nightly = toolchains.lines().any(|line| line.contains("nightly"));
+
+    if !has_nightly {
+        println!("{} Installing nightly toolchain...", "●".cyan());
+        let mut cmd = Command::new("rustup");
+        cmd.args(["toolchain", "install", "nightly"]);
+        let status = run_cmd_status(cmd)
+            .into_diagnostic()
+            .context("failed to install nightly toolchain")?;
+
+        if !status.success() {
+            miette::bail!("failed to install nightly toolchain");
+        }
+        println!("{} Nightly toolchain installed", "✓".green());
+    }
+
+    // Check if wasm32-unknown-unknown target is installed for nightly
+    let mut cmd = Command::new("rustup");
+    cmd.args(["+nightly", "target", "list", "--installed"]);
+    let output = run_cmd_output(cmd)
+        .into_diagnostic()
+        .context("failed to check installed targets")?;
+
+    let targets = String::from_utf8_lossy(&output.stdout);
+    let has_wasm_target = targets
+        .lines()
+        .any(|line| line.trim() == "wasm32-unknown-unknown");
+
+    if !has_wasm_target {
+        println!(
+            "{} Installing wasm32-unknown-unknown target for nightly...",
+            "●".cyan()
+        );
+        let mut cmd = Command::new("rustup");
+        cmd.args(["+nightly", "target", "add", "wasm32-unknown-unknown"]);
+        let status = run_cmd_status(cmd)
+            .into_diagnostic()
+            .context("failed to add wasm32-unknown-unknown target")?;
+
+        if !status.success() {
+            miette::bail!("failed to add wasm32-unknown-unknown target");
+        }
+        println!("{} wasm32-unknown-unknown target installed", "✓".green());
+    }
+
+    // Check if rust-src component is installed for nightly (needed for -Zbuild-std)
+    let mut cmd = Command::new("rustup");
+    cmd.args(["+nightly", "component", "list", "--installed"]);
+    let output = run_cmd_output(cmd)
+        .into_diagnostic()
+        .context("failed to check installed components")?;
+
+    let components = String::from_utf8_lossy(&output.stdout);
+    let has_rust_src = components.lines().any(|line| line.starts_with("rust-src"));
+
+    if !has_rust_src {
+        println!(
+            "{} Installing rust-src component for nightly (needed for -Zbuild-std)...",
+            "●".cyan()
+        );
+        let mut cmd = Command::new("rustup");
+        cmd.args(["+nightly", "component", "add", "rust-src"]);
+        let status = run_cmd_status(cmd)
+            .into_diagnostic()
+            .context("failed to add rust-src component")?;
+
+        if !status.success() {
+            miette::bail!("failed to add rust-src component");
+        }
+        println!("{} rust-src component installed", "✓".green());
+    }
+
+    Ok(())
+}
+
+/// Build phase icons (nerd font)
+const ICON_RUST: &str = "\u{e7a8}"; //
+const ICON_WASM: &str = "\u{e6a1}"; //
+const ICON_JS: &str = "\u{e74e}"; //
+#[allow(dead_code)]
+const ICON_PACKAGE: &str = "\u{f487}"; //
+const ICON_CHECK: &str = "\u{f00c}"; //
+const ICON_CROSS: &str = "\u{f00d}"; //
+const ICON_GEAR: &str = "\u{f013}"; //
+
+/// Separator between prefix and log
+const SEP: &str = "│"; // U+2502 box drawings light vertical
+
+/// Get the nerd font icon for a language based on its grammar name
+fn language_icon(grammar: &str) -> &'static str {
+    // Extract the base language name from arborium-{lang}-plugin or arborium-{lang}
+    let lang = grammar
+        .strip_prefix("arborium-")
+        .and_then(|s| s.strip_suffix("-plugin"))
+        .or_else(|| grammar.strip_prefix("arborium-"))
+        .unwrap_or(grammar);
+
+    match lang {
+        // Programming languages with official icons
+        "rust" => "\u{e7a8}",            //
+        "python" => "\u{e73c}",          //
+        "javascript" => "\u{e74e}",      //
+        "typescript" => "\u{e628}",      //
+        "java" => "\u{e738}",            //
+        "c" => "\u{e61e}",               //
+        "cpp" | "c-sharp" => "\u{e61d}", //
+        "go" => "\u{e626}",              //
+        "ruby" => "\u{e21e}",            //
+        "php" => "\u{e73d}",             //
+        "swift" => "\u{e755}",           //
+        "kotlin" => "\u{e634}",          //
+        "scala" => "\u{e737}",           //
+        "clojure" => "\u{e768}",         //
+        "elixir" => "\u{e62d}",          //
+        "erlang" => "\u{e7b1}",          //
+        "haskell" => "\u{e777}",         //
+        "ocaml" => "\u{e91a}",           //
+        "lua" => "\u{e620}",             //
+        "r" => "\u{f25d}",               //
+        "julia" => "\u{e624}",           //
+        "dart" => "\u{e798}",            //
+        "elm" => "\u{e62c}",             //
+        "fsharp" => "\u{e7a7}",          //
+        "nim" => "\u{e677}",             //
+        "zig" => "\u{e6a9}",             //
+
+        // Markup & data
+        "html" => "\u{e736}",                  //
+        "css" | "scss" | "sass" => "\u{e749}", //
+        "json" => "\u{e60b}",                  //
+        "yaml" | "yml" => "\u{f481}",          //
+        "toml" => "\u{e6b2}",                  //
+        "xml" => "\u{e619}",                   //
+        "markdown" => "\u{e609}",              //
+        "latex" | "tex" => "\u{e6a4}",         //
+
+        // Shell & config
+        "bash" | "sh" => "\u{e795}", //
+        "fish" => "\u{f739}",        //
+        "powershell" => "\u{e683}",  //
+        "vim" => "\u{e62b}",         //
+        "dockerfile" => "\u{f308}",  //
+        "nginx" => "\u{f308}",       //
+
+        // Build & tools
+        "makefile" | "make" => "\u{e779}", //
+        "cmake" => "\u{e615}",             //
+        "meson" => "\u{e615}",             //
+
+        // Databases
+        "sql" | "mysql" | "postgresql" => "\u{e706}", //
+
+        // Other
+        "git" => "\u{e702}",     //
+        "graphql" => "\u{e602}", //
+
+        // Default fallback
+        _ => "\u{f15c}", // generic file icon
+    }
+}
+
+/// Build phase for display
+#[derive(Clone, Copy)]
+#[allow(dead_code)]
+enum BuildPhase {
+    Cargo,
+    WasmBindgen,
+    WasmOpt,
+    Package,
+}
+
+impl BuildPhase {
+    fn icon(&self) -> &'static str {
+        match self {
+            BuildPhase::Cargo => ICON_RUST,
+            BuildPhase::WasmBindgen => ICON_WASM,
+            BuildPhase::WasmOpt => ICON_GEAR,
+            BuildPhase::Package => ICON_JS,
+        }
+    }
+
+    fn name(&self) -> &'static str {
+        match self {
+            BuildPhase::Cargo => "cargo",
+            BuildPhase::WasmBindgen => "wasm-bindgen",
+            BuildPhase::WasmOpt => "wasm-opt",
+            BuildPhase::Package => "package",
+        }
+    }
+}
+
+/// Thread-safe output printer for parallel builds with progress tracking.
 #[derive(Clone)]
 struct OutputPrinter {
-    mutex: Arc<Mutex<()>>,
+    multi: MultiProgress,
+    progress: ProgressBar,
+    completed: Arc<AtomicUsize>,
+    #[allow(dead_code)]
+    total: usize,
 }
 
 impl OutputPrinter {
-    fn new() -> Self {
+    fn new(total: usize) -> Self {
+        let multi = MultiProgress::new();
+
+        let style = ProgressStyle::default_bar()
+            .template("{spinner:.cyan} {msg} {wide_bar:.cyan/dim} {pos}/{len} ({percent}%)")
+            .unwrap()
+            .progress_chars("━╸─");
+
+        let progress = multi.add(ProgressBar::new(total as u64));
+        progress.set_style(style);
+        progress.set_message("Building plugins");
+
         Self {
-            mutex: Arc::new(Mutex::new(())),
+            multi,
+            progress,
+            completed: Arc::new(AtomicUsize::new(0)),
+            total,
+        }
+    }
+
+    fn inc_completed(&self) {
+        let completed = self.completed.fetch_add(1, Ordering::SeqCst) + 1;
+        self.progress.set_position(completed as u64);
+    }
+
+    fn finish(&self) {
+        self.progress.finish_with_message("Build complete");
+    }
+
+    fn format_prefix(grammar: &str, phase: Option<BuildPhase>) -> String {
+        let icon = language_icon(grammar);
+        match phase {
+            Some(p) => format!("{:>14} {} {}", grammar, p.icon(), SEP),
+            None => format!("{:>14} {} {}", grammar, icon, SEP),
         }
     }
 
     fn print_line(&self, grammar: &str, line: &str, is_stderr: bool) {
-        let _lock = self.mutex.lock().unwrap();
-        let prefix = format!("[{}]", grammar);
+        self.print_line_with_phase(grammar, line, is_stderr, None);
+    }
+
+    fn print_line_with_phase(
+        &self,
+        grammar: &str,
+        line: &str,
+        is_stderr: bool,
+        phase: Option<BuildPhase>,
+    ) {
+        let prefix = Self::format_prefix(grammar, phase);
         let colored_prefix = if is_stderr {
             prefix.red().to_string()
         } else {
-            prefix.cyan().to_string()
+            prefix.blue().to_string()
         };
-        if is_stderr {
-            eprintln!("{} {}", colored_prefix, line);
-            let _ = std::io::stderr().flush();
-        } else {
-            println!("{} {}", colored_prefix, line);
-            let _ = std::io::stdout().flush();
-        }
+        let msg = format!("{} {}", colored_prefix, line);
+        let _ = self.multi.println(&msg);
     }
+
+    #[allow(dead_code)]
+    fn print_phase_start(&self, grammar: &str, phase: BuildPhase) {
+        let prefix = Self::format_prefix(grammar, Some(phase));
+        let msg = format!("{} {} ...", prefix.cyan(), phase.name().dimmed());
+        let _ = self.multi.println(&msg);
+    }
+
+    fn print_success(&self, grammar: &str) {
+        self.inc_completed();
+        let msg = format!(
+            "{:>14} {} {} {}",
+            grammar.green(),
+            ICON_CHECK.green(),
+            SEP.green(),
+            "done".green().bold()
+        );
+        let _ = self.multi.println(&msg);
+    }
+
+    fn print_error(&self, grammar: &str, error: &str) {
+        let msg = format!(
+            "{:>14} {} {} {} {}",
+            grammar.red(),
+            ICON_CROSS.red(),
+            SEP.red(),
+            "failed:".red().bold(),
+            error.red()
+        );
+        let _ = self.multi.println(&msg);
+    }
+}
+
+/// Format a command for display (program path + all arguments).
+fn format_command(cmd: &Command) -> String {
+    let program = cmd.get_program().to_string_lossy();
+    let args: Vec<_> = cmd.get_args().map(|a| a.to_string_lossy()).collect();
+    if args.is_empty() {
+        program.to_string()
+    } else {
+        format!("{} {}", program, args.join(" "))
+    }
+}
+
+/// Result of running a streaming command - includes captured stderr for error reporting.
+struct StreamingResult {
+    status: ExitStatus,
+    stderr: String,
 }
 
 /// Run a command and stream its output with prefixed lines.
 fn run_streaming(
+    cmd: Command,
+    grammar: &str,
+    printer: &OutputPrinter,
+) -> std::io::Result<StreamingResult> {
+    run_streaming_with_phase(cmd, grammar, printer, None)
+}
+
+fn run_streaming_with_phase(
     mut cmd: Command,
     grammar: &str,
     printer: &OutputPrinter,
-) -> std::io::Result<ExitStatus> {
+    phase: Option<BuildPhase>,
+) -> std::io::Result<StreamingResult> {
+    // Print the full command being executed
+    let cmd_str = format_command(&cmd);
+    printer.print_line_with_phase(grammar, &format!("$ {}", cmd_str), false, phase);
+
     cmd.stdout(Stdio::piped()).stderr(Stdio::piped());
 
     let mut child = cmd.spawn()?;
@@ -69,32 +398,39 @@ fn run_streaming(
         let reader = BufReader::new(stdout);
         for line in reader.lines() {
             let Ok(line) = line else { break };
-            printer_out.print_line(&grammar_out, &line, false);
+            printer_out.print_line_with_phase(&grammar_out, &line, false, phase);
         }
     });
 
+    // Capture stderr while also printing it
     let stderr_thread = thread::spawn(move || {
         let reader = BufReader::new(stderr);
+        let mut captured = Vec::new();
         for line in reader.lines() {
             let Ok(line) = line else { break };
-            printer_err.print_line(&grammar_err, &line, true);
+            printer_err.print_line_with_phase(&grammar_err, &line, true, phase);
+            captured.push(line);
         }
+        captured
     });
 
     let status = child.wait()?;
 
     stdout_thread.join().expect("stdout thread panicked");
-    stderr_thread.join().expect("stderr thread panicked");
+    let stderr_lines = stderr_thread.join().expect("stderr thread panicked");
 
-    Ok(status)
+    Ok(StreamingResult {
+        status,
+        stderr: stderr_lines.join("\n"),
+    })
 }
 
 pub struct BuildOptions {
     pub grammars: Vec<String>,
     pub group: Option<String>,
     pub output_dir: Option<Utf8PathBuf>,
-    pub transpile: bool,
     pub jobs: usize,
+    pub no_fail_fast: bool,
 }
 
 impl Default for BuildOptions {
@@ -103,8 +439,8 @@ impl Default for BuildOptions {
             grammars: Vec::new(),
             group: None,
             output_dir: None,
-            transpile: true,
             jobs: 16,
+            no_fail_fast: false,
         }
     }
 }
@@ -244,23 +580,25 @@ pub fn build_plugins(repo_root: &Utf8Path, options: &BuildOptions) -> Result<()>
         options.jobs
     );
 
-    let cargo_component = Tool::CargoComponent
+    // Ensure nightly toolchain and wasm32-unknown-unknown target are installed
+    println!(
+        "{} Checking nightly toolchain and wasm target...",
+        "●".cyan()
+    );
+    ensure_rust_nightly_with_wasm_target()?;
+
+    let wasm_bindgen = Tool::WasmBindgen
         .find()
         .into_diagnostic()
-        .context("cargo-component not found")?;
-    let jco = if options.transpile {
-        Some(
-            Tool::Jco
-                .find()
-                .into_diagnostic()
-                .context("jco not found")?,
-        )
-    } else {
-        None
-    };
+        .context("wasm-bindgen not found")?;
 
-    let errors: Mutex<Vec<(String, String)>> = Mutex::new(Vec::new());
-    let printer = OutputPrinter::new();
+    let wasm_opt = Tool::WasmOpt
+        .find()
+        .into_diagnostic()
+        .context("wasm-opt not found")?;
+
+    let printer = OutputPrinter::new(grammars.len());
+    let errors: Arc<Mutex<Vec<(String, String)>>> = Arc::new(Mutex::new(Vec::new()));
 
     let pool = rayon::ThreadPoolBuilder::new()
         .num_threads(options.jobs)
@@ -275,37 +613,54 @@ pub fn build_plugins(repo_root: &Utf8Path, options: &BuildOptions) -> Result<()>
                 grammar,
                 options.output_dir.as_deref(),
                 &version,
-                &cargo_component,
-                jco.as_ref(),
+                &wasm_bindgen,
+                &wasm_opt,
                 &printer,
             );
 
             match result {
                 Ok(()) => {
-                    println!("{} {}", format!("[{}]", grammar).green(), "done".green());
+                    printer.print_success(grammar);
                 }
                 Err(e) => {
-                    eprintln!(
-                        "{} {}",
-                        format!("[{}]", grammar).red(),
-                        format!("{}", e).red()
-                    );
-                    errors
-                        .lock()
-                        .unwrap()
-                        .push((grammar.clone(), format!("{}", e)));
+                    printer.print_error(grammar, &format!("{}", e));
+                    if options.no_fail_fast {
+                        let mut errors = errors.lock().expect("errors mutex poisoned");
+                        errors.push((grammar.clone(), format!("{}", e)));
+                    } else {
+                        eprintln!("Build failed for grammar `{}`: {:?}", grammar, e);
+                        std::process::exit(1);
+                    }
                 }
             }
         })
     });
 
-    let errors = errors.into_inner().unwrap();
-    if !errors.is_empty() {
-        eprintln!("\n{} {} plugin(s) failed:", "✗".red(), errors.len());
-        for (grammar, err) in &errors {
-            eprintln!("  {} {}", format!("[{}]", grammar).red(), err);
+    printer.finish();
+
+    if options.no_fail_fast {
+        let errors = errors.lock().expect("errors mutex poisoned");
+        if !errors.is_empty() {
+            eprintln!();
+            eprintln!("Build failures ({}):", errors.len());
+            for (grammar, err) in errors.iter() {
+                eprintln!();
+                eprintln!("== {} ==", grammar);
+                eprintln!("{}", err);
+            }
+
+            let summary = errors
+                .iter()
+                .map(|(g, e)| format!("  - {}: {}", g, e.lines().next().unwrap_or("")))
+                .collect::<Vec<_>>()
+                .join("\n");
+
+            miette::bail!(
+                "Build completed with {} failure(s):\n{}",
+                errors.len(),
+                summary
+            );
         }
-        miette::bail!("{} plugin(s) failed to build", errors.len());
     }
 
     let manifest = build_manifest(
@@ -402,8 +757,7 @@ pub fn build_host(repo_root: &Utf8Path) -> Result<()> {
     ])
     .current_dir(&host_crate);
 
-    let output = cmd
-        .output()
+    let output = run_cmd_output(cmd)
         .into_diagnostic()
         .context("failed to run wasm-pack")?;
 
@@ -424,19 +778,57 @@ pub fn build_host(repo_root: &Utf8Path) -> Result<()> {
 }
 
 pub fn clean_plugins(repo_root: &Utf8Path, _output_dir: &str) -> Result<()> {
-    // Clean the workspace target directory (langs/target/)
-    // With a workspace, all crates share this single target directory
+    // Clean all individual plugin crate target directories
     let langs_dir = repo_root.join("langs");
-    let workspace_target = langs_dir.join("target");
 
-    if workspace_target.exists() {
-        std::fs::remove_dir_all(&workspace_target)
+    let mut cleaned_count = 0;
+
+    // Find all plugin npm/ directories and clean their target and artifact directories
+    for group_entry in std::fs::read_dir(&langs_dir)
+        .into_diagnostic()
+        .context("failed to read langs dir")?
+    {
+        let group_entry = group_entry.into_diagnostic()?;
+        let group_path = group_entry.path();
+
+        if !group_path.is_dir()
+            || !group_entry
+                .file_name()
+                .to_string_lossy()
+                .starts_with("group-")
+        {
+            continue;
+        }
+
+        for lang_entry in std::fs::read_dir(&group_path)
             .into_diagnostic()
-            .context(format!("failed to remove {}", workspace_target))?;
+            .context(format!("failed to read {:?}", group_path))?
+        {
+            let lang_entry = lang_entry.into_diagnostic()?;
+            let npm_dir = lang_entry.path().join("npm");
+            let target_dir = npm_dir.join("target");
+            let artifact_dir = npm_dir.join("artifact-out");
+
+            if target_dir.exists() {
+                std::fs::remove_dir_all(&target_dir)
+                    .into_diagnostic()
+                    .context(format!("failed to remove {:?}", target_dir))?;
+                cleaned_count += 1;
+            }
+
+            if artifact_dir.exists() {
+                std::fs::remove_dir_all(&artifact_dir)
+                    .into_diagnostic()
+                    .context(format!("failed to remove {:?}", artifact_dir))?;
+            }
+        }
+    }
+
+    if cleaned_count > 0 {
         println!(
-            "{} Cleaned workspace target directory: {}",
+            "{} Cleaned {} plugin target directories",
             "✓".green(),
-            workspace_target
+            cleaned_count
         );
     } else {
         println!("{} Nothing to clean", "○".dimmed());
@@ -477,15 +869,15 @@ pub fn build_demo(repo_root: &Utf8Path, crates_dir: &Utf8Path, dev: bool) -> Res
     Ok(())
 }
 
-#[allow(clippy::too_many_arguments)]
+#[allow(clippy::complexity)]
 fn build_single_plugin(
     repo_root: &Utf8Path,
     registry: &CrateRegistry,
     grammar: &str,
     output_override: Option<&Utf8Path>,
     _version: &str,
-    cargo_component: &crate::tool::ToolPath,
-    jco: Option<&crate::tool::ToolPath>,
+    wasm_bindgen: &crate::tool::ToolPath,
+    wasm_opt: &crate::tool::ToolPath,
     printer: &OutputPrinter,
 ) -> Result<()> {
     printer.print_line(grammar, "Building...", false);
@@ -528,69 +920,164 @@ fn build_single_plugin(
         );
     }
 
-    let mut cmd = cargo_component.command();
-    cmd.args(["build", "--release", "--target", "wasm32-wasip1"])
-        .current_dir(&plugin_source);
-    let status = run_streaming(cmd, grammar, printer)
-        .into_diagnostic()
-        .context("failed to run cargo-component")?;
+    // Step 1: Build with cargo +nightly using unstable features
+    // We use -Zbuild-std to rebuild std with optimizations for smaller WASM size
 
-    if !status.success() {
-        miette::bail!("cargo-component build failed (see output above)");
+    // Create a unique artifact directory for this plugin to avoid locking
+    let artifact_dir = plugin_source.join("artifact-out");
+    std::fs::create_dir_all(&artifact_dir)
+        .into_diagnostic()
+        .context("failed to create artifact directory")?;
+
+    let mut cargo_cmd = Command::new("cargo");
+    cargo_cmd
+        .args([
+            "+nightly",
+            "build",
+            "--lib",
+            "--release",
+            "--target",
+            "wasm32-unknown-unknown",
+            "-Zbuild-std=std,panic_abort",
+            "-Zunstable-options",
+            "-Zbuild-dir-new-layout",
+            "-Zbinary-dep-depinfo",
+            "-Zchecksum-freshness",
+            "--artifact-dir",
+            artifact_dir.as_str(),
+        ])
+        // Some environments set global CFLAGS (e.g. `-fembed-bitcode=all`) which are
+        // not applicable to wasm32 builds and can cause noisy warnings or failures
+        // in cc-rs-based build scripts. Clear target-specific flags for wasm32.
+        .env("CFLAGS_wasm32_unknown_unknown", "")
+        .env("CFLAGS_wasm32-unknown-unknown", "")
+        .env("CXXFLAGS_wasm32_unknown_unknown", "")
+        .env("CXXFLAGS_wasm32-unknown-unknown", "")
+        .env(
+            "RUSTFLAGS",
+            "-Zunstable-options -Cpanic=immediate-abort -Copt-level=s -Cembed-bitcode=yes -Clto=fat -Ccodegen-units=1 -Cstrip=symbols",
+        )
+        .current_dir(&plugin_source);
+
+    let result = run_streaming(cargo_cmd, grammar, printer)
+        .into_diagnostic()
+        .context("failed to run cargo build")?;
+
+    if !result.status.success() {
+        miette::bail!("cargo build failed:\n{}", result.stderr);
     }
 
-    // With a workspace, Cargo outputs to the workspace root's target directory (langs/target/)
-    // not each crate's individual target directory
-    let langs_dir = repo_root.join("langs");
-    let wasm_file = langs_dir.join("target/wasm32-wasip1/release").join(format!(
-        "arborium_{}_plugin.wasm",
-        grammar.replace('-', "_")
-    ));
+    // Step 2: Locate the .wasm file in the artifact directory
+    // With -Zartifact-dir, the final artifact is placed directly in artifact-out/
+    let wasm_name = format!("arborium_{}_plugin", grammar.replace('-', "_"));
+    let wasm_file = artifact_dir.join(format!("{}.wasm", wasm_name));
 
     if !wasm_file.exists() {
-        miette::bail!("expected wasm file not found: {}", wasm_file);
+        miette::bail!(
+            "WASM file not found at {}. Build may have failed.",
+            wasm_file
+        );
     }
 
-    // Create output directory if it doesn't exist
+    // Step 3: Run wasm-bindgen to generate JS bindings
+    // Create a temporary output directory for wasm-bindgen
+    let bindgen_out = plugin_source.join("pkg");
+    fs_err::create_dir_all(&bindgen_out)
+        .into_diagnostic()
+        .context("failed to create bindgen output directory")?;
+
+    let mut bindgen_cmd = wasm_bindgen.command();
+    bindgen_cmd
+        .args([
+            "--target",
+            "web",
+            "--out-dir",
+            bindgen_out.as_str(),
+            "--out-name",
+            &wasm_name,
+            wasm_file.as_str(),
+        ])
+        .current_dir(&plugin_source);
+
+    let result = run_streaming(bindgen_cmd, grammar, printer)
+        .into_diagnostic()
+        .context("failed to run wasm-bindgen")?;
+
+    if !result.status.success() {
+        miette::bail!("wasm-bindgen failed:\n{}", result.stderr);
+    }
+
+    // Step 4: Optimize WASM with wasm-opt
+    let src_wasm = bindgen_out.join(format!("{}_bg.wasm", wasm_name));
+    let optimized_wasm = bindgen_out.join(format!("{}_bg.opt.wasm", wasm_name));
+
+    let mut opt_cmd = wasm_opt.command();
+    opt_cmd
+        .args([
+            "-Oz", // Optimize for size
+            "--enable-bulk-memory",
+            "--enable-mutable-globals",
+            "--enable-nontrapping-float-to-int",
+            "--enable-sign-ext",
+            "--enable-simd",
+            "-o",
+            optimized_wasm.as_str(),
+            src_wasm.as_str(),
+        ])
+        .current_dir(&plugin_source);
+
+    let result = run_streaming(opt_cmd, grammar, printer)
+        .into_diagnostic()
+        .context("failed to run wasm-opt")?;
+
+    if !result.status.success() {
+        miette::bail!("wasm-opt failed:\n{}", result.stderr);
+    }
+
+    // Step 5: Copy and rename output files
     fs_err::create_dir_all(&plugin_output)
         .into_diagnostic()
         .context("failed to create output directory")?;
 
-    let dest_wasm = plugin_output.join("grammar.wasm");
-    std::fs::copy(&wasm_file, &dest_wasm)
+    // Use optimized WASM and generated JS
+    let src_js = bindgen_out.join(format!("{}.js", wasm_name));
+
+    let dest_wasm = plugin_output.join("grammar_bg.wasm");
+    let dest_js = plugin_output.join("grammar.js");
+
+    // Copy and rename files (use optimized WASM)
+    std::fs::copy(&optimized_wasm, &dest_wasm)
         .into_diagnostic()
-        .context("failed to copy wasm file")?;
+        .with_context(|| {
+            format!(
+                "failed to copy optimized wasm file from {} to {}",
+                optimized_wasm, dest_wasm
+            )
+        })?;
 
-    if let Some(jco) = jco {
-        let mut cmd = jco.command();
-        cmd.args([
-            "transpile",
-            dest_wasm.as_str(),
-            "--instantiation",
-            "async",
-            "--quiet",
-            "-o",
-            plugin_output.as_str(),
-        ]);
-        let status = run_streaming(cmd, grammar, printer)
-            .into_diagnostic()
-            .context("failed to run jco")?;
+    std::fs::copy(&src_js, &dest_js)
+        .into_diagnostic()
+        .with_context(|| format!("failed to copy js file from {} to {}", src_js, dest_js))?;
 
-        if !status.success() {
-            miette::bail!("jco transpile failed (see output above)");
-        }
-    }
+    // Check WASM browser compatibility on final WASM file
+    println!("  {} Checking WASM browser compatibility...", "●".yellow());
+    check_wasm_browser_compatibility(&dest_wasm)?;
+    println!("  {} No browser-incompatible imports found", "✓".green());
 
-    // Copy package.json to output directory if different from source
-    if plugin_output != plugin_source {
-        let src_package_json = plugin_source.join("package.json");
-        if src_package_json.exists() {
-            let dest_package_json = plugin_output.join("package.json");
-            std::fs::copy(&src_package_json, &dest_package_json)
-                .into_diagnostic()
-                .context("failed to copy package.json")?;
-        }
-    }
+    // Generate package.json
+    let package_json_content = serde_json::json!({
+        "name": format!("@arborium/{}", grammar),
+        "version": _version,
+        "type": "module",
+        "files": ["grammar.js", "grammar_bg.wasm"]
+    });
+    let dest_package_json = plugin_output.join("package.json");
+    std::fs::write(
+        &dest_package_json,
+        serde_json::to_string_pretty(&package_json_content).unwrap(),
+    )
+    .into_diagnostic()
+    .context("failed to write package.json")?;
 
     Ok(())
 }
@@ -696,7 +1183,7 @@ fn build_manifest(
                 .join("npm")
         };
         let local_js = local_root.join("grammar.js");
-        let local_wasm = local_root.join("grammar.core.wasm");
+        let local_wasm = local_root.join("grammar_bg.wasm");
 
         // Make local paths relative to repo root for serving
         let rel_js = local_js.strip_prefix(repo_root).unwrap_or(&local_js);
@@ -713,7 +1200,7 @@ fn build_manifest(
             package: package.clone(),
             version: version.to_string(),
             cdn_js: format!("{}/grammar.js", cdn_base),
-            cdn_wasm: format!("{}/grammar.core.wasm", cdn_base),
+            cdn_wasm: format!("{}/grammar_bg.wasm", cdn_base),
             local_js: format!("/{}", rel_js),
             local_wasm: format!("/{}", rel_wasm),
         });
@@ -723,4 +1210,39 @@ fn build_manifest(
         generated_at: Utc::now().to_rfc3339(),
         entries,
     })
+}
+
+/// Analyzes a WASM file for browser compatibility issues
+/// Returns an error if any "env" imports are found (which won't work in browsers)
+fn check_wasm_browser_compatibility(wasm_file: &camino::Utf8Path) -> Result<()> {
+    let wasm_bytes = std::fs::read(wasm_file)
+        .map_err(|e| miette!("Failed to read WASM file {}: {}", wasm_file, e))?;
+
+    let module = Module::from_buffer(&wasm_bytes)
+        .map_err(|e| miette!("Failed to parse WASM file {}: {}", wasm_file, e))?;
+
+    let mut env_imports = Vec::new();
+
+    for import in module.imports.iter() {
+        if import.module == "env" {
+            env_imports.push(import.name.clone());
+        }
+    }
+
+    if !env_imports.is_empty() {
+        return Err(miette!(
+            "WASM module {} has {} browser-incompatible imports from 'env':\n{}\n\n\
+             These imports won't work in web browsers. Provide these symbols in the WASM sysroot or \
+             remove the dependencies that require them.",
+            wasm_file,
+            env_imports.len(),
+            env_imports
+                .iter()
+                .map(|name| format!("  - env.{}", name))
+                .collect::<Vec<_>>()
+                .join("\n")
+        ));
+    }
+
+    Ok(())
 }

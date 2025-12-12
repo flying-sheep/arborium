@@ -346,6 +346,15 @@ pub mod common {
     pub fn extract_grammar_sources() -> Step {
         Step::run("Extract grammar sources", "tar -xvf grammar-sources.tar")
     }
+
+    /// Build xtask from source and install it.
+    /// This ensures we use the version from the repo, not the one baked into the container.
+    pub fn build_xtask() -> Step {
+        Step::run(
+            "Build xtask",
+            "cargo build --manifest-path xtask/Cargo.toml --release && cp xtask/target/release/xtask /usr/local/bin/arborium-xtask",
+        )
+    }
 }
 
 // =============================================================================
@@ -402,7 +411,7 @@ case "$GITHUB_REF" in
     IS_RELEASE="true"
     ;;
   *)
-    VERSION="0.0.0-dev"
+    VERSION="1.0.0"
     IS_RELEASE="false"
     ;;
 esac
@@ -421,6 +430,8 @@ echo "Version: $VERSION (release: $IS_RELEASE)""#,
                         ),
                         ("restore-keys", "grammar-cache-v10-"),
                     ]),
+                // Build xtask from source to use the version from the repo
+                build_xtask(),
                 // Generate with version (from tag or 0.0.0-dev for non-release)
                 Step::run(
                     "Generate grammar sources",
@@ -488,40 +499,6 @@ echo "Version: $VERSION (release: $IS_RELEASE)""#,
             ]),
     );
 
-    // WASM compatibility check
-    jobs.insert(
-        "wasm".into(),
-        Job::new(runners::UBUNTU_32)
-            .name("WASM Compatibility")
-            .container(CONTAINER)
-            .needs(["generate"])
-            .steps([
-                checkout(),
-                download_grammar_sources(),
-                extract_grammar_sources(),
-                Step::run(
-                    "Build arborium for WASM",
-                    "cargo build --manifest-path crates/arborium/Cargo.toml --target wasm32-unknown-unknown --no-default-features",
-                ),
-                Step::run(
-                    "Check for env imports in WASM",
-                    r#"found_env_imports=false
-for wasm_file in $(find target/wasm32-unknown-unknown -name "*.wasm" -type f); do
-  if wasm-objdump -j Import -x "$wasm_file" 2>/dev/null | grep -q '<- env\.'; then
-    echo "ERROR: Found env imports in $wasm_file:"
-    wasm-objdump -j Import -x "$wasm_file" | grep '<- env\.'
-    found_env_imports=true
-  fi
-done
-if [ "$found_env_imports" = true ]; then
-  echo "WASM modules should not have env imports - these won't work in the browser"
-  exit 1
-fi
-echo "No env imports found - WASM modules are browser-compatible""#,
-                ),
-            ]),
-    );
-
     // Clippy
     // Note: no root workspace, so we target crates/arborium directly
     jobs.insert(
@@ -584,6 +561,7 @@ echo "No env imports found - WASM modules are browser-compatible""#,
                         checkout(),
                         download_grammar_sources(),
                         extract_grammar_sources(),
+                        build_xtask(),
                         Step::run(
                             format!("Build {}", display_grammars),
                             format!("arborium-xtask build {} -o dist/plugins", grammars_list),
@@ -614,6 +592,7 @@ echo "No env imports found - WASM modules are browser-compatible""#,
                 checkout(),
                 download_grammar_sources(),
                 extract_grammar_sources(),
+                build_xtask(),
                 // Exchange OIDC token for crates.io access token
                 Step::uses(
                     "Authenticate with crates.io",
@@ -638,6 +617,7 @@ echo "No env imports found - WASM modules are browser-compatible""#,
             checkout(),
             download_grammar_sources(),
             extract_grammar_sources(),
+            build_xtask(),
         ];
 
         // Download all plugin artifacts
@@ -690,8 +670,8 @@ echo "No env imports found - WASM modules are browser-compatible""#,
         name: "CI".into(),
         on: On {
             push: Some(PushTrigger {
-                branches: None, // Trigger on all branches including tag pushes
-                tags: None,
+                branches: Some(vec!["main".into()]),
+                tags: Some(vec!["v*".into()]),
             }),
             pull_request: Some(PullRequestTrigger {
                 branches: Some(vec!["main".into()]),
