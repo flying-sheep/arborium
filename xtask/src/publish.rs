@@ -1056,12 +1056,9 @@ fn publish_single_npm_package(
         }
     }
 
-    // Publish (or dry-run publish) with provenance for OIDC trusted publishing
+    // Publish (or dry-run publish)
     let mut args = vec!["publish", "--access", "public"];
-    if !dry_run {
-        // Provenance only works for actual publishes, not dry-run
-        args.push("--provenance");
-    } else {
+    if dry_run {
         args.push("--dry-run");
     }
 
