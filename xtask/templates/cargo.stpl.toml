@@ -33,6 +33,15 @@ arborium-sysroot = { version = "<%= dep_version %>", path = "<%= shared_rel %>/a
 <% for dep in highlights_prepend_deps { %>
 <%= dep.crate_name %> = { version = "<%= dep_version %>", path = "<%= dep.rel_path %>" }
 <% } %>
+<% for dep in injection_deps { %>
+<%= dep.crate_name %> = { version = "<%= dep_version %>", path = "<%= dep.rel_path %>", optional = true }
+<% } %>
+<% if !injection_deps.is_empty() { %>
+
+[features]
+default = ["injections"]
+injections = [<%- injection_deps.iter().map(|d| format!("\"{}\"", d.crate_name)).collect::<Vec<_>>().join(", ") %>]
+<% } %>
 
 [dev-dependencies]
 arborium-test-harness = { version = "<%= dep_version %>", path = "<%= shared_rel %>/arborium-test-harness" }

@@ -11,6 +11,8 @@ grammar {
     icon "simple-icons:markdown"
     aliases "md" "mdx"
 
+    injections "html" "yaml" "toml"
+
     inventor "John Gruber and Aaron Swartz"
     year 2004
     description "Lightweight markup language for plain-text formatting; original spec on <a href=\"https://daringfireball.net/projects/markdown/\">Gruber's site</a>."

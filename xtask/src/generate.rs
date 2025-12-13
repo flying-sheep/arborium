@@ -57,6 +57,8 @@ struct CargoTomlTemplate<'a> {
     shared_rel: &'a str,
     /// Crates to add as dependencies for highlight query inheritance
     highlights_prepend_deps: &'a [HighlightDep],
+    /// Optional crates for language injections (e.g., JS/CSS for HTML)
+    injection_deps: &'a [HighlightDep],
 }
 
 #[derive(TemplateSimple)]
@@ -586,6 +588,7 @@ fn generate_cargo_toml(
     workspace_version: &str,
     shared_rel: &str,
     highlights_prepend_deps: &[HighlightDep],
+    injection_deps: &[HighlightDep],
 ) -> String {
     let grammar = config.grammars.first();
 
@@ -618,6 +621,7 @@ fn generate_cargo_toml(
         tag,
         shared_rel,
         highlights_prepend_deps,
+        injection_deps,
     };
     template
         .render_once()
@@ -1321,6 +1325,42 @@ fn extract_highlights_prepend(
     result
 }
 
+/// Extract injection dependencies from a grammar config.
+/// These are optional dependencies for languages that can be injected (e.g., JS/CSS in HTML).
+fn extract_injection_deps(
+    config: &crate::types::CrateConfig,
+    from_crate_path: &Utf8Path,
+    registry: &PreparedStructures,
+) -> Vec<HighlightDep> {
+    let mut result = Vec::new();
+
+    let grammar = match config.grammars.first() {
+        Some(g) => g,
+        None => return result,
+    };
+
+    let injections = match &grammar.injections {
+        Some(inj) => &inj.values,
+        None => return result,
+    };
+
+    for lang_id in injections {
+        // Convert language ID to crate name (e.g., "javascript" -> "arborium-javascript")
+        let crate_name = format!("arborium-{}", lang_id);
+
+        // Resolve relative path for Cargo.toml
+        if let Some(rel_path) = resolve_crate_relative_path(from_crate_path, &crate_name, registry)
+        {
+            result.push(HighlightDep {
+                crate_name,
+                rel_path,
+            });
+        }
+    }
+
+    result
+}
+
 // 5. Generate All Crates using templates (Cargo.toml, build.rs, lib.rs, README.md)
 // NOTE: This does NOT run tree-sitter - grammar generation is done in step 4
 fn generate_all_crates(
@@ -1390,6 +1430,9 @@ fn plan_crate_files_only(
     // Extract highlights prepend configuration
     let highlight_prepends = extract_highlights_prepend(config, crate_path, registry);
 
+    // Extract injection dependencies (optional deps for injected languages)
+    let injection_deps = extract_injection_deps(config, crate_path, registry);
+
     // Ensure crate directory exists
     if !crate_path.exists() {
         plan.add(Operation::CreateDir {
@@ -1406,6 +1449,7 @@ fn plan_crate_files_only(
         workspace_version,
         shared_rel,
         &highlight_prepends.cargo_deps,
+        &injection_deps,
     );
 
     if cargo_toml_path.exists() {

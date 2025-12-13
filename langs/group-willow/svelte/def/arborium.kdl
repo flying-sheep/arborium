@@ -12,6 +12,8 @@ grammar {
 
     dependency "tree-sitter-html" crate="arborium-html"
 
+    injections "javascript" "typescript" "css" "scss"
+
     queries {
         highlights {
             prepend crate="arborium-html"

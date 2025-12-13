@@ -294,6 +294,13 @@ pub struct Aliases {
     pub values: Vec<String>,
 }
 
+/// Injections child node (multiple language IDs that can be injected).
+#[derive(Debug, Clone, Facet)]
+pub struct Injections {
+    #[facet(kdl::arguments)]
+    pub values: Vec<String>,
+}
+
 // =============================================================================
 // Per-grammar configuration
 // =============================================================================
@@ -365,6 +372,11 @@ pub struct GrammarConfig {
     /// Cross-grammar dependencies for tree-sitter generation.
     #[facet(kdl::children, default)]
     pub dependencies: Vec<Dependency>,
+
+    /// Languages that can be injected into this grammar (e.g., JS/CSS in HTML).
+    /// These become optional dependencies with an "injections" feature.
+    #[facet(kdl::child, default)]
+    pub injections: Option<Injections>,
 
     // =========================================================================
     // Language Metadata (for demos and documentation)
