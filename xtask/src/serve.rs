@@ -3,7 +3,7 @@
 //! This module generates registry.json from arborium.kdl files and serves
 //! the demo with all grammar metadata and inlined sample content.
 
-use crate::types::{CrateRegistry, GrammarConfig, SampleConfig};
+use crate::types::{CrateConfig, CrateRegistry, GrammarConfig, SampleConfig};
 use crate::util;
 use camino::{Utf8Path, Utf8PathBuf};
 use facet::Facet;
@@ -124,6 +124,12 @@ structstruck::strike! {
             /// File extension aliases (e.g., ["rs"] for Rust).
             pub aliases: Vec<String>,
 
+            /// URL to the upstream tree-sitter grammar repository.
+            pub grammar_repo: Option<String>,
+
+            /// SPDX license identifier for the grammar.
+            pub grammar_license: Option<String>,
+
             /// Sample files (content served separately via /samples/{id}.txt).
             pub samples: Vec<pub struct RegistrySample {
                 /// Path relative to def directory (e.g., "samples/example.rs").
@@ -146,9 +152,9 @@ impl Registry {
         let mut grammars: Vec<RegistryGrammar> = registry
             .all_grammars()
             .filter(|(_, _, grammar)| !grammar.is_internal())
-            .map(|(state, _config, grammar)| {
+            .map(|(state, config, grammar)| {
                 // Use def_path where samples live (langs/group-*/*/def/)
-                RegistryGrammar::from_grammar_config(&state.name, grammar, &state.def_path)
+                RegistryGrammar::from_grammar_config(&state.name, config, grammar, &state.def_path)
             })
             .collect();
 
@@ -166,12 +172,27 @@ impl Registry {
 
 impl RegistryGrammar {
     /// Build from a GrammarConfig, reading sample content from disk.
-    fn from_grammar_config(crate_name: &str, grammar: &GrammarConfig, def_path: &Utf8Path) -> Self {
+    fn from_grammar_config(
+        crate_name: &str,
+        config: &CrateConfig,
+        grammar: &GrammarConfig,
+        def_path: &Utf8Path,
+    ) -> Self {
         let samples: Vec<RegistrySample> = grammar
             .samples
             .iter()
             .filter_map(|sample| RegistrySample::from_sample_config(sample, def_path))
             .collect();
+
+        // Extract repo URL (skip "local" which means maintained in this repo)
+        let grammar_repo = {
+            let repo = config.repo.value.as_str();
+            if repo == "local" {
+                None
+            } else {
+                Some(repo.to_string())
+            }
+        };
 
         Self {
             id: grammar.id.value.to_string(),
@@ -190,6 +211,8 @@ impl RegistryGrammar {
                 .as_ref()
                 .map(|a| a.values.clone())
                 .unwrap_or_default(),
+            grammar_repo,
+            grammar_license: Some(config.license.value.to_string()),
             samples,
             def_path: def_path.to_string(),
         }
@@ -917,6 +940,18 @@ fn build_language_info_js(registry: &Registry) -> String {
                 .collect();
             js.push_str(&format!("        \"aliases\": [{}],\n", aliases.join(", ")));
         }
+        if let Some(ref repo) = grammar.grammar_repo {
+            js.push_str(&format!(
+                "        \"grammarRepo\": \"{}\",\n",
+                escape_for_js(repo)
+            ));
+        }
+        if let Some(ref license) = grammar.grammar_license {
+            js.push_str(&format!(
+                "        \"grammarLicense\": \"{}\",\n",
+                escape_for_js(license)
+            ));
+        }
         // Remove trailing comma and newline, add just newline
         if js.ends_with(",\n") {
             js.pop();
@@ -986,11 +1021,17 @@ fn build_theme_info_js() -> String {
     for (i, theme) in themes.iter().enumerate() {
         let id = theme_name_to_id(&theme.name);
         let variant = if theme.is_dark { "dark" } else { "light" };
+        let source = theme
+            .source_url
+            .as_ref()
+            .map(|s| format!(", source: \"{}\"", escape_for_js(s)))
+            .unwrap_or_default();
         js.push_str(&format!(
-            "    \"{}\": {{ name: \"{}\", variant: \"{}\" }}",
+            "    \"{}\": {{ name: \"{}\", variant: \"{}\"{}}}",
             id,
             escape_for_js(&theme.name),
-            variant
+            variant,
+            source
         ));
         if i < themes.len() - 1 {
             js.push(',');
@@ -1490,6 +1531,8 @@ mod tests {
                 link: Some("https://www.rust-lang.org/".to_string()),
                 trivia: Some("Originally a personal project".to_string()),
                 aliases: vec!["rs".to_string()],
+                grammar_repo: Some("https://github.com/tree-sitter/tree-sitter-rust".to_string()),
+                grammar_license: Some("MIT".to_string()),
                 samples: vec![RegistrySample {
                     path: "samples/example.rs".to_string(),
                     description: Some("Example code".to_string()),

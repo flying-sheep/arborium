@@ -45,7 +45,9 @@ const languageInfo = {
         "inventor": "Jean Ichbiah",
         "year": 1983,
         "url": "https://en.wikipedia.org/wiki/Ada_(programming_language)",
-        "trivia": "Named after Ada Lovelace; standardized first in 1983 (Ada 83) and later revisions Ada 95, 2005, 2012, 2022."
+        "trivia": "Named after Ada Lovelace; standardized first in 1983 (Ada 83) and later revisions Ada 95, 2005, 2012, 2022.",
+        "grammarRepo": "",
+        "grammarLicense": ""
     },
     "agda": {
         "name": "Agda",
@@ -55,7 +57,9 @@ const languageInfo = {
         "inventor": "Ulf Norell",
         "year": 2007,
         "url": "https://en.wikipedia.org/wiki/Agda_(programming_language)",
-        "trivia": "Agda's name comes from a Swedish song about a woman named Agda who had a hen that laid eggs containing the words of the song."
+        "trivia": "Agda's name comes from a Swedish song about a woman named Agda who had a hen that laid eggs containing the words of the song.",
+        "grammarRepo": "",
+        "grammarLicense": ""
     },
     "asciidoc": {
         "name": "Asciidoc",
@@ -67,7 +71,9 @@ const languageInfo = {
         "year": 2002,
         "url": "https://en.wikipedia.org/wiki/AsciiDoc",
         "trivia": "O'Reilly Media uses AsciiDoc as the source format for many of their technical books.",
-        "aliases": ["adoc"]
+        "aliases": ["adoc"],
+        "grammarRepo": "https://github.com/cathaysia/tree-sitter-asciidoc",
+        "grammarLicense": "Apache-2.0"
     },
     "asm": {
         "name": "Assembly",
@@ -79,7 +85,9 @@ const languageInfo = {
         "year": 1947,
         "url": "https://en.wikipedia.org/wiki/Assembly_language",
         "trivia": "Booth detailed one of the first assemblers in her 1947 ARC report, and backward compatibility means the <a href=\"https://archive.org/details/Intel8086ProgrammersReferenceManual\">Intel 8086 Programmer's Reference Manual</a> is still relevant today.",
-        "aliases": ["assembly"]
+        "aliases": ["assembly"],
+        "grammarRepo": "https://github.com/RubixDev/tree-sitter-asm",
+        "grammarLicense": "MIT"
     },
     "awk": {
         "name": "AWK",
@@ -90,7 +98,9 @@ const languageInfo = {
         "inventor": "Alfred Aho, Peter Weinberger, Brian Kernighan",
         "year": 1977,
         "url": "https://en.wikipedia.org/wiki/AWK",
-        "trivia": "Name comes from creators' initials Aho–Weinberger–Kernighan; see the <a href=\"https://dl.acm.org/doi/10.5555/104836\">ACM paper</a> and Unix V7 manual pages for the classic implementation."
+        "trivia": "Name comes from creators' initials Aho–Weinberger–Kernighan; see the <a href=\"https://dl.acm.org/doi/10.5555/104836\">ACM paper</a> and Unix V7 manual pages for the classic implementation.",
+        "grammarRepo": "https://github.com/Beaglefoot/tree-sitter-awk",
+        "grammarLicense": "MIT"
     },
     "bash": {
         "name": "Bash",
@@ -102,7 +112,9 @@ const languageInfo = {
         "year": 1989,
         "url": "https://en.wikipedia.org/wiki/Bash_(Unix_shell)",
         "trivia": "Bash means 'Bourne Again SHell', a nod to the Bourne shell; Fox began coding it in January 1988 and released the first beta in June 1989 for the GNU Project (<a href=\"https://www.gnu.org/software/bash/manual/bash.html#Bash-History\">Bash History</a>).",
-        "aliases": ["sh", "shell"]
+        "aliases": ["sh", "shell"],
+        "grammarRepo": "https://github.com/tree-sitter/tree-sitter-bash",
+        "grammarLicense": "MIT"
     },
     "batch": {
         "name": "Batch",
@@ -114,7 +126,9 @@ const languageInfo = {
         "year": 1981,
         "url": "https://en.wikipedia.org/wiki/Batch_file",
         "trivia": "Batch files originated with 86-DOS/MS-DOS; Microsoft retained backward compatibility through cmd.exe—see the historical MS-DOS manuals for syntax.",
-        "aliases": ["bat", "cmd"]
+        "aliases": ["bat", "cmd"],
+        "grammarRepo": "https://github.com/davidevofficial/tree-sitter-batch",
+        "grammarLicense": "MIT"
     },
     "c": {
         "name": "C",
@@ -126,7 +140,9 @@ const languageInfo = {
         "year": 1972,
         "url": "https://en.wikipedia.org/wiki/C_(programming_language)",
         "trivia": "C evolved from B/BCPL during 1969-1973 alongside Unix; the name comes from its predecessor B.",
-        "aliases": ["h"]
+        "aliases": ["h"],
+        "grammarRepo": "https://github.com/tree-sitter/tree-sitter-c",
+        "grammarLicense": "MIT"
     },
     "c-sharp": {
         "name": "C#",
@@ -138,7 +154,9 @@ const languageInfo = {
         "year": 2000,
         "url": "https://en.wikipedia.org/wiki/C_Sharp_(programming_language)",
         "trivia": "Originally code-named 'Cool' (C-like Object Oriented Language) inside Microsoft before being renamed C#; see the <a href=\"https://www.ecma-international.org/publications-and-standards/standards/ecma-334/\">ECMA-334 specification</a> and early .NET announcements.",
-        "aliases": ["cs", "csharp"]
+        "aliases": ["cs", "csharp"],
+        "grammarRepo": "https://github.com/tree-sitter/tree-sitter-c-sharp",
+        "grammarLicense": "MIT"
     },
     "caddy": {
         "name": "Caddyfile",
@@ -149,7 +167,9 @@ const languageInfo = {
         "inventor": "Matt Holt and Caddy contributors",
         "year": 2015,
         "url": "https://caddyserver.com/docs/",
-        "trivia": "Caddy launched in 2015 with automatic HTTPS via Let's Encrypt; minimal syntax allows a single-line site definition—documented in the <a href=\"https://caddyserver.com/docs/caddyfile\">Caddyfile documentation</a>."
+        "trivia": "Caddy launched in 2015 with automatic HTTPS via Let's Encrypt; minimal syntax allows a single-line site definition—documented in the <a href=\"https://caddyserver.com/docs/caddyfile\">Caddyfile documentation</a>.",
+        "grammarRepo": "https://github.com/Samonitari/tree-sitter-caddy",
+        "grammarLicense": "MIT"
     },
     "capnp": {
         "name": "Cap'n Proto",
@@ -160,7 +180,9 @@ const languageInfo = {
         "inventor": "Kenton Varda",
         "year": 2013,
         "url": "https://en.wikipedia.org/wiki/Cap'n_Proto",
-        "trivia": "Varda released Cap'n Proto on April 1, 2013, as a faster, zero-copy successor to Protocol Buffers; the <a href=\"https://capnproto.org/faq.html\">FAQ</a> explains the zero-copy format."
+        "trivia": "Varda released Cap'n Proto on April 1, 2013, as a faster, zero-copy successor to Protocol Buffers; the <a href=\"https://capnproto.org/faq.html\">FAQ</a> explains the zero-copy format.",
+        "grammarRepo": "https://github.com/tree-sitter-grammars/tree-sitter-capnp",
+        "grammarLicense": "MIT"
     },
     "clojure": {
         "name": "Clojure",
@@ -172,7 +194,9 @@ const languageInfo = {
         "year": 2007,
         "url": "https://en.wikipedia.org/wiki/Clojure",
         "trivia": "Hickey designed Clojure to simplify concurrent programming; the language was announced publicly in 2007 and documented in the <a href=\"https://clojure.org/releases/downloads\">release downloads</a>.",
-        "aliases": ["clj"]
+        "aliases": ["clj"],
+        "grammarRepo": "https://github.com/sogaiu/tree-sitter-clojure",
+        "grammarLicense": "Unlicense"
     },
     "cmake": {
         "name": "CMake",
@@ -183,7 +207,9 @@ const languageInfo = {
         "inventor": "Bill Hoffman",
         "year": 2000,
         "url": "https://en.wikipedia.org/wiki/CMake",
-        "trivia": "CMake was originally developed to support the cross-platform build needs of the Insight Segmentation and Registration Toolkit (ITK)."
+        "trivia": "CMake was originally developed to support the cross-platform build needs of the Insight Segmentation and Registration Toolkit (ITK).",
+        "grammarRepo": "",
+        "grammarLicense": ""
     },
     "commonlisp": {
         "name": "Common Lisp",
@@ -195,7 +221,9 @@ const languageInfo = {
         "year": 1994,
         "url": "https://en.wikipedia.org/wiki/Common_Lisp",
         "trivia": "The Common Lisp standard is over 1,000 pages long and defines nearly 1,000 symbols—making it one of the most comprehensive language specifications ever written.",
-        "aliases": ["lisp", "cl"]
+        "aliases": ["lisp", "cl"],
+        "grammarRepo": "",
+        "grammarLicense": ""
     },
     "cpp": {
         "name": "C++",
@@ -207,7 +235,9 @@ const languageInfo = {
         "year": 1985,
         "url": "https://en.wikipedia.org/wiki/C%2B%2B",
         "trivia": "Began as 'C with Classes' in 1979 and was renamed C++ (using the C increment operator) in 1983; Stroustrup recounts the history in <a href=\"https://www.stroustrup.com/dne.html\">The Design and Evolution of C++</a>.",
-        "aliases": ["c++", "cxx", "hpp"]
+        "aliases": ["c++", "cxx", "hpp"],
+        "grammarRepo": "https://github.com/tree-sitter/tree-sitter-cpp",
+        "grammarLicense": "MIT"
     },
     "css": {
         "name": "CSS",
@@ -218,7 +248,9 @@ const languageInfo = {
         "inventor": "Håkon Wium Lie",
         "year": 1996,
         "url": "https://en.wikipedia.org/wiki/CSS",
-        "trivia": "Wium Lie proposed CSS on 10 Oct 1994 while at CERN and it became a W3C Recommendation in 1996; see his <a href=\"https://www.w3.org/People/howcome/p/Spec/\">original proposal</a> and the <a href=\"https://www.w3.org/TR/REC-CSS1-961217\">CSS1 specification</a>."
+        "trivia": "Wium Lie proposed CSS on 10 Oct 1994 while at CERN and it became a W3C Recommendation in 1996; see his <a href=\"https://www.w3.org/People/howcome/p/Spec/\">original proposal</a> and the <a href=\"https://www.w3.org/TR/REC-CSS1-961217\">CSS1 specification</a>.",
+        "grammarRepo": "https://github.com/tree-sitter/tree-sitter-css",
+        "grammarLicense": "MIT"
     },
     "d": {
         "name": "D",
@@ -230,7 +262,9 @@ const languageInfo = {
         "year": 2001,
         "url": "https://en.wikipedia.org/wiki/D_(programming_language)",
         "trivia": "Walter Bright wrote D's first compiler entirely by himself—he previously created the first native-code C++ compiler for DOS.",
-        "aliases": ["dlang"]
+        "aliases": ["dlang"],
+        "grammarRepo": "",
+        "grammarLicense": ""
     },
     "dart": {
         "name": "Dart",
@@ -241,7 +275,9 @@ const languageInfo = {
         "inventor": "Lars Bak and Kasper Lund",
         "year": 2011,
         "url": "https://en.wikipedia.org/wiki/Dart_(programming_language)",
-        "trivia": "Unveiled at GOTO Aarhus 2011 by Bak and Lund; the <a href=\"https://dart.dev/guides/language/language-tour\">language tour</a> documents its core goals, and Dart became the language behind Flutter when Google released Flutter in May 2017."
+        "trivia": "Unveiled at GOTO Aarhus 2011 by Bak and Lund; the <a href=\"https://dart.dev/guides/language/language-tour\">language tour</a> documents its core goals, and Dart became the language behind Flutter when Google released Flutter in May 2017.",
+        "grammarRepo": "https://github.com/UserNobody14/tree-sitter-dart",
+        "grammarLicense": "MIT"
     },
     "devicetree": {
         "name": "Device Tree",
@@ -252,7 +288,9 @@ const languageInfo = {
         "inventor": "Sun Microsystems (Open Firmware)",
         "year": 1988,
         "url": "https://en.wikipedia.org/wiki/Devicetree",
-        "trivia": "Originated with Open Firmware (IEEE 1275-1994); the Flattened Device Tree format for Linux was introduced in 2005—see the <a href=\"https://www.devicetree.org/specifications/\">specifications</a>."
+        "trivia": "Originated with Open Firmware (IEEE 1275-1994); the Flattened Device Tree format for Linux was introduced in 2005—see the <a href=\"https://www.devicetree.org/specifications/\">specifications</a>.",
+        "grammarRepo": "https://github.com/joelspadin/tree-sitter-devicetree",
+        "grammarLicense": "MIT"
     },
     "diff": {
         "name": "Diff",
@@ -264,7 +302,9 @@ const languageInfo = {
         "year": 1990,
         "url": "https://en.wikipedia.org/wiki/Diff",
         "trivia": "Wayne Davison proposed the unified format in Aug 1990 on comp.sources.misc; GNU diff added support in version 1.15 (Jan 1991) per the <a href=\"https://git.savannah.gnu.org/gitweb/?p=diffutils.git;a=blob;f=NEWS;hb=refs/tags/v1.15\">NEWS file</a>.",
-        "aliases": ["patch"]
+        "aliases": ["patch"],
+        "grammarRepo": "https://github.com/the-mikedavis/tree-sitter-diff",
+        "grammarLicense": "MIT"
     },
     "dockerfile": {
         "name": "Dockerfile",
@@ -276,7 +316,9 @@ const languageInfo = {
         "year": 2013,
         "url": "https://docs.docker.com/engine/reference/builder/",
         "trivia": "Introduced with Docker's first public release in 2013; the <a href=\"https://docs.docker.com/engine/reference/builder/\">reference</a> documents each instruction and the layer-caching model that made Docker adoption explode.",
-        "aliases": ["docker"]
+        "aliases": ["docker"],
+        "grammarRepo": "https://github.com/camdencheek/tree-sitter-dockerfile",
+        "grammarLicense": "MIT"
     },
     "dot": {
         "name": "DOT/Graphviz",
@@ -287,7 +329,9 @@ const languageInfo = {
         "inventor": "Stephen North and AT&T Bell Labs",
         "year": 1991,
         "url": "https://en.wikipedia.org/wiki/DOT_(graph_description_language)",
-        "trivia": "Graphviz layout algorithms were developed at AT&T Labs and have been used to visualize everything from compiler internals to social networks."
+        "trivia": "Graphviz layout algorithms were developed at AT&T Labs and have been used to visualize everything from compiler internals to social networks.",
+        "grammarRepo": "",
+        "grammarLicense": ""
     },
     "elisp": {
         "name": "Emacs Lisp",
@@ -299,7 +343,9 @@ const languageInfo = {
         "year": 1985,
         "url": "https://en.wikipedia.org/wiki/Emacs_Lisp",
         "trivia": "Emacs Lisp has been called 'the most widely used Lisp dialect' due to Emacs's popularity—millions of lines of Elisp packages exist.",
-        "aliases": ["emacs-lisp", "el"]
+        "aliases": ["emacs-lisp", "el"],
+        "grammarRepo": "",
+        "grammarLicense": ""
     },
     "elixir": {
         "name": "Elixir",
@@ -311,7 +357,9 @@ const languageInfo = {
         "year": 2011,
         "url": "https://en.wikipedia.org/wiki/Elixir_(programming_language)",
         "trivia": "Valim announced Elixir in 2011 to blend Ruby-like ergonomics with Erlang's fault-tolerance; see the <a href=\"https://elixir-lang.org/getting-started/introduction.html\">getting started guide</a> and the original <a href=\"https://elixir-lang.org/blog/2011/01/09/introducing-elixir/\">announcement blog post</a>.",
-        "aliases": ["ex", "exs"]
+        "aliases": ["ex", "exs"],
+        "grammarRepo": "https://github.com/elixir-lang/tree-sitter-elixir",
+        "grammarLicense": "Apache-2.0"
     },
     "elm": {
         "name": "Elm",
@@ -322,7 +370,9 @@ const languageInfo = {
         "inventor": "Evan Czaplicki",
         "year": 2012,
         "url": "https://en.wikipedia.org/wiki/Elm_(programming_language)",
-        "trivia": "Introduced by Czaplicki in 2012 with 'The Elm Architecture' that later inspired Redux; documented in the <a href=\"https://guide.elm-lang.org/architecture/\">architecture section</a> of the guide."
+        "trivia": "Introduced by Czaplicki in 2012 with 'The Elm Architecture' that later inspired Redux; documented in the <a href=\"https://guide.elm-lang.org/architecture/\">architecture section</a> of the guide.",
+        "grammarRepo": "https://github.com/elm-tooling/tree-sitter-elm",
+        "grammarLicense": "MIT"
     },
     "erlang": {
         "name": "Erlang",
@@ -334,7 +384,9 @@ const languageInfo = {
         "year": 1986,
         "url": "https://en.wikipedia.org/wiki/Erlang_(programming_language)",
         "trivia": "Erlang was developed at Ericsson for telecom switches—it achieved 'nine nines' (99.9999999%) uptime in production systems.",
-        "aliases": ["erl"]
+        "aliases": ["erl"],
+        "grammarRepo": "",
+        "grammarLicense": ""
     },
     "fish": {
         "name": "Fish",
@@ -345,7 +397,9 @@ const languageInfo = {
         "inventor": "Axel Liljencrantz",
         "year": 2005,
         "url": "https://en.wikipedia.org/wiki/Friendly_interactive_shell",
-        "trivia": "Fish intentionally breaks POSIX compatibility for a cleaner syntax—its slogan is 'Finally, a command line shell for the 90s!'"
+        "trivia": "Fish intentionally breaks POSIX compatibility for a cleaner syntax—its slogan is 'Finally, a command line shell for the 90s!'",
+        "grammarRepo": "",
+        "grammarLicense": ""
     },
     "fsharp": {
         "name": "F#",
@@ -357,7 +411,9 @@ const languageInfo = {
         "year": 2005,
         "url": "https://en.wikipedia.org/wiki/F_Sharp_(programming_language)",
         "trivia": "Developed at Microsoft Research and first released publicly in 2005; see Syme's early <a href=\"https://learn.microsoft.com/dotnet/fsharp/language-reference/\">language reference</a> and the 2010 <a href=\"https://learn.microsoft.com/dotnet/fsharp/language-reference/language-specification\">language specification</a>.",
-        "aliases": ["fs", "f#"]
+        "aliases": ["fs", "f#"],
+        "grammarRepo": "https://github.com/ionide/tree-sitter-fsharp",
+        "grammarLicense": "MIT"
     },
     "gleam": {
         "name": "Gleam",
@@ -368,7 +424,9 @@ const languageInfo = {
         "inventor": "Louis Pilfold",
         "year": 2016,
         "url": "https://en.wikipedia.org/wiki/Gleam_(programming_language)",
-        "trivia": "Pilfold announced Gleam in 2016 to bring ML-style typing to Erlang; version 1.0 shipped in March 2024 per the <a href=\"https://gleam.run/news/gleam-v1.0/\">v1.0 announcement</a>."
+        "trivia": "Pilfold announced Gleam in 2016 to bring ML-style typing to Erlang; version 1.0 shipped in March 2024 per the <a href=\"https://gleam.run/news/gleam-v1.0/\">v1.0 announcement</a>.",
+        "grammarRepo": "https://github.com/gleam-lang/tree-sitter-gleam",
+        "grammarLicense": "Apache-2.0"
     },
     "glsl": {
         "name": "GLSL",
@@ -380,7 +438,9 @@ const languageInfo = {
         "year": 2004,
         "url": "https://en.wikipedia.org/wiki/OpenGL_Shading_Language",
         "trivia": "Introduced with OpenGL 2.0 to replace the fixed pipeline; the Khronos/ARB spec (e.g., version 4.60) is the authoritative reference.",
-        "aliases": ["vert", "frag"]
+        "aliases": ["vert", "frag"],
+        "grammarRepo": "https://github.com/tree-sitter-grammars/tree-sitter-glsl",
+        "grammarLicense": "MIT"
     },
     "go": {
         "name": "Go",
@@ -392,7 +452,9 @@ const languageInfo = {
         "year": 2009,
         "url": "https://en.wikipedia.org/wiki/Go_(programming_language)",
         "trivia": "Announced publicly in Nov 2009; its mascot the Gopher was created by Renée French and documented on the <a href=\"https://go.dev/blog/gopher\">Go blog</a>.",
-        "aliases": ["golang"]
+        "aliases": ["golang"],
+        "grammarRepo": "https://github.com/tree-sitter/tree-sitter-go",
+        "grammarLicense": "MIT"
     },
     "graphql": {
         "name": "GraphQL",
@@ -404,7 +466,9 @@ const languageInfo = {
         "year": 2012,
         "url": "https://en.wikipedia.org/wiki/GraphQL",
         "trivia": "GraphQL was developed internally at Facebook starting in 2012 to power the News Feed on mobile apps before being open-sourced in 2015.",
-        "aliases": ["gql"]
+        "aliases": ["gql"],
+        "grammarRepo": "",
+        "grammarLicense": ""
     },
     "haskell": {
         "name": "Haskell",
@@ -416,7 +480,9 @@ const languageInfo = {
         "year": 1990,
         "url": "https://en.wikipedia.org/wiki/Haskell",
         "trivia": "Named after logician Haskell Curry; standardized in 1990 by a committee that published successive language reports—the 2010 Report remains the latest official spec.",
-        "aliases": ["hs"]
+        "aliases": ["hs"],
+        "grammarRepo": "https://github.com/tree-sitter/tree-sitter-haskell",
+        "grammarLicense": "MIT"
     },
     "hcl": {
         "name": "HCL",
@@ -428,7 +494,9 @@ const languageInfo = {
         "year": 2014,
         "url": "https://github.com/hashicorp/hcl",
         "trivia": "Designed to be both human-readable and machine-friendly; Terraform accepts both JSON and native HCL, documented in the <a href=\"https://developer.hashicorp.com/terraform/language\">Terraform language guide</a>.",
-        "aliases": ["terraform", "tf"]
+        "aliases": ["terraform", "tf"],
+        "grammarRepo": "https://github.com/tree-sitter-grammars/tree-sitter-hcl",
+        "grammarLicense": "Apache-2.0"
     },
     "hlsl": {
         "name": "HLSL",
@@ -439,7 +507,9 @@ const languageInfo = {
         "inventor": "Microsoft",
         "year": 2002,
         "url": "https://en.wikipedia.org/wiki/High-Level_Shading_Language",
-        "trivia": "Introduced with DirectX 9; modern compiler `dxc` targets DXIL and SPIR-V—see <a href=\"https://github.com/microsoft/DirectXShaderCompiler\">DirectX Shader Compiler</a>."
+        "trivia": "Introduced with DirectX 9; modern compiler `dxc` targets DXIL and SPIR-V—see <a href=\"https://github.com/microsoft/DirectXShaderCompiler\">DirectX Shader Compiler</a>.",
+        "grammarRepo": "https://github.com/tree-sitter-grammars/tree-sitter-hlsl",
+        "grammarLicense": "MIT"
     },
     "html": {
         "name": "HTML",
@@ -451,7 +521,9 @@ const languageInfo = {
         "year": 1993,
         "url": "https://en.wikipedia.org/wiki/HTML",
         "trivia": "Berners-Lee introduced HTML in 1991; the first public description appeared in 1993, and the modern living standard is maintained by <a href=\"https://whatwg.org/\">WHATWG</a> as the authoritative spec.",
-        "aliases": ["htm"]
+        "aliases": ["htm"],
+        "grammarRepo": "https://github.com/tree-sitter/tree-sitter-html",
+        "grammarLicense": "MIT"
     },
     "idris": {
         "name": "Idris",
@@ -463,7 +535,9 @@ const languageInfo = {
         "year": 2009,
         "url": "https://en.wikipedia.org/wiki/Idris_(programming_language)",
         "trivia": "Brady introduced Idris in 2009 to bring dependent types to general-purpose programming; the <a href=\"https://www.idris-lang.org/documentation/\">documentation</a> demonstrates length-indexed vectors and other proofs in code.",
-        "aliases": ["idr"]
+        "aliases": ["idr"],
+        "grammarRepo": "https://github.com/kayhide/tree-sitter-idris",
+        "grammarLicense": "MIT"
     },
     "ini": {
         "name": "INI",
@@ -475,7 +549,9 @@ const languageInfo = {
         "year": 1985,
         "url": "https://en.wikipedia.org/wiki/INI_file",
         "trivia": "Windows 1.0 (1985) popularized `.ini` for application settings; the legacy WinAPI functions `GetPrivateProfileString` etc. are still documented in <a href=\"https://learn.microsoft.com/windows/win32/api/winbase/\">Windows API documentation</a>.",
-        "aliases": ["conf", "cfg"]
+        "aliases": ["conf", "cfg"],
+        "grammarRepo": "https://github.com/justinmk/tree-sitter-ini",
+        "grammarLicense": "Apache-2.0"
     },
     "java": {
         "name": "Java",
@@ -486,7 +562,9 @@ const languageInfo = {
         "inventor": "James Gosling",
         "year": 1995,
         "url": "https://en.wikipedia.org/wiki/Java_(programming_language)",
-        "trivia": "Started as 'Oak' then renamed Java after Java coffee; the 'write once, run anywhere' mantra comes from Sun's 1995 launch. The <a href=\"https://docs.oracle.com/javase/specs/\">Java Language Specification</a> defines the language across versions."
+        "trivia": "Started as 'Oak' then renamed Java after Java coffee; the 'write once, run anywhere' mantra comes from Sun's 1995 launch. The <a href=\"https://docs.oracle.com/javase/specs/\">Java Language Specification</a> defines the language across versions.",
+        "grammarRepo": "https://github.com/tree-sitter/tree-sitter-java",
+        "grammarLicense": "MIT"
     },
     "javascript": {
         "name": "JavaScript",
@@ -498,7 +576,9 @@ const languageInfo = {
         "year": 1995,
         "url": "https://en.wikipedia.org/wiki/JavaScript",
         "trivia": "Eich created JavaScript in 10 days at Netscape in May 1995; it shipped in Netscape Navigator 2.0. TC39 now standardizes it via <a href=\"https://tc39.es/ecma262/\">ECMAScript specification</a>, and the official name of the language is ECMAScript.",
-        "aliases": ["js", "jsx", "mjs", "cjs"]
+        "aliases": ["js", "jsx", "mjs", "cjs"],
+        "grammarRepo": "https://github.com/tree-sitter/tree-sitter-javascript",
+        "grammarLicense": "MIT"
     },
     "jinja2": {
         "name": "Jinja2",
@@ -510,7 +590,9 @@ const languageInfo = {
         "year": 2008,
         "url": "https://en.wikipedia.org/wiki/Jinja_(template_engine)",
         "trivia": "Named after the Jinja shrine; released as part of the Pocoo suite. See the <a href=\"https://jinja.palletsprojects.com/en/stable/#design-goals\">design goals</a> and early release history in the docs.",
-        "aliases": ["jinja", "j2"]
+        "aliases": ["jinja", "j2"],
+        "grammarRepo": "https://github.com/dbt-labs/tree-sitter-jinja2",
+        "grammarLicense": "GPL-3.0"
     },
     "jq": {
         "name": "jq",
@@ -521,7 +603,9 @@ const languageInfo = {
         "inventor": "Stephen Dolan",
         "year": 2012,
         "url": "https://en.wikipedia.org/wiki/Jq_(programming_language)",
-        "trivia": "jq debuted in 2012 inspired by AWK/sed but for JSON; language features and functions are specified in the <a href=\"https://stedolan.github.io/jq/manual/\">manual</a>."
+        "trivia": "jq debuted in 2012 inspired by AWK/sed but for JSON; language features and functions are specified in the <a href=\"https://stedolan.github.io/jq/manual/\">manual</a>.",
+        "grammarRepo": "https://github.com/flurie/tree-sitter-jq",
+        "grammarLicense": "MIT"
     },
     "json": {
         "name": "JSON",
@@ -533,7 +617,9 @@ const languageInfo = {
         "year": 2001,
         "url": "https://en.wikipedia.org/wiki/JSON",
         "trivia": "Crockford documented JSON in 2001 while at State Software; it was standardized as <a href=\"https://www.rfc-editor.org/rfc/rfc8259\">RFC 8259</a> and <a href=\"https://www.ecma-international.org/publications-and-standards/standards/ecma-404/\">ECMA-404</a>.",
-        "aliases": ["jsonc"]
+        "aliases": ["jsonc"],
+        "grammarRepo": "https://github.com/tree-sitter/tree-sitter-json",
+        "grammarLicense": "MIT"
     },
     "julia": {
         "name": "Julia",
@@ -545,7 +631,9 @@ const languageInfo = {
         "year": 2012,
         "url": "https://en.wikipedia.org/wiki/Julia_(programming_language)",
         "trivia": "Julia solves the 'two-language problem'—you can prototype in Julia and get C-like speed without rewriting in a lower-level language.",
-        "aliases": ["jl"]
+        "aliases": ["jl"],
+        "grammarRepo": "",
+        "grammarLicense": ""
     },
     "kdl": {
         "name": "KDL",
@@ -556,7 +644,9 @@ const languageInfo = {
         "inventor": "KDL community",
         "year": 2021,
         "url": "https://kdl.dev",
-        "trivia": "KDL stands for 'KDL Document Language'—the recursive acronym is intentional, inspired by GNU."
+        "trivia": "KDL stands for 'KDL Document Language'—the recursive acronym is intentional, inspired by GNU.",
+        "grammarRepo": "",
+        "grammarLicense": ""
     },
     "kotlin": {
         "name": "Kotlin",
@@ -568,7 +658,9 @@ const languageInfo = {
         "year": 2011,
         "url": "https://en.wikipedia.org/wiki/Kotlin_(programming_language)",
         "trivia": "Kotlin was named after Kotlin Island in the Gulf of Finland, near St. Petersburg, Russia, as an homage similar to Java being named after an Indonesian island. Google announced Kotlin as an official Android development language in 2017, and in 2019 made it the preferred language for Android app development.",
-        "aliases": ["kt", "kts"]
+        "aliases": ["kt", "kts"],
+        "grammarRepo": "https://github.com/fwcd/tree-sitter-kotlin",
+        "grammarLicense": "MIT"
     },
     "lean": {
         "name": "Lean",
@@ -579,7 +671,9 @@ const languageInfo = {
         "inventor": "Leonardo de Moura",
         "year": 2013,
         "url": "https://en.wikipedia.org/wiki/Lean_(proof_assistant)",
-        "trivia": "Used to formalize the 2023 Polynomial Freiman–Ruzsa proof by Gowers, Green, Manners, and Tao; the Lean community formalized it in mathlib. mathlib contained over 210,000 theorems as of <a href=\"https://lean-lang.org/blog/2024/05/16/mathlib-200k/\">May 2024</a>; AlphaProof (DeepMind) achieved IMO silver-equivalent performance in <a href=\"https://www.deepmind.com/blog/alphaproof-ai-for-mathematical-reasoning\">2024</a>."
+        "trivia": "Used to formalize the 2023 Polynomial Freiman–Ruzsa proof by Gowers, Green, Manners, and Tao; the Lean community formalized it in mathlib. mathlib contained over 210,000 theorems as of <a href=\"https://lean-lang.org/blog/2024/05/16/mathlib-200k/\">May 2024</a>; AlphaProof (DeepMind) achieved IMO silver-equivalent performance in <a href=\"https://www.deepmind.com/blog/alphaproof-ai-for-mathematical-reasoning\">2024</a>.",
+        "grammarRepo": "https://github.com/Julian/tree-sitter-lean",
+        "grammarLicense": "MIT"
     },
     "lua": {
         "name": "Lua",
@@ -590,7 +684,9 @@ const languageInfo = {
         "inventor": "Roberto Ierusalimschy, Waldemar Celes, Luiz Henrique de Figueiredo",
         "year": 1993,
         "url": "https://en.wikipedia.org/wiki/Lua_(programming_language)",
-        "trivia": "Lua (meaning 'moon' in Portuguese) succeeded SOL ('sun'); see the <a href=\"https://www.lua.org/history.html\">history page</a> and the 1993 technical report introducing Lua."
+        "trivia": "Lua (meaning 'moon' in Portuguese) succeeded SOL ('sun'); see the <a href=\"https://www.lua.org/history.html\">history page</a> and the 1993 technical report introducing Lua.",
+        "grammarRepo": "https://github.com/tree-sitter-grammars/tree-sitter-lua",
+        "grammarLicense": "MIT"
     },
     "markdown": {
         "name": "Markdown",
@@ -602,7 +698,9 @@ const languageInfo = {
         "year": 2004,
         "url": "https://en.wikipedia.org/wiki/Markdown",
         "trivia": "Gruber published Markdown 1.0 with Swartz as beta tester in 2004; the canonical description and reference implementation are on <a href=\"https://daringfireball.net/projects/markdown/\">Gruber's site</a>.",
-        "aliases": ["md", "mdx"]
+        "aliases": ["md", "mdx"],
+        "grammarRepo": "https://github.com/tree-sitter-grammars/tree-sitter-markdown",
+        "grammarLicense": "MIT"
     },
     "matlab": {
         "name": "MATLAB",
@@ -614,7 +712,9 @@ const languageInfo = {
         "year": 1984,
         "url": "https://en.wikipedia.org/wiki/MATLAB",
         "trivia": "MATLAB was originally written to give students access to LINPACK and EISPACK without learning Fortran—the name means 'MATrix LABoratory.'",
-        "aliases": ["m"]
+        "aliases": ["m"],
+        "grammarRepo": "",
+        "grammarLicense": ""
     },
     "meson": {
         "name": "Meson",
@@ -625,7 +725,9 @@ const languageInfo = {
         "inventor": "Jussi Pakkanen",
         "year": 2013,
         "url": "https://en.wikipedia.org/wiki/Meson_(software)",
-        "trivia": "Pakkanen published Meson in Feb 2013; see the <a href=\"https://nibblestew.blogspot.com/2013/02/introducing-meson-build-system.html\">announcement blog post</a> and the manual highlighting sub-1s configure times."
+        "trivia": "Pakkanen published Meson in Feb 2013; see the <a href=\"https://nibblestew.blogspot.com/2013/02/introducing-meson-build-system.html\">announcement blog post</a> and the manual highlighting sub-1s configure times.",
+        "grammarRepo": "https://github.com/tree-sitter-grammars/tree-sitter-meson",
+        "grammarLicense": "MIT"
     },
     "nginx": {
         "name": "nginx",
@@ -636,7 +738,9 @@ const languageInfo = {
         "inventor": "Igor Sysoev",
         "year": 2004,
         "url": "https://en.wikipedia.org/wiki/Nginx",
-        "trivia": "Sysoev began nginx in 2002; first public release in 2004. The configuration syntax is documented in the <a href=\"https://nginx.org/en/docs/\">official documentation</a>."
+        "trivia": "Sysoev began nginx in 2002; first public release in 2004. The configuration syntax is documented in the <a href=\"https://nginx.org/en/docs/\">official documentation</a>.",
+        "grammarRepo": "https://gitlab.com/joncoole/tree-sitter-nginx",
+        "grammarLicense": "GPL-3.0"
     },
     "ninja": {
         "name": "Ninja",
@@ -647,7 +751,9 @@ const languageInfo = {
         "inventor": "Evan Martin",
         "year": 2011,
         "url": "https://ninja-build.org",
-        "trivia": "Ninja was created at Google to speed up Chrome builds—it's intentionally minimal and meant to be generated by tools like CMake or Meson."
+        "trivia": "Ninja was created at Google to speed up Chrome builds—it's intentionally minimal and meant to be generated by tools like CMake or Meson.",
+        "grammarRepo": "",
+        "grammarLicense": ""
     },
     "nix": {
         "name": "Nix",
@@ -658,7 +764,9 @@ const languageInfo = {
         "inventor": "Eelco Dolstra",
         "year": 2003,
         "url": "https://en.wikipedia.org/wiki/Nix_(package_manager)",
-        "trivia": "Nix stores packages in hash-addressed store paths (e.g., /nix/store/...), eliminating dependency hell. The design is formalized in Dolstra's 2006 thesis and underpins NixOS."
+        "trivia": "Nix stores packages in hash-addressed store paths (e.g., /nix/store/...), eliminating dependency hell. The design is formalized in Dolstra's 2006 thesis and underpins NixOS.",
+        "grammarRepo": "https://github.com/nix-community/tree-sitter-nix",
+        "grammarLicense": "MIT"
     },
     "objc": {
         "name": "Objective-C",
@@ -670,7 +778,9 @@ const languageInfo = {
         "year": 1984,
         "url": "https://en.wikipedia.org/wiki/Objective-C",
         "trivia": "Derived from Smalltalk messaging added to C; NeXT licensed it in 1988, leading to its adoption by Apple after 1996—documented in Apple's developer library.",
-        "aliases": ["objective-c", "mm"]
+        "aliases": ["objective-c", "mm"],
+        "grammarRepo": "https://github.com/tree-sitter-grammars/tree-sitter-objc",
+        "grammarLicense": "MIT"
     },
     "ocaml": {
         "name": "OCaml",
@@ -682,7 +792,9 @@ const languageInfo = {
         "year": 1996,
         "url": "https://en.wikipedia.org/wiki/OCaml",
         "trivia": "The 'O' in OCaml stands for 'Objective', as it was called Objective Caml before 2011. OCaml is used extensively in formal verification and financial trading systems. Jane Street, one of the largest proprietary trading firms, uses OCaml for over 30 million lines of production code.",
-        "aliases": ["ml"]
+        "aliases": ["ml"],
+        "grammarRepo": "https://github.com/tree-sitter/tree-sitter-ocaml",
+        "grammarLicense": "MIT"
     },
     "perl": {
         "name": "Perl",
@@ -694,7 +806,9 @@ const languageInfo = {
         "year": 1987,
         "url": "https://en.wikipedia.org/wiki/Perl",
         "trivia": "Wall released Perl 1.0 on 18 Dec 1987; the motto 'There's more than one way to do it' is from the official <a href=\"https://perldoc.perl.org/perlstyle\">perlstyle</a> and <a href=\"https://perldoc.perl.org/perlintro\">perlintro</a> documentation.",
-        "aliases": ["pl", "pm"]
+        "aliases": ["pl", "pm"],
+        "grammarRepo": "https://github.com/tree-sitter-perl/tree-sitter-perl",
+        "grammarLicense": "MIT"
     },
     "php": {
         "name": "PHP",
@@ -705,7 +819,9 @@ const languageInfo = {
         "inventor": "Rasmus Lerdorf",
         "year": 1995,
         "url": "https://en.wikipedia.org/wiki/PHP",
-        "trivia": "Started as 'Personal Home Page Tools' in 1994/95; renamed 'PHP: Hypertext Preprocessor' in 1997. History is documented in the <a href=\"https://www.php.net/ChangeLog-8.php\">ChangeLog</a> and manual preface."
+        "trivia": "Started as 'Personal Home Page Tools' in 1994/95; renamed 'PHP: Hypertext Preprocessor' in 1997. History is documented in the <a href=\"https://www.php.net/ChangeLog-8.php\">ChangeLog</a> and manual preface.",
+        "grammarRepo": "https://github.com/tree-sitter/tree-sitter-php",
+        "grammarLicense": "MIT"
     },
     "postscript": {
         "name": "PostScript",
@@ -717,7 +833,9 @@ const languageInfo = {
         "year": 1984,
         "url": "https://en.wikipedia.org/wiki/PostScript",
         "trivia": "Adobe released PostScript in 1984; the LaserWriter (1985) used it to ignite desktop publishing. The 'Red Book' PLRM is the definitive spec.",
-        "aliases": ["ps"]
+        "aliases": ["ps"],
+        "grammarRepo": "https://github.com/smoeding/tree-sitter-postscript",
+        "grammarLicense": "MIT"
     },
     "powershell": {
         "name": "PowerShell",
@@ -729,7 +847,9 @@ const languageInfo = {
         "year": 2006,
         "url": "https://en.wikipedia.org/wiki/PowerShell",
         "trivia": "Born from Snover's 2002 'Monad Manifesto'; first released 2006. Open-sourced and cross-platform in 2016 as PowerShell Core—see the <a href=\"https://github.com/PowerShell/PowerShell\">PowerShell repository</a>.",
-        "aliases": ["ps1", "pwsh"]
+        "aliases": ["ps1", "pwsh"],
+        "grammarRepo": "https://github.com/airbus-cert/tree-sitter-powershell",
+        "grammarLicense": "MIT"
     },
     "prolog": {
         "name": "Prolog",
@@ -741,7 +861,9 @@ const languageInfo = {
         "year": 1972,
         "url": "https://en.wikipedia.org/wiki/Prolog",
         "trivia": "Prolog (PROgrammation en LOGique) emerged in 1972; used in Japan's Fifth Generation Project (1982). The ISO standard is <a href=\"https://www.iso.org/standard/21413.html\">ISO/IEC 13211-1:1995</a>.",
-        "aliases": ["pl"]
+        "aliases": ["pl"],
+        "grammarRepo": "https://codeberg.org/foxy/tree-sitter-prolog",
+        "grammarLicense": "MIT"
     },
     "python": {
         "name": "Python",
@@ -753,7 +875,9 @@ const languageInfo = {
         "year": 1991,
         "url": "https://en.wikipedia.org/wiki/Python_(programming_language)",
         "trivia": "Named after Monty Python; van Rossum released Python 0.9.0 in Feb 1991. The 'Zen of Python' is documented in `import this` and <a href=\"https://peps.python.org/pep-0020/\">PEP 20</a>.",
-        "aliases": ["py", "py3", "python3"]
+        "aliases": ["py", "py3", "python3"],
+        "grammarRepo": "https://github.com/tree-sitter/tree-sitter-python",
+        "grammarLicense": "MIT"
     },
     "query": {
         "name": "Tree-sitter Query",
@@ -765,7 +889,9 @@ const languageInfo = {
         "year": 2019,
         "url": "https://tree-sitter.github.io/tree-sitter/using-parsers#pattern-matching-with-queries",
         "trivia": "Tree-sitter queries power syntax highlighting in editors like Neovim, Helix, and Zed—this is what arborium uses under the hood.",
-        "aliases": ["scm"]
+        "aliases": ["scm"],
+        "grammarRepo": "",
+        "grammarLicense": ""
     },
     "r": {
         "name": "R",
@@ -777,7 +903,9 @@ const languageInfo = {
         "year": 1993,
         "url": "https://en.wikipedia.org/wiki/R_(programming_language)",
         "trivia": "Named for Ross and Robert and as a successor to S; initial public release was 1995. The <a href=\"https://cran.r-project.org/doc/manuals/r-release/R-lang.html\">R Language Definition</a> documents core semantics.",
-        "aliases": ["rlang"]
+        "aliases": ["rlang"],
+        "grammarRepo": "https://github.com/r-lib/tree-sitter-r",
+        "grammarLicense": "MIT"
     },
     "rescript": {
         "name": "ReScript",
@@ -789,7 +917,9 @@ const languageInfo = {
         "year": 2020,
         "url": "https://rescript-lang.org/",
         "trivia": "Rebranded from BuckleScript/Reason in 2020 to focus on a JS-centric pipeline; see the <a href=\"https://rescript-lang.org/blog/announcement\">announcement</a> and docs for the syntax and compiler.",
-        "aliases": ["res"]
+        "aliases": ["res"],
+        "grammarRepo": "https://github.com/rescript-lang/tree-sitter-rescript",
+        "grammarLicense": "MIT"
     },
     "ron": {
         "name": "RON",
@@ -800,7 +930,9 @@ const languageInfo = {
         "inventor": "kvark and torkleyy",
         "year": 2015,
         "url": "https://github.com/ron-rs/ron",
-        "trivia": "Designed for a (canceled) game project and revived by the Rust community; features trailing commas, comments, and Rust-like enums—see the <a href=\"https://docs.rs/ron\">crate docs</a>."
+        "trivia": "Designed for a (canceled) game project and revived by the Rust community; features trailing commas, comments, and Rust-like enums—see the <a href=\"https://docs.rs/ron\">crate docs</a>.",
+        "grammarRepo": "https://github.com/tree-sitter-grammars/tree-sitter-ron",
+        "grammarLicense": "MIT OR Apache-2.0"
     },
     "ruby": {
         "name": "Ruby",
@@ -812,7 +944,9 @@ const languageInfo = {
         "year": 1995,
         "url": "https://en.wikipedia.org/wiki/Ruby_(programming_language)",
         "trivia": "Matz (Yukihiro Matsumoto) chose the name Ruby as a playful reference to Perl—ruby is a precious stone, like pearl.",
-        "aliases": ["rb"]
+        "aliases": ["rb"],
+        "grammarRepo": "",
+        "grammarLicense": ""
     },
     "rust": {
         "name": "Rust",
@@ -824,7 +958,9 @@ const languageInfo = {
         "year": 2006,
         "url": "https://en.wikipedia.org/wiki/Rust_(programming_language)",
         "trivia": "Hoare began Rust as a side project at Mozilla in 2006; it became a Mozilla-backed project in 2009. The ownership/borrow checker model is documented in the <a href=\"https://doc.rust-lang.org/book/ch04-00-understanding-ownership.html\">Understanding Ownership chapter</a>.",
-        "aliases": ["rs"]
+        "aliases": ["rs"],
+        "grammarRepo": "https://codeberg.org/grammar-orchard/tree-sitter-rust-orchard",
+        "grammarLicense": "MIT"
     },
     "scala": {
         "name": "Scala",
@@ -835,7 +971,9 @@ const languageInfo = {
         "inventor": "Martin Odersky",
         "year": 2004,
         "url": "https://en.wikipedia.org/wiki/Scala_(programming_language)",
-        "trivia": "The name abbreviates 'scalable language'; Odersky announced Scala in 2004 after work on Java generics and the Pizza language. The <a href=\"https://docs.scala-lang.org/scala3/reference/\">Scala 3 reference</a> documents current syntax and features."
+        "trivia": "The name abbreviates 'scalable language'; Odersky announced Scala in 2004 after work on Java generics and the Pizza language. The <a href=\"https://docs.scala-lang.org/scala3/reference/\">Scala 3 reference</a> documents current syntax and features.",
+        "grammarRepo": "https://github.com/tree-sitter/tree-sitter-scala",
+        "grammarLicense": "MIT"
     },
     "scheme": {
         "name": "Scheme",
@@ -847,7 +985,9 @@ const languageInfo = {
         "year": 1975,
         "url": "https://en.wikipedia.org/wiki/Scheme_(programming_language)",
         "trivia": "Scheme was created at MIT AI Lab and influenced the design of many languages including JavaScript (which borrowed first-class functions and closures). The language was intentionally small - the original spec fit on 50 pages. Scheme's name comes from 'Schemer', after the AI language Planner, but was shortened due to filename length limits.",
-        "aliases": ["scm"]
+        "aliases": ["scm"],
+        "grammarRepo": "https://github.com/6cdh/tree-sitter-scheme",
+        "grammarLicense": "MIT"
     },
     "scss": {
         "name": "SCSS",
@@ -859,7 +999,9 @@ const languageInfo = {
         "year": 2006,
         "url": "https://en.wikipedia.org/wiki/Sass_(style_sheet_language)",
         "trivia": "SCSS syntax arrived with Sass 3 (2010) to mirror CSS; history and design notes are in the <a href=\"https://sass-lang.com/blog/\">Sass blog</a> and <a href=\"https://sass-lang.com/documentation/syntax\">syntax documentation</a>.",
-        "aliases": ["sass"]
+        "aliases": ["sass"],
+        "grammarRepo": "https://github.com/serenadeai/tree-sitter-scss",
+        "grammarLicense": "MIT"
     },
     "sparql": {
         "name": "SPARQL",
@@ -871,7 +1013,9 @@ const languageInfo = {
         "year": 2008,
         "url": "https://en.wikipedia.org/wiki/SPARQL",
         "trivia": "SPARQL is a recursive acronym: 'SPARQL Protocol and RDF Query Language'—it powers knowledge graphs like Wikidata and DBpedia.",
-        "aliases": ["rq"]
+        "aliases": ["rq"],
+        "grammarRepo": "",
+        "grammarLicense": ""
     },
     "sql": {
         "name": "SQL",
@@ -883,7 +1027,9 @@ const languageInfo = {
         "year": 1974,
         "url": "https://en.wikipedia.org/wiki/SQL",
         "trivia": "Initially called SEQUEL at IBM for System R; trademark issues shortened it to SQL. Early history is recounted in Chamberlin's paper 'SEQUEL: A Structured English Query Language'.",
-        "aliases": ["mysql", "postgresql", "postgres", "sqlite"]
+        "aliases": ["mysql", "postgresql", "postgres", "sqlite"],
+        "grammarRepo": "https://github.com/DerekStride/tree-sitter-sql",
+        "grammarLicense": "MIT"
     },
     "ssh-config": {
         "name": "SSH Config",
@@ -894,7 +1040,9 @@ const languageInfo = {
         "inventor": "Tatu Ylönen",
         "year": 1995,
         "url": "https://man.openbsd.org/ssh_config",
-        "trivia": "SSH was created in 1995 after a password-sniffing attack at Helsinki University of Technology prompted Tatu Ylönen to develop a secure replacement for rlogin."
+        "trivia": "SSH was created in 1995 after a password-sniffing attack at Helsinki University of Technology prompted Tatu Ylönen to develop a secure replacement for rlogin.",
+        "grammarRepo": "",
+        "grammarLicense": ""
     },
     "starlark": {
         "name": "Starlark",
@@ -906,7 +1054,9 @@ const languageInfo = {
         "year": 2015,
         "url": "https://en.wikipedia.org/wiki/Starlark",
         "trivia": "Originally named Skylark (2015), renamed Starlark in 2018; deterministic semantics documented in the <a href=\"https://bazel.build/rules/language\">Bazel language guide</a>.",
-        "aliases": ["bzl", "bazel"]
+        "aliases": ["bzl", "bazel"],
+        "grammarRepo": "https://github.com/tree-sitter-grammars/tree-sitter-starlark",
+        "grammarLicense": "MIT"
     },
     "svelte": {
         "name": "Svelte",
@@ -917,7 +1067,9 @@ const languageInfo = {
         "inventor": "Rich Harris",
         "year": 2016,
         "url": "https://en.wikipedia.org/wiki/Svelte",
-        "trivia": "Harris announced Svelte in 2016 to eliminate the virtual DOM; the <a href=\"https://svelte.dev/blog\">Svelte blog</a> covers milestones like SvelteKit and run-time improvements."
+        "trivia": "Harris announced Svelte in 2016 to eliminate the virtual DOM; the <a href=\"https://svelte.dev/blog\">Svelte blog</a> covers milestones like SvelteKit and run-time improvements.",
+        "grammarRepo": "https://github.com/tree-sitter-grammars/tree-sitter-svelte",
+        "grammarLicense": "MIT"
     },
     "swift": {
         "name": "Swift",
@@ -928,7 +1080,9 @@ const languageInfo = {
         "inventor": "Chris Lattner",
         "year": 2014,
         "url": "https://en.wikipedia.org/wiki/Swift_(programming_language)",
-        "trivia": "Chris Lattner started Swift as a personal project in 2010 while working at Apple, spending 18 months on it before getting approval to make it official. He also created LLVM and Clang. Swift was designed to be a safer language than Objective-C, eliminating entire categories of bugs through features like optionals and automatic memory management."
+        "trivia": "Chris Lattner started Swift as a personal project in 2010 while working at Apple, spending 18 months on it before getting approval to make it official. He also created LLVM and Clang. Swift was designed to be a safer language than Objective-C, eliminating entire categories of bugs through features like optionals and automatic memory management.",
+        "grammarRepo": "https://github.com/alex-pinkus/tree-sitter-swift",
+        "grammarLicense": "MIT"
     },
     "textproto": {
         "name": "Text Proto",
@@ -940,7 +1094,9 @@ const languageInfo = {
         "year": 2001,
         "url": "https://github.com/protocolbuffers/protobuf",
         "trivia": "Protocol Buffers were developed at Google in 2001 and are used for nearly all inter-machine communication at the company.",
-        "aliases": ["pbtxt", "textpb"]
+        "aliases": ["pbtxt", "textpb"],
+        "grammarRepo": "",
+        "grammarLicense": ""
     },
     "thrift": {
         "name": "Thrift",
@@ -951,7 +1107,9 @@ const languageInfo = {
         "inventor": "Facebook",
         "year": 2007,
         "url": "https://en.wikipedia.org/wiki/Apache_Thrift",
-        "trivia": "Developed at Facebook starting 2006, open-sourced April 2007; entered Apache Incubator in May 2008 and became a TLP in October 2010—see the <a href=\"https://thrift.apache.org/\">Apache Thrift site</a>."
+        "trivia": "Developed at Facebook starting 2006, open-sourced April 2007; entered Apache Incubator in May 2008 and became a TLP in October 2010—see the <a href=\"https://thrift.apache.org/\">Apache Thrift site</a>.",
+        "grammarRepo": "https://github.com/tree-sitter-grammars/tree-sitter-thrift",
+        "grammarLicense": "MIT"
     },
     "tlaplus": {
         "name": "TLA+",
@@ -963,7 +1121,9 @@ const languageInfo = {
         "year": 1999,
         "url": "https://en.wikipedia.org/wiki/TLA+",
         "trivia": "Lamport introduced TLA+ in the late 1990s; AWS famously uses it to find subtle bugs—see Lamport's papers and the TLA+ hyperbook.",
-        "aliases": ["tla"]
+        "aliases": ["tla"],
+        "grammarRepo": "https://github.com/tlaplus-community/tree-sitter-tlaplus",
+        "grammarLicense": "MIT"
     },
     "toml": {
         "name": "TOML",
@@ -974,7 +1134,9 @@ const languageInfo = {
         "inventor": "Tom Preston-Werner",
         "year": 2013,
         "url": "https://en.wikipedia.org/wiki/TOML",
-        "trivia": "TOML 1.0.0 was released January 2021 after 8 years of iteration; see the spec changelog on <a href=\"https://toml.io/en/v1.0.0\">toml.io</a>."
+        "trivia": "TOML 1.0.0 was released January 2021 after 8 years of iteration; see the spec changelog on <a href=\"https://toml.io/en/v1.0.0\">toml.io</a>.",
+        "grammarRepo": "https://github.com/tree-sitter-grammars/tree-sitter-toml",
+        "grammarLicense": "MIT"
     },
     "tsx": {
         "name": "TSX",
@@ -985,7 +1147,9 @@ const languageInfo = {
         "inventor": "Facebook (Jordan Walke for React/JSX) + Microsoft (TypeScript)",
         "year": 2013,
         "url": "https://en.wikipedia.org/wiki/TypeScript",
-        "trivia": "TSX combines TypeScript's static type checking with JSX's declarative UI syntax. JSX was introduced by Facebook for React in 2013, and TypeScript added TSX support in 2015 with version 1.6. Today, TSX is the de facto standard for React development in TypeScript codebases."
+        "trivia": "TSX combines TypeScript's static type checking with JSX's declarative UI syntax. JSX was introduced by Facebook for React in 2013, and TypeScript added TSX support in 2015 with version 1.6. Today, TSX is the de facto standard for React development in TypeScript codebases.",
+        "grammarRepo": "https://github.com/tree-sitter/tree-sitter-typescript",
+        "grammarLicense": "MIT"
     },
     "typescript": {
         "name": "TypeScript",
@@ -997,7 +1161,9 @@ const languageInfo = {
         "year": 2012,
         "url": "https://en.wikipedia.org/wiki/TypeScript",
         "trivia": "Announced by Microsoft in Oct 2012 to add optional types to JS; design is documented in the TypeScript spec and Handbook.",
-        "aliases": ["ts", "tsx", "mts", "cts"]
+        "aliases": ["ts", "tsx", "mts", "cts"],
+        "grammarRepo": "https://github.com/tree-sitter/tree-sitter-typescript",
+        "grammarLicense": "MIT"
     },
     "typst": {
         "name": "Typst",
@@ -1009,7 +1175,9 @@ const languageInfo = {
         "year": 2023,
         "url": "https://typst.app",
         "trivia": "Typst compiles documents incrementally—changes preview instantly, unlike LaTeX which must recompile the entire document.",
-        "aliases": ["typ"]
+        "aliases": ["typ"],
+        "grammarRepo": "",
+        "grammarLicense": ""
     },
     "uiua": {
         "name": "Uiua",
@@ -1021,7 +1189,9 @@ const languageInfo = {
         "year": 2023,
         "url": "https://www.uiua.org",
         "trivia": "Uiua (pronounced 'wee-wuh') uses Unicode symbols for operations—you can type them with ASCII shortcuts that auto-convert.",
-        "aliases": ["ua"]
+        "aliases": ["ua"],
+        "grammarRepo": "",
+        "grammarLicense": ""
     },
     "vb": {
         "name": "Visual Basic",
@@ -1033,7 +1203,9 @@ const languageInfo = {
         "year": 2002,
         "url": "https://en.wikipedia.org/wiki/Visual_Basic_(.NET)",
         "trivia": "Launched with .NET Framework 1.0 in 2002 as a rewrite of VB6; the <a href=\"https://learn.microsoft.com/dotnet/visual-basic/language-reference/\">VB.NET language reference</a> documents syntax changes and OO features.",
-        "aliases": ["vbnet", "visualbasic"]
+        "aliases": ["vbnet", "visualbasic"],
+        "grammarRepo": "https://github.com/CodeAnt-AI/tree-sitter-vb-dotnet",
+        "grammarLicense": "MIT"
     },
     "verilog": {
         "name": "Verilog",
@@ -1045,7 +1217,9 @@ const languageInfo = {
         "year": 1984,
         "url": "https://en.wikipedia.org/wiki/Verilog",
         "trivia": "Created at Gateway Design Automation (later Cadence) in 1984; became an open IEEE standard in 1995 (IEEE 1364-1995).",
-        "aliases": ["v", "sv", "systemverilog"]
+        "aliases": ["v", "sv", "systemverilog"],
+        "grammarRepo": "https://github.com/tree-sitter/tree-sitter-verilog",
+        "grammarLicense": "MIT"
     },
     "vhdl": {
         "name": "VHDL",
@@ -1057,7 +1231,9 @@ const languageInfo = {
         "year": 1983,
         "url": "https://en.wikipedia.org/wiki/VHDL",
         "trivia": "Developed under the VHSIC program and standardized in 1987 as IEEE 1076; later revisions added numeric_std and child standards.",
-        "aliases": ["vhd"]
+        "aliases": ["vhd"],
+        "grammarRepo": "https://github.com/alemuller/tree-sitter-vhdl",
+        "grammarLicense": "MIT"
     },
     "vim": {
         "name": "Vimscript",
@@ -1069,7 +1245,9 @@ const languageInfo = {
         "year": 1991,
         "url": "https://en.wikipedia.org/wiki/Vim_(text_editor)",
         "trivia": "Vimscript evolved alongside Vim since 1991; Vim 7 (2006) added major scripting features. Bram maintained Vim until his passing in 2023.",
-        "aliases": ["vimscript", "viml"]
+        "aliases": ["vimscript", "viml"],
+        "grammarRepo": "https://github.com/tree-sitter-grammars/tree-sitter-vim",
+        "grammarLicense": "MIT"
     },
     "vue": {
         "name": "Vue",
@@ -1080,7 +1258,9 @@ const languageInfo = {
         "inventor": "Evan You",
         "year": 2014,
         "url": "https://en.wikipedia.org/wiki/Vue.js",
-        "trivia": "You released Vue in Feb 2014 after working on Angular at Google; <a href=\"https://github.com/vuejs/core/releases\">release history</a> and guide document its evolution from 0.10 to Vue 3/4 composition API."
+        "trivia": "You released Vue in Feb 2014 after working on Angular at Google; <a href=\"https://github.com/vuejs/core/releases\">release history</a> and guide document its evolution from 0.10 to Vue 3/4 composition API.",
+        "grammarRepo": "https://github.com/tree-sitter-grammars/tree-sitter-vue",
+        "grammarLicense": "MIT"
     },
     "x86asm": {
         "name": "x86 Assembly",
@@ -1092,7 +1272,8 @@ const languageInfo = {
         "year": 1978,
         "url": "https://en.wikipedia.org/wiki/X86_assembly_language",
         "trivia": "Built on the 8086 ISA released June 1978; Intel's Software Developer Manuals document backward compatibility that lets 1978-era code run on modern CPUs.",
-        "aliases": ["nasm", "x86"]
+        "aliases": ["nasm", "x86"],
+        "grammarLicense": "MIT"
     },
     "xml": {
         "name": "XML",
@@ -1104,7 +1285,9 @@ const languageInfo = {
         "year": 1998,
         "url": "https://en.wikipedia.org/wiki/XML",
         "trivia": "Work began in 1996; XML 1.0 became a W3C Recommendation on Feb 10, 1998, led by Bray, Paoli, and Sperberg-McQueen.",
-        "aliases": ["xsl", "xslt", "svg"]
+        "aliases": ["xsl", "xslt", "svg"],
+        "grammarRepo": "https://github.com/tree-sitter-grammars/tree-sitter-xml",
+        "grammarLicense": "MIT"
     },
     "yaml": {
         "name": "YAML",
@@ -1116,7 +1299,9 @@ const languageInfo = {
         "year": 2001,
         "url": "https://en.wikipedia.org/wiki/YAML",
         "trivia": "Originally 'Yet Another Markup Language', later 'YAML Ain't Markup Language'; first proposed in 2001—see the <a href=\"https://yaml.org/spec/history/2001-01.html\">YAML history</a>.",
-        "aliases": ["yml"]
+        "aliases": ["yml"],
+        "grammarRepo": "https://github.com/tree-sitter-grammars/tree-sitter-yaml",
+        "grammarLicense": "MIT"
     },
     "yuri": {
         "name": "Yuri",
@@ -1127,7 +1312,9 @@ const languageInfo = {
         "inventor": "Yuri contributors",
         "year": 2024,
         "url": "https://git.gay/yuri/yuri",
-        "trivia": "Yuri is an in-progress shader language and compiler; the design is not finalized and is released under Apache-2.0."
+        "trivia": "Yuri is an in-progress shader language and compiler; the design is not finalized and is released under Apache-2.0.",
+        "grammarRepo": "https://git.gay/yuri/tree-sitter-yuri",
+        "grammarLicense": "Apache-2.0"
     },
     "zig": {
         "name": "Zig",
@@ -1137,7 +1324,9 @@ const languageInfo = {
         "inventor": "Andrew Kelley",
         "year": 2016,
         "url": "https://en.wikipedia.org/wiki/Zig_(programming_language)",
-        "trivia": "Kelley introduced Zig in 2016 as a C replacement without hidden control flow; the self-hosted compiler milestone is chronicled on the <a href=\"https://ziglang.org/news/\">Zig news</a>."
+        "trivia": "Kelley introduced Zig in 2016 as a C replacement without hidden control flow; the self-hosted compiler milestone is chronicled on the <a href=\"https://ziglang.org/news/\">Zig news</a>.",
+        "grammarRepo": "https://github.com/tree-sitter-grammars/tree-sitter-zig",
+        "grammarLicense": "MIT"
     },
     "zsh": {
         "name": "Zsh",
@@ -1148,7 +1337,9 @@ const languageInfo = {
         "inventor": "Paul Falstad",
         "year": 1990,
         "url": "https://en.wikipedia.org/wiki/Z_shell",
-        "trivia": "Created by Falstad while at Princeton; named after TA Zhong Shao. The <a href=\"https://zsh.sourceforge.io/FAQ/\">Zsh FAQ</a> documents its history and feature set."
+        "trivia": "Created by Falstad while at Princeton; named after TA Zhong Shao. The <a href=\"https://zsh.sourceforge.io/FAQ/\">Zsh FAQ</a> documents its history and feature set.",
+        "grammarRepo": "https://github.com/georgeharker/tree-sitter-zsh",
+        "grammarLicense": "MIT"
     }
 };
 
@@ -1787,6 +1978,60 @@ function updateLangInfoPanel(id) {
         sampleBar.classList.remove('visible');
     }
 
+    // Build sources section (grammar + theme attribution)
+    let sourcesHtml = '';
+    const gitIcon = icons['mdi:git'] || icons['mdi:source-branch'] || '';
+    const scalesIcon = icons['mdi:scale-balance'] || '';
+    const paletteIcon = icons['mdi:palette'] || '';
+
+    if (info.grammarRepo || (selectedTheme && themeInfo[selectedTheme]?.source)) {
+        let grammarHtml = '';
+        let themeHtml = '';
+
+        if (info.grammarRepo) {
+            // Parse org/repo from URL
+            let repoLabel = 'Grammar';
+            try {
+                const url = new URL(info.grammarRepo);
+                const parts = url.pathname.split('/').filter(Boolean);
+                if (parts.length >= 2) {
+                    repoLabel = `${parts[0]}/${parts[1]}`;
+                }
+            } catch (e) {
+                // Keep default
+            }
+            grammarHtml = `<a class="source-link" href="${info.grammarRepo}" target="_blank" rel="noopener"><span class="source-icon">${gitIcon}</span>${repoLabel}</a>`;
+            if (info.grammarLicense) {
+                grammarHtml += `<span class="source-license"><span class="source-license-icon">${scalesIcon}</span>${info.grammarLicense}</span>`;
+            }
+        }
+
+        if (selectedTheme && themeInfo[selectedTheme]?.source) {
+            const themeSource = themeInfo[selectedTheme].source;
+            const themeName = themeInfo[selectedTheme].name;
+            // Parse domain or repo from URL
+            let sourceLabel = themeName;
+            try {
+                const url = new URL(themeSource);
+                if (url.hostname.includes('github.com')) {
+                    const parts = url.pathname.split('/').filter(Boolean);
+                    if (parts.length >= 2) {
+                        sourceLabel = `${parts[0]}/${parts[1]}`;
+                    }
+                } else {
+                    sourceLabel = url.hostname.replace('www.', '');
+                }
+            } catch (e) {
+                // Keep default
+            }
+            themeHtml = `<a class="source-link" href="${themeSource}" target="_blank" rel="noopener"><span class="source-icon">${paletteIcon}</span>${sourceLabel}</a>`;
+        }
+
+        if (grammarHtml || themeHtml) {
+            sourcesHtml = `<div class="card-sources">${grammarHtml}${themeHtml}</div>`;
+        }
+    }
+
     panel.innerHTML = `
         <div class="card-header">
             ${nameHtml}
@@ -1794,6 +2039,7 @@ function updateLangInfoPanel(id) {
         ${attribution ? `<div class="card-attribution">${attribution}</div>` : ''}
         ${info.description ? `<div class="card-body"><p class="card-description">${info.description}</p></div>` : ''}
         ${info.trivia ? `<div class="card-trivia">${info.trivia}</div>` : ''}
+        ${sourcesHtml}
     `;
     panel.classList.add('visible');
 }
@@ -1986,38 +2232,38 @@ langDropdown.addEventListener('mouseover', (e) => {
 
 // Theme metadata: id -> { name, variant } - generated from arborium-theme
 const themeInfo = {
-    "catppuccin-mocha": { name: "Catppuccin Mocha", variant: "dark" },
-    "catppuccin-latte": { name: "Catppuccin Latte", variant: "light" },
-    "catppuccin-frappe": { name: "Catppuccin Frappé", variant: "dark" },
-    "catppuccin-macchiato": { name: "Catppuccin Macchiato", variant: "dark" },
-    "dracula": { name: "Dracula", variant: "dark" },
-    "tokyo-night": { name: "Tokyo Night", variant: "dark" },
-    "nord": { name: "Nord", variant: "dark" },
-    "one-dark": { name: "One Dark", variant: "dark" },
-    "github-dark": { name: "GitHub Dark", variant: "dark" },
-    "github-light": { name: "GitHub Light", variant: "light" },
-    "gruvbox-dark": { name: "Gruvbox Dark", variant: "dark" },
-    "gruvbox-light": { name: "Gruvbox Light", variant: "light" },
-    "monokai": { name: "Monokai", variant: "dark" },
-    "kanagawa-dragon": { name: "Kanagawa Dragon", variant: "dark" },
-    "rose-pine-moon": { name: "Rosé Pine Moon", variant: "dark" },
-    "ayu-dark": { name: "Ayu Dark", variant: "dark" },
-    "ayu-light": { name: "Ayu Light", variant: "light" },
-    "solarized-dark": { name: "Solarized Dark", variant: "dark" },
-    "solarized-light": { name: "Solarized Light", variant: "light" },
-    "ef-melissa-dark": { name: "EF Melissa Dark", variant: "dark" },
-    "melange-dark": { name: "Melange Dark", variant: "dark" },
-    "melange-light": { name: "Melange Light", variant: "light" },
-    "light-owl": { name: "Light Owl", variant: "light" },
-    "lucius-light": { name: "Lucius Light", variant: "light" },
-    "rustdoc-light": { name: "Rustdoc Light", variant: "light" },
-    "rustdoc-dark": { name: "Rustdoc Dark", variant: "dark" },
-    "rustdoc-ayu": { name: "Rustdoc Ayu", variant: "dark" },
-    "dayfox": { name: "Dayfox", variant: "light" },
-    "alabaster": { name: "Alabaster", variant: "light" },
-    "cobalt2": { name: "Cobalt2", variant: "dark" },
-    "zenburn": { name: "Zenburn", variant: "dark" },
-    "desert256": { name: "Desert256", variant: "dark" }
+    "catppuccin-mocha": { name: "Catppuccin Mocha", variant: "dark", source: "https://github.com/catppuccin/catppuccin"},
+    "catppuccin-latte": { name: "Catppuccin Latte", variant: "light", source: "https://github.com/catppuccin/catppuccin"},
+    "catppuccin-frappe": { name: "Catppuccin Frappé", variant: "dark", source: "https://github.com/catppuccin/catppuccin"},
+    "catppuccin-macchiato": { name: "Catppuccin Macchiato", variant: "dark", source: "https://github.com/catppuccin/catppuccin"},
+    "dracula": { name: "Dracula", variant: "dark", source: "https://draculatheme.com"},
+    "tokyo-night": { name: "Tokyo Night", variant: "dark", source: "https://github.com/enkia/tokyo-night-vscode-theme"},
+    "nord": { name: "Nord", variant: "dark", source: "https://www.nordtheme.com"},
+    "one-dark": { name: "One Dark", variant: "dark", source: "https://github.com/atom/one-dark-syntax"},
+    "github-dark": { name: "GitHub Dark", variant: "dark", source: "https://github.com/primer/github-vscode-theme"},
+    "github-light": { name: "GitHub Light", variant: "light", source: "https://github.com/primer/github-vscode-theme"},
+    "gruvbox-dark": { name: "Gruvbox Dark", variant: "dark", source: "https://github.com/morhetz/gruvbox"},
+    "gruvbox-light": { name: "Gruvbox Light", variant: "light", source: "https://github.com/morhetz/gruvbox"},
+    "monokai": { name: "Monokai", variant: "dark", source: "https://monokai.pro"},
+    "kanagawa-dragon": { name: "Kanagawa Dragon", variant: "dark", source: "https://github.com/rebelot/kanagawa.nvim"},
+    "rose-pine-moon": { name: "Rosé Pine Moon", variant: "dark", source: "https://rosepinetheme.com"},
+    "ayu-dark": { name: "Ayu Dark", variant: "dark", source: "https://github.com/ayu-theme/ayu-colors"},
+    "ayu-light": { name: "Ayu Light", variant: "light", source: "https://github.com/ayu-theme/ayu-colors"},
+    "solarized-dark": { name: "Solarized Dark", variant: "dark", source: "https://ethanschoonover.com/solarized/"},
+    "solarized-light": { name: "Solarized Light", variant: "light", source: "https://ethanschoonover.com/solarized/"},
+    "ef-melissa-dark": { name: "EF Melissa Dark", variant: "dark", source: "https://protesilaos.com/emacs/ef-themes"},
+    "melange-dark": { name: "Melange Dark", variant: "dark", source: "https://github.com/savq/melange-nvim"},
+    "melange-light": { name: "Melange Light", variant: "light", source: "https://github.com/savq/melange-nvim"},
+    "light-owl": { name: "Light Owl", variant: "light", source: "https://github.com/sdras/night-owl-vscode-theme"},
+    "lucius-light": { name: "Lucius Light", variant: "light", source: "https://github.com/jonathanfilip/vim-lucius"},
+    "rustdoc-light": { name: "Rustdoc Light", variant: "light", source: "https://github.com/rust-lang/rust/blob/master/src/librustdoc/html/static/css/themes/light.css"},
+    "rustdoc-dark": { name: "Rustdoc Dark", variant: "dark", source: "https://github.com/rust-lang/rust/blob/master/src/librustdoc/html/static/css/themes/dark.css"},
+    "rustdoc-ayu": { name: "Rustdoc Ayu", variant: "dark", source: "https://github.com/rust-lang/rust/blob/master/src/librustdoc/html/static/css/themes/ayu.css"},
+    "dayfox": { name: "Dayfox", variant: "light", source: "https://github.com/EdenEast/nightfox.nvim"},
+    "alabaster": { name: "Alabaster", variant: "light", source: "https://github.com/tonsky/vscode-theme-alabaster"},
+    "cobalt2": { name: "Cobalt2", variant: "dark", source: "https://github.com/wesbos/cobalt2-vscode"},
+    "zenburn": { name: "Zenburn", variant: "dark", source: "https://github.com/jnurmine/Zenburn"},
+    "desert256": { name: "Desert256", variant: "dark", source: "https://github.com/vim-scripts/desert256.vim"}
 };
 
 const allThemes = Object.keys(themeInfo);
@@ -2221,6 +2467,10 @@ function selectTheme(id) {
     exitThemeSearchMode();
     document.documentElement.dataset.theme = id;
     localStorage.setItem('arborium-theme', id);
+    // Update the info panel to show new theme source
+    if (selectedLang) {
+        updateLangInfoPanel(selectedLang);
+    }
 }
 
 // Theme event handlers

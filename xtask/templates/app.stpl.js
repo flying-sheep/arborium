@@ -464,6 +464,60 @@ function updateLangInfoPanel(id) {
         sampleBar.classList.remove('visible');
     }
 
+    // Build sources section (grammar + theme attribution)
+    let sourcesHtml = '';
+    const gitIcon = icons['mdi:git'] || icons['mdi:source-branch'] || '';
+    const scalesIcon = icons['mdi:scale-balance'] || '';
+    const paletteIcon = icons['mdi:palette'] || '';
+
+    if (info.grammarRepo || (selectedTheme && themeInfo[selectedTheme]?.source)) {
+        let grammarHtml = '';
+        let themeHtml = '';
+
+        if (info.grammarRepo) {
+            // Parse org/repo from URL
+            let repoLabel = 'Grammar';
+            try {
+                const url = new URL(info.grammarRepo);
+                const parts = url.pathname.split('/').filter(Boolean);
+                if (parts.length >= 2) {
+                    repoLabel = `${parts[0]}/${parts[1]}`;
+                }
+            } catch (e) {
+                // Keep default
+            }
+            grammarHtml = `<a class="source-link" href="${info.grammarRepo}" target="_blank" rel="noopener"><span class="source-icon">${gitIcon}</span>${repoLabel}</a>`;
+            if (info.grammarLicense) {
+                grammarHtml += `<span class="source-license"><span class="source-license-icon">${scalesIcon}</span>${info.grammarLicense}</span>`;
+            }
+        }
+
+        if (selectedTheme && themeInfo[selectedTheme]?.source) {
+            const themeSource = themeInfo[selectedTheme].source;
+            const themeName = themeInfo[selectedTheme].name;
+            // Parse domain or repo from URL
+            let sourceLabel = themeName;
+            try {
+                const url = new URL(themeSource);
+                if (url.hostname.includes('github.com')) {
+                    const parts = url.pathname.split('/').filter(Boolean);
+                    if (parts.length >= 2) {
+                        sourceLabel = `${parts[0]}/${parts[1]}`;
+                    }
+                } else {
+                    sourceLabel = url.hostname.replace('www.', '');
+                }
+            } catch (e) {
+                // Keep default
+            }
+            themeHtml = `<a class="source-link" href="${themeSource}" target="_blank" rel="noopener"><span class="source-icon">${paletteIcon}</span>${sourceLabel}</a>`;
+        }
+
+        if (grammarHtml || themeHtml) {
+            sourcesHtml = `<div class="card-sources">${grammarHtml}${themeHtml}</div>`;
+        }
+    }
+
     panel.innerHTML = `
         <div class="card-header">
             ${nameHtml}
@@ -471,6 +525,7 @@ function updateLangInfoPanel(id) {
         ${attribution ? `<div class="card-attribution">${attribution}</div>` : ''}
         ${info.description ? `<div class="card-body"><p class="card-description">${info.description}</p></div>` : ''}
         ${info.trivia ? `<div class="card-trivia">${info.trivia}</div>` : ''}
+        ${sourcesHtml}
     `;
     panel.classList.add('visible');
 }
@@ -865,6 +920,10 @@ function selectTheme(id) {
     exitThemeSearchMode();
     document.documentElement.dataset.theme = id;
     localStorage.setItem('arborium-theme', id);
+    // Update the info panel to show new theme source
+    if (selectedLang) {
+        updateLangInfoPanel(selectedLang);
+    }
 }
 
 // Theme event handlers

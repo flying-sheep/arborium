@@ -13,6 +13,8 @@
       "link": "https://en.wikipedia.org/wiki/Ada_(programming_language)",
       "trivia": "Named after Ada Lovelace; standardized first in 1983 (Ada 83) and later revisions Ada 95, 2005, 2012, 2022.",
       "aliases": [],
+      "grammar_repo": "",
+      "grammar_license": "",
       "samples": [
         {
           "path": "samples/inventory.adb",
@@ -33,6 +35,8 @@
       "link": "https://en.wikipedia.org/wiki/Agda_(programming_language)",
       "trivia": "Agda's name comes from a Swedish song about a woman named Agda who had a hen that laid eggs containing the words of the song.",
       "aliases": [],
+      "grammar_repo": "",
+      "grammar_license": "",
       "samples": [
         {
           "path": "samples/List.agda",
@@ -55,6 +59,8 @@
       "aliases": [
         "adoc"
       ],
+      "grammar_repo": "https://github.com/cathaysia/tree-sitter-asciidoc",
+      "grammar_license": "Apache-2.0",
       "samples": [
         {
           "path": "samples/readme.adoc",
@@ -77,6 +83,8 @@
       "aliases": [
         "assembly"
       ],
+      "grammar_repo": "https://github.com/RubixDev/tree-sitter-asm",
+      "grammar_license": "MIT",
       "samples": [
         {
           "path": "samples/struc.asm",
@@ -97,6 +105,8 @@
       "link": "https://en.wikipedia.org/wiki/AWK",
       "trivia": "Name comes from creators' initials Aho–Weinberger–Kernighan; see the <a href=\"https://dl.acm.org/doi/10.5555/104836\">ACM paper</a> and Unix V7 manual pages for the classic implementation.",
       "aliases": [],
+      "grammar_repo": "https://github.com/Beaglefoot/tree-sitter-awk",
+      "grammar_license": "MIT",
       "samples": [
         {
           "path": "samples/chem.awk",
@@ -120,6 +130,8 @@
         "sh",
         "shell"
       ],
+      "grammar_repo": "https://github.com/tree-sitter/tree-sitter-bash",
+      "grammar_license": "MIT",
       "samples": [
         {
           "path": "samples/doorbell.sh",
@@ -143,6 +155,8 @@
         "bat",
         "cmd"
       ],
+      "grammar_repo": "https://github.com/davidevofficial/tree-sitter-batch",
+      "grammar_license": "MIT",
       "samples": [
         {
           "path": "samples/init.bat",
@@ -165,6 +179,8 @@
       "aliases": [
         "h"
       ],
+      "grammar_repo": "https://github.com/tree-sitter/tree-sitter-c",
+      "grammar_license": "MIT",
       "samples": [
         {
           "path": "samples/shortest.c",
@@ -188,6 +204,8 @@
         "cs",
         "csharp"
       ],
+      "grammar_repo": "https://github.com/tree-sitter/tree-sitter-c-sharp",
+      "grammar_license": "MIT",
       "samples": [
         {
           "path": "samples/ref_readonly_program.cs",
@@ -212,6 +230,8 @@
       "link": "https://caddyserver.com/docs/",
       "trivia": "Caddy launched in 2015 with automatic HTTPS via Let's Encrypt; minimal syntax allows a single-line site definition—documented in the <a href=\"https://caddyserver.com/docs/caddyfile\">Caddyfile documentation</a>.",
       "aliases": [],
+      "grammar_repo": "https://github.com/Samonitari/tree-sitter-caddy",
+      "grammar_license": "MIT",
       "samples": [
         {
           "path": "samples/Caddyfile",
@@ -232,6 +252,8 @@
       "link": "https://en.wikipedia.org/wiki/Cap'n_Proto",
       "trivia": "Varda released Cap'n Proto on April 1, 2013, as a faster, zero-copy successor to Protocol Buffers; the <a href=\"https://capnproto.org/faq.html\">FAQ</a> explains the zero-copy format.",
       "aliases": [],
+      "grammar_repo": "https://github.com/tree-sitter-grammars/tree-sitter-capnp",
+      "grammar_license": "MIT",
       "samples": [
         {
           "path": "samples/addressbook.capnp",
@@ -254,6 +276,8 @@
       "aliases": [
         "clj"
       ],
+      "grammar_repo": "https://github.com/sogaiu/tree-sitter-clojure",
+      "grammar_license": "Unlicense",
       "samples": [
         {
           "path": "samples/params.clj",
@@ -274,6 +298,8 @@
       "link": "https://en.wikipedia.org/wiki/CMake",
       "trivia": "CMake was originally developed to support the cross-platform build needs of the Insight Segmentation and Registration Toolkit (ITK).",
       "aliases": [],
+      "grammar_repo": "",
+      "grammar_license": "",
       "samples": [
         {
           "path": "samples/catch2_cmakelists.cmake",
@@ -297,6 +323,8 @@
         "lisp",
         "cl"
       ],
+      "grammar_repo": "",
+      "grammar_license": "",
       "samples": [
         {
           "path": "samples/session_middleware.lisp",
@@ -321,6 +349,8 @@
         "cxx",
         "hpp"
       ],
+      "grammar_repo": "https://github.com/tree-sitter/tree-sitter-cpp",
+      "grammar_license": "MIT",
       "samples": [
         {
           "path": "samples/chrono-test.cc",
@@ -345,6 +375,8 @@
       "link": "https://en.wikipedia.org/wiki/CSS",
       "trivia": "Wium Lie proposed CSS on 10 Oct 1994 while at CERN and it became a W3C Recommendation in 1996; see his <a href=\"https://www.w3.org/People/howcome/p/Spec/\">original proposal</a> and the <a href=\"https://www.w3.org/TR/REC-CSS1-961217\">CSS1 specification</a>.",
       "aliases": [],
+      "grammar_repo": "https://github.com/tree-sitter/tree-sitter-css",
+      "grammar_license": "MIT",
       "samples": [
         {
           "path": "samples/pico.css",
@@ -367,6 +399,8 @@
       "aliases": [
         "dlang"
       ],
+      "grammar_repo": "",
+      "grammar_license": "",
       "samples": [
         {
           "path": "samples/platform.d",
@@ -387,6 +421,8 @@
       "link": "https://en.wikipedia.org/wiki/Dart_(programming_language)",
       "trivia": "Unveiled at GOTO Aarhus 2011 by Bak and Lund; the <a href=\"https://dart.dev/guides/language/language-tour\">language tour</a> documents its core goals, and Dart became the language behind Flutter when Google released Flutter in May 2017.",
       "aliases": [],
+      "grammar_repo": "https://github.com/UserNobody14/tree-sitter-dart",
+      "grammar_license": "MIT",
       "samples": [
         {
           "path": "samples/fluid_api.dart",
@@ -407,6 +443,8 @@
       "link": "https://en.wikipedia.org/wiki/Devicetree",
       "trivia": "Originated with Open Firmware (IEEE 1275-1994); the Flattened Device Tree format for Linux was introduced in 2005—see the <a href=\"https://www.devicetree.org/specifications/\">specifications</a>.",
       "aliases": [],
+      "grammar_repo": "https://github.com/joelspadin/tree-sitter-devicetree",
+      "grammar_license": "MIT",
       "samples": [
         {
           "path": "samples/decawave_dwm1001_dev.dts",
@@ -429,6 +467,8 @@
       "aliases": [
         "patch"
       ],
+      "grammar_repo": "https://github.com/the-mikedavis/tree-sitter-diff",
+      "grammar_license": "MIT",
       "samples": [
         {
           "path": "samples/t-apply-1.patch",
@@ -451,6 +491,8 @@
       "aliases": [
         "docker"
       ],
+      "grammar_repo": "https://github.com/camdencheek/tree-sitter-dockerfile",
+      "grammar_license": "MIT",
       "samples": [
         {
           "path": "samples/python-bookworm.Dockerfile",
@@ -471,6 +513,8 @@
       "link": "https://en.wikipedia.org/wiki/DOT_(graph_description_language)",
       "trivia": "Graphviz layout algorithms were developed at AT&T Labs and have been used to visualize everything from compiler internals to social networks.",
       "aliases": [],
+      "grammar_repo": "",
+      "grammar_license": "",
       "samples": [
         {
           "path": "samples/crazy.gv",
@@ -494,6 +538,8 @@
         "emacs-lisp",
         "el"
       ],
+      "grammar_repo": "",
+      "grammar_license": "",
       "samples": [
         {
           "path": "samples/simple.el",
@@ -517,6 +563,8 @@
         "ex",
         "exs"
       ],
+      "grammar_repo": "https://github.com/elixir-lang/tree-sitter-elixir",
+      "grammar_license": "Apache-2.0",
       "samples": [
         {
           "path": "samples/controller.ex",
@@ -537,6 +585,8 @@
       "link": "https://en.wikipedia.org/wiki/Elm_(programming_language)",
       "trivia": "Introduced by Czaplicki in 2012 with 'The Elm Architecture' that later inspired Redux; documented in the <a href=\"https://guide.elm-lang.org/architecture/\">architecture section</a> of the guide.",
       "aliases": [],
+      "grammar_repo": "https://github.com/elm-tooling/tree-sitter-elm",
+      "grammar_license": "MIT",
       "samples": [
         {
           "path": "samples/Article.elm",
@@ -559,6 +609,8 @@
       "aliases": [
         "erl"
       ],
+      "grammar_repo": "",
+      "grammar_license": "",
       "samples": [
         {
           "path": "samples/lists.erl",
@@ -579,6 +631,8 @@
       "link": "https://en.wikipedia.org/wiki/Friendly_interactive_shell",
       "trivia": "Fish intentionally breaks POSIX compatibility for a cleaner syntax—its slogan is 'Finally, a command line shell for the 90s!'",
       "aliases": [],
+      "grammar_repo": "",
+      "grammar_license": "",
       "samples": [
         {
           "path": "samples/fisher.fish",
@@ -602,6 +656,8 @@
         "fs",
         "f#"
       ],
+      "grammar_repo": "https://github.com/ionide/tree-sitter-fsharp",
+      "grammar_license": "MIT",
       "samples": [
         {
           "path": "samples/Http.fs",
@@ -622,6 +678,8 @@
       "link": "https://en.wikipedia.org/wiki/Gleam_(programming_language)",
       "trivia": "Pilfold announced Gleam in 2016 to bring ML-style typing to Erlang; version 1.0 shipped in March 2024 per the <a href=\"https://gleam.run/news/gleam-v1.0/\">v1.0 announcement</a>.",
       "aliases": [],
+      "grammar_repo": "https://github.com/gleam-lang/tree-sitter-gleam",
+      "grammar_license": "Apache-2.0",
       "samples": [
         {
           "path": "samples/router.gleam",
@@ -645,6 +703,8 @@
         "vert",
         "frag"
       ],
+      "grammar_repo": "https://github.com/tree-sitter-grammars/tree-sitter-glsl",
+      "grammar_license": "MIT",
       "samples": [
         {
           "path": "samples/phong.frag",
@@ -667,6 +727,8 @@
       "aliases": [
         "golang"
       ],
+      "grammar_repo": "https://github.com/tree-sitter/tree-sitter-go",
+      "grammar_license": "MIT",
       "samples": [
         {
           "path": "samples/explore_repo.go",
@@ -693,6 +755,8 @@
       "aliases": [
         "gql"
       ],
+      "grammar_repo": "",
+      "grammar_license": "",
       "samples": [
         {
           "path": "samples/starwars_schema.graphql",
@@ -715,6 +779,8 @@
       "aliases": [
         "hs"
       ],
+      "grammar_repo": "https://github.com/tree-sitter/tree-sitter-haskell",
+      "grammar_license": "MIT",
       "samples": [
         {
           "path": "samples/Version.hs",
@@ -738,6 +804,8 @@
         "terraform",
         "tf"
       ],
+      "grammar_repo": "https://github.com/tree-sitter-grammars/tree-sitter-hcl",
+      "grammar_license": "Apache-2.0",
       "samples": [
         {
           "path": "samples/vpc-main.tf",
@@ -758,6 +826,8 @@
       "link": "https://en.wikipedia.org/wiki/High-Level_Shading_Language",
       "trivia": "Introduced with DirectX 9; modern compiler `dxc` targets DXIL and SPIR-V—see <a href=\"https://github.com/microsoft/DirectXShaderCompiler\">DirectX Shader Compiler</a>.",
       "aliases": [],
+      "grammar_repo": "https://github.com/tree-sitter-grammars/tree-sitter-hlsl",
+      "grammar_license": "MIT",
       "samples": [
         {
           "path": "samples/HelloTriangle.hlsl",
@@ -780,6 +850,8 @@
       "aliases": [
         "htm"
       ],
+      "grammar_repo": "https://github.com/tree-sitter/tree-sitter-html",
+      "grammar_license": "MIT",
       "samples": [
         {
           "path": "samples/component.html",
@@ -802,6 +874,8 @@
       "aliases": [
         "idr"
       ],
+      "grammar_repo": "https://github.com/kayhide/tree-sitter-idris",
+      "grammar_license": "MIT",
       "samples": [
         {
           "path": "samples/List.idr",
@@ -825,6 +899,8 @@
         "conf",
         "cfg"
       ],
+      "grammar_repo": "https://github.com/justinmk/tree-sitter-ini",
+      "grammar_license": "Apache-2.0",
       "samples": [
         {
           "path": "samples/pytest.ini",
@@ -845,6 +921,8 @@
       "link": "https://en.wikipedia.org/wiki/Java_(programming_language)",
       "trivia": "Started as 'Oak' then renamed Java after Java coffee; the 'write once, run anywhere' mantra comes from Sun's 1995 launch. The <a href=\"https://docs.oracle.com/javase/specs/\">Java Language Specification</a> defines the language across versions.",
       "aliases": [],
+      "grammar_repo": "https://github.com/tree-sitter/tree-sitter-java",
+      "grammar_license": "MIT",
       "samples": [
         {
           "path": "samples/Vet.java",
@@ -870,6 +948,8 @@
         "mjs",
         "cjs"
       ],
+      "grammar_repo": "https://github.com/tree-sitter/tree-sitter-javascript",
+      "grammar_license": "MIT",
       "samples": [
         {
           "path": "samples/x-model.js",
@@ -893,6 +973,8 @@
         "jinja",
         "j2"
       ],
+      "grammar_repo": "https://github.com/dbt-labs/tree-sitter-jinja2",
+      "grammar_license": "GPL-3.0",
       "samples": [
         {
           "path": "samples/admin-base.html",
@@ -913,6 +995,8 @@
       "link": "https://en.wikipedia.org/wiki/Jq_(programming_language)",
       "trivia": "jq debuted in 2012 inspired by AWK/sed but for JSON; language features and functions are specified in the <a href=\"https://stedolan.github.io/jq/manual/\">manual</a>.",
       "aliases": [],
+      "grammar_repo": "https://github.com/flurie/tree-sitter-jq",
+      "grammar_license": "MIT",
       "samples": [
         {
           "path": "samples/geo.jq",
@@ -935,6 +1019,8 @@
       "aliases": [
         "jsonc"
       ],
+      "grammar_repo": "https://github.com/tree-sitter/tree-sitter-json",
+      "grammar_license": "MIT",
       "samples": [
         {
           "path": "samples/package.json",
@@ -957,6 +1043,8 @@
       "aliases": [
         "jl"
       ],
+      "grammar_repo": "",
+      "grammar_license": "",
       "samples": [
         {
           "path": "samples/array.jl",
@@ -977,6 +1065,8 @@
       "link": "https://kdl.dev",
       "trivia": "KDL stands for 'KDL Document Language'—the recursive acronym is intentional, inspired by GNU.",
       "aliases": [],
+      "grammar_repo": "",
+      "grammar_license": "",
       "samples": [
         {
           "path": "samples/schema.kdl",
@@ -1000,6 +1090,8 @@
         "kt",
         "kts"
       ],
+      "grammar_repo": "https://github.com/fwcd/tree-sitter-kotlin",
+      "grammar_license": "MIT",
       "samples": [
         {
           "path": "samples/Sequences.kt",
@@ -1020,6 +1112,8 @@
       "link": "https://en.wikipedia.org/wiki/Lean_(proof_assistant)",
       "trivia": "Used to formalize the 2023 Polynomial Freiman–Ruzsa proof by Gowers, Green, Manners, and Tao; the Lean community formalized it in mathlib. mathlib contained over 210,000 theorems as of <a href=\"https://lean-lang.org/blog/2024/05/16/mathlib-200k/\">May 2024</a>; AlphaProof (DeepMind) achieved IMO silver-equivalent performance in <a href=\"https://www.deepmind.com/blog/alphaproof-ai-for-mathematical-reasoning\">2024</a>.",
       "aliases": [],
+      "grammar_repo": "https://github.com/Julian/tree-sitter-lean",
+      "grammar_license": "MIT",
       "samples": [
         {
           "path": "samples/bintree.lean",
@@ -1040,6 +1134,8 @@
       "link": "https://en.wikipedia.org/wiki/Lua_(programming_language)",
       "trivia": "Lua (meaning 'moon' in Portuguese) succeeded SOL ('sun'); see the <a href=\"https://www.lua.org/history.html\">history page</a> and the 1993 technical report introducing Lua.",
       "aliases": [],
+      "grammar_repo": "https://github.com/tree-sitter-grammars/tree-sitter-lua",
+      "grammar_license": "MIT",
       "samples": [
         {
           "path": "samples/utf8.lua",
@@ -1063,6 +1159,8 @@
         "md",
         "mdx"
       ],
+      "grammar_repo": "https://github.com/tree-sitter-grammars/tree-sitter-markdown",
+      "grammar_license": "MIT",
       "samples": [
         {
           "path": "samples/rust-readme.md",
@@ -1085,6 +1183,8 @@
       "aliases": [
         "m"
       ],
+      "grammar_repo": "",
+      "grammar_license": "",
       "samples": [
         {
           "path": "samples/fft_example.m",
@@ -1105,6 +1205,8 @@
       "link": "https://en.wikipedia.org/wiki/Meson_(software)",
       "trivia": "Pakkanen published Meson in Feb 2013; see the <a href=\"https://nibblestew.blogspot.com/2013/02/introducing-meson-build-system.html\">announcement blog post</a> and the manual highlighting sub-1s configure times.",
       "aliases": [],
+      "grammar_repo": "https://github.com/tree-sitter-grammars/tree-sitter-meson",
+      "grammar_license": "MIT",
       "samples": [
         {
           "path": "samples/meson.build",
@@ -1125,6 +1227,8 @@
       "link": "https://en.wikipedia.org/wiki/Nginx",
       "trivia": "Sysoev began nginx in 2002; first public release in 2004. The configuration syntax is documented in the <a href=\"https://nginx.org/en/docs/\">official documentation</a>.",
       "aliases": [],
+      "grammar_repo": "https://gitlab.com/joncoole/tree-sitter-nginx",
+      "grammar_license": "GPL-3.0",
       "samples": [
         {
           "path": "samples/nginx.conf",
@@ -1145,6 +1249,8 @@
       "link": "https://ninja-build.org",
       "trivia": "Ninja was created at Google to speed up Chrome builds—it's intentionally minimal and meant to be generated by tools like CMake or Meson.",
       "aliases": [],
+      "grammar_repo": "",
+      "grammar_license": "",
       "samples": [
         {
           "path": "samples/build.ninja",
@@ -1165,6 +1271,8 @@
       "link": "https://en.wikipedia.org/wiki/Nix_(package_manager)",
       "trivia": "Nix stores packages in hash-addressed store paths (e.g., /nix/store/...), eliminating dependency hell. The design is formalized in Dolstra's 2006 thesis and underpins NixOS.",
       "aliases": [],
+      "grammar_repo": "https://github.com/nix-community/tree-sitter-nix",
+      "grammar_license": "MIT",
       "samples": [
         {
           "path": "samples/buildDepsOnly.nix",
@@ -1188,6 +1296,8 @@
         "objective-c",
         "mm"
       ],
+      "grammar_repo": "https://github.com/tree-sitter-grammars/tree-sitter-objc",
+      "grammar_license": "MIT",
       "samples": [
         {
           "path": "samples/RCTLog.mm",
@@ -1210,6 +1320,8 @@
       "aliases": [
         "ml"
       ],
+      "grammar_repo": "https://github.com/tree-sitter/tree-sitter-ocaml",
+      "grammar_license": "MIT",
       "samples": [
         {
           "path": "samples/option.ml",
@@ -1233,6 +1345,8 @@
         "pl",
         "pm"
       ],
+      "grammar_repo": "https://github.com/tree-sitter-perl/tree-sitter-perl",
+      "grammar_license": "MIT",
       "samples": [
         {
           "path": "samples/gmtime.pm",
@@ -1253,6 +1367,8 @@
       "link": "https://en.wikipedia.org/wiki/PHP",
       "trivia": "Started as 'Personal Home Page Tools' in 1994/95; renamed 'PHP: Hypertext Preprocessor' in 1997. History is documented in the <a href=\"https://www.php.net/ChangeLog-8.php\">ChangeLog</a> and manual preface.",
       "aliases": [],
+      "grammar_repo": "https://github.com/tree-sitter/tree-sitter-php",
+      "grammar_license": "MIT",
       "samples": [
         {
           "path": "samples/SessionGuard.php",
@@ -1275,6 +1391,8 @@
       "aliases": [
         "ps"
       ],
+      "grammar_repo": "https://github.com/smoeding/tree-sitter-postscript",
+      "grammar_license": "MIT",
       "samples": [
         {
           "path": "samples/tiger.ps",
@@ -1298,6 +1416,8 @@
         "ps1",
         "pwsh"
       ],
+      "grammar_repo": "https://github.com/airbus-cert/tree-sitter-powershell",
+      "grammar_license": "MIT",
       "samples": [
         {
           "path": "samples/Get-ChildItem.Tests.ps1",
@@ -1320,6 +1440,8 @@
       "aliases": [
         "pl"
       ],
+      "grammar_repo": "https://codeberg.org/foxy/tree-sitter-prolog",
+      "grammar_license": "MIT",
       "samples": [
         {
           "path": "samples/http_server.pl",
@@ -1344,6 +1466,8 @@
         "py3",
         "python3"
       ],
+      "grammar_repo": "https://github.com/tree-sitter/tree-sitter-python",
+      "grammar_license": "MIT",
       "samples": [
         {
           "path": "samples/dynamic_progress.py",
@@ -1366,6 +1490,8 @@
       "aliases": [
         "scm"
       ],
+      "grammar_repo": "",
+      "grammar_license": "",
       "samples": [
         {
           "path": "samples/highlights.scm",
@@ -1388,6 +1514,8 @@
       "aliases": [
         "rlang"
       ],
+      "grammar_repo": "https://github.com/r-lib/tree-sitter-r",
+      "grammar_license": "MIT",
       "samples": [
         {
           "path": "samples/detect.R",
@@ -1410,6 +1538,8 @@
       "aliases": [
         "res"
       ],
+      "grammar_repo": "https://github.com/rescript-lang/tree-sitter-rescript",
+      "grammar_license": "MIT",
       "samples": [
         {
           "path": "samples/Core__Array.res",
@@ -1430,6 +1560,8 @@
       "link": "https://github.com/ron-rs/ron",
       "trivia": "Designed for a (canceled) game project and revived by the Rust community; features trailing commas, comments, and Rust-like enums—see the <a href=\"https://docs.rs/ron\">crate docs</a>.",
       "aliases": [],
+      "grammar_repo": "https://github.com/tree-sitter-grammars/tree-sitter-ron",
+      "grammar_license": "MIT OR Apache-2.0",
       "samples": [
         {
           "path": "samples/kits.ron",
@@ -1452,6 +1584,8 @@
       "aliases": [
         "rb"
       ],
+      "grammar_repo": "",
+      "grammar_license": "",
       "samples": [
         {
           "path": "samples/inflector_methods.rb",
@@ -1474,6 +1608,8 @@
       "aliases": [
         "rs"
       ],
+      "grammar_repo": "https://codeberg.org/grammar-orchard/tree-sitter-rust-orchard",
+      "grammar_license": "MIT",
       "samples": [
         {
           "path": "samples/expl_impl_clone_on_copy.rs",
@@ -1494,6 +1630,8 @@
       "link": "https://en.wikipedia.org/wiki/Scala_(programming_language)",
       "trivia": "The name abbreviates 'scalable language'; Odersky announced Scala in 2004 after work on Java generics and the Pizza language. The <a href=\"https://docs.scala-lang.org/scala3/reference/\">Scala 3 reference</a> documents current syntax and features.",
       "aliases": [],
+      "grammar_repo": "https://github.com/tree-sitter/tree-sitter-scala",
+      "grammar_license": "MIT",
       "samples": [
         {
           "path": "samples/ResultResolver.scala",
@@ -1516,6 +1654,8 @@
       "aliases": [
         "scm"
       ],
+      "grammar_repo": "https://github.com/6cdh/tree-sitter-scheme",
+      "grammar_license": "MIT",
       "samples": [
         {
           "path": "samples/list.rkt",
@@ -1538,6 +1678,8 @@
       "aliases": [
         "sass"
       ],
+      "grammar_repo": "https://github.com/serenadeai/tree-sitter-scss",
+      "grammar_license": "MIT",
       "samples": [
         {
           "path": "samples/_buttons.scss",
@@ -1560,6 +1702,8 @@
       "aliases": [
         "rq"
       ],
+      "grammar_repo": "",
+      "grammar_license": "",
       "samples": [
         {
           "path": "samples/query.sparql",
@@ -1585,6 +1729,8 @@
         "postgres",
         "sqlite"
       ],
+      "grammar_repo": "https://github.com/DerekStride/tree-sitter-sql",
+      "grammar_license": "MIT",
       "samples": [
         {
           "path": "samples/join.sql",
@@ -1605,6 +1751,8 @@
       "link": "https://man.openbsd.org/ssh_config",
       "trivia": "SSH was created in 1995 after a password-sniffing attack at Helsinki University of Technology prompted Tatu Ylönen to develop a secure replacement for rlogin.",
       "aliases": [],
+      "grammar_repo": "",
+      "grammar_license": "",
       "samples": [
         {
           "path": "samples/config",
@@ -1628,6 +1776,8 @@
         "bzl",
         "bazel"
       ],
+      "grammar_repo": "https://github.com/tree-sitter-grammars/tree-sitter-starlark",
+      "grammar_license": "MIT",
       "samples": [
         {
           "path": "samples/http.bzl",
@@ -1648,6 +1798,8 @@
       "link": "https://en.wikipedia.org/wiki/Svelte",
       "trivia": "Harris announced Svelte in 2016 to eliminate the virtual DOM; the <a href=\"https://svelte.dev/blog\">Svelte blog</a> covers milestones like SvelteKit and run-time improvements.",
       "aliases": [],
+      "grammar_repo": "https://github.com/tree-sitter-grammars/tree-sitter-svelte",
+      "grammar_license": "MIT",
       "samples": [
         {
           "path": "samples/App.svelte",
@@ -1668,6 +1820,8 @@
       "link": "https://en.wikipedia.org/wiki/Swift_(programming_language)",
       "trivia": "Chris Lattner started Swift as a personal project in 2010 while working at Apple, spending 18 months on it before getting approval to make it official. He also created LLVM and Clang. Swift was designed to be a safer language than Objective-C, eliminating entire categories of bugs through features like optionals and automatic memory management.",
       "aliases": [],
+      "grammar_repo": "https://github.com/alex-pinkus/tree-sitter-swift",
+      "grammar_license": "MIT",
       "samples": [
         {
           "path": "samples/DirectoryConfiguration.swift",
@@ -1691,6 +1845,8 @@
         "pbtxt",
         "textpb"
       ],
+      "grammar_repo": "",
+      "grammar_license": "",
       "samples": [
         {
           "path": "samples/config.textproto",
@@ -1711,6 +1867,8 @@
       "link": "https://en.wikipedia.org/wiki/Apache_Thrift",
       "trivia": "Developed at Facebook starting 2006, open-sourced April 2007; entered Apache Incubator in May 2008 and became a TLP in October 2010—see the <a href=\"https://thrift.apache.org/\">Apache Thrift site</a>.",
       "aliases": [],
+      "grammar_repo": "https://github.com/tree-sitter-grammars/tree-sitter-thrift",
+      "grammar_license": "MIT",
       "samples": [
         {
           "path": "samples/tutorial.thrift",
@@ -1733,6 +1891,8 @@
       "aliases": [
         "tla"
       ],
+      "grammar_repo": "https://github.com/tlaplus-community/tree-sitter-tlaplus",
+      "grammar_license": "MIT",
       "samples": [
         {
           "path": "samples/TwoPhase.tla",
@@ -1753,6 +1913,8 @@
       "link": "https://en.wikipedia.org/wiki/TOML",
       "trivia": "TOML 1.0.0 was released January 2021 after 8 years of iteration; see the spec changelog on <a href=\"https://toml.io/en/v1.0.0\">toml.io</a>.",
       "aliases": [],
+      "grammar_repo": "https://github.com/tree-sitter-grammars/tree-sitter-toml",
+      "grammar_license": "MIT",
       "samples": [
         {
           "path": "samples/starship.toml",
@@ -1773,6 +1935,8 @@
       "link": "https://en.wikipedia.org/wiki/TypeScript",
       "trivia": "TSX combines TypeScript's static type checking with JSX's declarative UI syntax. JSX was introduced by Facebook for React in 2013, and TypeScript added TSX support in 2015 with version 1.6. Today, TSX is the de facto standard for React development in TypeScript codebases.",
       "aliases": [],
+      "grammar_repo": "https://github.com/tree-sitter/tree-sitter-typescript",
+      "grammar_license": "MIT",
       "samples": [
         {
           "path": "samples/basic-query.tsx",
@@ -1798,6 +1962,8 @@
         "mts",
         "cts"
       ],
+      "grammar_repo": "https://github.com/tree-sitter/tree-sitter-typescript",
+      "grammar_license": "MIT",
       "samples": [
         {
           "path": "samples/dot-print.ts",
@@ -1820,6 +1986,8 @@
       "aliases": [
         "typ"
       ],
+      "grammar_repo": "",
+      "grammar_license": "",
       "samples": [
         {
           "path": "samples/simple.typ",
@@ -1842,6 +2010,8 @@
       "aliases": [
         "ua"
       ],
+      "grammar_repo": "",
+      "grammar_license": "",
       "samples": [
         {
           "path": "samples/macros.ua",
@@ -1865,6 +2035,8 @@
         "vbnet",
         "visualbasic"
       ],
+      "grammar_repo": "https://github.com/CodeAnt-AI/tree-sitter-vb-dotnet",
+      "grammar_license": "MIT",
       "samples": [
         {
           "path": "samples/Math.vb",
@@ -1889,6 +2061,8 @@
         "sv",
         "systemverilog"
       ],
+      "grammar_repo": "https://github.com/tree-sitter/tree-sitter-verilog",
+      "grammar_license": "MIT",
       "samples": [
         {
           "path": "samples/lint_style.sv",
@@ -1915,6 +2089,8 @@
       "aliases": [
         "vhd"
       ],
+      "grammar_repo": "https://github.com/alemuller/tree-sitter-vhdl",
+      "grammar_license": "MIT",
       "samples": [
         {
           "path": "samples/issue1220.vhdl",
@@ -1938,6 +2114,8 @@
         "vimscript",
         "viml"
       ],
+      "grammar_repo": "https://github.com/tree-sitter-grammars/tree-sitter-vim",
+      "grammar_license": "MIT",
       "samples": [
         {
           "path": "samples/plugin.vim",
@@ -1958,6 +2136,8 @@
       "link": "https://en.wikipedia.org/wiki/Vue.js",
       "trivia": "You released Vue in Feb 2014 after working on Angular at Google; <a href=\"https://github.com/vuejs/core/releases\">release history</a> and guide document its evolution from 0.10 to Vue 3/4 composition API.",
       "aliases": [],
+      "grammar_repo": "https://github.com/tree-sitter-grammars/tree-sitter-vue",
+      "grammar_license": "MIT",
       "samples": [
         {
           "path": "samples/App.vue",
@@ -1981,6 +2161,8 @@
         "nasm",
         "x86"
       ],
+      "grammar_repo": null,
+      "grammar_license": "MIT",
       "samples": [
         {
           "path": "samples/elftest.asm",
@@ -2005,6 +2187,8 @@
         "xslt",
         "svg"
       ],
+      "grammar_repo": "https://github.com/tree-sitter-grammars/tree-sitter-xml",
+      "grammar_license": "MIT",
       "samples": [
         {
           "path": "samples/pom.xml",
@@ -2027,6 +2211,8 @@
       "aliases": [
         "yml"
       ],
+      "grammar_repo": "https://github.com/tree-sitter-grammars/tree-sitter-yaml",
+      "grammar_license": "MIT",
       "samples": [
         {
           "path": "samples/bookinfo.yaml",
@@ -2047,6 +2233,8 @@
       "link": "https://git.gay/yuri/yuri",
       "trivia": "Yuri is an in-progress shader language and compiler; the design is not finalized and is released under Apache-2.0.",
       "aliases": [],
+      "grammar_repo": "https://git.gay/yuri/tree-sitter-yuri",
+      "grammar_license": "Apache-2.0",
       "samples": [
         {
           "path": "samples/example.yuri",
@@ -2067,6 +2255,8 @@
       "link": "https://en.wikipedia.org/wiki/Zig_(programming_language)",
       "trivia": "Kelley introduced Zig in 2016 as a C replacement without hidden control flow; the self-hosted compiler milestone is chronicled on the <a href=\"https://ziglang.org/news/\">Zig news</a>.",
       "aliases": [],
+      "grammar_repo": "https://github.com/tree-sitter-grammars/tree-sitter-zig",
+      "grammar_license": "MIT",
       "samples": [
         {
           "path": "samples/generic.zig",
@@ -2087,6 +2277,8 @@
       "link": "https://en.wikipedia.org/wiki/Z_shell",
       "trivia": "Created by Falstad while at Princeton; named after TA Zhong Shao. The <a href=\"https://zsh.sourceforge.io/FAQ/\">Zsh FAQ</a> documents its history and feature set.",
       "aliases": [],
+      "grammar_repo": "https://github.com/georgeharker/tree-sitter-zsh",
+      "grammar_license": "MIT",
       "samples": [
         {
           "path": "samples/git.plugin.zsh",

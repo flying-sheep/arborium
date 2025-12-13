@@ -1,3 +1,5 @@
+/* Catppuccin Mocha (dark) */
+/* Source: https://github.com/catppuccin/catppuccin */
 [data-theme="catppuccin-mocha"] {
   background: #1e1e2e;
   color: #cdd6f4;
@@ -68,6 +70,8 @@
   a-rx { color: #a6e3a1; }
 }
 
+/* Catppuccin Latte (light) */
+/* Source: https://github.com/catppuccin/catppuccin */
 [data-theme="catppuccin-latte"] {
   background: #eff1f5;
   color: #4c4f69;
@@ -138,6 +142,8 @@
   a-rx { color: #40a02b; }
 }
 
+/* Catppuccin Frappé (dark) */
+/* Source: https://github.com/catppuccin/catppuccin */
 [data-theme="catppuccin-frappe"] {
   background: #303446;
   color: #c6d0f5;
@@ -208,6 +214,8 @@
   a-rx { color: #a6d189; }
 }
 
+/* Catppuccin Macchiato (dark) */
+/* Source: https://github.com/catppuccin/catppuccin */
 [data-theme="catppuccin-macchiato"] {
   background: #24273a;
   color: #cad3f5;
@@ -278,6 +286,8 @@
   a-rx { color: #a6da95; }
 }
 
+/* Dracula (dark) */
+/* Source: https://draculatheme.com */
 [data-theme="dracula"] {
   background: #282a36;
   color: #f8f8f2;
@@ -348,6 +358,8 @@
   a-rx { color: #f1fa8c; }
 }
 
+/* Tokyo Night (dark) */
+/* Source: https://github.com/enkia/tokyo-night-vscode-theme */
 [data-theme="tokyo-night"] {
   background: #1a1b26;
   color: #c0caf5;
@@ -418,6 +430,8 @@
   a-rx { color: #9ece6a; }
 }
 
+/* Nord (dark) */
+/* Source: https://www.nordtheme.com */
 [data-theme="nord"] {
   background: #2e3440;
   color: #eceff4;
@@ -488,6 +502,8 @@
   a-rx { color: #a3be8c; }
 }
 
+/* One Dark (dark) */
+/* Source: https://github.com/atom/one-dark-syntax */
 [data-theme="one-dark"] {
   background: #282c34;
   color: #abb2bf;
@@ -558,6 +574,8 @@
   a-rx { color: #98c379; }
 }
 
+/* GitHub Dark (dark) */
+/* Source: https://github.com/primer/github-vscode-theme */
 [data-theme="github-dark"] {
   background: #0d1117;
   color: #c9d1d9;
@@ -628,6 +646,8 @@
   a-rx { color: #a5d6ff; }
 }
 
+/* GitHub Light (light) */
+/* Source: https://github.com/primer/github-vscode-theme */
 [data-theme="github-light"] {
   background: #ffffff;
   color: #24292f;
@@ -698,6 +718,8 @@
   a-rx { color: #0a3069; }
 }
 
+/* Gruvbox Dark (dark) */
+/* Source: https://github.com/morhetz/gruvbox */
 [data-theme="gruvbox-dark"] {
   background: #282828;
   color: #ebdbb2;
@@ -768,6 +790,8 @@
   a-rx { color: #b8bb26; }
 }
 
+/* Gruvbox Light (light) */
+/* Source: https://github.com/morhetz/gruvbox */
 [data-theme="gruvbox-light"] {
   background: #fbf1c7;
   color: #3c3836;
@@ -838,6 +862,8 @@
   a-rx { color: #79740e; }
 }
 
+/* Monokai (dark) */
+/* Source: https://monokai.pro */
 [data-theme="monokai"] {
   background: #2d2a2e;
   color: #fcfcfa;
@@ -908,6 +934,8 @@
   a-rx { color: #ffd866; }
 }
 
+/* Kanagawa Dragon (dark) */
+/* Source: https://github.com/rebelot/kanagawa.nvim */
 [data-theme="kanagawa-dragon"] {
   background: #181616;
   color: #c5c9c5;
@@ -978,6 +1006,8 @@
   a-rx { color: #8a9a7b; }
 }
 
+/* Rosé Pine Moon (dark) */
+/* Source: https://rosepinetheme.com */
 [data-theme="rose-pine-moon"] {
   background: #232136;
   color: #e0def4;
@@ -1048,6 +1078,8 @@
   a-rx { color: #f6c177; }
 }
 
+/* Ayu Dark (dark) */
+/* Source: https://github.com/ayu-theme/ayu-colors */
 [data-theme="ayu-dark"] {
   background: #0d1017;
   color: #bfbdb6;
@@ -1114,6 +1146,8 @@
   a-rx { color: #aad94c; }
 }
 
+/* Ayu Light (light) */
+/* Source: https://github.com/ayu-theme/ayu-colors */
 [data-theme="ayu-light"] {
   background: #fafafa;
   color: #5c6166;
@@ -1180,6 +1214,8 @@
   a-rx { color: #86b300; }
 }
 
+/* Solarized Dark (dark) */
+/* Source: https://ethanschoonover.com/solarized/ */
 [data-theme="solarized-dark"] {
   background: #002b36;
   color: #839496;
@@ -1250,6 +1286,8 @@
   a-rx { color: #2aa198; }
 }
 
+/* Solarized Light (light) */
+/* Source: https://ethanschoonover.com/solarized/ */
 [data-theme="solarized-light"] {
   background: #fdf6e3;
   color: #657b83;
@@ -1320,6 +1358,8 @@
   a-rx { color: #2aa198; }
 }
 
+/* EF Melissa Dark (dark) */
+/* Source: https://protesilaos.com/emacs/ef-themes */
 [data-theme="ef-melissa-dark"] {
   background: #352718;
   color: #e8e4b1;
@@ -1390,6 +1430,8 @@
   a-rx { color: #a0d13a; }
 }
 
+/* Melange Dark (dark) */
+/* Source: https://github.com/savq/melange-nvim */
 [data-theme="melange-dark"] {
   background: #292522;
   color: #ece1d7;
@@ -1460,6 +1502,8 @@
   a-rx { color: #85b695; }
 }
 
+/* Melange Light (light) */
+/* Source: https://github.com/savq/melange-nvim */
 [data-theme="melange-light"] {
   background: #f1f1f1;
   color: #54433a;
@@ -1530,6 +1574,8 @@
   a-rx { color: #3a684a; }
 }
 
+/* Light Owl (light) */
+/* Source: https://github.com/sdras/night-owl-vscode-theme */
 [data-theme="light-owl"] {
   background: #fbfbfb;
   color: #403f53;
@@ -1600,6 +1646,8 @@
   a-rx { color: #c96765; }
 }
 
+/* Lucius Light (light) */
+/* Source: https://github.com/jonathanfilip/vim-lucius */
 [data-theme="lucius-light"] {
   background: #eeeeee;
   color: #444444;
@@ -1670,6 +1718,8 @@
   a-rx { color: #af5f00; }
 }
 
+/* Rustdoc Light (light) */
+/* Source: https://github.com/rust-lang/rust/blob/master/src/librustdoc/html/static/css/themes/light.css */
 [data-theme="rustdoc-light"] {
   background: #f5f5f5;
   color: #24292e;
@@ -1740,6 +1790,8 @@
   a-rx { color: #718c00; }
 }
 
+/* Rustdoc Dark (dark) */
+/* Source: https://github.com/rust-lang/rust/blob/master/src/librustdoc/html/static/css/themes/dark.css */
 [data-theme="rustdoc-dark"] {
   background: #2a2a2a;
   color: #dddddd;
@@ -1810,6 +1862,8 @@
   a-rx { color: #83a300; }
 }
 
+/* Rustdoc Ayu (dark) */
+/* Source: https://github.com/rust-lang/rust/blob/master/src/librustdoc/html/static/css/themes/ayu.css */
 [data-theme="rustdoc-ayu"] {
   background: #191f26;
   color: #c5c5c5;
@@ -1880,6 +1934,8 @@
   a-rx { color: #b8cc52; }
 }
 
+/* Dayfox (light) */
+/* Source: https://github.com/EdenEast/nightfox.nvim */
 [data-theme="dayfox"] {
   background: #f6f2ee;
   color: #3d2b5a;
@@ -1950,6 +2006,8 @@
   a-rx { color: #396847; }
 }
 
+/* Alabaster (light) */
+/* Source: https://github.com/tonsky/vscode-theme-alabaster */
 [data-theme="alabaster"] {
   background: #f7f7f7;
   color: #000000;
@@ -2020,6 +2078,8 @@
   a-rx { color: #448c27; }
 }
 
+/* Cobalt2 (dark) */
+/* Source: https://github.com/wesbos/cobalt2-vscode */
 [data-theme="cobalt2"] {
   background: #193549;
   color: #ffffff;
@@ -2090,6 +2150,8 @@
   a-rx { color: #a5ff90; }
 }
 
+/* Zenburn (dark) */
+/* Source: https://github.com/jnurmine/Zenburn */
 [data-theme="zenburn"] {
   background: #3f3f3f;
   color: #dcdccc;
@@ -2160,6 +2222,8 @@
   a-rx { color: #cc9393; }
 }
 
+/* Desert256 (dark) */
+/* Source: https://github.com/vim-scripts/desert256.vim */
 [data-theme="desert256"] {
   background: #000000;
   color: #cccccc;
