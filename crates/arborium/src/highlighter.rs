@@ -404,9 +404,6 @@ impl AnsiHighlighter {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
-    use arborium_theme::theme::builtin;
-
     #[test]
     #[cfg(feature = "lang-rust")]
     fn test_highlighter_fork() {

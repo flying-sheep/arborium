@@ -6,6 +6,13 @@ use arborium::AnsiHighlighter;
 use arborium::theme::builtin;
 use arborium_highlight::AnsiOptions;
 
+type ThemeShowcase = (
+    &'static str,
+    fn() -> &'static arborium_theme::Theme,
+    &'static str,
+    &'static str,
+);
+
 fn main() {
     let rust_code = r#"impl<T: Send + Sync> SharedState<T> {
     pub fn new(value: T) -> Arc<RwLock<Self>> {
@@ -61,7 +68,7 @@ $radius: 0.5rem;
   }
 }"#;
 
-    let showcase: &[(&str, fn() -> &'static arborium_theme::Theme, &str, &str)] = &[
+    let showcase: &[ThemeShowcase] = &[
         ("Tokyo Night", builtin::tokyo_night, "rust", rust_code),
         (
             "Kanagawa Dragon",
@@ -92,13 +99,15 @@ $radius: 0.5rem;
 
         let theme = theme_fn().clone();
         let config = arborium::Config::default();
-        let mut options = AnsiOptions::default();
-        options.use_theme_base_style = true;
-        options.width = Some(60);
-        options.pad_to_width = true;
-        options.padding_x = 2;
-        options.padding_y = 1;
-        options.border = true;
+        let options = AnsiOptions {
+            use_theme_base_style: true,
+            width: Some(60),
+            pad_to_width: true,
+            padding_x: 2,
+            padding_y: 1,
+            border: true,
+            ..Default::default()
+        };
 
         let mut hl = AnsiHighlighter::with_options(theme, config, options);
         let output = hl.highlight(lang, code).unwrap();

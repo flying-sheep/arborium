@@ -926,10 +926,8 @@ pub fn spans_to_ansi_with_options(
                 // When using base_bg, if the style is identical to base_ansi, don't emit it
                 if !style.is_empty() && style != base_ansi {
                     out.push_str(&style);
-                    output_started = true;
                 } else if !output_started && !base_ansi.is_empty() {
                     out.push_str(&base_ansi);
-                    output_started = true;
                 }
 
                 write_wrapped_text(
@@ -966,7 +964,6 @@ pub fn spans_to_ansi_with_options(
             (None, None) => {
                 if !output_started && !base_ansi.is_empty() {
                     out.push_str(&base_ansi);
-                    output_started = true;
                 }
                 write_wrapped_text(
                     &mut out,
