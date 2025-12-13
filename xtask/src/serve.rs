@@ -62,6 +62,11 @@ struct IifeDemoHtmlTemplate<'a> {
     script_tag: &'a str,
 }
 
+// Sailfish template for rustdoc-comparison.html
+#[derive(TemplateSimple)]
+#[template(path = "rustdoc-comparison.stpl.html")]
+struct RustdocComparisonHtmlTemplate;
+
 // Sailfish template for arborium-theme README
 #[derive(TemplateSimple)]
 #[template(path = "arborium_theme_readme.stpl.md")]
@@ -288,7 +293,12 @@ pub fn serve(crates_dir: &Utf8Path, addr: &str, port: Option<u16>, dev: bool) {
         generate_app_js(&demo_dir, &registry, &icons)
     });
 
-    // Step 5: Copy plugins.json with dev_mode flag
+    // Step 5b: Generate rustdoc comparison
+    step("Generating rustdoc comparison", || {
+        generate_rustdoc_comparison(&repo_root, &demo_dir)
+    });
+
+    // Step 6: Copy plugins.json with dev_mode flag
     step("Copying plugins.json", || {
         copy_plugins_json(crates_dir, &demo_dir, dev)
     });
@@ -366,6 +376,9 @@ pub fn build_static_site(crates_dir: &Utf8Path, dev: bool) -> Result<(), String>
     step("Generating app.generated.js", || {
         generate_app_js(&demo_dir, &registry, &icons)
     });
+    step("Generating rustdoc comparison", || {
+        generate_rustdoc_comparison(&repo_root, &demo_dir)
+    });
 
     if dev {
         step("Pre-compressing files (fast)", || {
@@ -416,6 +429,13 @@ pub fn generate_registry_and_assets(
 
     step("Generating app.generated.js", || {
         generate_app_js(demo_dir_path, &registry, &icons)
+    });
+
+    step("Generating rustdoc comparison", || {
+        generate_rustdoc_comparison(
+            &util::find_repo_root().ok_or("Could not find repo root")?,
+            demo_dir_path,
+        )
     });
 
     // Copy plugins.json from langs/ to demo/, adding dev_mode flag
@@ -851,6 +871,73 @@ fn generate_iife_demo_html(demo_dir: &Path) -> Result<(), String> {
     let cdn_html = cdn_template.render_once().map_err(|e| e.to_string())?;
     let cdn_output = demo_dir.join("iife-demo.html");
     fs::write(&cdn_output, &cdn_html).map_err(|e| e.to_string())?;
+
+    Ok(())
+}
+
+fn generate_rustdoc_comparison(repo_root: &Path, demo_dir: &Path) -> Result<(), String> {
+    use std::process::Command;
+    use walkdir::WalkDir;
+
+    let demo_crate_dir = repo_root.join("crates").join("arborium-docsrs-demo");
+    let rustdoc_dir = repo_root.join("crates").join("arborium-rustdoc");
+    let comparison_dir = demo_dir.join("rustdoc-comparison");
+    let before_dir = comparison_dir.join("before");
+    let after_dir = comparison_dir.join("after");
+
+    // Create comparison directories
+    fs::create_dir_all(&before_dir).map_err(|e| e.to_string())?;
+    fs::create_dir_all(&after_dir).map_err(|e| e.to_string())?;
+
+    // Generate rustdoc for arborium-docsrs-demo
+    let status = Command::new("cargo")
+        .arg("doc")
+        .arg("--no-deps")
+        .current_dir(&demo_crate_dir)
+        .status()
+        .map_err(|e| format!("Failed to run cargo doc: {}", e))?;
+
+    if !status.success() {
+        return Err("cargo doc failed".to_string());
+    }
+
+    let doc_output = demo_crate_dir.join("target").join("doc");
+
+    // Copy rustdoc output to before directory using walkdir
+    for entry in WalkDir::new(&doc_output).into_iter().filter_map(|e| e.ok()) {
+        let path = entry.path();
+        let relative_path = path.strip_prefix(&doc_output).map_err(|e| e.to_string())?;
+        let dest_path = before_dir.join(relative_path);
+
+        if entry.file_type().is_dir() {
+            fs::create_dir_all(&dest_path).map_err(|e| e.to_string())?;
+        } else {
+            if let Some(parent) = dest_path.parent() {
+                fs::create_dir_all(parent).map_err(|e| e.to_string())?;
+            }
+            fs::copy(path, &dest_path).map_err(|e| e.to_string())?;
+        }
+    }
+
+    // Run arborium-rustdoc to process into after directory
+    let status = Command::new("cargo")
+        .arg("run")
+        .arg("--")
+        .arg(&doc_output)
+        .arg(&after_dir)
+        .current_dir(&rustdoc_dir)
+        .status()
+        .map_err(|e| format!("Failed to run arborium-rustdoc: {}", e))?;
+
+    if !status.success() {
+        return Err("arborium-rustdoc failed".to_string());
+    }
+
+    // Generate the comparison HTML page
+    let template = RustdocComparisonHtmlTemplate;
+    let html = template.render_once().map_err(|e| e.to_string())?;
+    let output = demo_dir.join("rustdoc-comparison.html");
+    fs::write(&output, &html).map_err(|e| e.to_string())?;
 
     Ok(())
 }

@@ -2779,7 +2779,7 @@ if (randomBtn) {
 // ============================================================================
 
 let currentFormat = 'brotli';
-let currentSort = 'name';
+let currentSort = 'size';
 let sizeData = [];
 let filteredData = [];
 

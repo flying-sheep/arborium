@@ -30,6 +30,8 @@ langs/group-*/*/npm/
 # Pre-compressed demo files
 demo/*.br
 demo/*.gz
+demo/rustdoc-comparison/
+crates/arborium-docsrs-demo/demo/rustdoc-comparison/
 /dist/
 crates/arborium-host/target/
 packages/arborium/dist/

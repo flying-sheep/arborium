@@ -12,9 +12,6 @@ links = "arborium"
 [features]
 default = []
 
-# ANSI terminal output
-ansi = []
-
 # All languages
 all-languages = [
     "lang-ada",
