@@ -789,11 +789,11 @@ fn generate_code_blocks() -> CodeBlocks {
         ),
         cargo_toml: highlight_code(
             "toml",
-            r#"arborium = { version = "1", features = ["lang-rust"] }"#,
+            r#"arborium = { version = "2", features = ["lang-rust"] }"#,
         ),
         rust_highlight: highlight_code(
             "rust",
-            r#"let html = arborium::highlight("rust", source, &theme);"#,
+            r#"let html = arborium::highlight("rust", source)?;"#,
         ),
         js_esm: highlight_code(
             "javascript",

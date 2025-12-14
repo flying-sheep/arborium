@@ -113,6 +113,15 @@ fn copy_static_files(demo_dir: &Utf8Path, site_dir: &Utf8Path, version: &str) ->
             .context("failed to write iife-demo.html")?;
     }
 
+    // Copy rustdoc-comparison.html
+    let rustdoc_comparison_src = demo_dir.join("rustdoc-comparison.html");
+    let rustdoc_comparison_dst = site_dir.join("rustdoc-comparison.html");
+    if rustdoc_comparison_src.exists() {
+        fs_err::copy(&rustdoc_comparison_src, &rustdoc_comparison_dst)
+            .into_diagnostic()
+            .context("failed to copy rustdoc-comparison.html")?;
+    }
+
     // Copy styles.css directly
     let styles_src = demo_dir.join("styles.css");
     let styles_dst = site_dir.join("styles.css");
@@ -122,11 +131,24 @@ fn copy_static_files(demo_dir: &Utf8Path, site_dir: &Utf8Path, version: &str) ->
             .context("failed to copy styles.css")?;
     }
 
-    // Copy font files (*.woff2)
+    // Copy dodeca-logo.svg directly
+    let logo_src = demo_dir.join("dodeca-logo.svg");
+    let logo_dst = site_dir.join("dodeca-logo.svg");
+    if logo_src.exists() {
+        fs_err::copy(&logo_src, &logo_dst)
+            .into_diagnostic()
+            .context("failed to copy dodeca-logo.svg")?;
+    }
+
+    // Copy font files (*.woff2) and SVG files (*.svg)
     for entry in fs_err::read_dir(demo_dir).into_diagnostic()? {
         let entry = entry.into_diagnostic()?;
         let path = entry.path();
-        if path.extension().map(|e| e == "woff2").unwrap_or(false) {
+        let should_copy = path
+            .extension()
+            .map(|e| e == "woff2" || e == "svg")
+            .unwrap_or(false);
+        if should_copy {
             let filename = path.file_name().unwrap();
             let dst = site_dir.join(filename.to_string_lossy().as_ref());
             fs_err::copy(&path, &dst)
@@ -136,7 +158,7 @@ fn copy_static_files(demo_dir: &Utf8Path, site_dir: &Utf8Path, version: &str) ->
     }
 
     // Copy directories
-    let dirs = ["pkg", "samples"];
+    let dirs = ["pkg", "samples", "rustdoc-comparison"];
     for dir in dirs {
         let src = demo_dir.join(dir);
         let dst = site_dir.join(dir);

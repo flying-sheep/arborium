@@ -761,14 +761,23 @@
             })();
         </script>
         <script>
-            // Add copy buttons to code blocks
+            // Add copy buttons to code blocks with scroll-safe wrapper
             (function () {
                 document.querySelectorAll(".code-block").forEach((block) => {
+                    // Wrap content in scrollable container
+                    const wrapper = document.createElement("div");
+                    wrapper.className = "code-block-scroll";
+                    while (block.firstChild) {
+                        wrapper.appendChild(block.firstChild);
+                    }
+                    block.appendChild(wrapper);
+
+                    // Add copy button outside the scroll wrapper
                     const btn = document.createElement("button");
                     btn.className = "copy-btn";
                     btn.textContent = "Copy";
                     btn.addEventListener("click", async () => {
-                        const code = block.querySelector("code");
+                        const code = wrapper.querySelector("code");
                         if (!code) return;
                         try {
                             await navigator.clipboard.writeText(code.textContent);
