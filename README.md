@@ -17,14 +17,14 @@ Batteries-included [tree-sitter](https://tree-sitter.github.io/tree-sitter/) gra
 
 ```toml
 [dependencies]
-arborium = "1.1"
+arborium = "2.1.0"
 ```
 
 By default, all permissively-licensed grammars are included. To select specific languages:
 
 ```toml
 [dependencies]
-arborium = { version = "1.1", default-features = false, features = ["lang-rust", "lang-javascript"] }
+arborium = { version = "2.1.0", default-features = false, features = ["lang-rust", "lang-javascript"] }
 ```
 
 ## Browser Usage
@@ -109,7 +109,7 @@ For complete control and offline-first apps, compile the Rust crate directly to 
 
 ```toml
 [dependencies]
-arborium = { version = "1.1", default-features = false, features = ["lang-rust", "lang-javascript"] }
+arborium = { version = "2.1.0", default-features = false, features = ["lang-rust", "lang-javascript"] }
 ```
 
 ```bash
@@ -376,27 +376,6 @@ Then ensure the Homebrew LLVM is in your PATH when building:
 export PATH="$(brew --prefix llvm)/bin:$PATH"
 cargo build --target wasm32-unknown-unknown
 ```
-
-## FAQ
-
-### Build fails with "No available targets are compatible with triple wasm32-unknown-unknown"
-
-**Error message:**
-```
-error: unable to create target: 'No available targets are compatible with triple "wasm32-unknown-unknown"'
-```
-
-**Cause:** You're using Apple's built-in clang, which doesn't include the WebAssembly backend.
-
-**Solution:** Install LLVM via Homebrew and use it instead:
-
-```bash
-brew install llvm
-export PATH="$(brew --prefix llvm)/bin:$PATH"
-cargo build --target wasm32-unknown-unknown
-```
-
-You may want to add the PATH export to your shell profile (`.zshrc`, `.bashrc`, etc.) or use a tool like [direnv](https://direnv.net/) to set it per-project.
 
 ## Development
 
