@@ -154,7 +154,7 @@ dependencies = [
 
 [[package]]
 name = "arborium-theme"
-version = "2.0.0"
+version = "2.1.0"
 
 [[package]]
 name = "arborium-toml"
@@ -2460,7 +2460,7 @@ name = "xtask"
 version = "0.1.0"
 dependencies = [
  "arborium",
- "arborium-theme 2.0.0",
+ "arborium-theme 2.1.0",
  "blake3",
  "brotli",
  "camino",

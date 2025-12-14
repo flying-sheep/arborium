@@ -168,6 +168,12 @@ struct DocsrsDemoReadmeTemplate<'a> {
     version: &'a str,
 }
 
+#[derive(TemplateSimple)]
+#[template(path = "root_readme.stpl.md")]
+struct RootReadmeTemplate<'a> {
+    version: &'a str,
+}
+
 // Umbrella crate templates (arborium)
 #[derive(TemplateSimple)]
 #[template(path = "umbrella_lib.stpl.rs")]
@@ -2119,6 +2125,34 @@ dlmalloc = "0.2"
             path: store_rs_path,
             content: store_rs_content,
             description: "Create umbrella src/store.rs".to_string(),
+        });
+    }
+
+    // =========================================================================
+    // Generate root README.md from template
+    // =========================================================================
+    let root_readme_content = RootReadmeTemplate {
+        version: &prepared.workspace_version,
+    }
+    .render_once()
+    .expect("RootReadmeTemplate render failed");
+
+    let root_readme_path = prepared.repo_root.join("README.md");
+    if root_readme_path.exists() {
+        let old_content = fs::read_to_string(&root_readme_path)?;
+        if old_content != root_readme_content {
+            plan.add(Operation::UpdateFile {
+                path: root_readme_path,
+                old_content: Some(old_content),
+                new_content: root_readme_content,
+                description: "Update root README.md".to_string(),
+            });
+        }
+    } else {
+        plan.add(Operation::CreateFile {
+            path: root_readme_path,
+            content: root_readme_content,
+            description: "Create root README.md".to_string(),
         });
     }
 
