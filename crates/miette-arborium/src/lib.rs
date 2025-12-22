@@ -58,7 +58,8 @@
 
 use std::sync::RwLock;
 
-use arborium::{Highlighter, ThemedSpan, spans_to_themed};
+use arborium::Highlighter;
+use arborium_highlight::{ThemedSpan, spans_to_themed};
 use arborium_theme::{Style as ThemeStyle, Theme};
 use miette::highlighters::Highlighter as MietteHighlighterTrait;
 use owo_colors::Style;

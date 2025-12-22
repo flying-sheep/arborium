@@ -19,6 +19,9 @@ default = []
 # Mirror arborium's language features for lean builds
 all-languages = ["arborium/all-languages"]
 
+# Languages needed for the showcase example
+showcase = ["lang-rust", "lang-python", "lang-typescript", "lang-json", "lang-toml"]
+
 # Individual language features - passthrough to arborium
 lang-ada = ["arborium/lang-ada"]
 lang-agda = ["arborium/lang-agda"]
@@ -116,9 +119,12 @@ lang-zsh = ["arborium/lang-zsh"]
 
 [dependencies]
 arborium = { version = "<%= version %>", path = "../arborium", default-features = false }
-miette = { version = "7", default-features = false, features = ["fancy"] }
+arborium-highlight = { version = "<%= version %>", path = "../arborium-highlight", default-features = false }
+arborium-theme = { version = "<%= version %>", path = "../arborium-theme" }
+miette = { version = "7", default-features = false, features = ["fancy-no-backtrace"] }
 owo-colors = "4"
 
 [[example]]
 name = "miette_showcase"
 path = "examples/miette_showcase.rs"
+required-features = ["showcase"]
