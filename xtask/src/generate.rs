@@ -187,6 +187,12 @@ struct CratesArboriumReadmeTemplate<'a> {
     gpl_grammars: &'a [LanguageEntry],
 }
 
+#[derive(TemplateSimple)]
+#[template(path = "packages_arborium_package.stpl.json")]
+struct PackagesArboriumPackageTemplate<'a> {
+    version: &'a str,
+}
+
 /// Language entry for README table generation
 #[derive(Debug, Clone)]
 struct LanguageEntry {
@@ -1503,6 +1509,10 @@ fn generate_all_crates(
         let shared_plan = plan_shared_crates(prepared, mode)?;
         final_plan.add(shared_plan);
 
+        // Generate main npm package (packages/arborium/package.json)
+        let package_plan = plan_main_package_json(prepared, mode)?;
+        final_plan.add(package_plan);
+
         // Generate docs.rs demo crate
         let demo_plan = plan_docsrs_demo_crate(prepared, mode)?;
         final_plan.add(demo_plan);
@@ -2493,6 +2503,27 @@ fn update_cargo_toml_version(
     }
 
     Ok(())
+}
+
+/// Generate the main npm package (packages/arborium/package.json)
+fn plan_main_package_json(prepared: &PreparedStructures, mode: PlanMode) -> Result<Plan, Report> {
+    let mut plan = Plan::for_crate("packages/arborium");
+    let version = &prepared.workspace_version;
+    let package_json_path = prepared.repo_root.join("packages/arborium/package.json");
+
+    // Generate package.json
+    let new_package_json = PackagesArboriumPackageTemplate { version }
+        .render_once()
+        .expect("PackagesArboriumPackageTemplate render failed");
+    plan_file_update(
+        &mut plan,
+        &package_json_path,
+        new_package_json,
+        "package.json",
+        mode,
+    )?;
+
+    Ok(plan)
 }
 
 /// Generate the docs.rs demo crate (crates/arborium-docsrs-demo/).

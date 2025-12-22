@@ -35,7 +35,8 @@ fn update_main_npm_package_version(repo_root: &Utf8Path, version: &str) -> Resul
     let package_json_path = repo_root.join("packages/arborium/package.json");
 
     if !package_json_path.exists() {
-        // Package doesn't exist yet, skip
+        // Package will be generated from template by `xtask gen`
+        // The template will use the version from version.json
         return Ok(());
     }
 
